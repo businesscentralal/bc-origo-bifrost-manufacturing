@@ -13,7 +13,17 @@ Origo.Bifrost.Manufacturing (tests: Origo.Bifrost.Manufacturing.Test)
 App:   10077035-10077134
 Tests: 97600-97699
 
-No objects are allocated yet. Record every allocated id here as objects are created.
+Allocated ids (record every new id here):
+
+| Id | Object | Name |
+| --- | --- | --- |
+| 10077035 | codeunit | Mfg Registration ori |
+| 10077036 | permissionset | BIFROST Mfg ori |
+| 10077037 | permissionsetextension | BIFROST MfgFull ori |
+| 10077038 | permissionsetextension | BIFROST MfgRead ori |
+| 97600 | codeunit (test) | Mfg Test Install ori |
+| 97601 | codeunit (test) | Mfg Test Upgrade ori |
+| 97602 | codeunit (test) | Mfg Registration Tst ori |
 
 ## Microsoft source
 Business Central manufacturing (production orders, production BOMs, routings, work and machine centers, output and consumption) lives in the **Base Application**; BC 28 has no separate Microsoft manufacturing app to depend on. Source: https://github.com/microsoft/BCApps/tree/main/src/Layers/W1/BaseApp/Manufacturing

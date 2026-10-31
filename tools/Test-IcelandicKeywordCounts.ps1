@@ -158,7 +158,18 @@ $sourceResult = Find-ShortKeywordLists $AppFolder
 $xlfPath = Get-ChildItem -LiteralPath (Join-Path $AppFolder 'Translations') -Filter '*.is-IS.xlf' -ErrorAction SilentlyContinue | Select-Object -First 1
 $xlfResult = if ($xlfPath) { Find-ShortKeywordTargets $xlfPath.FullName } else { [pscustomobject]@{ Checked = 0; Violations = @() } }
 
-if ($sourceResult.Checked -eq 0) { throw "No KeywordsLbl found under $AppFolder - the guard checked nothing." }
+if ($sourceResult.Checked -eq 0) {
+    # Scaffold stage: an app that has no message-type implementation yet (nothing implements "Msg Interface ori") has no
+    # keyword list to check, so the guard passes. Once any message type exists, finding no KeywordsLbl means the guard
+    # checked nothing, and that stays an error.
+    $messageTypes = @(Get-ChildItem -LiteralPath $AppFolder -Recurse -Filter '*.al' |
+        Select-String -Pattern 'implements\s+"Msg Interface ori"' -List)
+    if ($messageTypes.Count -eq 0) {
+        Write-Host 'No message types in the app yet - no keyword lists to check.'
+        exit 0
+    }
+    throw "No KeywordsLbl found under $AppFolder although $($messageTypes.Count) file(s) implement ""Msg Interface ori"" - the guard checked nothing."
+}
 $all = @($sourceResult.Violations) + @($xlfResult.Violations)
 if ($all.Count -gt 0) {
     Write-Host "$($all.Count) Icelandic keyword list(s) have fewer entries than the English one:"
