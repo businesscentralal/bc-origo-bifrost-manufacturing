@@ -25,6 +25,29 @@ Allocated ids (record every new id here):
 | 97601 | codeunit (test) | Mfg Test Upgrade ori |
 | 97602 | codeunit (test) | Mfg Registration Tst ori |
 
+| 97604 | codeunit | Prod Order Create Tests ori |
+| 97605 | codeunit | Prod Order Refresh Tests ori |
+| 97606 | codeunit | Mfg ProdOrder Contract Tst ori |
+| 97607 | codeunit | Mfg Test Data ori |
+| 97610 | codeunit | Mfg ProdOrder Rollback Tst ori |
+| 97604 | codeunit | Prod Order Create Tests ori |
+| 97605 | codeunit | Prod Order Refresh Tests ori |
+| 97606 | codeunit | Mfg ProdOrder Contract Tst ori |
+| 97607 | codeunit | Mfg Test Data ori |
+| 97608 | codeunit | Mfg ProdOrder Perm Tests ori |
+| 97609 | permissionset | Mfg NoGrant Tst ori |
+| 97610 | codeunit | Mfg ProdOrder Rollback Tst ori |
+| 97611 | codeunit | Mfg Licence Probe Tst ori |
+| 97612 | table | Mfg Licence Result Tst ori |
+| 97613 | codeunit | Mfg Licence Tests ori |
+| 10077039 | enumextension | Mfg ProdOrder MsgType ori |
+| 10077040 | codeunit | Mfg ProdOrder Contract ori |
+| 10077041 | codeunit | Prod Order Create Impl ori |
+| 10077042 | codeunit | Prod Order Refresh Impl ori |
+| 10077043 | codeunit | Prod Order Refresh Proc ori |
+| 10077044 | codeunit | Mfg Prod Order Lookup ori |
+| 10077045 | codeunit | Mfg Prod Order Request ori |
+
 ## Microsoft source
 Business Central manufacturing (production orders, production BOMs, routings, work and machine centers, output and consumption) lives in the **Base Application**; BC 28 has no separate Microsoft manufacturing app to depend on. Source: https://github.com/microsoft/BCApps/tree/main/src/Layers/W1/BaseApp/Manufacturing
 `main` of BCApps is a newer release than BC 28.5; read the matching `releases/28.x` branch when you need the exact 28.5 source.

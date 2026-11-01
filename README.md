@@ -12,7 +12,11 @@ consumption, so an agent can operate it end to end. It is built on the same basi
 
 **Microsoft source:** <https://github.com/microsoft/BCApps/tree/main/src/Layers/W1/BaseApp/Manufacturing> (manufacturing is part of the Base Application)
 
-**Status:** planning, no message types yet.
+**Status:** production order Create and Refresh implementation.
+
+`Manufacturing.ProductionOrder.Create` creates a Planned or FirmPlanned item order using the configured number series. Call `Manufacturing.ProductionOrder.Refresh` to calculate lines, routing and components. Refresh refuses Released and Finished orders; it never posts. Both operations preserve the caller transaction under Omit Commit.
+
+Use `describe_message_type` for parameter, response, error and workflow chapters. Ordinary field reads and edits remain with `Data.Records.Get` and `Data.Records.Set`.
 
 ---
 
@@ -51,7 +55,34 @@ site repository and is published at <https://docs.bifrost.origo.is>.
 
 | Folder | Content |
 | --- | --- |
-| `app/` | The AppSource app (`Bifrost Manufacturing`), registration and permission sets, no message types yet |
+| `app/` | The AppSource app (`Bifrost Manufacturing`), registration, permissions and production planning message types |
 | `test/` | Test app (`Bifrost Manufacturing - Tests`) |
 | `tools/` | Pipeline guard scripts |
 | `.AL-Go/`, `.github/`, `.alpaca/` | AL-Go for GitHub / COSMO Alpaca pipeline configuration |
+
+## Production order objects (#5)
+
+| ID | Object | Name |
+| --- | --- | --- |
+| 97604 | codeunit | Prod Order Create Tests ori |
+| 97605 | codeunit | Prod Order Refresh Tests ori |
+| 97606 | codeunit | Mfg ProdOrder Contract Tst ori |
+| 97607 | codeunit | Mfg Test Data ori |
+| 97610 | codeunit | Mfg ProdOrder Rollback Tst ori |
+| 97604 | codeunit | Prod Order Create Tests ori |
+| 97605 | codeunit | Prod Order Refresh Tests ori |
+| 97606 | codeunit | Mfg ProdOrder Contract Tst ori |
+| 97607 | codeunit | Mfg Test Data ori |
+| 97608 | codeunit | Mfg ProdOrder Perm Tests ori |
+| 97609 | permissionset | Mfg NoGrant Tst ori |
+| 97610 | codeunit | Mfg ProdOrder Rollback Tst ori |
+| 97611 | codeunit | Mfg Licence Probe Tst ori |
+| 97612 | table | Mfg Licence Result Tst ori |
+| 97613 | codeunit | Mfg Licence Tests ori |
+| 10077039 | enumextension | Mfg ProdOrder MsgType ori |
+| 10077040 | codeunit | Mfg ProdOrder Contract ori |
+| 10077041 | codeunit | Prod Order Create Impl ori |
+| 10077042 | codeunit | Prod Order Refresh Impl ori |
+| 10077043 | codeunit | Prod Order Refresh Proc ori |
+| 10077044 | codeunit | Mfg Prod Order Lookup ori |
+| 10077045 | codeunit | Mfg Prod Order Request ori |
