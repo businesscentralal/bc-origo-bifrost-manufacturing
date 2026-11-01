@@ -1,6 +1,7 @@
 namespace Origo.Bifrost.Manufacturing.Test;
 
 using Microsoft.Inventory.Item;
+using Microsoft.Manufacturing.Document;
 using Origo.Bifrost;
 using System.TestLibraries.Security.AccessControl;
 using System.TestLibraries.Utilities;
@@ -46,18 +47,29 @@ codeunit 97608 "Mfg ProdOrder Perm Tests ori"
     procedure Scenario_AC18_ReadRole_CannotExecuteWriteTypes()
     var
         Item: Record Item;
+        Order: Record "Production Order";
         Request: JsonObject;
+    begin
+        // Story #5 AC18: identical native rights; both write types are refused under Bifrost Read.
+        Data.SetupNumbering(false);
+        Data.CreateItem(Item);
+        Data.CreateOrder(Order, Item, Order.Status::Planned);
+        Commit();
+        Request := Data.CreateRequest(Item."No.");
+        AssertReadRoleDenied("Message Type ori"::"Manufacturing.ProductionOrder.Create", Request);
+        Clear(Request);
+        Request.Add('systemId', Format(Order.SystemId, 0, 4));
+        AssertReadRoleDenied("Message Type ori"::"Manufacturing.ProductionOrder.Refresh", Request);
+    end;
+
+    local procedure AssertReadRoleDenied(MessageType: Enum "Message Type ori"; Request: JsonObject)
+    var
         Response: JsonObject;
         ErrorText: Text;
     begin
-        // Story #5 AC18: native rights are identical; only the Bifrost role changes.
-        Data.SetupNumbering(false);
-        Data.CreateItem(Item);
-        Request := Data.CreateRequest(Item."No.");
-        Commit();
         LowerPermissions.SetExactPermissionSet('BIFROST Read ori');
         AddNativePermissions();
-        asserterror Response := Data.Invoke("Message Type ori"::"Manufacturing.ProductionOrder.Create", Request, 1033, false);
+        asserterror Response := Data.Invoke(MessageType, Request, 1033, false);
         ErrorText := GetLastErrorText();
         LowerPermissions.SetOutsideO365Scope();
         Assert.IsTrue(ErrorText.Contains('permission') or ErrorText.Contains('Permission'), 'Platform must refuse execution permission.');
