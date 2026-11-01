@@ -12,7 +12,7 @@ consumption, so an agent can operate it end to end. It is built on the same basi
 
 **Microsoft source:** <https://github.com/microsoft/BCApps/tree/main/src/Layers/W1/BaseApp/Manufacturing> (manufacturing is part of the Base Application)
 
-**Status:** planning, no message types yet.
+**Status:** Manufacturing.ProductionBOM.SetStatus and Manufacturing.Routing.SetStatus are implemented. Production-order refresh is not in this app yet.
 
 ---
 
@@ -51,7 +51,7 @@ site repository and is published at <https://docs.bifrost.origo.is>.
 
 | Folder | Content |
 | --- | --- |
-| `app/` | The AppSource app (`Bifrost Manufacturing`), registration and permission sets, no message types yet |
+| `app/` | The AppSource app (`Bifrost Manufacturing`), registration, permission sets, and the production BOM and routing status message types |
 | `test/` | Test app (`Bifrost Manufacturing - Tests`) |
 | `tools/` | Pipeline guard scripts |
 | `.AL-Go/`, `.github/`, `.alpaca/` | AL-Go for GitHub / COSMO Alpaca pipeline configuration |

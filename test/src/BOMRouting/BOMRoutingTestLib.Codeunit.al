@@ -1,0 +1,342 @@
+namespace Origo.Bifrost.Manufacturing.Test;
+
+using Microsoft.Foundation.UOM;
+using Microsoft.Inventory.Item;
+using Microsoft.Manufacturing.ProductionBOM;
+using Microsoft.Manufacturing.Routing;
+using Microsoft.Manufacturing.Setup;
+using Microsoft.Manufacturing.WorkCenter;
+using Origo.Bifrost;
+using Origo.Bifrost.Manufacturing;
+using System.TestLibraries.Utilities;
+
+/// <summary>
+/// Fixture and dispatch helpers for production BOM and routing status tests.
+/// Every record uses the XMFG8 prefix so a sweep can remove it, including after a committed call.
+/// Message types are invoked only through <c>Dispatcher ori</c>.
+/// Object 97666 is the shared library for the reserved test range 97660-97679.
+/// The story name of the omit-commit codeunit is shortened in that codeunit because thirty characters is the limit.
+/// </summary>
+codeunit 97666 "BOM Routing Test Lib ori"
+{
+    Access = Internal;
+
+    var
+        Assert: Codeunit "Library Assert";
+        UomCodeTok: Label 'XMFG8', Locked = true;
+        PrefixTok: Label 'XMFG8*', Locked = true;
+
+    /// <summary>Removes every XMFG8 fixture this library created and commits the delete.</summary>
+    procedure Sweep()
+    var
+        Item: Record Item;
+        ProdBomHeader: Record "Production BOM Header";
+        ProdBomVersion: Record "Production BOM Version";
+        ProdBomLine: Record "Production BOM Line";
+        RoutingHeader: Record "Routing Header";
+        RoutingVersion: Record "Routing Version";
+        RoutingLine: Record "Routing Line";
+        WorkCenter: Record "Work Center";
+    begin
+        ProdBomLine.SetFilter("Production BOM No.", PrefixTok);
+        ProdBomLine.DeleteAll(false);
+        ProdBomVersion.SetFilter("Production BOM No.", PrefixTok);
+        ProdBomVersion.DeleteAll(false);
+        ProdBomHeader.SetFilter("No.", PrefixTok);
+        ProdBomHeader.DeleteAll(false);
+        RoutingLine.SetFilter("Routing No.", PrefixTok);
+        RoutingLine.DeleteAll(false);
+        RoutingVersion.SetFilter("Routing No.", PrefixTok);
+        RoutingVersion.DeleteAll(false);
+        RoutingHeader.SetFilter("No.", PrefixTok);
+        RoutingHeader.DeleteAll(false);
+        Item.SetFilter("No.", PrefixTok);
+        Item.DeleteAll(false);
+        WorkCenter.SetFilter("No.", PrefixTok);
+        WorkCenter.DeleteAll(false);
+        Commit();
+    end;
+
+    /// <summary>A new XMFG8 number, twenty characters at most.</summary>
+    procedure NewNo(): Code[20]
+    begin
+        exit(CopyStr(UomCodeTok + CopyStr(DelChr(Format(CreateGuid(), 0, 4), '=', '{}-'), 1, 15), 1, 20));
+    end;
+
+    /// <summary>Dispatches a message type and returns the JSON answer.</summary>
+    procedure Invoke(MessageType: Enum "Message Type ori"; RequestJson: JsonObject; OmitCommit: Boolean) ResponseJson: JsonObject
+    var
+        Dispatcher: Codeunit "Dispatcher ori";
+        RequestContent: BigText;
+        ResponseContent: BigText;
+        RequestText: Text;
+        ResponseText: Text;
+        ResponseContentType: Text[100];
+    begin
+        RequestJson.WriteTo(RequestText);
+        RequestContent.AddText(RequestText);
+        Dispatcher.Execute(MessageType, Enum::"Message Version ori"::"1.0", '', 'XMFG8', 'application/json', RequestContent, ResponseContent, ResponseContentType, OmitCommit);
+        ResponseContent.GetSubText(ResponseText, 1);
+        Assert.IsTrue(ResponseJson.ReadFrom(ResponseText), 'The dispatcher must answer with JSON: ' + ResponseText);
+    end;
+
+    /// <summary>Sends Manufacturing.ProductionBOM.SetStatus.</summary>
+    procedure SetBomStatus(DocumentNo: Code[20]; VersionCode: Code[20]; StatusToken: Text; OmitCommit: Boolean) ResponseJson: JsonObject
+    begin
+        ResponseJson := Invoke(Enum::"Message Type ori"::"Manufacturing.ProductionBOM.SetStatus", StatusRequest(DocumentNo, VersionCode, StatusToken), OmitCommit);
+    end;
+
+    /// <summary>Sends Manufacturing.Routing.SetStatus.</summary>
+    procedure SetRoutingStatus(DocumentNo: Code[20]; VersionCode: Code[20]; StatusToken: Text; OmitCommit: Boolean) ResponseJson: JsonObject
+    begin
+        ResponseJson := Invoke(Enum::"Message Type ori"::"Manufacturing.Routing.SetStatus", StatusRequest(DocumentNo, VersionCode, StatusToken), OmitCommit);
+    end;
+
+    /// <summary>Asserts a Success answer.</summary>
+    procedure AssertSuccess(ResponseJson: JsonObject)
+    var
+        ResponseText: Text;
+    begin
+        ResponseJson.WriteTo(ResponseText);
+        Assert.AreEqual('Success', GetText(ResponseJson, 'status'), 'Expected Success: ' + ResponseText);
+    end;
+
+    /// <summary>Asserts an error answer with the given code and a fragment of the text.</summary>
+    procedure AssertRefusal(ResponseJson: JsonObject; ExpectedCode: Text; ExpectedFragment: Text)
+    var
+        ResponseText: Text;
+    begin
+        ResponseJson.WriteTo(ResponseText);
+        Assert.AreEqual('Error', GetText(ResponseJson, 'status'), 'Expected a refusal: ' + ResponseText);
+        Assert.AreEqual(ExpectedCode, GetText(ResponseJson, 'code'), 'Unexpected error code: ' + ResponseText);
+        Assert.IsTrue(ResponseText.Contains(ExpectedFragment), 'The refusal must contain ''' + ExpectedFragment + ''': ' + ResponseText);
+    end;
+
+    /// <summary>Reads a text property. Fails when it is missing.</summary>
+    procedure GetText(ResponseJson: JsonObject; PropertyName: Text): Text
+    var
+        Token: JsonToken;
+    begin
+        Assert.IsTrue(ResponseJson.Get(PropertyName, Token), 'Missing response property: ' + PropertyName);
+        exit(Token.AsValue().AsText());
+    end;
+
+    /// <summary>Reads a boolean property. Fails when it is missing.</summary>
+    procedure GetBoolean(ResponseJson: JsonObject; PropertyName: Text): Boolean
+    var
+        Token: JsonToken;
+    begin
+        Assert.IsTrue(ResponseJson.Get(PropertyName, Token), 'Missing response property: ' + PropertyName);
+        exit(Token.AsValue().AsBoolean());
+    end;
+
+    /// <summary>Reads an integer property. Fails when it is missing.</summary>
+    procedure GetInteger(ResponseJson: JsonObject; PropertyName: Text): Integer
+    var
+        Token: JsonToken;
+    begin
+        Assert.IsTrue(ResponseJson.Get(PropertyName, Token), 'Missing response property: ' + PropertyName);
+        exit(Token.AsValue().AsInteger());
+    end;
+
+    /// <summary>True when the response has the property.</summary>
+    procedure HasProperty(ResponseJson: JsonObject; PropertyName: Text): Boolean
+    begin
+        exit(ResponseJson.Contains(PropertyName));
+    end;
+
+    /// <summary>
+    /// Sets Manufacturing Setup "Dynamic Low-Level Code" and returns the previous value.
+    /// The production BOM circular check runs only while this field is false.
+    /// </summary>
+    /// <param name="Enabled">The value to store.</param>
+    /// <returns>The value before the change.</returns>
+    procedure SetDynamicLowLevelCode(Enabled: Boolean) Previous: Boolean
+    var
+        ManufacturingSetup: Record "Manufacturing Setup";
+    begin
+        ManufacturingSetup.Get();
+        Previous := ManufacturingSetup."Dynamic Low-Level Code";
+        if Previous = Enabled then
+            exit;
+        ManufacturingSetup."Dynamic Low-Level Code" := Enabled;
+        ManufacturingSetup.Modify(false);
+    end;
+
+    /// <summary>Inserts the shared unit of measure when it is missing.</summary>
+    procedure EnsureUnitOfMeasure()
+    var
+        UnitOfMeasure: Record "Unit of Measure";
+    begin
+        if UnitOfMeasure.Get(UomCodeTok) then
+            exit;
+        UnitOfMeasure.Init();
+        UnitOfMeasure.Code := UomCodeTok;
+        UnitOfMeasure.Description := UomCodeTok;
+        UnitOfMeasure.Insert(false);
+    end;
+
+    /// <summary>Inserts an item and its unit of measure. Optional BOM and routing numbers are stored on the item.</summary>
+    procedure CreateItem(ItemNo: Code[20]; BomNo: Code[20]; RoutingNo: Code[20])
+    var
+        Item: Record Item;
+        ItemUnitOfMeasure: Record "Item Unit of Measure";
+    begin
+        EnsureUnitOfMeasure();
+        Item.Init();
+        Item."No." := ItemNo;
+        Item.Description := ItemNo;
+        Item."Base Unit of Measure" := UomCodeTok;
+        if BomNo <> '' then
+            Item."Production BOM No." := BomNo;
+        if RoutingNo <> '' then
+            Item."Routing No." := RoutingNo;
+        Item.Insert(false);
+        ItemUnitOfMeasure.Init();
+        ItemUnitOfMeasure."Item No." := ItemNo;
+        ItemUnitOfMeasure.Code := UomCodeTok;
+        ItemUnitOfMeasure."Qty. per Unit of Measure" := 1;
+        ItemUnitOfMeasure.Insert(false);
+    end;
+
+    /// <summary>Inserts a production BOM header. Status is assigned, not validated.</summary>
+    procedure CreateBomHeader(BomNo: Code[20]; Status: Enum "BOM Status"; WithUnitOfMeasure: Boolean)
+    var
+        Header: Record "Production BOM Header";
+    begin
+        EnsureUnitOfMeasure();
+        Header.Init();
+        Header."No." := BomNo;
+        Header.Description := BomNo;
+        if WithUnitOfMeasure then
+            Header."Unit of Measure Code" := UomCodeTok;
+        Header.Status := Status;
+        Header.Insert(false);
+    end;
+
+    /// <summary>Inserts one production BOM line without validating status.</summary>
+    procedure CreateBomLine(BomNo: Code[20]; VersionCode: Code[20]; LineNo: Integer; LineType: Enum "Production BOM Line Type"; ComponentNo: Code[20])
+    var
+        Line: Record "Production BOM Line";
+    begin
+        Line.Init();
+        Line."Production BOM No." := BomNo;
+        Line."Version Code" := VersionCode;
+        Line."Line No." := LineNo;
+        Line.Type := LineType;
+        Line."No." := ComponentNo;
+        Line.Description := ComponentNo;
+        Line."Quantity per" := 1;
+        if ComponentNo <> '' then
+            Line."Unit of Measure Code" := UomCodeTok;
+        Line.Insert(false);
+    end;
+
+    /// <summary>Inserts a production BOM version. Status is assigned, not validated.</summary>
+    procedure CreateBomVersion(BomNo: Code[20]; VersionCode: Code[20]; Status: Enum "BOM Status")
+    var
+        Version: Record "Production BOM Version";
+    begin
+        EnsureUnitOfMeasure();
+        Version.Init();
+        Version."Production BOM No." := BomNo;
+        Version."Version Code" := VersionCode;
+        Version.Description := VersionCode;
+        Version."Unit of Measure Code" := UomCodeTok;
+        Version.Status := Status;
+        Version.Insert(false);
+    end;
+
+    /// <summary>Inserts an unblocked work center.</summary>
+    procedure CreateWorkCenter(WorkCenterNo: Code[20])
+    var
+        WorkCenter: Record "Work Center";
+    begin
+        WorkCenter.Init();
+        WorkCenter."No." := WorkCenterNo;
+        WorkCenter.Name := WorkCenterNo;
+        WorkCenter.Blocked := false;
+        WorkCenter.Insert(false);
+    end;
+
+    /// <summary>Inserts a routing header. Status is assigned, not validated.</summary>
+    procedure CreateRoutingHeader(RoutingNo: Code[20]; Status: Enum "Routing Status"; Parallel: Boolean)
+    var
+        Header: Record "Routing Header";
+    begin
+        Header.Init();
+        Header."No." := RoutingNo;
+        Header.Description := RoutingNo;
+        Header.Status := Status;
+        if Parallel then
+            Header.Type := Header.Type::Parallel
+        else
+            Header.Type := Header.Type::Serial;
+        Header.Insert(false);
+    end;
+
+    /// <summary>Inserts a routing line that names a work center. Next operation is left as sent.</summary>
+    procedure CreateRoutingLine(RoutingNo: Code[20]; VersionCode: Code[20]; OperationNo: Code[10]; WorkCenterNo: Code[20]; NextOperationNo: Code[30])
+    var
+        RoutingLine: Record "Routing Line";
+    begin
+        RoutingLine.Init();
+        RoutingLine."Routing No." := RoutingNo;
+        RoutingLine."Version Code" := VersionCode;
+        RoutingLine."Operation No." := OperationNo;
+        RoutingLine.Type := RoutingLine.Type::"Work Center";
+        RoutingLine."No." := WorkCenterNo;
+        RoutingLine."Next Operation No." := NextOperationNo;
+        RoutingLine.Insert(false);
+    end;
+
+    /// <summary>Inserts a routing version. Status is assigned, not validated.</summary>
+    procedure CreateRoutingVersion(RoutingNo: Code[20]; VersionCode: Code[20]; Status: Enum "Routing Status")
+    var
+        Version: Record "Routing Version";
+    begin
+        Version.Init();
+        Version."Routing No." := RoutingNo;
+        Version."Version Code" := VersionCode;
+        Version.Description := VersionCode;
+        Version.Status := Status;
+        Version.Insert(false);
+    end;
+
+    /// <summary>Writes one field through Data.Records.Set, identified by system id.</summary>
+    procedure SetField(TableName: Text; SystemId: Guid; FieldName: Text; FieldValue: Text) ResponseJson: JsonObject
+    var
+        RequestJson: JsonObject;
+        RecordJson: JsonObject;
+        FieldsJson: JsonObject;
+        DataJson: JsonArray;
+    begin
+        FieldsJson.Add(FieldName, FieldValue);
+        RecordJson.Add('id', Format(SystemId, 0, 4));
+        RecordJson.Add('fields', FieldsJson);
+        DataJson.Add(RecordJson);
+        RequestJson.Add('tableName', TableName);
+        RequestJson.Add('data', DataJson);
+        ResponseJson := Invoke(Enum::"Message Type ori"::"Data.Records.Set", RequestJson, true);
+    end;
+
+    /// <summary>Reads one page through Data.Records.Get. Proves the table is not hidden.</summary>
+    procedure GetTable(TableName: Text) ResponseJson: JsonObject
+    var
+        RequestJson: JsonObject;
+    begin
+        RequestJson.Add('tableName', TableName);
+        RequestJson.Add('take', 1);
+        ResponseJson := Invoke(Enum::"Message Type ori"::"Data.Records.Get", RequestJson, true);
+    end;
+
+    local procedure StatusRequest(DocumentNo: Code[20]; VersionCode: Code[20]; StatusToken: Text) RequestJson: JsonObject
+    begin
+        if DocumentNo <> '' then
+            RequestJson.Add('no', DocumentNo);
+        if VersionCode <> '' then
+            RequestJson.Add('versionCode', VersionCode);
+        if StatusToken <> '' then
+            RequestJson.Add('status', StatusToken);
+    end;
+}
