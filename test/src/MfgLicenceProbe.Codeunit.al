@@ -2,7 +2,7 @@ namespace Origo.Bifrost.Manufacturing.Test;
 
 using Origo.Bifrost;
 
-/// <summary>Invokes Create in a newly created ordinary company without accepting EULA or activating a trial.</summary>
+/// <summary>Invokes both production-order types in a new ordinary company without accepting EULA or activating a trial.</summary>
 codeunit 97611 "Mfg Licence Probe Tst ori"
 {
     TableNo = "Mfg Licence Result Tst ori";
@@ -12,13 +12,19 @@ codeunit 97611 "Mfg Licence Probe Tst ori"
         Data: Codeunit "Mfg Test Data ori";
         Request: JsonObject;
         ResponseJson: JsonObject;
+        Responses: JsonObject;
         ResultText: Text;
         Output: OutStream;
     begin
         Request.Add('sourceNo', 'X-NOT-NEEDED');
         Request.Add('quantity', 1);
         ResponseJson := Data.Invoke("Message Type ori"::"Manufacturing.ProductionOrder.Create", Request, 1033, false);
-        ResponseJson.WriteTo(ResultText);
+        Responses.Add('create', ResponseJson);
+        Clear(Request);
+        Request.Add('no', 'X-NOT-NEEDED');
+        ResponseJson := Data.Invoke("Message Type ori"::"Manufacturing.ProductionOrder.Refresh", Request, 1033, false);
+        Responses.Add('refresh', ResponseJson);
+        Responses.WriteTo(ResultText);
         Rec.Get(Rec.Id);
         Rec.Response.CreateOutStream(Output, TextEncoding::UTF8);
         Output.WriteText(ResultText);

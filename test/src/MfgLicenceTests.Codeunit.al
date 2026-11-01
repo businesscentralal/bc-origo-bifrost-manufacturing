@@ -17,6 +17,9 @@ codeunit 97613 "Mfg Licence Tests ori"
         Result: Record "Mfg Licence Result Tst ori";
         Assert: Codeunit "Library Assert";
         ResponseText: Text;
+        Responses: JsonObject;
+        Response: JsonToken;
+        ErrorCode: JsonToken;
         CompanyName: Text[30];
         SessionId: Integer;
         Attempts: Integer;
@@ -52,6 +55,12 @@ codeunit 97613 "Mfg Licence Tests ori"
         Company.Delete();
         Commit();
         Assert.IsTrue(Started and Finished, 'Owned licence probe must finish and return a response.');
-        Assert.IsTrue(ResponseText.Contains('EULA_REQUIRED'), 'An ordinary new company must refuse consent before item validation: ' + ResponseText);
+        Responses.ReadFrom(ResponseText);
+        Responses.Get('create', Response);
+        Response.AsObject().Get('code', ErrorCode);
+        Assert.AreEqual('EULA_REQUIRED', ErrorCode.AsValue().AsText(), 'Create must refuse consent before item validation.');
+        Responses.Get('refresh', Response);
+        Response.AsObject().Get('code', ErrorCode);
+        Assert.AreEqual('EULA_REQUIRED', ErrorCode.AsValue().AsText(), 'Refresh must refuse consent before order lookup.');
     end;
 }
