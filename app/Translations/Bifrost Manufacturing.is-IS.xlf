@@ -82,9 +82,9 @@
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType PermissionExpectedTxt</note>
         </trans-unit>
         <trans-unit id="Codeunit 3398597949 - NamedType 42286050" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Ask for BIFROST MfgFull ori and the manufacturing table permissions, then send the same request again.</source>
-          <target>Biddu um BIFROST MfgFull ori og heimildir á framleiðslutöflunum og sendu sömu beiðni aftur.</target>
-          <note from="Developer" annotates="general" priority="2">is-IS=Biddu um BIFROST MfgFull ori og heimildir á framleiðslutöflunum og sendu sömu beiðni aftur.</note>
+          <source>Ask for BIFROST Full ori and the manufacturing table permissions, then send the same request again.</source>
+          <target>Biddu um BIFROST Full ori og heimildir á framleiðslutöflunum og sendu sömu beiðni aftur.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Biddu um BIFROST Full ori og heimildir á framleiðslutöflunum og sendu sömu beiðni aftur.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType PermissionNextStepTxt</note>
         </trans-unit>
         <trans-unit id="Codeunit 3398597949 - NamedType 1776417323" size-unit="char" translate="yes" xml:space="preserve">

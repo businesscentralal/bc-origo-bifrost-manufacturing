@@ -12,6 +12,7 @@ using Microsoft.Manufacturing.Routing;
 codeunit 10077092 "BOM Routing Events ori"
 {
     Access = Internal;
+    EventSubscriberInstance = Manual;
     InherentPermissions = X;
     InherentEntitlements = X;
 
@@ -31,5 +32,11 @@ codeunit 10077092 "BOM Routing Events ori"
     begin
         if Context.IsActive() then
             SkipCommit := true;
+    end;
+
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"BOM Routing Context ori", OnIsActive, '', false, false)]
+    local procedure MarkActive(var Active: Boolean)
+    begin
+        Active := true;
     end;
 }

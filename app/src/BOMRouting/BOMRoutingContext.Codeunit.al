@@ -1,10 +1,9 @@
 namespace Origo.Bifrost.Manufacturing;
 
 /// <summary>
-/// Holds the flag that is true only while a Bifrost BOM or routing status call is running.
-/// The version tables commit inside status validation unless a subscriber sets SkipCommit.
-/// That subscriber reads this flag, so a later page-style validate commits as standard
-/// Business Central does. The flag is single-instance and is cleared on every path.
+/// Reports whether a status call has bound its local commit-suppression subscriber.
+/// The binding is released by AL when the call returns or unwinds on an error,
+/// including Omit Commit calls, without a write inside a TryFunction.
 /// </summary>
 codeunit 10077093 "BOM Routing Context ori"
 {
@@ -13,25 +12,15 @@ codeunit 10077093 "BOM Routing Context ori"
     InherentPermissions = X;
     InherentEntitlements = X;
 
-    var
-        Active: Boolean;
-
-    /// <summary>Marks the start of a Bifrost status call.</summary>
-    procedure Activate()
-    begin
-        Active := true;
-    end;
-
-    /// <summary>Clears the flag when the call ends, including after an error.</summary>
-    procedure Deactivate()
-    begin
-        Active := false;
-    end;
-
-    /// <summary>True only while a Bifrost status call is on the stack.</summary>
+    /// <summary>True only while a status call owns a manual subscription.</summary>
     /// <returns>True when version commits must be suppressed.</returns>
-    procedure IsActive(): Boolean
+    procedure IsActive() Active: Boolean
     begin
-        exit(Active);
+        OnIsActive(Active);
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnIsActive(var Active: Boolean)
+    begin
     end;
 }

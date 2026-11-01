@@ -40,7 +40,7 @@ codeunit 10077086 "Mfg BOMRtg Contract ori"
         SeveralProblemsErr: Label 'The request has more than one problem. Nothing was changed.', Comment = 'is-IS=Beiðnin hefur fleiri en eitt vandamál. Engu var breytt.';
         PermissionDeniedErr: Label 'You do not have permission to change this %1.', Comment = '%1 = production BOM or routing, is-IS=Þú hefur ekki heimild til að breyta þessu %1.';
         PermissionExpectedTxt: Label 'read and write permission on the manufacturing tables', Comment = 'is-IS=les- og skrifheimild á framleiðslutöflunum';
-        PermissionNextStepTxt: Label 'Ask for BIFROST MfgFull ori and the manufacturing table permissions, then send the same request again.', Comment = 'is-IS=Biddu um BIFROST MfgFull ori og heimildir á framleiðslutöflunum og sendu sömu beiðni aftur.';
+        PermissionNextStepTxt: Label 'Ask for BIFROST Full ori and the manufacturing table permissions, then send the same request again.', Comment = 'is-IS=Biddu um BIFROST Full ori og heimildir á framleiðslutöflunum og sendu sömu beiðni aftur.';
         ProductionBomKindLbl: Label 'production BOM', Comment = 'is-IS=framleiðsluefnislisti';
         RoutingKindLbl: Label 'routing', Comment = 'is-IS=vinnsluleið';
         CodeExpectedTxt: Label 'text of at most 20 characters', Comment = 'is-IS=texti sem er í mesta lagi 20 stafir';
@@ -81,11 +81,11 @@ codeunit 10077086 "Mfg BOMRtg Contract ori"
         exit(not Argument.HasCollectedErrors());
     end;
 
-    /// <summary>Raises the errors collected on the argument. One error keeps its own code.</summary>
+    /// <summary>Responds with validation errors collected before any write. One error keeps its own code.</summary>
     /// <param name="Argument">The message argument that holds the collected errors.</param>
     internal procedure RaiseCollected(var Argument: Record "Message Argument ori")
     begin
-        Argument.RaiseCollectedErrors("Bifrost Error Code ori"::MultipleErrors, SeveralProblemsErr);
+        Argument.RespondWithCollectedErrors("Bifrost Error Code ori"::MultipleErrors, SeveralProblemsErr);
     end;
 
     /// <summary>Answers a platform error from status validation as PermissionDenied or BusinessCentralError.</summary>
@@ -135,6 +135,13 @@ codeunit 10077086 "Mfg BOMRtg Contract ori"
     begin
         Argument.AddError("Bifrost Error Code ori"::RecordNotFound, StrSubstNo(VersionMissingErr, VersionCode, Kind, DocumentNo), 'versionCode', VersionCode, ExistingVersionTxt, VersionMissingNextStepTxt);
         RaiseCollected(Argument);
+    end;
+
+    /// <summary>Keeps standard platform failures actionable without catching database writes.</summary>
+    /// <param name="Argument">The message argument.</param>
+    internal procedure SetStatusErrorContext(var Argument: Record "Message Argument ori")
+    begin
+        Argument.SetErrorContext('status', StatusExpectedTxt, CheckFailedNextStepTxt);
     end;
 
     /// <summary>Writes the success answer. lowLevelCode and usedOnItems are header-only.</summary>
@@ -417,7 +424,7 @@ codeunit 10077086 "Mfg BOMRtg Contract ori"
     begin
         exit('Closed is not supported. Closing asks a question that cannot be answered without a screen, so Business Central would silently keep the old status. ' +
             'New is not a target status either. The same status again succeeds and writes nothing. ' +
-            'The version status commit is suppressed only while this call runs, and the flag is cleared on success and on error. ' +
+            'The version status commit is suppressed only while this call runs, and the scoped subscription is released on success and on error. ' +
             'A generic Data.Records.Set of Status on the header and version tables is refused. Foundation answers that refusal with PermissionDenied and a nextStep that names this message type. ' +
             'The answer uses status Success and recordStatus for the record status, because Foundation reserves status for the outcome. ' +
             'lowLevelCode and usedOnItems are returned for the header only.');

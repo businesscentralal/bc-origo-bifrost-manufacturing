@@ -159,18 +159,16 @@ codeunit 10077089 "Routing Status Impl ori" implements "Msg Interface ori", "Msg
     procedure ExecuteBifrostTask(var Argument: Record "Message Argument ori")
     var
         Proc: Codeunit "Routing Status Proc ori";
-        Context: Codeunit "BOM Routing Context ori";
     begin
         Argument.AssertVersion1();
         Argument.AssertIsLicensed();
+        Contract.SetStatusErrorContext(Argument);
         if Argument."Omit Commit" then begin
             Proc.Apply(Argument);
-            Context.Deactivate();
             exit;
         end;
         if not Codeunit.Run(Codeunit::"Routing Status Proc ori", Argument) then
             Argument.RespondWithLastError();
-        Context.Deactivate();
     end;
 
     local procedure MessageTypeName(): Text

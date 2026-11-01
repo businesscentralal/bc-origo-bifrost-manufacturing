@@ -36,13 +36,13 @@ codeunit 97664 "BOM Routing Perm Tests ori"
         Response: JsonObject;
     begin
         LowerPermissions.SetOutsideO365Scope();
-        LowerPermissions.SetExactPermissionSet('BIFROST MfgFull ori');
+        LowerPermissions.SetExactPermissionSet('BIFROST Full ori');
         Request.Add('status', 'Certified');
         Response := Lib.Invoke(Enum::"Message Type ori"::"Manufacturing.ProductionBOM.SetStatus", Request, true);
         LowerPermissions.SetOutsideO365Scope();
         Lib.AssertRefusal(Response, 'MissingParameter', 'no');
 
-        LowerPermissions.SetExactPermissionSet('BIFROST MfgFull ori');
+        LowerPermissions.SetExactPermissionSet('BIFROST Full ori');
         Response := Lib.Invoke(Enum::"Message Type ori"::"Manufacturing.Routing.SetStatus", Request, true);
         LowerPermissions.SetOutsideO365Scope();
         Lib.AssertRefusal(Response, 'MissingParameter', 'no');
@@ -63,12 +63,12 @@ codeunit 97664 "BOM Routing Perm Tests ori"
         Commit();
 
         LowerPermissions.SetOutsideO365Scope();
-        LowerPermissions.SetExactPermissionSet('BIFROST MfgFull ori');
+        LowerPermissions.SetExactPermissionSet('BIFROST Full ori');
         Response := Lib.SetBomStatus(BomNo, '', 'Certified', true);
         LowerPermissions.SetOutsideO365Scope();
         Lib.AssertRefusal(Response, 'PermissionDenied', 'permission');
 
-        LowerPermissions.SetExactPermissionSet('BIFROST MfgFull ori');
+        LowerPermissions.SetExactPermissionSet('BIFROST Full ori');
         Response := Lib.SetRoutingStatus(RoutingNo, '', 'Certified', true);
         LowerPermissions.SetOutsideO365Scope();
         Lib.AssertRefusal(Response, 'PermissionDenied', 'permission');
@@ -101,13 +101,13 @@ codeunit 97664 "BOM Routing Perm Tests ori"
 
         LowerPermissions.SetOutsideO365Scope();
         LowerPermissions.SetExactPermissionSet('D365 BUS PREMIUM');
-        LowerPermissions.AddPermissionSet('BIFROST MfgFull ori');
+        LowerPermissions.AddPermissionSet('BIFROST Full ori');
         Response := Lib.SetBomStatus(BomNo, '', 'Certified', false);
         LowerPermissions.SetOutsideO365Scope();
         Lib.AssertSuccess(Response);
 
         LowerPermissions.SetExactPermissionSet('D365 BUS PREMIUM');
-        LowerPermissions.AddPermissionSet('BIFROST MfgFull ori');
+        LowerPermissions.AddPermissionSet('BIFROST Full ori');
         Response := Lib.SetRoutingStatus(RoutingNo, '', 'Certified', false);
         LowerPermissions.SetOutsideO365Scope();
         Lib.AssertSuccess(Response);
@@ -129,7 +129,7 @@ codeunit 97664 "BOM Routing Perm Tests ori"
         Request.Add('no', 'XMFG8');
         Request.Add('status', 'Certified');
         LowerPermissions.SetOutsideO365Scope();
-        LowerPermissions.SetExactPermissionSet('BIFROST MfgRead ori');
+        LowerPermissions.SetExactPermissionSet('BIFROST Read ori');
         Refused := not TryInvoke(MessageType, Request, Response);
         ErrorText := GetLastErrorText();
         LowerPermissions.SetOutsideO365Scope();

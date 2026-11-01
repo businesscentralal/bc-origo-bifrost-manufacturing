@@ -6,8 +6,8 @@ using Origo.Bifrost;
 /// <summary>
 /// Applies Manufacturing.Routing.SetStatus inside one transaction.
 /// A failed check rolls back with the transaction. The version commit is suppressed
-/// only while <c>BOM Routing Context ori</c> is active, and the flag is cleared
-/// before any error is raised.
+/// by a local manual subscription that is released on success and when the call unwinds.
+/// No write is performed inside a TryFunction.
 /// </summary>
 codeunit 10077090 "Routing Status Proc ori"
 {
@@ -26,6 +26,7 @@ codeunit 10077090 "Routing Status Proc ori"
     /// <param name="Argument">The message argument.</param>
     internal procedure Apply(var Argument: Record "Message Argument ori")
     var
+        Events: Codeunit "BOM Routing Events ori";
         DocumentNo: Code[20];
         VersionCode: Code[20];
         StatusToken: Text;
@@ -34,6 +35,7 @@ codeunit 10077090 "Routing Status Proc ori"
             Contract.RaiseCollected(Argument);
             exit;
         end;
+        BindSubscription(Events);
         if VersionCode = '' then
             ApplyHeader(Argument, DocumentNo, StatusToken)
         else
@@ -43,12 +45,8 @@ codeunit 10077090 "Routing Status Proc ori"
     local procedure ApplyHeader(var Argument: Record "Message Argument ori"; DocumentNo: Code[20]; StatusToken: Text)
     var
         Header: Record "Routing Header";
-        Context: Codeunit "BOM Routing Context ori";
         NewStatus: Enum "Routing Status";
-        ErrorCode: Text;
-        ErrorText: Text;
         PreviousToken: Text;
-        Changed: Boolean;
     begin
         if not Contract.HasTablePermission(Argument, Contract.RoutingKind(), Header.ReadPermission(), Header.WritePermission()) then
             exit;
@@ -64,16 +62,7 @@ codeunit 10077090 "Routing Status Proc ori"
         end;
 
         NewStatus := Contract.RoutingStatusFromToken(StatusToken);
-        Context.Activate();
-        Changed := TrySetHeaderStatus(Header, NewStatus);
-        if not Changed then begin
-            ErrorCode := GetLastErrorCode();
-            ErrorText := GetLastErrorText();
-            Context.Deactivate();
-            Contract.FailFromPlatform(Argument, ErrorCode, ErrorText);
-            exit;
-        end;
-        Context.Deactivate();
+        SetHeaderStatus(Header, NewStatus);
 
         Header.Get(DocumentNo);
         Contract.WriteSuccess(Argument, Contract.RoutingKind(), DocumentNo, '', PreviousToken, Contract.RoutingStatusToken(Header.Status), true, 0, Contract.CountRoutingItems(DocumentNo), false, true);
@@ -83,12 +72,8 @@ codeunit 10077090 "Routing Status Proc ori"
     var
         Header: Record "Routing Header";
         Version: Record "Routing Version";
-        Context: Codeunit "BOM Routing Context ori";
         NewStatus: Enum "Routing Status";
-        ErrorCode: Text;
-        ErrorText: Text;
         PreviousToken: Text;
-        Changed: Boolean;
     begin
         if not Contract.HasTablePermission(Argument, Contract.RoutingKind(), Version.ReadPermission(), Version.WritePermission()) then
             exit;
@@ -108,31 +93,20 @@ codeunit 10077090 "Routing Status Proc ori"
         end;
 
         NewStatus := Contract.RoutingStatusFromToken(StatusToken);
-        Context.Activate();
-        Changed := TrySetVersionStatus(Version, NewStatus);
-        if not Changed then begin
-            ErrorCode := GetLastErrorCode();
-            ErrorText := GetLastErrorText();
-            Context.Deactivate();
-            Contract.FailFromPlatform(Argument, ErrorCode, ErrorText);
-            exit;
-        end;
-        Context.Deactivate();
+        SetVersionStatus(Version, NewStatus);
 
         Version.Get(DocumentNo, VersionCode);
         Contract.WriteSuccess(Argument, Contract.RoutingKind(), DocumentNo, VersionCode, PreviousToken, Contract.RoutingStatusToken(Version.Status), true, 0, 0, false, false);
     end;
 
-    [TryFunction]
-    local procedure TrySetHeaderStatus(var RoutingHeader: Record "Routing Header"; NewStatus: Enum "Routing Status")
+    local procedure SetHeaderStatus(var RoutingHeader: Record "Routing Header"; NewStatus: Enum "Routing Status")
     begin
         // Status validation reads fields beyond Status, so this record is not load-field limited.
         RoutingHeader.Validate(Status, NewStatus);
         RoutingHeader.Modify(true);
     end;
 
-    [TryFunction]
-    local procedure TrySetVersionStatus(var RoutingVersion: Record "Routing Version"; NewStatus: Enum "Routing Status")
+    local procedure SetVersionStatus(var RoutingVersion: Record "Routing Version"; NewStatus: Enum "Routing Status")
     begin
         // The version modifies and would commit inside validation. SkipCommit is set while the context is active.
         RoutingVersion.Validate(Status, NewStatus);

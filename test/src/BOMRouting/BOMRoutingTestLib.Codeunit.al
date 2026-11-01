@@ -8,7 +8,9 @@ using Microsoft.Manufacturing.Setup;
 using Microsoft.Manufacturing.WorkCenter;
 using Origo.Bifrost;
 using Origo.Bifrost.Manufacturing;
+using System.Diagnostics;
 using System.TestLibraries.Utilities;
+using System.Utilities;
 
 /// <summary>
 /// Fixture and dispatch helpers for production BOM and routing status tests.
@@ -30,6 +32,8 @@ codeunit 97666 "BOM Routing Test Lib ori"
     procedure Sweep()
     var
         Item: Record Item;
+        ItemUnitOfMeasure: Record "Item Unit of Measure";
+        UnitOfMeasure: Record "Unit of Measure";
         ProdBomHeader: Record "Production BOM Header";
         ProdBomVersion: Record "Production BOM Version";
         ProdBomLine: Record "Production BOM Line";
@@ -50,10 +54,14 @@ codeunit 97666 "BOM Routing Test Lib ori"
         RoutingVersion.DeleteAll(false);
         RoutingHeader.SetFilter("No.", PrefixTok);
         RoutingHeader.DeleteAll(false);
+        ItemUnitOfMeasure.SetFilter("Item No.", PrefixTok);
+        ItemUnitOfMeasure.DeleteAll(false);
         Item.SetFilter("No.", PrefixTok);
         Item.DeleteAll(false);
         WorkCenter.SetFilter("No.", PrefixTok);
         WorkCenter.DeleteAll(false);
+        if UnitOfMeasure.Get(UomCodeTok) then
+            UnitOfMeasure.Delete(false);
         Commit();
     end;
 
@@ -67,16 +75,21 @@ codeunit 97666 "BOM Routing Test Lib ori"
     procedure Invoke(MessageType: Enum "Message Type ori"; RequestJson: JsonObject; OmitCommit: Boolean) ResponseJson: JsonObject
     var
         Dispatcher: Codeunit "Dispatcher ori";
+        ResponseTempBlob: Codeunit "Temp Blob";
         RequestContent: BigText;
-        ResponseContent: BigText;
+        ResponseStream: InStream;
+        MessageId: Guid;
+        TaskId: Guid;
+        ResponseTime: Duration;
         RequestText: Text;
         ResponseText: Text;
         ResponseContentType: Text[100];
     begin
         RequestJson.WriteTo(RequestText);
         RequestContent.AddText(RequestText);
-        Dispatcher.Execute(MessageType, Enum::"Message Version ori"::"1.0", '', 'XMFG8', 'application/json', RequestContent, ResponseContent, ResponseContentType, OmitCommit);
-        ResponseContent.GetSubText(ResponseText, 1);
+        Dispatcher.EnqueueAndProcess(MessageType, Enum::"Message Version ori"::"1.0", '', 'XMFG8', 'application/json', RequestContent, TaskId, GlobalLanguage(), MessageId, ResponseTempBlob, ResponseContentType, ResponseTime, OmitCommit);
+        ResponseTempBlob.CreateInStream(ResponseStream, TextEncoding::UTF8);
+        ResponseStream.ReadText(ResponseText);
         Assert.IsTrue(ResponseJson.ReadFrom(ResponseText), 'The dispatcher must answer with JSON: ' + ResponseText);
     end;
 
@@ -306,18 +319,63 @@ codeunit 97666 "BOM Routing Test Lib ori"
     /// <summary>Writes one field through Data.Records.Set, identified by system id.</summary>
     procedure SetField(TableName: Text; SystemId: Guid; FieldName: Text; FieldValue: Text) ResponseJson: JsonObject
     var
+        ChangeLogSetup: Record "Change Log Setup";
+        PreviousSetup: Record "Change Log Setup";
+        ChangeLogTable: Record "Change Log Setup (Table)";
+        PreviousTable: Record "Change Log Setup (Table)";
         RequestJson: JsonObject;
         RecordJson: JsonObject;
         FieldsJson: JsonObject;
         DataJson: JsonArray;
+        HadSetup: Boolean;
+        HadTable: Boolean;
+        TableId: Integer;
     begin
+        // Cover these owned fixtures using the standard change log, not a guard bypass.
+        case TableName of
+            'Production BOM Header':
+                TableId := Database::"Production BOM Header";
+            'Production BOM Version':
+                TableId := Database::"Production BOM Version";
+            'Production BOM Line':
+                TableId := Database::"Production BOM Line";
+            'Routing Header':
+                TableId := Database::"Routing Header";
+            'Routing Version':
+                TableId := Database::"Routing Version";
+        end;
+        HadSetup := ChangeLogSetup.Get();
+        PreviousSetup := ChangeLogSetup;
+        if not HadSetup then
+            ChangeLogSetup.Insert();
+        ChangeLogSetup."Change Log Activated" := true;
+        ChangeLogSetup.Modify();
+        HadTable := ChangeLogTable.Get(TableId);
+        PreviousTable := ChangeLogTable;
+        if not HadTable then begin
+            ChangeLogTable.Init();
+            ChangeLogTable."Table No." := TableId;
+            ChangeLogTable.Insert();
+        end;
+        ChangeLogTable."Log Modification" := ChangeLogTable."Log Modification"::"All Fields";
+        ChangeLogTable.Modify();
         FieldsJson.Add(FieldName, FieldValue);
         RecordJson.Add('id', Format(SystemId, 0, 4));
         RecordJson.Add('fields', FieldsJson);
         DataJson.Add(RecordJson);
         RequestJson.Add('tableName', TableName);
         RequestJson.Add('data', DataJson);
-        ResponseJson := Invoke(Enum::"Message Type ori"::"Data.Records.Set", RequestJson, true);
+        ResponseJson := Invoke(Enum::"Message Type ori"::"Data.Records.Set", RequestJson, false);
+        if HadTable then begin
+            ChangeLogTable := PreviousTable;
+            ChangeLogTable.Modify();
+        end else
+            ChangeLogTable.Delete();
+        if HadSetup then begin
+            ChangeLogSetup := PreviousSetup;
+            ChangeLogSetup.Modify();
+        end else
+            ChangeLogSetup.Delete();
     end;
 
     /// <summary>Reads one page through Data.Records.Get. Proves the table is not hidden.</summary>
