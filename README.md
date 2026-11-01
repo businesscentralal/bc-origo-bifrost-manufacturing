@@ -86,3 +86,5 @@ site repository and is published at <https://docs.bifrost.origo.is>.
 | 10077043 | codeunit | Prod Order Refresh Proc ori |
 | 10077044 | codeunit | Mfg Prod Order Lookup ori |
 | 10077045 | codeunit | Mfg Prod Order Request ori |
+
+Test fixture codeunit `97614 Mfg MCP Fixture Tst ori` seeds owned items, BOM, routing and numbering through native validation for MCP verification; it does not change write guards or consent. Licence test codeunit `97613` requires disabled test isolation because it starts a real background session, and cleans its own company and result record. Both isolation groups belong to the full configured suite.

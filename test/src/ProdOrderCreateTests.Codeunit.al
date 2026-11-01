@@ -88,7 +88,7 @@ codeunit 97604 "Prod Order Create Tests ori"
     end;
 
     [Test]
-    procedure Scenario_AC04_MissingAndUnknown_Collected()
+    procedure Scenario_AC04_MissingRequired_Collected()
     var
         Request: JsonObject;
         Response: JsonObject;
@@ -96,12 +96,23 @@ codeunit 97604 "Prod Order Create Tests ori"
     begin
         // Story #5 AC04: all independent request errors survive aggregation.
         Data.SetupNumbering(false);
-        Request.Add('surprise', true);
         Commit();
         Response := Data.Invoke("Message Type ori"::"Manufacturing.ProductionOrder.Create", Request, 1033, false);
         Data.AssertRefusal(Response, 'MultipleErrors');
         Response.Get('errors', Token);
-        Assert.AreEqual(3, Token.AsArray().Count(), 'Unknown key and both required fields.');
+        Assert.AreEqual(2, Token.AsArray().Count(), 'Both required fields are reported.');
+    end;
+
+    [Test]
+    procedure Scenario_UnknownParameter_FoundationRefusesBeforeExecution()
+    var
+        Request: JsonObject;
+        Response: JsonObject;
+    begin
+        // Foundation rejects unknown write parameters before the implementation executes.
+        Request.Add('surprise', true);
+        Response := Data.Invoke("Message Type ori"::"Manufacturing.ProductionOrder.Create", Request, 1033, false);
+        Data.AssertRefusal(Response, 'UnknownParameter');
     end;
 
     [Test]

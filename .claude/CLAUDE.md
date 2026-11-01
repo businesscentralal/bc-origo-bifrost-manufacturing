@@ -112,3 +112,5 @@ Key rules always in effect:
 
 ## Testing Through the MCP Server
 - Keep MCP calls serial - parallel bursts crash the server.
+
+Test fixture codeunit `97614 Mfg MCP Fixture Tst ori` seeds owned items, BOM, routing and numbering through native validation for MCP verification; it does not change write guards or consent. Licence test codeunit `97613` requires disabled test isolation because it starts a real background session, and cleans its own company and result record. Both isolation groups belong to the full configured suite.

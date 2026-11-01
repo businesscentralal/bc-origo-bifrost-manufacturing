@@ -8,6 +8,7 @@ codeunit 97613 "Mfg Licence Tests ori"
 {
     Subtype = Test;
     TestPermissions = Disabled;
+    RequiredTestIsolation = Disabled;
 
     [Test]
     procedure Scenario_AC15_NewOrdinaryCompany_RequiresEula()
