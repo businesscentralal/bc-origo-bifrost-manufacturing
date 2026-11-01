@@ -12,7 +12,7 @@ consumption, so an agent can operate it end to end. It is built on the same basi
 
 **Microsoft source:** <https://github.com/microsoft/BCApps/tree/main/src/Layers/W1/BaseApp/Manufacturing> (manufacturing is part of the Base Application)
 
-**Status:** planning, no message types yet.
+**Status:** Message types for Production BOM and Routing certification (`Manufacturing.ProductionBOM.SetStatus`, `Manufacturing.Routing.SetStatus`).
 
 ---
 

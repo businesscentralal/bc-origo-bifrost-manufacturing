@@ -21,9 +21,24 @@ Allocated ids (record every new id here):
 | 10077036 | permissionset | BIFROST Mfg ori |
 | 10077037 | permissionsetextension | BIFROST MfgFull ori |
 | 10077038 | permissionsetextension | BIFROST MfgRead ori |
+| 10077085 | enumextension | Mfg BOMRtg MsgType ori |
+| 10077086 | codeunit | Mfg BOMRtg Contract ori |
+| 10077087 | codeunit | Prod BOM Status Impl ori |
+| 10077088 | codeunit | Prod BOM Status Proc ori |
+| 10077089 | codeunit | Routing Status Impl ori |
+| 10077090 | codeunit | Routing Status Proc ori |
+| 10077091 | codeunit | BOM Routing Restrict ori |
+| 10077092 | codeunit | BOM Routing Events ori |
+| 10077093 | codeunit | BOM Routing Context ori |
 | 97600 | codeunit (test) | Mfg Test Install ori |
 | 97601 | codeunit (test) | Mfg Test Upgrade ori |
 | 97602 | codeunit (test) | Mfg Registration Tst ori |
+| 97660 | codeunit (test) | Prod BOM Status Tests ori |
+| 97661 | codeunit (test) | Routing Status Tests ori |
+| 97662 | codeunit (test) | BOM Routing Restrict Tests ori |
+| 97663 | codeunit (test) | BOM Routing Contract Tests ori |
+| 97664 | codeunit (test) | BOM Routing Perm Tests ori |
+| 97665 | codeunit (test) | BOM Routing OmitCommit Tests ori |
 
 ## Microsoft source
 Business Central manufacturing (production orders, production BOMs, routings, work and machine centers, output and consumption) lives in the **Base Application**; BC 28 has no separate Microsoft manufacturing app to depend on. Source: https://github.com/microsoft/BCApps/tree/main/src/Layers/W1/BaseApp/Manufacturing
