@@ -3,6 +3,210 @@
   <file datatype="xml" source-language="en-US" target-language="is-IS" original="Bifrost Manufacturing">
     <body>
       <group id="body">
+        <trans-unit id="Codeunit 2938288336 - NamedType 478713203" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Use Manufacturing.ProductionBOM.SetStatus</source>
+          <target>Notaðu Manufacturing.ProductionBOM.SetStatus</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Notaðu Manufacturing.ProductionBOM.SetStatus</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit BOM Routing Restrict ori - NamedType BomHintLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2938288336 - NamedType 1360124967" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Use Manufacturing.Routing.SetStatus</source>
+          <target>Notaðu Manufacturing.Routing.SetStatus</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Notaðu Manufacturing.Routing.SetStatus</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit BOM Routing Restrict ori - NamedType RoutingHintLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 2318483659" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send Certified or UnderDevelopment.</source>
+          <target>Sendu Certified eða UnderDevelopment.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu Certified eða UnderDevelopment.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType AllowedStatusNextStepTxt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 4235606804" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Correct the lines with Data.Records.Set and send the same request again.</source>
+          <target>Lagfærðu línurnar með Data.Records.Set og sendu sömu beiðni aftur.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lagfærðu línurnar með Data.Records.Set og sendu sömu beiðni aftur.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType CheckFailedNextStepTxt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 2941275562" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Closing asks a question that cannot be answered without a screen, so Business Central would silently keep the old status.</source>
+          <target>Lokun spyr spurningar sem ekki er hægt að svara án skjás, þannig að Business Central héldi gömlu stöðunni án athugasemdar.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lokun spyr spurningar sem ekki er hægt að svara án skjás, þannig að Business Central héldi gömlu stöðunni án athugasemdar.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType ClosedReasonTxt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 2803736837" size-unit="char" translate="yes" xml:space="preserve">
+          <source>text of at most 20 characters</source>
+          <target>texti sem er í mesta lagi 20 stafir</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=texti sem er í mesta lagi 20 stafir</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType CodeExpectedTxt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 4103303071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>a parameter this message type declares</source>
+          <target>færibreyta sem þessi skilaboðategund skilgreinir</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=færibreyta sem þessi skilaboðategund skilgreinir</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType DeclaredParameterTxt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 2878492835" size-unit="char" translate="yes" xml:space="preserve">
+          <source>an existing version</source>
+          <target>útgáfa sem er til</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=útgáfa sem er til</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType ExistingVersionTxt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 4200801003" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send no and status. status is Certified or UnderDevelopment.</source>
+          <target>Sendu no og status. status er Certified eða UnderDevelopment.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu no og status. status er Certified eða UnderDevelopment.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType MissingNextStepTxt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 2436593916" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Parameter %1 is required.</source>
+          <target>Færibreyta %1 er nauðsynleg.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = parameter name, is-IS=Færibreyta %1 er nauðsynleg.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType MissingParameterErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 3865951824" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Parameter %1 must be text of at most 20 characters.</source>
+          <target>Færibreyta %1 verður að vera texti sem er í mesta lagi 20 stafir.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = parameter name, is-IS=Færibreyta %1 verður að vera texti sem er í mesta lagi 20 stafir.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType NotACodeErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 1902290539" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You do not have permission to change this %1.</source>
+          <target>Þú hefur ekki heimild til að breyta þessu %1.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = production BOM or routing, is-IS=Þú hefur ekki heimild til að breyta þessu %1.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType PermissionDeniedErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 870608751" size-unit="char" translate="yes" xml:space="preserve">
+          <source>read and write permission on the manufacturing tables</source>
+          <target>les- og skrifheimild á framleiðslutöflunum</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=les- og skrifheimild á framleiðslutöflunum</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType PermissionExpectedTxt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 42286050" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Ask for BIFROST Full ori and the manufacturing table permissions, then send the same request again.</source>
+          <target>Biddu um BIFROST Full ori og heimildir á framleiðslutöflunum og sendu sömu beiðni aftur.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Biddu um BIFROST Full ori og heimildir á framleiðslutöflunum og sendu sömu beiðni aftur.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType PermissionNextStepTxt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 1776417323" size-unit="char" translate="yes" xml:space="preserve">
+          <source>production BOM</source>
+          <target>framleiðsluefnislisti</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=framleiðsluefnislisti</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType ProductionBomKindLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 3831327028" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Read the records with Data.Records.Get.</source>
+          <target>Lestu færslurnar með Data.Records.Get.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lestu færslurnar með Data.Records.Get.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType RecordNextStepTxt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 2100988429" size-unit="char" translate="yes" xml:space="preserve">
+          <source>%1 %2 was not found.</source>
+          <target>%1 %2 fannst ekki.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = production BOM or routing, %2 = number, is-IS=%1 %2 fannst ekki.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType RecordNotFoundErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 902777634" size-unit="char" translate="yes" xml:space="preserve">
+          <source>routing</source>
+          <target>vinnsluleið</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=vinnsluleið</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType RoutingKindLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 374054433" size-unit="char" translate="yes" xml:space="preserve">
+          <source>The request has more than one problem. Nothing was changed.</source>
+          <target>Beiðnin hefur fleiri en eitt vandamál. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Beiðnin hefur fleiri en eitt vandamál. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType SeveralProblemsErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 2836420574" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Certified or UnderDevelopment</source>
+          <target>Certified eða UnderDevelopment</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Certified eða UnderDevelopment</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType StatusExpectedTxt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 3995571238" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Status %1 is not supported. Send Certified or UnderDevelopment.</source>
+          <target>Staða %1 er ekki studd. Sendu Certified eða UnderDevelopment.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = the status that was sent, is-IS=Staða %1 er ekki studd. Sendu Certified eða UnderDevelopment.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType StatusNotSupportedErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 3255873965" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Parameter %1 is longer than %2 characters.</source>
+          <target>Færibreyta %1 er lengri en %2 stafir.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = parameter name, %2 = maximum length, is-IS=Færibreyta %1 er lengri en %2 stafir.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType TooLongErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 3363460077" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send a code of at most 20 characters.</source>
+          <target>Sendu kóða sem er í mesta lagi 20 stafir.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu kóða sem er í mesta lagi 20 stafir.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType TooLongNextStepTxt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 4146025596" size-unit="char" translate="yes" xml:space="preserve">
+          <source>%1 %2 already has status %3. Nothing was changed.</source>
+          <target>%1 %2 er þegar með stöðuna %3. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = production BOM or routing, %2 = number, %3 = status, is-IS=%1 %2 er þegar með stöðuna %3. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType UnchangedMsg</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 4252642215" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Remove %1 from the request.</source>
+          <target>Fjarlægðu %1 úr beiðninni.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = parameter name, is-IS=Fjarlægðu %1 úr beiðninni.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType UnknownNextStepTxt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 3788215960" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Parameter %1 is not used by this message type.</source>
+          <target>Færibreytan %1 er ekki notuð af þessari skilaboðategund.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = parameter name, is-IS=Færibreytan %1 er ekki notuð af þessari skilaboðategund.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType UnknownParameterErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 2499727877" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Version %1 of %2 %3 was not found.</source>
+          <target>Útgáfa %1 af %2 %3 fannst ekki.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = version code, %2 = production BOM or routing, %3 = number, is-IS=Útgáfa %1 af %2 %3 fannst ekki.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType VersionMissingErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3398597949 - NamedType 3491421365" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Read the versions with Data.Records.Get.</source>
+          <target>Lestu útgáfurnar með Data.Records.Get.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lestu útgáfurnar með Data.Records.Get.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType VersionMissingNextStepTxt</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2641729067 - NamedType 3569966352" maxwidth="250" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Certifies a production BOM or one of its versions, or sets it back to Under Development, with the standard Business Central checks.</source>
+          <target>Staðfestir framleiðsluefnislista eða útgáfu hans, eða setur hann aftur í þróun, með venjulegum athugunum Business Central.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Staðfestir framleiðsluefnislista eða útgáfu hans, eða setur hann aftur í þróun, með venjulegum athugunum Business Central.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod BOM Status Impl ori - NamedType DescriptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2641729067 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>production bom, certify bom, bom status, under development, production bom version, certify production bom, bom certification, set bom status</source>
+          <target>framleiðsluefnislisti, staðfesta efnislista, staða efnislista, í þróun, útgáfa framleiðsluefnislista, staðfesta framleiðsluefnislista, vottun efnislista, setja stöðu efnislista</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=framleiðsluefnislisti, staðfesta efnislista, staða efnislista, í þróun, útgáfa framleiðsluefnislista, staðfesta framleiðsluefnislista, vottun efnislista, setja stöðu efnislista</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod BOM Status Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2641729067 - Method 79446908 - NamedType 895773054" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Certify a production BOM, or one version of it, or set it back to Under Development so its lines can be edited. Send no and status Certified or UnderDevelopment. Send versionCode only for one version. Closed is not supported.</source>
+          <target>Staðfestu framleiðsluefnislista, eða eina útgáfu hans, eða settu hann aftur í þróun svo hægt sé að breyta línum hans. Sendu no og status Certified eða UnderDevelopment. Sendu versionCode aðeins fyrir eina útgáfu. Closed er ekki stutt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Staðfestu framleiðsluefnislista, eða eina útgáfu hans, eða settu hann aftur í þróun svo hægt sé að breyta línum hans. Sendu no og status Certified eða UnderDevelopment. Sendu versionCode aðeins fyrir eina útgáfu. Closed er ekki stutt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod BOM Status Impl ori - Method GetSelectionDescription - NamedType SelectionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2693990352 - NamedType 3569966352" maxwidth="250" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Certifies a routing or one of its versions, or sets it back to Under Development, with the standard Business Central checks.</source>
+          <target>Staðfestir vinnsluleið eða útgáfu hennar, eða setur hana aftur í þróun, með venjulegum athugunum Business Central.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Staðfestir vinnsluleið eða útgáfu hennar, eða setur hana aftur í þróun, með venjulegum athugunum Business Central.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Routing Status Impl ori - NamedType DescriptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2693990352 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>routing, certify routing, routing status, under development, routing version, certify a routing, routing certification, set routing status</source>
+          <target>vinnsluleið, staðfesta vinnsluleið, staða vinnsluleiðar, í þróun, útgáfa vinnsluleiðar, staðfesta vinnsluleiðina, vottun vinnsluleiðar, setja stöðu vinnsluleiðar</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=vinnsluleið, staðfesta vinnsluleið, staða vinnsluleiðar, í þróun, útgáfa vinnsluleiðar, staðfesta vinnsluleiðina, vottun vinnsluleiðar, setja stöðu vinnsluleiðar</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Routing Status Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2693990352 - Method 79446908 - NamedType 895773054" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Certify a routing, or one version of it, or set it back to Under Development so its operations can be edited. Send no and status Certified or UnderDevelopment. Send versionCode only for one version. Closed is not supported.</source>
+          <target>Staðfestu vinnsluleið, eða eina útgáfu hennar, eða settu hana aftur í þróun svo hægt sé að breyta aðgerðum hennar. Sendu no og status Certified eða UnderDevelopment. Sendu versionCode aðeins fyrir eina útgáfu. Closed er ekki stutt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Staðfestu vinnsluleið, eða eina útgáfu hennar, eða settu hana aftur í þróun svo hægt sé að breyta aðgerðum hennar. Sendu no og status Certified eða UnderDevelopment. Sendu versionCode aðeins fyrir eina útgáfu. Closed er ekki stutt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Routing Status Impl ori - Method GetSelectionDescription - NamedType SelectionLbl</note>
+        </trans-unit>
         <trans-unit id="PermissionSet 293749417 - Property 2879900210" maxwidth="30" size-unit="char" translate="yes" xml:space="preserve">
           <source>Bifrost Manufacturing</source>
           <target>Bifröst - framleiðsla</target>

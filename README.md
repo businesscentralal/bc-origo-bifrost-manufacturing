@@ -13,7 +13,7 @@ and warehouse actions callable through Bifröst message types. It is built on th
 
 **Microsoft source:** <https://github.com/microsoft/BCApps/tree/main/src/Layers/W1/BaseApp/Manufacturing> (manufacturing is part of the Base Application)
 
-**Status:** Implements message types for production orders, production journals and reversals, BOMs, routings, calendar and absence application/removal, planning, and production warehouse picks and output put-aways. Subcontract purchase-order creation is provided by Bifrost Subcontracting. The app builds and is published to Kappi. Container tests remain unverified: the test app is still at 28.0.0.0 and the runner returned an empty suite.
+**Status:** Implements Manufacturing.ProductionBOM.SetStatus and Manufacturing.Routing.SetStatus, plus message types for production orders, production journals and reversals, BOMs, routings, calendar and absence application/removal, planning, and production warehouse picks and output put-aways. Subcontract purchase-order creation is provided by Bifrost Subcontracting. Verification of the combined candidate remains pending.
 
 ## Functional Flow
 
@@ -52,34 +52,58 @@ Refresh one released production order:
 
 ## Objects
 
-| ID | Object | Name |
+| Id | Object | Name |
 | --- | --- | --- |
-| 10077035 | Codeunit | Mfg Registration ori |
-| 10077036 | Permission set | BIFROST Mfg ori |
-| 10077037 | Permission set extension | BIFROST MfgFull ori |
-| 10077038 | Permission set extension | BIFROST MfgRead ori |
-| 10077039 | Enum extension | Mfg Msg Type ori |
-| 10077040 | Codeunit | Mfg Refresh Order Impl ori |
-| 10077044 | Codeunit | Mfg Calc Consumption Impl ori |
-| 10077047 | Codeunit | Mfg Journal Reverse Impl ori |
-| 10077048 | Codeunit | Mfg Prod BOM Impl ori |
-| 10077050 | Codeunit | Mfg Routing Impl ori |
-| 10077052 | Codeunit | Mfg Calendar Impl ori |
-| 10077053 | Codeunit | Mfg Absence Impl ori |
-| 10077054 | Codeunit | Mfg Plan Calc Impl ori |
-| 10077055 | Codeunit | Mfg Plan Carryout Impl ori |
-| 10077057 | Codeunit | Mfg Warehouse Impl ori |
+| 10077035 | codeunit | Mfg Registration ori |
+| 10077036 | permissionset | BIFROST Mfg ori |
+| 10077037 | permissionsetextension | BIFROST MfgFull ori |
+| 10077038 | permissionsetextension | BIFROST MfgRead ori |
+| 10077039 | enumextension | Mfg Msg Type ori |
+| 10077040 | codeunit | Mfg Refresh Order Impl ori |
+| 10077044 | codeunit | Mfg Calc Consumption Impl ori |
+| 10077047 | codeunit | Mfg Journal Reverse Impl ori |
+| 10077048 | codeunit | Mfg Prod BOM Impl ori |
+| 10077050 | codeunit | Mfg Routing Impl ori |
+| 10077052 | codeunit | Mfg Calendar Impl ori |
+| 10077053 | codeunit | Mfg Absence Impl ori |
+| 10077054 | codeunit | Mfg Plan Calc Impl ori |
+| 10077055 | codeunit | Mfg Plan Carryout Impl ori |
+| 10077057 | codeunit | Mfg Warehouse Impl ori |
+| 10077059 | enum value | Manufacturing.Calendar.RemoveAbsence |
+| 10077085 | enumextension | Mfg BOMRtg MsgType ori |
+| 10077086 | codeunit | Mfg BOMRtg Contract ori |
+| 10077087 | codeunit | Prod BOM Status Impl ori |
+| 10077088 | codeunit | Prod BOM Status Proc ori |
+| 10077089 | codeunit | Routing Status Impl ori |
+| 10077090 | codeunit | Routing Status Proc ori |
+| 10077091 | codeunit | BOM Routing Restrict ori |
+| 10077092 | codeunit | BOM Routing Events ori |
+| 10077093 | codeunit | BOM Routing Context ori |
+| 10077094-10077104 | reserved | unused; do not reuse without recording the object |
+| 97600 | codeunit (test) | Mfg Test Install ori |
+| 97601 | codeunit (test) | Mfg Test Upgrade ori |
+| 97602 | codeunit (test) | Mfg Registration Tst ori |
+| 97603 | codeunit (test) | Mfg Refresh Order Tst ori |
+| 97603 | permissionset (test) | Mfg Platform Tst ori |
+| 97604 | codeunit (test) | Mfg Journal Tst ori |
+| 97605 | codeunit (test) | Mfg BOM Tst ori |
+| 97606 | codeunit (test) | Mfg Routing Tst ori |
+| 97607 | codeunit (test) | Mfg Calendar Tst ori |
+| 97608 | codeunit (test) | Mfg Absence Tst ori |
+| 97609 | codeunit (test) | Mfg Plan Tst ori |
+| 97610 | codeunit (test) | Mfg Plan Carryout Tst ori |
+| 97612 | codeunit (test) | Mfg Warehouse Tst ori |
+| 97660 | codeunit (test) | Prod BOM Status Tests ori |
+| 97661 | codeunit (test) | Routing Status Tests ori |
+| 97662 | codeunit (test) | BOM Routing Restrict Tests ori |
+| 97663 | codeunit (test) | BOM Routing Contract Tests ori |
+| 97664 | codeunit (test) | BOM Routing Perm Tests ori |
+| 97665 | codeunit (test) | BOM Rtg OmitCommit Tests ori |
+| 97666 | codeunit (test) | BOM Routing Test Lib ori |
+| 97667 | page (test only) | BOM Routing Fixtures ori |
+| 97668-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
 
----
-
-## Object ranges
-
-| Object | Range |
-| --- | --- |
-| App (`app/`) | 10077035-10077134 |
-| Test app (`test/`) | 97600-97699 |
-
----
+The version commit suppression uses a locally bound manual subscriber. Its lifetime is the status call, including exception unwinding; the single-instance context reports that binding without retaining a Boolean after an error.
 
 ## Documentation
 

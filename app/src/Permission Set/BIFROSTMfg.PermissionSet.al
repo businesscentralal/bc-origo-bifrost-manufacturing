@@ -24,5 +24,13 @@ permissionset 10077036 "BIFROST Mfg ori"
         codeunit "Mfg Absence Impl ori" = X,
         codeunit "Mfg Plan Calc Impl ori" = X,
         codeunit "Mfg Plan Carryout Impl ori" = X,
-        codeunit "Mfg Warehouse Impl ori" = X;
+        codeunit "Mfg Warehouse Impl ori" = X,
+        codeunit "Mfg BOMRtg Contract ori" = X,
+        codeunit "Prod BOM Status Impl ori" = X,
+        codeunit "Prod BOM Status Proc ori" = X,
+        codeunit "Routing Status Impl ori" = X,
+        codeunit "Routing Status Proc ori" = X,
+        codeunit "BOM Routing Restrict ori" = X,
+        codeunit "BOM Routing Events ori" = X,
+        codeunit "BOM Routing Context ori" = X;
 }

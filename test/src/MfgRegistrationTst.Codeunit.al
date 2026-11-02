@@ -52,7 +52,7 @@ codeunit 97602 "Mfg Registration Tst ori"
         // [GIVEN] The module id of the app under test and a session that holds only the licence administrator role
         Initialize();
         LowerPermissions.SetExactPermissionSet('BIFROST LicAdm ori');
-        LowerPermissions.AddPermissionSet('Wizard Platform ori');
+        LowerPermissions.AddPermissionSet('Mfg Platform Tst ori');
 
         // [WHEN] Foundation builds the registry, as it does when Bifrost Setup opens
         AppRegistry.GetApps(TempApps);
