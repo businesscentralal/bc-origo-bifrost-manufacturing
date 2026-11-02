@@ -13,7 +13,7 @@ permissionset 97609 "Mfg NoGrant Tst ori"
                   codeunit "Mfg ProdOrder Perm Tests ori" = X,
                   table "Mfg Licence Result Tst ori" = X,
                   tabledata "Mfg Licence Result Tst ori" = RIMD,
-                  // Native Refresh inserts planning assignments through the table's indirect permission.
-                  tabledata "Planning Assignment" = Ri,
+                  // Native Refresh inserts and updates assignments through the table's indirect permission.
+                  tabledata "Planning Assignment" = Rim,
                   tabledata "Work Center" = R;
 }

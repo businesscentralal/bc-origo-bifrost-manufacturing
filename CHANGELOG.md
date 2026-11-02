@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Supply native Planning Assignment indirect insert and Work Center read permissions in the shared permission-test baseline (97609); preserve distinct Manufacturing full/read grants and expose native refusal details in the full-role assertion (97608).
+- Supply native Planning Assignment indirect insert/modify and Work Center read permissions in the shared permission-test baseline (97609); preserve distinct Manufacturing full/read grants and expose native refusal details in the full-role assertion (97608).
 
 - Select the native report's transaction type before reading inside the normal Refresh rollback boundary and restore the caller's type after success or refusal (10077042/10077043); retain the independent Omit Commit tests and add normal-boundary regression cases (97605).
 
