@@ -25,14 +25,8 @@ Allocated ids (record every new id here):
 | 10077040 | codeunit | Mfg Refresh Order Impl ori |
 | 10077044 | codeunit | Mfg Calc Consumption Impl ori |
 | 10077047 | codeunit | Mfg Journal Reverse Impl ori |
-| 10077048 | codeunit | Mfg Prod BOM Impl ori |
-| 10077050 | codeunit | Mfg Routing Impl ori |
-| 10077052 | codeunit | Mfg Calendar Impl ori |
-| 10077053 | codeunit | Mfg Absence Impl ori |
-| 10077054 | codeunit | Mfg Plan Calc Impl ori |
-| 10077055 | codeunit | Mfg Plan Carryout Impl ori |
 | 10077057 | codeunit | Mfg Warehouse Impl ori |
-| 10077059 | enum value | Manufacturing.Calendar.RemoveAbsence |
+| 10077060 | codeunit | Mfg Action Contract ori |
 | 10077085 | enumextension | Mfg BOMRtg MsgType ori |
 | 10077086 | codeunit | Mfg BOMRtg Contract ori |
 | 10077087 | codeunit | Prod BOM Status Impl ori |
@@ -49,13 +43,9 @@ Allocated ids (record every new id here):
 | 97603 | codeunit (test) | Mfg Refresh Order Tst ori |
 | 97603 | permissionset (test) | Mfg Platform Tst ori |
 | 97604 | codeunit (test) | Mfg Journal Tst ori |
-| 97605 | codeunit (test) | Mfg BOM Tst ori |
-| 97606 | codeunit (test) | Mfg Routing Tst ori |
-| 97607 | codeunit (test) | Mfg Calendar Tst ori |
-| 97608 | codeunit (test) | Mfg Absence Tst ori |
-| 97609 | codeunit (test) | Mfg Plan Tst ori |
-| 97610 | codeunit (test) | Mfg Plan Carryout Tst ori |
 | 97612 | codeunit (test) | Mfg Warehouse Tst ori |
+| 97613 | codeunit (test) | Mfg Action Guard Tst ori |
+| 97614 | codeunit (test) | Mfg Lifecycle Tst ori |
 | 97660 | codeunit (test) | Prod BOM Status Tests ori |
 | 97661 | codeunit (test) | Routing Status Tests ori |
 | 97662 | codeunit (test) | BOM Routing Restrict Tests ori |
@@ -78,7 +68,7 @@ app's module id, its display name and its setup page id (`0` while the app has n
 `app/src/Common/SubRegistration.Codeunit.al` in Bifrost Subscription Billing.
 
 ## Target BC Version
-28.0 (application 28.0.0.0, platform 28.0.0.0, runtime 17.0)
+28.5 (application 28.5.0.0, platform 28.0.0.0, runtime 17.0)
 
 ## Source Control
 Platform: GitHub
@@ -87,8 +77,8 @@ Repository: bc-origo-bifrost-manufacturing
 Default branch: main
 
 ## Dependencies
-- Base Application (application floor 28.0.0.0)
-- Bifrost Foundation (`7505e808-6e52-4b96-a328-82573391297a`, 28.0.10.632, matching the locally available Kappi symbols)
+- Base Application (application floor 28.5.0.0)
+- Bifrost Foundation (`7505e808-6e52-4b96-a328-82573391297a`, 28.0.10.632, published public message/error contract dependency)
 
 ## Naming Rules
 - Every object carries the `ori` suffix (AppSource mandatory affix), max 30 characters.

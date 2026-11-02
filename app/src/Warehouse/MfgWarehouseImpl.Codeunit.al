@@ -13,7 +13,7 @@ codeunit 10077057 "Mfg Warehouse Impl ori" implements "Msg Interface ori", "Msg 
 
     var
         ContractMgt: Codeunit "Msg Contract Mgt ori";
-        ProductionOrderRequiredErr: Label 'Provide a released production order number in the subject or data.productionOrderNo.', Comment = 'is-IS=Tilgreindu númer útgefinnar framleiðslupöntunar í subject eða data.productionOrderNo.';
+        Contract: Codeunit "Mfg Action Contract ori";
         ProductionOrderNotFoundErr: Label 'Released production order %1 was not found.', Comment = '%1 = production order number||is-IS=Útgefin framleiðslupöntun %1 fannst ekki.';
         DescriptionLbl: Label 'Creates production component warehouse picks or output put-away activities for one released production order.', MaxLength = 250, Comment = 'is-IS=Stofnar vöruafhendingarval eða frágangsaðgerðir fyrir afköst einnar útgefinnar framleiðslupöntunar.';
 
@@ -105,13 +105,8 @@ codeunit 10077057 "Mfg Warehouse Impl ori" implements "Msg Interface ori", "Msg 
 
     /// <summary>Describes missing production order errors.</summary>
     procedure GetErrors(var Errors: JsonArray): Boolean
-    var
-        ErrorInfo: JsonObject;
     begin
-        ErrorInfo.Add('error', 'Released production order not found.');
-        ErrorInfo.Add('when', 'The supplied number does not identify a released production order.');
-        ErrorInfo.Add('fix', 'Check productionOrderNo and ensure the order is released.');
-        Errors.Add(ErrorInfo);
+        Contract.Errors(Errors);
         exit(true);
     end;
 
@@ -141,11 +136,9 @@ codeunit 10077057 "Mfg Warehouse Impl ori" implements "Msg Interface ori", "Msg 
     procedure GetWorkflow(var Workflow: JsonObject): Boolean
     var
         Steps: JsonArray;
-        WorkflowStep: JsonObject;
     begin
-        WorkflowStep.Add('messageType', 'Manufacturing.Warehouse.CreatePick or Manufacturing.Warehouse.CreatePutAway');
-        WorkflowStep.Add('purpose', 'Create warehouse activities for eligible production components or completed output.');
-        Steps.Add(WorkflowStep);
+        Steps.Add(ContractMgt.WorkflowStep('Manufacturing.Warehouse.CreatePick', 'Create warehouse activities for eligible production components or completed output.'));
+        Steps.Add(ContractMgt.WorkflowStep('Manufacturing.Warehouse.CreatePutAway', 'Create warehouse activities for eligible production components or completed output.'));
         Workflow.Add('steps', Steps);
         exit(true);
     end;
@@ -178,7 +171,7 @@ codeunit 10077057 "Mfg Warehouse Impl ori" implements "Msg Interface ori", "Msg 
     /// <summary>Documents important behavior of production warehouse actions.</summary>
     procedure GetNotes(var Notes: Text): Boolean
     begin
-        Notes := 'The order must be released. CreatePick suppresses the request page and uses Microsoft defaults; CreatePutAway only creates activities for lines and locations that require warehouse put-away.';
+        Notes := 'Omit Commit is refused with PreconditionFailed before any write because standard Business Central actions may commit. The order must be released. CreatePick suppresses the request page and uses Microsoft defaults; CreatePutAway only creates activities for lines and locations that require warehouse put-away.';
         exit(true);
     end;
 
@@ -212,34 +205,38 @@ codeunit 10077057 "Mfg Warehouse Impl ori" implements "Msg Interface ori", "Msg 
     var
         ProductionOrder: Record "Production Order";
         ProdOrderLine: Record "Prod. Order Line";
+        WarehouseActivityHeader: Record "Warehouse Activity Header";
+        WarehouseActivityLine: Record "Warehouse Activity Line";
         CreatePutAway: Codeunit "Mfg. Create Put-away";
-        RequestJson: JsonObject;
-        RequestToken: JsonToken;
         ResponseJson: JsonObject;
         ProductionOrderNoText: Text;
         ProductionOrderNo: Code[20];
     begin
-        RequestJson := Argument.GetRequestJson();
-        ProductionOrderNoText := Argument.Subject;
-        if ProductionOrderNoText = '' then begin
-            if not RequestJson.Get('productionOrderNo', RequestToken) then
-                Error(ProductionOrderRequiredErr);
-            if not RequestToken.IsValue() then
-                Error(ProductionOrderRequiredErr);
-            ProductionOrderNoText := RequestToken.AsValue().AsText();
-        end;
-        if StrLen(ProductionOrderNoText) > MaxStrLen(ProductionOrderNo) then
-            Error(ProductionOrderRequiredErr);
+        if not Contract.ValidateKeys(Argument, '|productionOrderNo|') then
+            exit;
+        if not Contract.ReadCode(Argument, 'productionOrderNo', Argument.Subject, MaxStrLen(ProductionOrderNo), ProductionOrderNoText) then
+            exit;
         ProductionOrderNo := CopyStr(ProductionOrderNoText, 1, MaxStrLen(ProductionOrderNo));
-
-        if not ProductionOrder.Get(ProductionOrder.Status::Released, ProductionOrderNo) then
-            Error(ProductionOrderNotFoundErr, ProductionOrderNo);
-
+        if not Contract.HasPermission(Argument, ProductionOrder.ReadPermission(), ProductionOrder.WritePermission()) then
+            exit;
+        if not Contract.HasPermission(Argument, ProdOrderLine.ReadPermission(), ProdOrderLine.WritePermission()) then
+            exit;
+        if not Contract.HasPermission(Argument, WarehouseActivityHeader.ReadPermission(), WarehouseActivityHeader.WritePermission()) then
+            exit;
+        if not Contract.HasPermission(Argument, WarehouseActivityLine.ReadPermission(), WarehouseActivityLine.WritePermission()) then
+            exit;
+        ProductionOrder.LockTable();
+        if not ProductionOrder.Get(ProductionOrder.Status::Released, ProductionOrderNo) then begin
+            Contract.Refuse(Argument, "Bifrost Error Code ori"::RecordNotFound, 'productionOrderNo', StrSubstNo(ProductionOrderNotFoundErr, ProductionOrderNo));
+            exit;
+        end;
+        if not Contract.RequireCommittingCall(Argument) then
+            exit;
         if Argument.Type = Enum::"Message Type ori"::"Manufacturing.Warehouse.CreatePick" then begin
             ProductionOrder.SetHideValidationDialog(true);
             ProductionOrder.CreatePick(CopyStr(UserId(), 1, 50), 0, false, false, false);
         end else begin
-            ProdOrderLine.SetLoadFields(Status, "Prod. Order No.", "Line No.");
+            ProdOrderLine.LockTable();
             ProdOrderLine.SetRange(Status, ProdOrderLine.Status::Released);
             ProdOrderLine.SetRange("Prod. Order No.", ProductionOrderNo);
             if ProdOrderLine.FindSet() then
@@ -247,7 +244,6 @@ codeunit 10077057 "Mfg Warehouse Impl ori" implements "Msg Interface ori", "Msg 
                     CreatePutAway.CreateWhsePutAwayForProdOrderOutputLine(ProdOrderLine);
                 until ProdOrderLine.Next() = 0;
         end;
-
         ResponseJson.Add('status', 'Success');
         ResponseJson.Add('productionOrderNo', ProductionOrderNo);
         Argument.SetResponseJson(ResponseJson);

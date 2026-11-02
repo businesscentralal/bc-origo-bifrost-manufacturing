@@ -9,7 +9,7 @@ using System.TestLibraries.Utilities;
 codeunit 97603 "Mfg Refresh Order Tst ori"
 {
     Subtype = Test;
-    TestPermissions = Disabled;
+    TestPermissions = Restrictive;
 
     var
         Assert: Codeunit "Library Assert";
@@ -44,6 +44,8 @@ codeunit 97603 "Mfg Refresh Order Tst ori"
         ResponseJson.ReadFrom(ResponseText);
         Assert.IsTrue(ResponseJson.Get('status', ResponseToken), 'The response should include a status.');
         Assert.AreEqual('Error', ResponseToken.AsValue().AsText(), 'An unknown production order should return an error.');
+        Assert.IsTrue(ResponseJson.Get('code', ResponseToken), 'The refusal must include a stable error code.');
+        Assert.AreEqual('RecordNotFound', ResponseToken.AsValue().AsText(), 'Expected the precise missing-record code.');
     end;
 
     /// <summary>Returns an error response when no production order number is supplied.</summary>
@@ -76,6 +78,8 @@ codeunit 97603 "Mfg Refresh Order Tst ori"
         ResponseJson.ReadFrom(ResponseText);
         Assert.IsTrue(ResponseJson.Get('status', ResponseToken), 'The response should include a status.');
         Assert.AreEqual('Error', ResponseToken.AsValue().AsText(), 'A missing production order number should return an error.');
+        Assert.IsTrue(ResponseJson.Get('code', ResponseToken), 'The refusal must include a stable error code.');
+        Assert.AreEqual('MissingParameter', ResponseToken.AsValue().AsText(), 'Expected the precise missing-parameter code.');
     end;
 
     /// <summary>Returns an error response when the requested production order cannot be replanned.</summary>
@@ -108,6 +112,8 @@ codeunit 97603 "Mfg Refresh Order Tst ori"
         ResponseJson.ReadFrom(ResponseText);
         Assert.IsTrue(ResponseJson.Get('status', ResponseToken), 'The response should include a status.');
         Assert.AreEqual('Error', ResponseToken.AsValue().AsText(), 'An unknown production order should return an error.');
+        Assert.IsTrue(ResponseJson.Get('code', ResponseToken), 'The refusal must include a stable error code.');
+        Assert.AreEqual('RecordNotFound', ResponseToken.AsValue().AsText(), 'Expected the precise missing-record code.');
     end;
 
     /// <summary>Returns an error response when the requested production order cannot have its cost updated.</summary>
@@ -140,6 +146,8 @@ codeunit 97603 "Mfg Refresh Order Tst ori"
         ResponseJson.ReadFrom(ResponseText);
         Assert.IsTrue(ResponseJson.Get('status', ResponseToken), 'The response should include a status.');
         Assert.AreEqual('Error', ResponseToken.AsValue().AsText(), 'An unknown production order should return an error.');
+        Assert.IsTrue(ResponseJson.Get('code', ResponseToken), 'The refusal must include a stable error code.');
+        Assert.AreEqual('RecordNotFound', ResponseToken.AsValue().AsText(), 'Expected the precise missing-record code.');
     end;
 
     /// <summary>Exposes descriptions and request contracts for all production-order message types.</summary>

@@ -12,10 +12,10 @@ codeunit 10077040 "Mfg Refresh Order Impl ori" implements "Msg Interface ori", "
 
     var
         ContractMgt: Codeunit "Msg Contract Mgt ori";
+        Contract: Codeunit "Mfg Action Contract ori";
+        AmbiguousOrderErr: Label 'The number identifies more than one active production order. Use an unambiguous order number.', Comment = 'is-IS=Númerið auðkennir fleiri en eina virka framleiðslupöntun. Notaðu ótvírætt pöntunarnúmer.';
         ProductionOrderNotFoundErr: Label 'Production order %1 was not found.', Comment = '%1 = production order number||is-IS=Framleiðslupöntun %1 fannst ekki.';
-        ProductionOrderRequiredErr: Label 'Provide a production order number in the subject or data.productionOrderNo.', Comment = 'is-IS=Tilgreindu framleiðslupöntunarnúmer í subject eða data.productionOrderNo.';
         InvalidStatusErr: Label 'newStatus must be Firm Planned, Released, or Finished.', Comment = 'is-IS=newStatus verður að vera Firm Planned, Released eða Finished.';
-        InvalidPostingDateErr: Label 'postingDate must be a valid ISO date in YYYY-MM-DD format.', Comment = 'is-IS=postingDate verður að vera gild dagsetning á ISO sniði ÁÁÁÁ-MM-DD.';
         DescriptionLbl: Label 'Recalculates component and routing demand for one production order by refreshing its lines or replanning dependent demand.', MaxLength = 250, Comment = 'is-IS=Endurreiknar íhluta- og leiðarþörf fyrir eina framleiðslupöntun með því að uppfæra línur hennar eða endurskipuleggja háða þörf.';
         FirmPlannedStatusTok: Label 'FIRM PLANNED', Locked = true;
         ReleasedStatusTok: Label 'RELEASED', Locked = true;
@@ -91,7 +91,7 @@ codeunit 10077040 "Mfg Refresh Order Impl ori" implements "Msg Interface ori", "
         MultipleLevelsParameter: JsonObject;
         UpdateReservationsParameter: JsonObject;
     begin
-        Parameters.Add(ContractMgt.Parameter('productionOrderNo', 'string', true, 'The production order to process. May be supplied as the subject instead.'));
+        Parameters.Add(ContractMgt.Parameter('productionOrderNo', 'string', true, 'The number must identify exactly one non-finished order. May be supplied as the subject instead.'));
         AllowedStatuses.Add('Firm Planned');
         AllowedStatuses.Add('Released');
         AllowedStatuses.Add('Finished');
@@ -156,23 +156,8 @@ codeunit 10077040 "Mfg Refresh Order Impl ori" implements "Msg Interface ori", "
 
     /// <summary>Describes errors returned by the operation.</summary>
     procedure GetErrors(var Errors: JsonArray): Boolean
-    var
-        ErrorInfo: JsonObject;
     begin
-        ErrorInfo.Add('error', 'Production order not found.');
-        ErrorInfo.Add('when', 'The supplied production order number does not identify an existing production order.');
-        ErrorInfo.Add('fix', 'Check the number and pass it as the subject or data.productionOrderNo.');
-        Errors.Add(ErrorInfo);
-        Clear(ErrorInfo);
-        ErrorInfo.Add('error', 'Invalid production order status.');
-        ErrorInfo.Add('when', 'newStatus is missing or is not Firm Planned, Released, or Finished.');
-        ErrorInfo.Add('fix', 'Pass one of the allowed values for Manufacturing.ProductionOrder.ChangeStatus.');
-        Errors.Add(ErrorInfo);
-        Clear(ErrorInfo);
-        ErrorInfo.Add('error', 'Invalid posting date.');
-        ErrorInfo.Add('when', 'postingDate is not a valid ISO date.');
-        ErrorInfo.Add('fix', 'Pass postingDate as YYYY-MM-DD or omit it to use the work date.');
-        Errors.Add(ErrorInfo);
+        Contract.Errors(Errors);
         exit(true);
     end;
 
@@ -202,11 +187,10 @@ codeunit 10077040 "Mfg Refresh Order Impl ori" implements "Msg Interface ori", "
     procedure GetWorkflow(var Workflow: JsonObject): Boolean
     var
         Steps: JsonArray;
-        Step: JsonObject;
     begin
-        Step.Add('messageType', 'Manufacturing.ProductionOrder.Refresh, Manufacturing.ProductionOrder.Replan, or Manufacturing.ProductionOrder.ChangeStatus');
-        Step.Add('purpose', 'Refresh calculated lines, replan dependent demand, or change the order status after reviewing its current state.');
-        Steps.Add(Step);
+        Steps.Add(ContractMgt.WorkflowStep('Manufacturing.ProductionOrder.Refresh', 'Refresh calculated lines, replan dependent demand, or change the order status after reviewing its current state.'));
+        Steps.Add(ContractMgt.WorkflowStep('Manufacturing.ProductionOrder.Replan', 'Refresh calculated lines, replan dependent demand, or change the order status after reviewing its current state.'));
+        Steps.Add(ContractMgt.WorkflowStep('Manufacturing.ProductionOrder.ChangeStatus', 'Refresh calculated lines, replan dependent demand, or change the order status after reviewing its current state.'));
         Workflow.Add('steps', Steps);
         exit(true);
     end;
@@ -276,7 +260,7 @@ codeunit 10077040 "Mfg Refresh Order Impl ori" implements "Msg Interface ori", "
     /// <summary>Documents important behavior of the refresh operation.</summary>
     procedure GetNotes(var Notes: Text): Boolean
     begin
-        Notes := 'Refresh, replan, and cost updates use Microsoft processing reports without showing a request page. UpdateCost defaults to one BOM level and leaves reservations unchanged. ChangeStatus uses Microsoft''s status-management codeunit; postingDate defaults to the work date. Replan may change dependent orders at lower BOM levels.';
+        Notes := 'Omit Commit is refused with PreconditionFailed before any write because standard Business Central actions may commit. Refresh, replan, and cost updates use Microsoft processing reports without showing a request page. UpdateCost defaults to one BOM level and leaves reservations unchanged. ChangeStatus uses Microsoft''s status-management codeunit; postingDate defaults to the work date. Replan may change dependent orders at lower BOM levels.';
         exit(true);
     end;
 
@@ -309,87 +293,116 @@ codeunit 10077040 "Mfg Refresh Order Impl ori" implements "Msg Interface ori", "
     local procedure PerformRefresh(var Argument: Record "Message Argument ori")
     var
         ProductionOrder: Record "Production Order";
-        ProductionOrderLookup: Record "Production Order";
+        ProductionOrderLine: Record "Prod. Order Line";
+        ChangedProductionOrder: Record "Production Order";
+        RefreshOrderReport: Report "Refresh Production Order";
+        ReplanOrderReport: Report "Replan Production Order";
+        StatusManagement: Codeunit "Prod. Order Status Management";
         RequestJson: JsonObject;
-        RequestToken: JsonToken;
         ResponseJson: JsonObject;
         ProductionOrderNo: Code[20];
         ProductionOrderNoText: Text;
+        StatusText: Text;
+        AllowedKeys: Text;
+        NewStatus: Enum "Production Order Status";
+        PostingDate: Date;
+        UpdateUnitCost: Boolean;
+        FinishOrderWithoutOutput: Boolean;
+        MultipleLevels: Boolean;
+        UpdateReservations: Boolean;
     begin
         RequestJson := Argument.GetRequestJson();
-        ProductionOrderNoText := Argument.Subject;
-        if ProductionOrderNoText = '' then begin
-            if not RequestJson.Get('productionOrderNo', RequestToken) then
-                Error(ProductionOrderRequiredErr);
-            if not RequestToken.IsValue() then
-                Error(ProductionOrderRequiredErr);
-            ProductionOrderNoText := RequestToken.AsValue().AsText();
-        end;
-        if StrLen(ProductionOrderNoText) > MaxStrLen(ProductionOrderNo) then
-            Error(ProductionOrderRequiredErr);
-        ProductionOrderNo := CopyStr(ProductionOrderNoText, 1, MaxStrLen(ProductionOrderNo));
-
-        ProductionOrderLookup.SetLoadFields("No.");
-        ProductionOrderLookup.SetRange("No.", ProductionOrderNo);
-        if ProductionOrderLookup.IsEmpty() then
-            Error(ProductionOrderNotFoundErr, ProductionOrderNo);
-
-        ProductionOrder.SetRange("No.", ProductionOrderNo);
+        AllowedKeys := '|productionOrderNo|';
         case Argument.Type of
             Enum::"Message Type ori"::"Manufacturing.ProductionOrder.ChangeStatus":
-                PerformChangeStatus(ProductionOrder, RequestJson);
+                AllowedKeys += '|newStatus|postingDate|updateUnitCost|finishOrderWithoutOutput|';
+            Enum::"Message Type ori"::"Manufacturing.ProductionOrder.UpdateCost":
+                AllowedKeys += '|multipleLevels|updateReservations|';
+        end;
+        if not Contract.ValidateKeys(Argument, AllowedKeys) then
+            exit;
+        if not Contract.ReadCode(Argument, 'productionOrderNo', Argument.Subject, MaxStrLen(ProductionOrderNo), ProductionOrderNoText) then
+            exit;
+        ProductionOrderNo := CopyStr(ProductionOrderNoText, 1, MaxStrLen(ProductionOrderNo));
+        if Argument.Type = Enum::"Message Type ori"::"Manufacturing.ProductionOrder.ChangeStatus" then begin
+            if not Contract.ReadCode(Argument, 'newStatus', '', 20, StatusText) then
+                exit;
+            case UpperCase(StatusText) of
+                FirmPlannedStatusTok:
+                    NewStatus := NewStatus::"Firm Planned";
+                ReleasedStatusTok:
+                    NewStatus := NewStatus::Released;
+                FinishedStatusTok:
+                    NewStatus := NewStatus::Finished;
+                else begin
+                    Contract.Refuse(Argument, "Bifrost Error Code ori"::InvalidParameter, 'newStatus', InvalidStatusErr);
+                    exit;
+                end;
+            end;
+            if not Contract.ReadDate(Argument, 'postingDate', PostingDate) then
+                exit;
+            if not Contract.ReadBoolean(Argument, 'updateUnitCost', UpdateUnitCost) then
+                exit;
+            if not Contract.ReadBoolean(Argument, 'finishOrderWithoutOutput', FinishOrderWithoutOutput) then
+                exit;
+        end;
+        if Argument.Type = Enum::"Message Type ori"::"Manufacturing.ProductionOrder.UpdateCost" then begin
+            if not Contract.ReadBoolean(Argument, 'multipleLevels', MultipleLevels) then
+                exit;
+            if not Contract.ReadBoolean(Argument, 'updateReservations', UpdateReservations) then
+                exit;
+        end;
+        if not Contract.HasPermission(Argument, ProductionOrder.ReadPermission(), ProductionOrder.WritePermission()) then
+            exit;
+        if not Contract.HasPermission(Argument, ProductionOrderLine.ReadPermission(), ProductionOrderLine.WritePermission()) then
+            exit;
+
+        // Read the actual composite-key record under the transaction lock. A number alone
+        // must resolve to exactly one active order; a finished order is never refreshed.
+        ProductionOrder.LockTable();
+        ProductionOrder.SetRange("No.", ProductionOrderNo);
+        ProductionOrder.SetFilter(Status, '<>%1', ProductionOrder.Status::Finished);
+        if ProductionOrder.IsEmpty() then begin
+            Contract.Refuse(Argument, "Bifrost Error Code ori"::RecordNotFound, 'productionOrderNo', StrSubstNo(ProductionOrderNotFoundErr, ProductionOrderNo));
+            exit;
+        end;
+        if ProductionOrder.Count() <> 1 then begin
+            Contract.Refuse(Argument, "Bifrost Error Code ori"::PreconditionFailed, 'productionOrderNo', AmbiguousOrderErr);
+            exit;
+        end;
+        ProductionOrder.FindFirst();
+        ProductionOrder.SetRecFilter();
+        if not Contract.RequireCommittingCall(Argument) then
+            exit;
+        case Argument.Type of
+            Enum::"Message Type ori"::"Manufacturing.ProductionOrder.ChangeStatus":
+                begin
+                    StatusManagement.SetFinishOrderWithoutOutput(FinishOrderWithoutOutput);
+                    StatusManagement.ChangeProdOrderStatus(ProductionOrder, ChangedProductionOrder, NewStatus, PostingDate, UpdateUnitCost);
+                    ProductionOrderNo := ChangedProductionOrder."No.";
+                end;
             Enum::"Message Type ori"::"Manufacturing.ProductionOrder.Replan":
-                Report.RunModal(Report::"Replan Production Order", false, false, ProductionOrder);
+                begin
+                    ReplanOrderReport.InitializeRequest(1, 1);
+                    ReplanOrderReport.SetTableView(ProductionOrder);
+                    ReplanOrderReport.UseRequestPage(false);
+                    ReplanOrderReport.RunModal();
+                end;
             Enum::"Message Type ori"::"Manufacturing.ProductionOrder.UpdateCost":
                 PerformUpdateCost(ProductionOrder, RequestJson);
             else
-                Report.RunModal(Report::"Refresh Production Order", false, false, ProductionOrder);
+                begin
+                    RefreshOrderReport.InitializeRequest(1, true, true, true, false);
+                    RefreshOrderReport.SetHideValidationDialog(true);
+                    RefreshOrderReport.SetTableView(ProductionOrder);
+                    RefreshOrderReport.UseRequestPage(false);
+                    RefreshOrderReport.RunModal();
+                end;
         end;
-
         ResponseJson.Add('status', 'Success');
         ResponseJson.Add('productionOrderNo', ProductionOrderNo);
         Argument.SetResponseJson(ResponseJson);
         Argument."Content Type" := Argument.GetContentTypeJson();
-    end;
-
-    local procedure PerformChangeStatus(var ProductionOrder: Record "Production Order"; RequestJson: JsonObject)
-    var
-        StatusManagement: Codeunit "Prod. Order Status Management";
-        RequestToken: JsonToken;
-        NewStatus: Enum "Production Order Status";
-        StatusText: Text;
-        PostingDate: Date;
-        UpdateUnitCost: Boolean;
-        FinishOrderWithoutOutput: Boolean;
-    begin
-        if not RequestJson.Get('newStatus', RequestToken) then
-            Error(InvalidStatusErr);
-        if not RequestToken.IsValue() then
-            Error(InvalidStatusErr);
-        StatusText := UpperCase(RequestToken.AsValue().AsText());
-        case StatusText of
-            FirmPlannedStatusTok:
-                NewStatus := NewStatus::"Firm Planned";
-            ReleasedStatusTok:
-                NewStatus := NewStatus::Released;
-            FinishedStatusTok:
-                NewStatus := NewStatus::Finished;
-            else
-                Error(InvalidStatusErr);
-        end;
-
-        PostingDate := WorkDate();
-        if RequestJson.Get('postingDate', RequestToken) then
-            if not Evaluate(PostingDate, RequestToken.AsValue().AsText(), 9) then
-                Error(InvalidPostingDateErr);
-
-        if RequestJson.Get('updateUnitCost', RequestToken) then
-            UpdateUnitCost := RequestToken.AsValue().AsBoolean();
-        if RequestJson.Get('finishOrderWithoutOutput', RequestToken) then
-            FinishOrderWithoutOutput := RequestToken.AsValue().AsBoolean();
-
-        StatusManagement.SetFinishOrderWithoutOutput(FinishOrderWithoutOutput);
-        StatusManagement.ChangeProdOrderStatus(ProductionOrder, NewStatus, PostingDate, UpdateUnitCost);
     end;
 
     local procedure CreateStatusChangeData() Data: JsonObject
@@ -415,6 +428,7 @@ codeunit 10077040 "Mfg Refresh Order Impl ori" implements "Msg Interface ori", "
             CalculationMethod := CalculationMethod::"All Levels";
         UpdateUnitCostReport.InitializeRequest(CalculationMethod, UpdateReservations);
         UpdateUnitCostReport.SetTableView(ProductionOrder);
+        UpdateUnitCostReport.UseRequestPage(false);
         UpdateUnitCostReport.RunModal();
     end;
 }

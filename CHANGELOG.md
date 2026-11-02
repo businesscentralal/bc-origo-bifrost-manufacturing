@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Synchronize the 69 existing Icelandic label translations for the manufacturing actions into the application XLF file.
+- Synchronize the existing Icelandic label translations for the manufacturing actions into the application XLF file.
 
 - Test-only fixture page 97667 exposes explicit setup/cleanup through the Web Client. Test library 97666 provides fresh XMFG8MCP fixtures for owned Web Client/MCP verification and verifies cleanup, including item units, planning assignments and owned change-log entries. AC09 tests (97660) follow Foundation strict validation: an unknown key is refused before app validation; multiple invalid declared parameters are collected separately.
 
@@ -17,14 +17,15 @@
 ## [28.0.2.0] - 2026-11-02
 
 ### Added
-- Added message types for production BOM and routing checks and copies, calendar recalculation and absence application/removal, planning calculation and carry-out, and production warehouse picks and output put-aways.
+- Added production warehouse picks and output put-aways (10077057).
 - Added production journal posting reversal for item and capacity ledger entries.
 - Added message types for production-order refresh, replan, status changes, and cost recalculation.
 
 ### Changed
-- Moved `Manufacturing.Subcontracting.CreatePurchaseOrders` to Bifrost Subcontracting without changing its public message key.
+- Production actions (10077040/10077044/10077047/10077057) use shared coded validation (10077060), explicit permissions, locked target/state checks and pre-write Omit Commit refusals. Refresh explicitly initializes calculations; ChangeStatus resolves one active composite-key record and returns the resulting order number. Regression tests 97613/97614 exercise refusals, restricted roles and actual order/line changes.
+- Synchronize en-US/is-IS product and test XLF files; align the test dependency with Manufacturing 28.0.2.0.
+- Retain the BC 28.5 application floor and limit this PR to the approved production-order lifecycle. Remove nine unapproved BOM, routing, calendar and planning action types and their implementation/tests; existing main BOM/routing status features remain.
 - Added `Manufacturing.Journal.CalculateConsumption`, `Manufacturing.Journal.ExplodeRouting`, and `Manufacturing.Journal.Post` for batch-scoped production journal operations.
-- Updated the minimum Business Central application version to 28.0.0.0.
 
 ## [28.0.0.0]
 

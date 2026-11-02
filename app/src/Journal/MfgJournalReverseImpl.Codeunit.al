@@ -14,10 +14,11 @@ codeunit 10077047 "Mfg Journal Reverse Impl ori" implements "Msg Interface ori",
 
     var
         ContractMgt: Codeunit "Msg Contract Mgt ori";
-        EntryNoRequiredErr: Label 'Provide a positive entryNo.', Comment = 'is-IS=Tilgreindu jákvætt entryNo.';
+        Contract: Codeunit "Mfg Action Contract ori";
         LedgerTypeRequiredErr: Label 'ledgerType must be Item or Capacity.', Comment = 'is-IS=ledgerType verður að vera Item eða Capacity.';
         ItemEntryNotFoundErr: Label 'Production item ledger entry %1 was not found.', Comment = '%1 = item ledger entry number||is-IS=Færslubókarfærsla framleiðsluvöru %1 fannst ekki.';
         CapacityEntryNotFoundErr: Label 'Production capacity ledger entry %1 was not found.', Comment = '%1 = capacity ledger entry number||is-IS=Afkastabókafærsla framleiðslu %1 fannst ekki.';
+        ProductionEntryErr: Label 'Only an unreversed production-order posting can be reversed.', Comment = 'is-IS=Aðeins má bakfæra óbakfærða bókun framleiðslupöntunar.';
         DescriptionLbl: Label 'Reverses one posted production item or capacity ledger entry using Microsoft production undo logic.', MaxLength = 250, Comment = 'is-IS=Bakfærir eina bókaða vöru- eða afkastabókafærslu framleiðslu með bakfærslurökfræði Microsoft.';
 
     /// <summary>Reports whether production posting reversal is available.</summary>
@@ -119,13 +120,8 @@ codeunit 10077047 "Mfg Journal Reverse Impl ori" implements "Msg Interface ori",
 
     /// <summary>Describes errors returned by the operation.</summary>
     procedure GetErrors(var Errors: JsonArray): Boolean
-    var
-        ErrorInfo: JsonObject;
     begin
-        ErrorInfo.Add('error', 'Production ledger entry not found.');
-        ErrorInfo.Add('when', 'The selected entry number does not exist in the specified ledger.');
-        ErrorInfo.Add('fix', 'Check ledgerType and entryNo; only production-related entries can be reversed.');
-        Errors.Add(ErrorInfo);
+        Contract.Errors(Errors);
         exit(true);
     end;
 
@@ -196,7 +192,7 @@ codeunit 10077047 "Mfg Journal Reverse Impl ori" implements "Msg Interface ori",
     /// <summary>Documents important behavior of production posting reversal.</summary>
     procedure GetNotes(var Notes: Text): Boolean
     begin
-        Notes := 'Reversal writes correcting entries and cannot be repeated as a no-op. Confirm the entry belongs to a production order before calling this message.';
+        Notes := 'Omit Commit is refused with PreconditionFailed before any write because standard Business Central actions may commit. Reversal writes correcting entries and cannot be repeated as a no-op. Confirm the entry belongs to a production order before calling this message.';
         exit(true);
     end;
 
@@ -231,49 +227,64 @@ codeunit 10077047 "Mfg Journal Reverse Impl ori" implements "Msg Interface ori",
         ItemLedgerEntry: Record "Item Ledger Entry";
         CapacityLedgerEntry: Record "Capacity Ledger Entry";
         UndoProdPosting: Codeunit "Undo Prod. Posting Mgmt.";
-        RequestJson: JsonObject;
-        RequestToken: JsonToken;
         ResponseJson: JsonObject;
         LedgerTypeText: Text;
         EntryNo: Integer;
-        ItemLedgerTypeTok: Label 'ITEM', Locked = true;
-        CapacityLedgerTypeTok: Label 'CAPACITY', Locked = true;
     begin
-        RequestJson := Argument.GetRequestJson();
-        if not RequestJson.Get('ledgerType', RequestToken) then
-            Error(LedgerTypeRequiredErr);
-        if not RequestToken.IsValue() then
-            Error(LedgerTypeRequiredErr);
-        LedgerTypeText := UpperCase(RequestToken.AsValue().AsText());
-
-        if not RequestJson.Get('entryNo', RequestToken) then
-            Error(EntryNoRequiredErr);
-        if not Evaluate(EntryNo, RequestToken.AsValue().AsText(), 9) then
-            Error(EntryNoRequiredErr);
-        if EntryNo <= 0 then
-            Error(EntryNoRequiredErr);
-
+        if not Contract.ValidateKeys(Argument, '|ledgerType|entryNo|') then
+            exit;
+        if not Contract.ReadCode(Argument, 'ledgerType', '', 20, LedgerTypeText) then
+            exit;
+        LedgerTypeText := UpperCase(LedgerTypeText);
+        if not (LedgerTypeText in ['ITEM', 'CAPACITY']) then begin
+            Contract.Refuse(Argument, "Bifrost Error Code ori"::InvalidParameter, 'ledgerType', LedgerTypeRequiredErr);
+            exit;
+        end;
+        if not Contract.ReadPositiveInteger(Argument, 'entryNo', EntryNo) then
+            exit;
         case LedgerTypeText of
-            ItemLedgerTypeTok:
+            'ITEM':
                 begin
-                    ItemLedgerEntry.SetLoadFields();
-                    if not ItemLedgerEntry.Get(EntryNo) then
-                        Error(ItemEntryNotFoundErr, EntryNo);
+                    if not Contract.HasPermission(Argument, ItemLedgerEntry.ReadPermission(), ItemLedgerEntry.WritePermission()) then
+                        exit;
+                    ItemLedgerEntry.LockTable();
+                    if not ItemLedgerEntry.Get(EntryNo) then begin
+                        Contract.Refuse(Argument, "Bifrost Error Code ori"::RecordNotFound, 'entryNo', StrSubstNo(ItemEntryNotFoundErr, EntryNo));
+                        exit;
+                    end;
+                    if (ItemLedgerEntry."Order Type" <> ItemLedgerEntry."Order Type"::Production) or
+                       (ItemLedgerEntry."Order No." = '') or ItemLedgerEntry.Correction or
+                       not (ItemLedgerEntry."Entry Type" in [ItemLedgerEntry."Entry Type"::Consumption, ItemLedgerEntry."Entry Type"::Output])
+                    then begin
+                        Contract.Refuse(Argument, "Bifrost Error Code ori"::PreconditionFailed, 'entryNo', ProductionEntryErr);
+                        exit;
+                    end;
+                    if not Contract.RequireCommittingCall(Argument) then
+                        exit;
                     ItemLedgerEntry.SetRecFilter();
                     UndoProdPosting.ReverseProdItemLedgerEntry(ItemLedgerEntry);
                 end;
-            CapacityLedgerTypeTok:
+            'CAPACITY':
                 begin
-                    CapacityLedgerEntry.SetLoadFields();
-                    if not CapacityLedgerEntry.Get(EntryNo) then
-                        Error(CapacityEntryNotFoundErr, EntryNo);
+                    if not Contract.HasPermission(Argument, CapacityLedgerEntry.ReadPermission(), CapacityLedgerEntry.WritePermission()) then
+                        exit;
+                    CapacityLedgerEntry.LockTable();
+                    if not CapacityLedgerEntry.Get(EntryNo) then begin
+                        Contract.Refuse(Argument, "Bifrost Error Code ori"::RecordNotFound, 'entryNo', StrSubstNo(CapacityEntryNotFoundErr, EntryNo));
+                        exit;
+                    end;
+                    if (CapacityLedgerEntry."Order Type" <> CapacityLedgerEntry."Order Type"::Production) or
+                       (CapacityLedgerEntry."Order No." = '') or CapacityLedgerEntry.Reversed
+                    then begin
+                        Contract.Refuse(Argument, "Bifrost Error Code ori"::PreconditionFailed, 'entryNo', ProductionEntryErr);
+                        exit;
+                    end;
+                    if not Contract.RequireCommittingCall(Argument) then
+                        exit;
                     CapacityLedgerEntry.SetRecFilter();
                     UndoProdPosting.ReverseCapacityLedgerEntry(CapacityLedgerEntry);
                 end;
-            else
-                Error(LedgerTypeRequiredErr);
         end;
-
         ResponseJson.Add('status', 'Success');
         ResponseJson.Add('ledgerType', LedgerTypeText);
         ResponseJson.Add('entryNo', EntryNo);

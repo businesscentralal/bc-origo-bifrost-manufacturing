@@ -14,12 +14,15 @@ codeunit 10077044 "Mfg Calc Consumption Impl ori" implements "Msg Interface ori"
 
     var
         ContractMgt: Codeunit "Msg Contract Mgt ori";
+        Contract: Codeunit "Mfg Action Contract ori";
         JournalTemplateRequiredErr: Label 'Provide a journal template name in data.journalTemplateName.', Comment = 'is-IS=Tilgreindu heiti færslubókarsniðmáts í data.journalTemplateName.';
-        JournalBatchRequiredErr: Label 'Provide a journal batch name in the subject or data.journalBatchName.', Comment = 'is-IS=Tilgreindu heiti færslubókarlotu í subject eða data.journalBatchName.';
         JournalBatchNotFoundErr: Label 'Journal batch %1 does not exist in template %2.', Comment = '%1 = batch name, %2 = template name||is-IS=Færslubókarlota %1 er ekki til í sniðmáti %2.';
         JournalBatchEmptyErr: Label 'Journal batch %1 in template %2 has no lines to post.', Comment = '%1 = batch name, %2 = template name||is-IS=Færslubókarlota %1 í sniðmáti %2 inniheldur engar línur til bókunar.';
-        JournalLineNoRequiredErr: Label 'Provide journalLineNo for Manufacturing.Journal.ExplodeRouting.', Comment = 'is-IS=Tilgreindu journalLineNo fyrir Manufacturing.Journal.ExplodeRouting.';
         JournalLineNotFoundErr: Label 'Journal line %1 does not exist in batch %2.', Comment = '%1 = line number, %2 = batch name||is-IS=Færslubókarlína %1 er ekki til í lotu %2.';
+        ConsumptionTemplateErr: Label 'Use a Consumption journal template.', Comment = 'is-IS=Notaðu færslubókarsniðmát fyrir notkun.';
+        OutputTemplateErr: Label 'Use an Output journal template.', Comment = 'is-IS=Notaðu færslubókarsniðmát fyrir afköst.';
+        ProductionTemplateErr: Label 'Use a Consumption or Output journal template.', Comment = 'is-IS=Notaðu færslubókarsniðmát fyrir notkun eða afköst.';
+        ProductionLineErr: Label 'Only production-order consumption or output lines can be processed.', Comment = 'is-IS=Aðeins má vinna notkunar- eða afkastalínur framleiðslupantana.';
         DescriptionLbl: Label 'Calculates consumption, explodes output routing, or posts a production journal batch.', MaxLength = 250, Comment = 'is-IS=Reiknar notkun, springur út afkastaleið eða bókar framleiðslufærslubókarlotu.';
 
     /// <summary>Reports whether the calculation is available.</summary>
@@ -144,23 +147,8 @@ codeunit 10077044 "Mfg Calc Consumption Impl ori" implements "Msg Interface ori"
 
     /// <summary>Describes errors returned by the operation.</summary>
     procedure GetErrors(var Errors: JsonArray): Boolean
-    var
-        ErrorInfo: JsonObject;
     begin
-        ErrorInfo.Add('error', 'Journal batch not found.');
-        ErrorInfo.Add('when', 'The template and batch names do not identify an existing Item Journal Batch.');
-        ErrorInfo.Add('fix', 'Check journalTemplateName and journalBatchName.');
-        Errors.Add(ErrorInfo);
-        Clear(ErrorInfo);
-        ErrorInfo.Add('error', 'Journal batch is empty.');
-        ErrorInfo.Add('when', 'Manufacturing.Journal.Post is called for a batch without lines.');
-        ErrorInfo.Add('fix', 'Add or calculate journal lines before posting the batch.');
-        Errors.Add(ErrorInfo);
-        Clear(ErrorInfo);
-        ErrorInfo.Add('error', 'Journal line not found.');
-        ErrorInfo.Add('when', 'journalLineNo does not identify a line in the selected batch.');
-        ErrorInfo.Add('fix', 'Check the line number and the selected journal template and batch.');
-        Errors.Add(ErrorInfo);
+        Contract.Errors(Errors);
         exit(true);
     end;
 
@@ -190,11 +178,10 @@ codeunit 10077044 "Mfg Calc Consumption Impl ori" implements "Msg Interface ori"
     procedure GetWorkflow(var Workflow: JsonObject): Boolean
     var
         Steps: JsonArray;
-        WorkflowStep: JsonObject;
     begin
-        WorkflowStep.Add('messageType', 'Manufacturing.Journal.CalculateConsumption, Manufacturing.Journal.ExplodeRouting, or Manufacturing.Journal.Post');
-        WorkflowStep.Add('purpose', 'Calculate consumption, explode a selected output line into routing lines, review the batch, then post it.');
-        Steps.Add(WorkflowStep);
+        Steps.Add(ContractMgt.WorkflowStep('Manufacturing.Journal.CalculateConsumption', 'Calculate consumption, explode a selected output line into routing lines, review the batch, then post it.'));
+        Steps.Add(ContractMgt.WorkflowStep('Manufacturing.Journal.ExplodeRouting', 'Calculate consumption, explode a selected output line into routing lines, review the batch, then post it.'));
+        Steps.Add(ContractMgt.WorkflowStep('Manufacturing.Journal.Post', 'Calculate consumption, explode a selected output line into routing lines, review the batch, then post it.'));
         Workflow.Add('steps', Steps);
         exit(true);
     end;
@@ -268,7 +255,7 @@ codeunit 10077044 "Mfg Calc Consumption Impl ori" implements "Msg Interface ori"
     /// <summary>Documents important behavior of consumption calculation.</summary>
     procedure GetNotes(var Notes: Text): Boolean
     begin
-        Notes := 'CalculateConsumption uses Microsoft''s default report options and does not post. ExplodeRouting deletes its source line and inserts calculated operation lines. Post submits all lines in the selected batch through Microsoft''s production journal posting routine.';
+        Notes := 'Omit Commit is refused with PreconditionFailed before any write because standard Business Central actions may commit. CalculateConsumption uses Microsoft''s default report options and does not post. ExplodeRouting deletes its source line and inserts calculated operation lines. Post submits all lines in the selected batch through Microsoft''s production journal posting routine.';
         exit(true);
     end;
 
@@ -300,88 +287,126 @@ codeunit 10077044 "Mfg Calc Consumption Impl ori" implements "Msg Interface ori"
 
     local procedure PerformCalculate(var Argument: Record "Message Argument ori")
     var
+        ItemJournalTemplate: Record "Item Journal Template";
         ItemJournalBatch: Record "Item Journal Batch";
         ItemJournalLine: Record "Item Journal Line";
         ConsumptionReport: Report "Calc. Consumption";
-        RequestJson: JsonObject;
-        RequestToken: JsonToken;
         ResponseJson: JsonObject;
         JournalTemplateName: Code[10];
         JournalBatchName: Code[10];
-        JournalBatchNameText: Text;
+        ParameterText: Text;
+        AllowedKeys: Text;
         JournalLineNo: Integer;
         LinesBefore: Integer;
         LinesAfter: Integer;
     begin
-        RequestJson := Argument.GetRequestJson();
-        if not RequestJson.Get('journalTemplateName', RequestToken) then
-            Error(JournalTemplateRequiredErr);
-        if not RequestToken.IsValue() then
-            Error(JournalTemplateRequiredErr);
-        if StrLen(RequestToken.AsValue().AsText()) > MaxStrLen(JournalTemplateName) then
-            Error(JournalTemplateRequiredErr);
-        JournalTemplateName := CopyStr(RequestToken.AsValue().AsText(), 1, MaxStrLen(JournalTemplateName));
-
-        JournalBatchNameText := Argument.Subject;
-        if JournalBatchNameText = '' then begin
-            if not RequestJson.Get('journalBatchName', RequestToken) then
-                Error(JournalBatchRequiredErr);
-            if not RequestToken.IsValue() then
-                Error(JournalBatchRequiredErr);
-            JournalBatchNameText := RequestToken.AsValue().AsText();
+        AllowedKeys := '|journalTemplateName|journalBatchName|';
+        if Argument.Type = Enum::"Message Type ori"::"Manufacturing.Journal.ExplodeRouting" then
+            AllowedKeys += '|journalLineNo|';
+        if not Contract.ValidateKeys(Argument, AllowedKeys) then
+            exit;
+        if not Contract.ReadCode(Argument, 'journalTemplateName', '', MaxStrLen(JournalTemplateName), ParameterText) then
+            exit;
+        JournalTemplateName := CopyStr(ParameterText, 1, MaxStrLen(JournalTemplateName));
+        if not Contract.ReadCode(Argument, 'journalBatchName', Argument.Subject, MaxStrLen(JournalBatchName), ParameterText) then
+            exit;
+        JournalBatchName := CopyStr(ParameterText, 1, MaxStrLen(JournalBatchName));
+        if Argument.Type = Enum::"Message Type ori"::"Manufacturing.Journal.ExplodeRouting" then
+            if not Contract.ReadPositiveInteger(Argument, 'journalLineNo', JournalLineNo) then
+                exit;
+        if not Contract.HasPermission(Argument, ItemJournalTemplate.ReadPermission(), true) then
+            exit;
+        if not Contract.HasPermission(Argument, ItemJournalBatch.ReadPermission(), ItemJournalBatch.WritePermission()) then
+            exit;
+        if not Contract.HasPermission(Argument, ItemJournalLine.ReadPermission(), ItemJournalLine.WritePermission()) then
+            exit;
+        ItemJournalTemplate.LockTable();
+        if not ItemJournalTemplate.Get(JournalTemplateName) then begin
+            Contract.Refuse(Argument, "Bifrost Error Code ori"::RecordNotFound, 'journalTemplateName', JournalTemplateRequiredErr);
+            exit;
         end;
-        if StrLen(JournalBatchNameText) > MaxStrLen(JournalBatchName) then
-            Error(JournalBatchRequiredErr);
-        JournalBatchName := CopyStr(JournalBatchNameText, 1, MaxStrLen(JournalBatchName));
-
-        if not ItemJournalBatch.Get(JournalTemplateName, JournalBatchName) then
-            Error(JournalBatchNotFoundErr, JournalBatchName, JournalTemplateName);
-
-        ItemJournalLine.SetLoadFields("Journal Template Name", "Journal Batch Name", "Line No.");
+        case Argument.Type of
+            Enum::"Message Type ori"::"Manufacturing.Journal.CalculateConsumption":
+                if ItemJournalTemplate.Type <> ItemJournalTemplate.Type::Consumption then begin
+                    Contract.Refuse(Argument, "Bifrost Error Code ori"::PreconditionFailed, 'journalTemplateName', ConsumptionTemplateErr);
+                    exit;
+                end;
+            Enum::"Message Type ori"::"Manufacturing.Journal.ExplodeRouting":
+                if ItemJournalTemplate.Type <> ItemJournalTemplate.Type::Output then begin
+                    Contract.Refuse(Argument, "Bifrost Error Code ori"::PreconditionFailed, 'journalTemplateName', OutputTemplateErr);
+                    exit;
+                end;
+            else
+                if not (ItemJournalTemplate.Type in [ItemJournalTemplate.Type::Consumption, ItemJournalTemplate.Type::Output]) then begin
+                    Contract.Refuse(Argument, "Bifrost Error Code ori"::PreconditionFailed, 'journalTemplateName', ProductionTemplateErr);
+                    exit;
+                end;
+        end;
+        ItemJournalBatch.LockTable();
+        if not ItemJournalBatch.Get(JournalTemplateName, JournalBatchName) then begin
+            Contract.Refuse(Argument, "Bifrost Error Code ori"::RecordNotFound, 'journalBatchName', StrSubstNo(JournalBatchNotFoundErr, JournalBatchName, JournalTemplateName));
+            exit;
+        end;
+        ItemJournalLine.LockTable();
         ItemJournalLine.SetRange("Journal Template Name", JournalTemplateName);
         ItemJournalLine.SetRange("Journal Batch Name", JournalBatchName);
         LinesBefore := ItemJournalLine.Count();
         case Argument.Type of
             Enum::"Message Type ori"::"Manufacturing.Journal.ExplodeRouting":
                 begin
-                    if not RequestJson.Get('journalLineNo', RequestToken) then
-                        Error(JournalLineNoRequiredErr);
-                    if not Evaluate(JournalLineNo, RequestToken.AsValue().AsText(), 9) then
-                        Error(JournalLineNoRequiredErr);
-                    if JournalLineNo <= 0 then
-                        Error(JournalLineNoRequiredErr);
-
-                    ItemJournalLine.Reset();
-                    ItemJournalLine.SetLoadFields();
-                    if not ItemJournalLine.Get(JournalTemplateName, JournalBatchName, JournalLineNo) then
-                        Error(JournalLineNotFoundErr, JournalLineNo, JournalBatchName);
+                    if not ItemJournalLine.Get(JournalTemplateName, JournalBatchName, JournalLineNo) then begin
+                        Contract.Refuse(Argument, "Bifrost Error Code ori"::RecordNotFound, 'journalLineNo', StrSubstNo(JournalLineNotFoundErr, JournalLineNo, JournalBatchName));
+                        exit;
+                    end;
+                    if (ItemJournalLine."Order Type" <> ItemJournalLine."Order Type"::Production) or
+                       (ItemJournalLine."Entry Type" <> ItemJournalLine."Entry Type"::Output) or (ItemJournalLine."Order No." = '')
+                    then begin
+                        Contract.Refuse(Argument, "Bifrost Error Code ori"::PreconditionFailed, 'journalLineNo', ProductionLineErr);
+                        exit;
+                    end;
+                    if not Contract.RequireCommittingCall(Argument) then
+                        exit;
                     Codeunit.Run(Codeunit::"Output Jnl.-Expl. Route", ItemJournalLine);
-
                     ItemJournalLine.Reset();
-                    ItemJournalLine.SetLoadFields("Journal Template Name", "Journal Batch Name", "Line No.");
                     ItemJournalLine.SetRange("Journal Template Name", JournalTemplateName);
                     ItemJournalLine.SetRange("Journal Batch Name", JournalBatchName);
                     LinesAfter := ItemJournalLine.Count();
                 end;
             Enum::"Message Type ori"::"Manufacturing.Journal.Post":
                 begin
-                    if LinesBefore = 0 then
-                        Error(JournalBatchEmptyErr, JournalBatchName, JournalTemplateName);
+                    if LinesBefore = 0 then begin
+                        Contract.Refuse(Argument, "Bifrost Error Code ori"::PreconditionFailed, 'journalBatchName', StrSubstNo(JournalBatchEmptyErr, JournalBatchName, JournalTemplateName));
+                        exit;
+                    end;
+                    if ItemJournalLine.FindSet() then
+                        repeat
+                            if (ItemJournalLine."Order Type" <> ItemJournalLine."Order Type"::Production) or
+                               (ItemJournalLine."Order No." = '') or
+                               not (ItemJournalLine."Entry Type" in [ItemJournalLine."Entry Type"::Consumption, ItemJournalLine."Entry Type"::Output])
+                            then begin
+                                Contract.Refuse(Argument, "Bifrost Error Code ori"::PreconditionFailed, 'journalBatchName', ProductionLineErr);
+                                exit;
+                            end;
+                        until ItemJournalLine.Next() = 0;
+                    if not Contract.RequireCommittingCall(Argument) then
+                        exit;
+                    ItemJournalLine.FindFirst();
                     ItemJournalLine.PostingItemJnlFromProduction(false);
                     LinesAfter := LinesBefore;
                 end;
             else begin
+                if not Contract.RequireCommittingCall(Argument) then
+                    exit;
                 ConsumptionReport.SetTemplateAndBatchName(JournalTemplateName, JournalBatchName);
+                ConsumptionReport.InitializeRequest(WorkDate(), 0);
+                ConsumptionReport.UseRequestPage(false);
                 ConsumptionReport.RunModal();
-
                 ItemJournalLine.Reset();
-                ItemJournalLine.SetLoadFields("Journal Template Name", "Journal Batch Name", "Line No.");
                 ItemJournalLine.SetRange("Journal Template Name", JournalTemplateName);
                 ItemJournalLine.SetRange("Journal Batch Name", JournalBatchName);
                 LinesAfter := ItemJournalLine.Count();
             end;
         end;
-
         ResponseJson.Add('status', 'Success');
         ResponseJson.Add('journalTemplateName', JournalTemplateName);
         ResponseJson.Add('journalBatchName', JournalBatchName);

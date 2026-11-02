@@ -9,7 +9,7 @@ using System.TestLibraries.Utilities;
 codeunit 97612 "Mfg Warehouse Tst ori"
 {
     Subtype = Test;
-    TestPermissions = Disabled;
+    TestPermissions = Restrictive;
 
     var
         Assert: Codeunit "Library Assert";
@@ -46,6 +46,8 @@ codeunit 97612 "Mfg Warehouse Tst ori"
             ResponseJson.ReadFrom(ResponseText);
             Assert.IsTrue(ResponseJson.Get('status', ResponseToken), 'The response should include a status.');
             Assert.AreEqual('Error', ResponseToken.AsValue().AsText(), 'A missing production order should return an error.');
+            Assert.IsTrue(ResponseJson.Get('code', ResponseToken), 'The refusal must include a stable error code.');
+            Assert.AreEqual('MissingParameter', ResponseToken.AsValue().AsText(), 'Expected the precise missing-parameter code.');
             Clear(ResponseContent);
             Clear(ResponseJson);
         end;

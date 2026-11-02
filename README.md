@@ -1,19 +1,19 @@
-# Bifröst Manufacturing
+# Bifrost Manufacturing
 
 **App name:** Bifrost Manufacturing
-**Publisher:** Origo — **Version:** 28.0.2.0 — **Target:** Cloud (BC 28.0 application floor, runtime 17.0)
+**Publisher:** Origo — **Version:** 28.0.2.0 — **Target:** Cloud (BC 28.5 application floor, runtime 17.0)
 **App ID:** `bd08a710-8845-4316-a53b-afd28f21f75a` — **Test app ID:** `564eea9a-e27b-4358-bbae-28d380268382`
 **Object ID range:** 10077035–10077134 (tests 97600–97699) — **Namespace:** `Origo.Bifrost.Manufacturing`
 
 ## Overview
 
-Bifrost Manufacturing makes production orders, production journals, production BOMs, routings, calendars, planning,
-and warehouse actions callable through Bifröst message types. It is built on the same basis as
+Bifrost Manufacturing makes production orders, production journals, production BOM/routing status,
+and production warehouse actions callable through Bifrost message types. It is built on the same basis as
 [Bifrost Subscription Billing](https://github.com/businesscentralal/bc-origo-bifrost-subscription-billing).
 
 **Microsoft source:** <https://github.com/microsoft/BCApps/tree/main/src/Layers/W1/BaseApp/Manufacturing> (manufacturing is part of the Base Application)
 
-**Status:** Implements Manufacturing.ProductionBOM.SetStatus and Manufacturing.Routing.SetStatus, plus message types for production orders, production journals and reversals, BOMs, routings, calendar and absence application/removal, planning, and production warehouse picks and output put-aways. Subcontract purchase-order creation is provided by Bifrost Subcontracting. Verification of the combined candidate remains pending.
+**Status:** Implements Manufacturing.ProductionBOM.SetStatus and Manufacturing.Routing.SetStatus, plus message types for production orders, production journals and reversals, and production warehouse picks and output put-aways. Verification of the combined candidate remains pending.
 
 ## Functional Flow
 
@@ -24,7 +24,7 @@ and warehouse actions callable through Bifröst message types. It is built on th
 
 ## Benefits
 
-- Call production workflows through the same Bifröst dispatcher used by other apps.
+- Call production workflows through the same Bifrost dispatcher used by other apps.
 - Keep production data access under the invoking user's Business Central permissions.
 - Use Microsoft manufacturing and warehouse operations rather than duplicating their business rules.
 
@@ -32,11 +32,12 @@ and warehouse actions callable through Bifröst message types. It is built on th
 
 `Caller -> Bifrost Foundation Dispatcher -> Manufacturing message implementation -> Business Central manufacturing operation -> JSON response`
 
-Subcontract purchase-order creation is handled separately by Bifrost Subcontracting.
 
 ## Setup & Configuration
 
 Install Bifrost Foundation and assign the Bifrost Manufacturing permission set alongside the appropriate Bifrost Core permissions. The caller also needs its normal Business Central permissions for the records and operations it invokes.
+
+Production actions require a standalone call with `omitCommit=false`; standard posting/report routines may commit. A production order number must identify exactly one non-finished order. Ambiguous numbers are refused with `PreconditionFailed`. The response to ChangeStatus identifies the resulting order, which may have a new number assigned by Business Central. Stable error codes identify missing/invalid parameters, permission failures, missing records and unsuitable state.
 
 ## Example Scenario
 
@@ -62,14 +63,8 @@ Refresh one released production order:
 | 10077040 | codeunit | Mfg Refresh Order Impl ori |
 | 10077044 | codeunit | Mfg Calc Consumption Impl ori |
 | 10077047 | codeunit | Mfg Journal Reverse Impl ori |
-| 10077048 | codeunit | Mfg Prod BOM Impl ori |
-| 10077050 | codeunit | Mfg Routing Impl ori |
-| 10077052 | codeunit | Mfg Calendar Impl ori |
-| 10077053 | codeunit | Mfg Absence Impl ori |
-| 10077054 | codeunit | Mfg Plan Calc Impl ori |
-| 10077055 | codeunit | Mfg Plan Carryout Impl ori |
 | 10077057 | codeunit | Mfg Warehouse Impl ori |
-| 10077059 | enum value | Manufacturing.Calendar.RemoveAbsence |
+| 10077060 | codeunit | Mfg Action Contract ori |
 | 10077085 | enumextension | Mfg BOMRtg MsgType ori |
 | 10077086 | codeunit | Mfg BOMRtg Contract ori |
 | 10077087 | codeunit | Prod BOM Status Impl ori |
@@ -86,13 +81,9 @@ Refresh one released production order:
 | 97603 | codeunit (test) | Mfg Refresh Order Tst ori |
 | 97603 | permissionset (test) | Mfg Platform Tst ori |
 | 97604 | codeunit (test) | Mfg Journal Tst ori |
-| 97605 | codeunit (test) | Mfg BOM Tst ori |
-| 97606 | codeunit (test) | Mfg Routing Tst ori |
-| 97607 | codeunit (test) | Mfg Calendar Tst ori |
-| 97608 | codeunit (test) | Mfg Absence Tst ori |
-| 97609 | codeunit (test) | Mfg Plan Tst ori |
-| 97610 | codeunit (test) | Mfg Plan Carryout Tst ori |
 | 97612 | codeunit (test) | Mfg Warehouse Tst ori |
+| 97613 | codeunit (test) | Mfg Action Guard Tst ori |
+| 97614 | codeunit (test) | Mfg Lifecycle Tst ori |
 | 97660 | codeunit (test) | Prod BOM Status Tests ori |
 | 97661 | codeunit (test) | Routing Status Tests ori |
 | 97662 | codeunit (test) | BOM Routing Restrict Tests ori |
@@ -113,7 +104,7 @@ site repository and is published at <https://docs.bifrost.origo.is>.
 | What | Where |
 | --- | --- |
 | Product documentation | <https://docs.bifrost.origo.is/en-us/manufacturing/> |
-| Bifröst documentation home | <https://docs.bifrost.origo.is> |
+| Bifrost documentation home | <https://docs.bifrost.origo.is> |
 | Release notes | [CHANGELOG.md](CHANGELOG.md) |
 
 ---
@@ -123,7 +114,7 @@ site repository and is published at <https://docs.bifrost.origo.is>.
 | App | ID | Publisher | Version |
 | --- | --- | --- | --- |
 | Bifrost Foundation | `7505e808-6e52-4b96-a328-82573391297a` | Origo | 28.0.10.632 |
-| Base Application | | Microsoft | 28.0.0.0 (application floor) |
+| Base Application | | Microsoft | 28.5.0.0 (application floor) |
 
 ---
 

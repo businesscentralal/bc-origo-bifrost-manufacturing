@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en-US" target-language="is-IS" original="Bifrost Manufacturing - Tests">
+    <body>
+      <group id="body">
+        <trans-unit id="Page 4216477230 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Manufacturing test fixtures</source>
+          <target state="translated">Prófunargögn framleiðslu</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Prófunargögn framleiðslu</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page BOM Routing Fixtures ori - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4216477230 - NamedType 315887751" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cleanup verified: zero owned records remain in all twelve fixture tables.</source>
+          <target state="translated">Hreinsun staðfest: engar eigin færslur eru eftir í prófunartöflunum tólf.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Hreinsun staðfest: engar eigin færslur eru eftir í prófunartöflunum tólf.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page BOM Routing Fixtures ori - NamedType CleanedMsg</note>
+        </trans-unit>
+        <trans-unit id="Page 4216477230 - NamedType 3915880217" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fresh XMFG8MCP fixtures created. No existing keys were overwritten.</source>
+          <target state="translated">Ný XMFG8MCP prófunargögn voru búin til. Engir fyrirliggjandi lyklar voru yfirskrifaðir.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Ný XMFG8MCP prófunargögn voru búin til. Engir fyrirliggjandi lyklar voru yfirskrifaðir.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page BOM Routing Fixtures ori - NamedType SeededMsg</note>
+        </trans-unit>
+        <trans-unit id="Page 4216477230 - Control 1100969206 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Owned test data</source>
+          <target state="translated">Eigin prófunargögn</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Eigin prófunargögn</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page BOM Routing Fixtures ori - Control Fixtures - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4216477230 - Control 472338107 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shows the result of explicit fixture setup or cleanup.</source>
+          <target state="translated">Sýnir niðurstöðu uppsetningar eða hreinsunar prófunargagna.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sýnir niðurstöðu uppsetningar eða hreinsunar prófunargagna.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page BOM Routing Fixtures ori - Control Result - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4216477230 - Control 472338107 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Result</source>
+          <target state="translated">Niðurstaða</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Niðurstaða</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page BOM Routing Fixtures ori - Control Result - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4216477230 - Action 335581068 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Removes only XMFG8 test fixtures and asserts that no fixture records remain.</source>
+          <target state="translated">Fjarlægir aðeins XMFG8 prófunargögn og staðfestir að engar prófunarfærslur séu eftir.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Fjarlægir aðeins XMFG8 prófunargögn og staðfestir að engar prófunarfærslur séu eftir.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page BOM Routing Fixtures ori - Action Cleanup - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4216477230 - Action 335581068 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Clean and verify</source>
+          <target state="translated">Hreinsa og staðfesta</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Hreinsa og staðfesta</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page BOM Routing Fixtures ori - Action Cleanup - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 4216477230 - Action 3416119001 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Creates new XMFG8MCP records. Existing keys are refused.</source>
+          <target state="translated">Býr til nýjar XMFG8MCP færslur. Fyrirliggjandi lyklar eru ekki leyfðir.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Býr til nýjar XMFG8MCP færslur. Fyrirliggjandi lyklar eru ekki leyfðir.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page BOM Routing Fixtures ori - Action Seed - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4216477230 - Action 3416119001 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Seed owned fixtures</source>
+          <target state="translated">Búa til eigin prófunargögn</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Búa til eigin prófunargögn</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page BOM Routing Fixtures ori - Action Seed - Property Caption</note>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

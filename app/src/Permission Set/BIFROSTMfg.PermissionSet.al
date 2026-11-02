@@ -15,15 +15,10 @@ permissionset 10077036 "BIFROST Mfg ori"
 
     Permissions =
         codeunit "Mfg Registration ori" = X,
+        codeunit "Mfg Action Contract ori" = X,
         codeunit "Mfg Refresh Order Impl ori" = X,
         codeunit "Mfg Calc Consumption Impl ori" = X,
         codeunit "Mfg Journal Reverse Impl ori" = X,
-        codeunit "Mfg Prod BOM Impl ori" = X,
-        codeunit "Mfg Routing Impl ori" = X,
-        codeunit "Mfg Calendar Impl ori" = X,
-        codeunit "Mfg Absence Impl ori" = X,
-        codeunit "Mfg Plan Calc Impl ori" = X,
-        codeunit "Mfg Plan Carryout Impl ori" = X,
         codeunit "Mfg Warehouse Impl ori" = X,
         codeunit "Mfg BOMRtg Contract ori" = X,
         codeunit "Prod BOM Status Impl ori" = X,
