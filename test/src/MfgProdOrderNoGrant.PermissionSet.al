@@ -1,5 +1,7 @@
 namespace Origo.Bifrost.Manufacturing.Test;
 
+using Microsoft.Inventory.Planning;
+
 /// <summary>Grants test helper execution without granting either manufacturing write implementation.</summary>
 permissionset 97609 "Mfg NoGrant Tst ori"
 {
@@ -9,5 +11,7 @@ permissionset 97609 "Mfg NoGrant Tst ori"
     Permissions = codeunit "Mfg Test Data ori" = X,
                   codeunit "Mfg ProdOrder Perm Tests ori" = X,
                   table "Mfg Licence Result Tst ori" = X,
-                  tabledata "Mfg Licence Result Tst ori" = RIMD;
+                  tabledata "Mfg Licence Result Tst ori" = RIMD,
+                  // Native Refresh inserts planning assignments through the table's indirect permission.
+                  tabledata "Planning Assignment" = Ri;
 }

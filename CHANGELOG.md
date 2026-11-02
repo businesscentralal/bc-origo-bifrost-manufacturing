@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Supply native Planning Assignment indirect insert permission in the shared permission-test baseline (97609); preserve distinct Manufacturing full/read grants and expose native refusal details in the full-role assertion (97608).
+
 - Select the native report's transaction type before reading inside the normal Refresh rollback boundary and restore the caller's type after success or refusal (10077042/10077043); retain the independent Omit Commit tests and add normal-boundary regression cases (97605).
 
 - Record the owned MCP fixture company identity (97614) and provide explicit receipt cleanup after company removal (97616), with company/foreign-receipt isolation tests (97617).
