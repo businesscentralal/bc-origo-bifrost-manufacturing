@@ -16,6 +16,7 @@ permissionset 10077036 "BIFROST Mfg ori"
     Permissions =
         codeunit "Mfg Registration ori" = X,
         codeunit "Mfg Action Contract ori" = X,
+        codeunit "Mfg Posting Dialog ori" = X,
         codeunit "Mfg Refresh Order Impl ori" = X,
         codeunit "Mfg Calc Consumption Impl ori" = X,
         codeunit "Mfg Journal Reverse Impl ori" = X,

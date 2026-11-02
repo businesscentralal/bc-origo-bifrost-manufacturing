@@ -65,6 +65,7 @@ Refresh one released production order:
 | 10077047 | codeunit | Mfg Journal Reverse Impl ori |
 | 10077057 | codeunit | Mfg Warehouse Impl ori |
 | 10077060 | codeunit | Mfg Action Contract ori |
+| 10077061 | codeunit | Mfg Posting Dialog ori |
 | 10077085 | enumextension | Mfg BOMRtg MsgType ori |
 | 10077086 | codeunit | Mfg BOMRtg Contract ori |
 | 10077087 | codeunit | Prod BOM Status Impl ori |
@@ -84,6 +85,9 @@ Refresh one released production order:
 | 97612 | codeunit (test) | Mfg Warehouse Tst ori |
 | 97613 | codeunit (test) | Mfg Action Guard Tst ori |
 | 97614 | codeunit (test) | Mfg Lifecycle Tst ori |
+| 97615 | codeunit (test) | Mfg Posting Tst ori |
+| 97616 | codeunit (test helper) | Mfg Posting Fixture ori |
+| 97617 | page (test only) | Mfg Action Fixtures ori |
 | 97660 | codeunit (test) | Prod BOM Status Tests ori |
 | 97661 | codeunit (test) | Routing Status Tests ori |
 | 97662 | codeunit (test) | BOM Routing Restrict Tests ori |

@@ -118,6 +118,31 @@ codeunit 97614 "Mfg Lifecycle Tst ori"
         Cleanup(OrderNo);
     end;
 
+    /// <summary>Confirms that the self-created fixture is accepted by the standard refresh report.</summary>
+    [Test]
+    procedure BaseRefreshFixture_IsValid()
+    var
+        Order: Record "Production Order";
+        Line: Record "Prod. Order Line";
+        RefreshOrder: Report "Refresh Production Order";
+        OrderNo: Code[20];
+    begin
+        InitializePermissions();
+        OrderNo := NewNo();
+        CreateOrder(Order, OrderNo);
+        Commit();
+        Order.SetRecFilter();
+        RefreshOrder.InitializeRequest(1, true, true, true, false);
+        RefreshOrder.SetHideValidationDialog(true);
+        RefreshOrder.SetTableView(Order);
+        RefreshOrder.UseRequestPage(false);
+        RefreshOrder.RunModal();
+        Line.SetRange(Status, Order.Status);
+        Line.SetRange("Prod. Order No.", OrderNo);
+        Assert.AreEqual(1, Line.Count(), 'Standard report fixture creates one line.');
+        Cleanup(OrderNo);
+    end;
+
     local procedure NewNo(): Code[20]
     begin
         exit(CopyStr('XM11' + DelChr(Format(CreateGuid(), 0, 4), '=', '{}-'), 1, 20));
@@ -129,7 +154,7 @@ codeunit 97614 "Mfg Lifecycle Tst ori"
         Order.Init();
         Order.Status := Order.Status::"Firm Planned";
         Order."No." := OrderNo;
-        Order.Insert(false);
+        Order.Insert(true);
         Order.SetHideValidationDialog(true);
         Order.Validate("Source Type", Order."Source Type"::Item);
         Order.Validate("Source No.", OrderNo);

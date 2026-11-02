@@ -63,6 +63,120 @@
           <note from="Developer" annotates="general" priority="2">is-IS=Búa til eigin prófunargögn</note>
           <note from="Xliff Generator" annotates="general" priority="3">Page BOM Routing Fixtures ori - Action Seed - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Page 1923596056 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production action test fixtures</source>
+          <target state="translated">Production action test fixtures</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Prófunargögn framleiðsluaðgerða</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Mfg Action Fixtures ori - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1923596056 - NamedType 315887751" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Owned production and ledger cleanup verified.</source>
+          <target state="translated">Owned production and ledger cleanup verified.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Hreinsun eigin framleiðslu- og höfuðbókargagna staðfest.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Mfg Action Fixtures ori - NamedType CleanedMsg</note>
+        </trans-unit>
+        <trans-unit id="Page 1923596056 - NamedType 3280845178" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Owned output journal line created.</source>
+          <target state="translated">Owned output journal line created.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Eigin afkastafærslubókarlína var búin til.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Mfg Action Fixtures ori - NamedType OutputCreatedMsg</note>
+        </trans-unit>
+        <trans-unit id="Page 1923596056 - NamedType 3915880217" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fresh owned production fixture created.</source>
+          <target state="translated">Fresh owned production fixture created.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Ný eigin framleiðsluprófunargögn voru búin til.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Mfg Action Fixtures ori - NamedType SeededMsg</note>
+        </trans-unit>
+        <trans-unit id="Page 1923596056 - Control 398796367 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Owned test data</source>
+          <target state="translated">Owned test data</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Eigin prófunargögn</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Mfg Action Fixtures ori - Control OwnedFixtures - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1923596056 - Control 3473013796 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the XM11 prefix used only for owned production test records.</source>
+          <target state="translated">Specifies the XM11 prefix used only for owned production test records.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Tilgreinir XM11 forskeytið sem er aðeins notað fyrir eigin framleiðsluprófunarfærslur.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Mfg Action Fixtures ori - Control FixtureNo - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1923596056 - Control 3473013796 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Fixture number</source>
+          <target state="translated">Fixture number</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Prófunarnúmer</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Mfg Action Fixtures ori - Control FixtureNo - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1923596056 - Control 472338107 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shows the actual message response or verified fixture cleanup result.</source>
+          <target state="translated">Shows the actual message response or verified fixture cleanup result.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sýnir raunverulegt svar skilaboðanna eða staðfesta niðurstöðu hreinsunar prófunargagna.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Mfg Action Fixtures ori - Control Result - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1923596056 - Control 472338107 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Result</source>
+          <target state="translated">Result</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Niðurstaða</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Mfg Action Fixtures ori - Control Result - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1923596056 - Action 335581068 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Removes owned production, item, journal, ledger and posting setup records and verifies cleanup.</source>
+          <target state="translated">Removes owned production, item, journal, ledger and posting setup records and verifies cleanup.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Fjarlægir eigin framleiðslu-, vöru-, færslubókar-, höfuðbókar- og bókunaruppsetningarfærslur og staðfestir hreinsun.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Mfg Action Fixtures ori - Action Cleanup - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1923596056 - Action 335581068 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Clean production fixture</source>
+          <target state="translated">Clean production fixture</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Hreinsa framleiðsluprófunargögn</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Mfg Action Fixtures ori - Action Cleanup - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1923596056 - Action 1843927963 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Creates an output journal line for two units of the owned item.</source>
+          <target state="translated">Creates an output journal line for two units of the owned item.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Býr til afkastafærslubókarlínu fyrir tvær einingar af eigin vöru.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Mfg Action Fixtures ori - Action OutputLine - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1923596056 - Action 1843927963 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Create output line</source>
+          <target state="translated">Create output line</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Búa til afkastalínu</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Mfg Action Fixtures ori - Action OutputLine - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1923596056 - Action 2282416948 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Runs the public posting message for the owned batch and displays its response.</source>
+          <target state="translated">Runs the public posting message for the owned batch and displays its response.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Keyrir opinber bókunarskilaboð fyrir eigin lotu og sýnir svarið.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Mfg Action Fixtures ori - Action Post - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1923596056 - Action 2282416948 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Post owned output</source>
+          <target state="translated">Post owned output</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Bóka eigin afköst</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Mfg Action Fixtures ori - Action Post - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1923596056 - Action 2026913255 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Runs the public refresh message against the owned order and displays its response.</source>
+          <target state="translated">Runs the public refresh message against the owned order and displays its response.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Keyrir opinber endurlestrarskilaboð á eigin pöntun og sýnir svarið.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Mfg Action Fixtures ori - Action Refresh - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1923596056 - Action 2026913255 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Refresh production order</source>
+          <target state="translated">Refresh production order</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Endurlesa framleiðslupöntun</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Mfg Action Fixtures ori - Action Refresh - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1923596056 - Action 3416119001 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Creates new owned item, production order, posting setup and journal batch. Existing keys are refused.</source>
+          <target state="translated">Creates new owned item, production order, posting setup and journal batch. Existing keys are refused.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Býr til nýja eigin vöru, framleiðslupöntun, bókunaruppsetningu og færslubókarlotu. Fyrirliggjandi lyklar eru ekki leyfðir.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Mfg Action Fixtures ori - Action Seed - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 1923596056 - Action 3416119001 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Seed production fixture</source>
+          <target state="translated">Seed production fixture</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Búa til framleiðsluprófunargögn</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Mfg Action Fixtures ori - Action Seed - Property Caption</note>
+        </trans-unit>
       </group>
     </body>
   </file>

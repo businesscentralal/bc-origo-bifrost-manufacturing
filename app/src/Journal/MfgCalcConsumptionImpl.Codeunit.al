@@ -291,6 +291,7 @@ codeunit 10077044 "Mfg Calc Consumption Impl ori" implements "Msg Interface ori"
         ItemJournalBatch: Record "Item Journal Batch";
         ItemJournalLine: Record "Item Journal Line";
         ConsumptionReport: Report "Calc. Consumption";
+        PostingDialog: Codeunit "Mfg Posting Dialog ori";
         ResponseJson: JsonObject;
         JournalTemplateName: Code[10];
         JournalBatchName: Code[10];
@@ -391,7 +392,9 @@ codeunit 10077044 "Mfg Calc Consumption Impl ori" implements "Msg Interface ori"
                     if not Contract.RequireCommittingCall(Argument) then
                         exit;
                     ItemJournalLine.FindFirst();
+                    BindSubscription(PostingDialog);
                     ItemJournalLine.PostingItemJnlFromProduction(false);
+                    UnbindSubscription(PostingDialog);
                     LinesAfter := LinesBefore;
                 end;
             else begin

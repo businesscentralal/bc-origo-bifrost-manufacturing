@@ -22,6 +22,7 @@
 - Added message types for production-order refresh, replan, status changes, and cost recalculation.
 
 ### Changed
+- Standard journal posting runs with a scoped manual dialog subscriber (10077061) so API calls do not wait for confirmation. Reversal (10077047) honors standard indirect ledger modification rights without granting direct ledger access. Tests 97615/97616 prove output posting with owned accounting fixtures; test page 97617 exposes explicit setup/message execution/verified cleanup.
 - Production actions (10077040/10077044/10077047/10077057) use shared coded validation (10077060), explicit permissions, locked target/state checks and pre-write Omit Commit refusals. Refresh explicitly initializes calculations; ChangeStatus resolves one active composite-key record and returns the resulting order number. Regression tests 97613/97614 exercise refusals, restricted roles and actual order/line changes.
 - Synchronize en-US/is-IS product and test XLF files; align the test dependency with Manufacturing 28.0.2.0.
 - Retain the BC 28.5 application floor and limit this PR to the approved production-order lifecycle. Remove nine unapproved BOM, routing, calendar and planning action types and their implementation/tests; existing main BOM/routing status features remain.

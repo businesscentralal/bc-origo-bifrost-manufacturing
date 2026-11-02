@@ -11,6 +11,10 @@ using Origo.Bifrost;
 codeunit 10077047 "Mfg Journal Reverse Impl ori" implements "Msg Interface ori", "Msg Discovery ori", "Msg Contract ori"
 {
     TableNo = "Message Argument ori";
+    // Standard business roles grant indirect ledger modification. The caller must
+    // still hold that right; ledger writes are performed only by standard reversal.
+    Permissions = tabledata "Item Ledger Entry" = m,
+                  tabledata "Capacity Ledger Entry" = m;
 
     var
         ContractMgt: Codeunit "Msg Contract Mgt ori";
