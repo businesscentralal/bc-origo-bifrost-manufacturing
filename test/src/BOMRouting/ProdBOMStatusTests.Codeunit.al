@@ -72,7 +72,7 @@ codeunit 97660 "Prod BOM Status Tests ori"
         Lib.CreateBomHeader(BomNo, Enum::"BOM Status"::"Under Development", true);
         Lib.CreateBomLine(BomNo, '', 10000, Enum::"Production BOM Line Type"::Item, ItemNo);
 
-        Response := Lib.SetBomStatus(BomNo, '', 'under development', false);
+        Response := Lib.SetBomStatus(BomNo, '', 'certified', false);
 
         Lib.AssertSuccess(Response);
         Assert.AreEqual('UnderDevelopment', Lib.GetText(Response, 'previousStatus'), 'previousStatus');
@@ -317,6 +317,18 @@ codeunit 97660 "Prod BOM Status Tests ori"
         Response := Lib.Invoke(Enum::"Message Type ori"::"Manufacturing.ProductionBOM.SetStatus", Request, true);
         Lib.AssertRefusal(Response, 'UnknownParameter', 'extra');
         Lib.Sweep();
+    end;
+
+    [Test]
+    procedure AC09_SeveralDeclaredErrors_AreCollected()
+    var
+        Request: JsonObject;
+        Response: JsonObject;
+    begin
+        Request.Add('status', 'Released');
+        Response := Lib.Invoke(Enum::"Message Type ori"::"Manufacturing.ProductionBOM.SetStatus", Request, true);
+        Lib.AssertRefusal(Response, 'MultipleErrors', 'MissingParameter');
+        Lib.AssertRefusal(Response, 'MultipleErrors', 'InvalidParameter');
     end;
 
     [Test]

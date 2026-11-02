@@ -2,6 +2,7 @@ namespace Origo.Bifrost.Manufacturing.Test;
 
 using Microsoft.Foundation.UOM;
 using Microsoft.Inventory.Item;
+using Microsoft.Inventory.Planning;
 using Microsoft.Manufacturing.ProductionBOM;
 using Microsoft.Manufacturing.Routing;
 using Microsoft.Manufacturing.Setup;
@@ -33,6 +34,8 @@ codeunit 97666 "BOM Routing Test Lib ori"
     var
         Item: Record Item;
         ItemUnitOfMeasure: Record "Item Unit of Measure";
+        PlanningAssignment: Record "Planning Assignment";
+        ChangeLogEntry: Record "Change Log Entry";
         UnitOfMeasure: Record "Unit of Measure";
         ProdBomHeader: Record "Production BOM Header";
         ProdBomVersion: Record "Production BOM Version";
@@ -54,6 +57,10 @@ codeunit 97666 "BOM Routing Test Lib ori"
         RoutingVersion.DeleteAll(false);
         RoutingHeader.SetFilter("No.", PrefixTok);
         RoutingHeader.DeleteAll(false);
+        PlanningAssignment.SetFilter("Item No.", PrefixTok);
+        PlanningAssignment.DeleteAll(false);
+        ChangeLogEntry.SetFilter("Primary Key Field 1 Value", PrefixTok);
+        ChangeLogEntry.DeleteAll(false);
         ItemUnitOfMeasure.SetFilter("Item No.", PrefixTok);
         ItemUnitOfMeasure.DeleteAll(false);
         Item.SetFilter("No.", PrefixTok);
@@ -63,6 +70,56 @@ codeunit 97666 "BOM Routing Test Lib ori"
         if UnitOfMeasure.Get(UomCodeTok) then
             UnitOfMeasure.Delete(false);
         Commit();
+    end;
+
+    /// <summary>Seeds fresh, individually owned records for MCP and Web Client acceptance.</summary>
+    procedure SeedVerificationData()
+    begin
+        // Fail on an existing key instead of replaying or overwriting a prior fixture.
+        CreateItem('XMFG8MCP-COMP', '', '');
+        CreateBomHeader('XMFG8MCP-BOM', Enum::"BOM Status"::New, true);
+        CreateBomLine('XMFG8MCP-BOM', '', 10000, Enum::"Production BOM Line Type"::Item, 'XMFG8MCP-COMP');
+        CreateBomVersion('XMFG8MCP-BOM', 'V1', Enum::"BOM Status"::"Under Development");
+        CreateBomLine('XMFG8MCP-BOM', 'V1', 10000, Enum::"Production BOM Line Type"::Item, 'XMFG8MCP-COMP');
+        CreateWorkCenter('XMFG8MCP-WC');
+        CreateRoutingHeader('XMFG8MCP-RT', Enum::"Routing Status"::New, false);
+        CreateRoutingLine('XMFG8MCP-RT', '', '10', 'XMFG8MCP-WC', '');
+        CreateRoutingVersion('XMFG8MCP-RT', 'V1', Enum::"Routing Status"::"Under Development");
+        CreateRoutingLine('XMFG8MCP-RT', 'V1', '10', 'XMFG8MCP-WC', '');
+        CreateItem('XMFG8MCP-PARENT', 'XMFG8MCP-BOM', 'XMFG8MCP-RT');
+        Commit();
+    end;
+
+    /// <summary>Deletes owned fixtures and asserts that all fixture tables are empty for the prefix.</summary>
+    procedure SweepAndAssert()
+    var
+        Item: Record Item;
+        ItemUnitOfMeasure: Record "Item Unit of Measure";
+        PlanningAssignment: Record "Planning Assignment";
+        ChangeLogEntry: Record "Change Log Entry";
+        Bom: Record "Production BOM Header";
+        BomVersion: Record "Production BOM Version";
+        BomLine: Record "Production BOM Line";
+        Routing: Record "Routing Header";
+        RoutingVersion: Record "Routing Version";
+        RoutingLine: Record "Routing Line";
+        WorkCenter: Record "Work Center";
+        UnitOfMeasure: Record "Unit of Measure";
+    begin
+        Sweep();
+        Item.SetFilter("No.", PrefixTok);
+        ItemUnitOfMeasure.SetFilter("Item No.", PrefixTok);
+        PlanningAssignment.SetFilter("Item No.", PrefixTok);
+        ChangeLogEntry.SetFilter("Primary Key Field 1 Value", PrefixTok);
+        Bom.SetFilter("No.", PrefixTok);
+        BomVersion.SetFilter("Production BOM No.", PrefixTok);
+        BomLine.SetFilter("Production BOM No.", PrefixTok);
+        Routing.SetFilter("No.", PrefixTok);
+        RoutingVersion.SetFilter("Routing No.", PrefixTok);
+        RoutingLine.SetFilter("Routing No.", PrefixTok);
+        WorkCenter.SetFilter("No.", PrefixTok);
+        UnitOfMeasure.SetRange(Code, UomCodeTok);
+        Assert.AreEqual(0, Item.Count() + ItemUnitOfMeasure.Count() + PlanningAssignment.Count() + ChangeLogEntry.Count() + Bom.Count() + BomVersion.Count() + BomLine.Count() + Routing.Count() + RoutingVersion.Count() + RoutingLine.Count() + WorkCenter.Count() + UnitOfMeasure.Count(), 'No owned fixture records may remain.');
     end;
 
     /// <summary>A new XMFG8 number, twenty characters at most.</summary>

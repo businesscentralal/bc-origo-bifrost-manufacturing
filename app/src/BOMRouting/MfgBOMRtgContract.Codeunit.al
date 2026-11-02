@@ -506,7 +506,7 @@ codeunit 10077086 "Mfg BOMRtg Contract ori"
             exit;
         end;
         if Normalized = LowerCase(ClosedTok) then
-            NextStep := ClosedReasonTxt
+            NextStep := ClosedReasonTxt + ' ' + AllowedStatusNextStepTxt
         else
             NextStep := AllowedStatusNextStepTxt;
         Argument.AddError("Bifrost Error Code ori"::InvalidParameter, StrSubstNo(StatusNotSupportedErr, Raw.Trim()), 'status', Raw.Trim(), StatusExpectedTxt, NextStep);

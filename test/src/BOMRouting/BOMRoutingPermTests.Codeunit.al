@@ -123,25 +123,13 @@ codeunit 97664 "BOM Routing Perm Tests ori"
     var
         Request: JsonObject;
         Response: JsonObject;
-        ErrorText: Text;
-        Refused: Boolean;
     begin
         Request.Add('no', 'XMFG8');
         Request.Add('status', 'Certified');
         LowerPermissions.SetOutsideO365Scope();
         LowerPermissions.SetExactPermissionSet('BIFROST Read ori');
-        Refused := not TryInvoke(MessageType, Request, Response);
-        ErrorText := GetLastErrorText();
+        Response := Lib.Invoke(MessageType, Request, false);
         LowerPermissions.SetOutsideO365Scope();
-        if Refused then
-            Assert.IsTrue(LowerCase(ErrorText).Contains('permission') or LowerCase(ErrorText).Contains('heimild'), ErrorText)
-        else
-            Lib.AssertRefusal(Response, 'PermissionDenied', 'permission');
-    end;
-
-    [TryFunction]
-    local procedure TryInvoke(MessageType: Enum "Message Type ori"; Request: JsonObject; var Response: JsonObject)
-    begin
-        Response := Lib.Invoke(MessageType, Request, true);
+        Lib.AssertRefusal(Response, 'PermissionDenied', 'permission');
     end;
 }
