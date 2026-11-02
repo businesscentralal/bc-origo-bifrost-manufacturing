@@ -26,12 +26,13 @@ codeunit 97605 "Prod Order Refresh Tests ori"
     begin
         // Prove the same fixture works through the native report before testing dispatcher parity.
         Prepare(Item, Order);
+        CurrentTransactionType(TransactionType::Update);
         Order.SetRecFilter();
         NativeRefresh.InitializeRequest(1, true, true, true, false);
         NativeRefresh.SetHideValidationDialog(true);
         NativeRefresh.SetTableView(Order);
         NativeRefresh.UseRequestPage(false);
-        NativeRefresh.Execute('');
+        NativeRefresh.RunModal();
         Line.SetRange(Status, Order.Status);
         Line.SetRange("Prod. Order No.", Order."No.");
         Assert.AreEqual(1, Line.Count(), 'Native refresh creates the manufactured-item line.');

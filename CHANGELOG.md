@@ -2,8 +2,6 @@
 
 ## Unreleased
 
-- Use processing-only report execution for headless production-order refresh (10077043), retaining the standard report and caller rollback boundary.
-
 - Add a native refresh fixture regression (97605) and explicit owned production-order fixture action (97667) for runtime diagnosis and MCP verification.
 
 - Enable Premium experience in the shared Default/Test build container so all Manufacturing Refresh tests execute with the required platform configuration; retain every assertion and failure gate.
