@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Run processing-only production reports without a modal client invocation inside the locked transaction (10077040).
+- Configure production report request pages before entering the locked transaction, retaining exact-order locks and native report execution (10077040).
 
 - Synchronize the existing Icelandic label translations for the manufacturing actions into the application XLF file.
 

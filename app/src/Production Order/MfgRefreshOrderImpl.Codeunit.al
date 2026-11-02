@@ -297,6 +297,8 @@ codeunit 10077040 "Mfg Refresh Order Impl ori" implements "Msg Interface ori", "
         ChangedProductionOrder: Record "Production Order";
         RefreshOrderReport: Report "Refresh Production Order";
         ReplanOrderReport: Report "Replan Production Order";
+        UpdateUnitCostReport: Report "Update Unit Cost";
+        CalculationMethod: Option "One Level","All Levels";
         StatusManagement: Codeunit "Prod. Order Status Management";
         RequestJson: JsonObject;
         ResponseJson: JsonObject;
@@ -357,6 +359,29 @@ codeunit 10077040 "Mfg Refresh Order Impl ori" implements "Msg Interface ori", "
         if not Contract.HasPermission(Argument, ProductionOrderLine.ReadPermission(), ProductionOrderLine.WritePermission()) then
             exit;
 
+        // Configure request pages before entering the locked write transaction.
+        // The platform forbids changing modal request-page state after a write lock.
+        case Argument.Type of
+            Enum::"Message Type ori"::"Manufacturing.ProductionOrder.Refresh":
+                begin
+                    RefreshOrderReport.UseRequestPage(false);
+                    RefreshOrderReport.InitializeRequest(1, true, true, true, false);
+                    RefreshOrderReport.SetHideValidationDialog(true);
+                end;
+            Enum::"Message Type ori"::"Manufacturing.ProductionOrder.Replan":
+                begin
+                    ReplanOrderReport.UseRequestPage(false);
+                    ReplanOrderReport.InitializeRequest(1, 1);
+                end;
+            Enum::"Message Type ori"::"Manufacturing.ProductionOrder.UpdateCost":
+                begin
+                    UpdateUnitCostReport.UseRequestPage(false);
+                    if MultipleLevels then
+                        CalculationMethod := CalculationMethod::"All Levels";
+                    UpdateUnitCostReport.InitializeRequest(CalculationMethod, UpdateReservations);
+                end;
+        end;
+
         // Read the actual composite-key record under the transaction lock. A number alone
         // must resolve to exactly one active order; a finished order is never refreshed.
         ProductionOrder.LockTable();
@@ -383,20 +408,18 @@ codeunit 10077040 "Mfg Refresh Order Impl ori" implements "Msg Interface ori", "
                 end;
             Enum::"Message Type ori"::"Manufacturing.ProductionOrder.Replan":
                 begin
-                    ReplanOrderReport.InitializeRequest(1, 1);
                     ReplanOrderReport.SetTableView(ProductionOrder);
-                    ReplanOrderReport.UseRequestPage(false);
-                    ReplanOrderReport.Run();
+                    ReplanOrderReport.RunModal();
                 end;
             Enum::"Message Type ori"::"Manufacturing.ProductionOrder.UpdateCost":
-                PerformUpdateCost(ProductionOrder, RequestJson);
+                begin
+                    UpdateUnitCostReport.SetTableView(ProductionOrder);
+                    UpdateUnitCostReport.RunModal();
+                end;
             else
                 begin
-                    RefreshOrderReport.InitializeRequest(1, true, true, true, false);
-                    RefreshOrderReport.SetHideValidationDialog(true);
                     RefreshOrderReport.SetTableView(ProductionOrder);
-                    RefreshOrderReport.UseRequestPage(false);
-                    RefreshOrderReport.Run();
+                    RefreshOrderReport.RunModal();
                 end;
         end;
         ResponseJson.Add('status', 'Success');
@@ -411,24 +434,4 @@ codeunit 10077040 "Mfg Refresh Order Impl ori" implements "Msg Interface ori", "
         Data.Add('updateUnitCost', false);
     end;
 
-    local procedure PerformUpdateCost(var ProductionOrder: Record "Production Order"; RequestJson: JsonObject)
-    var
-        UpdateUnitCostReport: Report "Update Unit Cost";
-        RequestToken: JsonToken;
-        CalculationMethod: Option "One Level","All Levels";
-        MultipleLevels: Boolean;
-        UpdateReservations: Boolean;
-    begin
-        if RequestJson.Get('multipleLevels', RequestToken) then
-            MultipleLevels := RequestToken.AsValue().AsBoolean();
-        if RequestJson.Get('updateReservations', RequestToken) then
-            UpdateReservations := RequestToken.AsValue().AsBoolean();
-
-        if MultipleLevels then
-            CalculationMethod := CalculationMethod::"All Levels";
-        UpdateUnitCostReport.InitializeRequest(CalculationMethod, UpdateReservations);
-        UpdateUnitCostReport.SetTableView(ProductionOrder);
-        UpdateUnitCostReport.UseRequestPage(false);
-        UpdateUnitCostReport.Run();
-    end;
 }
