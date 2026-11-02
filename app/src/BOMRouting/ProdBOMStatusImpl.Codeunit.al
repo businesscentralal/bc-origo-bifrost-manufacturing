@@ -162,13 +162,12 @@ codeunit 10077087 "Prod BOM Status Impl ori" implements "Msg Interface ori", "Ms
     begin
         Argument.AssertVersion1();
         Argument.AssertIsLicensed();
-        Contract.SetStatusErrorContext(Argument);
         if Argument."Omit Commit" then begin
             Proc.Apply(Argument);
             exit;
         end;
         if not Codeunit.Run(Codeunit::"Prod BOM Status Proc ori", Argument) then
-            Argument.RespondWithLastError();
+            Contract.RespondWithPlatformError(Argument);
     end;
 
     local procedure MessageTypeName(): Text

@@ -42,7 +42,8 @@ Allocated ids (record every new id here):
 | 97664 | codeunit (test) | BOM Routing Perm Tests ori |
 | 97665 | codeunit (test) | BOM Rtg OmitCommit Tests ori |
 | 97666 | codeunit (test) | BOM Routing Test Lib ori |
-| 97667-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
+| 97667 | page (test only) | BOM Routing Fixtures ori |
+| 97668-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
 
 ## Microsoft source
 Business Central manufacturing (production orders, production BOMs, routings, work and machine centers, output and consumption) lives in the **Base Application**; BC 28 has no separate Microsoft manufacturing app to depend on. Source: https://github.com/microsoft/BCApps/tree/main/src/Layers/W1/BaseApp/Manufacturing

@@ -179,6 +179,8 @@ codeunit 97666 "BOM Routing Test Lib ori"
         ResponseJson.WriteTo(ResponseText);
         Assert.AreEqual('Error', GetText(ResponseJson, 'status'), 'Expected a refusal: ' + ResponseText);
         Assert.AreEqual(ExpectedCode, GetText(ResponseJson, 'code'), 'Unexpected error code: ' + ResponseText);
+        if ExpectedCode = 'BusinessCentralError' then
+            Assert.IsTrue(GetText(ResponseJson, 'nextStep').Contains('Data.Records.Set'), 'A platform validation error must explain how to correct the lines.');
         Assert.IsTrue(ResponseText.Contains(ExpectedFragment), 'The refusal must contain ''' + ExpectedFragment + ''': ' + ResponseText);
     end;
 

@@ -88,17 +88,23 @@ codeunit 10077086 "Mfg BOMRtg Contract ori"
         Argument.RespondWithCollectedErrors("Bifrost Error Code ori"::MultipleErrors, SeveralProblemsErr);
     end;
 
-    /// <summary>Answers a platform error from status validation as PermissionDenied or BusinessCentralError.</summary>
-    /// <param name="Argument">The message argument.</param>
-    /// <param name="ErrorCode">GetLastErrorCode captured immediately after the failed validate.</param>
-    /// <param name="ErrorText">GetLastErrorText captured with the code.</param>
-    internal procedure FailFromPlatform(var Argument: Record "Message Argument ori"; ErrorCode: Text; ErrorText: Text)
+    /// <summary>Preserves Foundation's platform error classification and adds the corrective next step.</summary>
+    /// <param name="Argument">The message argument immediately after a failed Codeunit.Run.</param>
+    internal procedure RespondWithPlatformError(var Argument: Record "Message Argument ori")
+    var
+        ResponseJson: JsonObject;
+        CodeToken: JsonToken;
     begin
-        if IsPermissionError(ErrorCode, ErrorText) then
-            Argument.AddError("Bifrost Error Code ori"::PermissionDenied, ErrorText, 'status', '', PermissionExpectedTxt, PermissionNextStepTxt)
-        else
-            Argument.AddError("Bifrost Error Code ori"::BusinessCentralError, ErrorText, 'status', '', StatusExpectedTxt, CheckFailedNextStepTxt);
-        RaiseCollected(Argument);
+        Argument.RespondWithLastError();
+        ResponseJson := Argument.GetResponseJson();
+        if ResponseJson.Get('code', CodeToken) then
+            if CodeToken.AsValue().AsText() = 'BusinessCentralError' then begin
+                if ResponseJson.Contains('nextStep') then
+                    ResponseJson.Replace('nextStep', CheckFailedNextStepTxt)
+                else
+                    ResponseJson.Add('nextStep', CheckFailedNextStepTxt);
+                Argument.SetResponseJson(ResponseJson);
+            end;
     end;
 
     /// <summary>Refuses the call when the caller cannot read and write the record.</summary>
@@ -135,13 +141,6 @@ codeunit 10077086 "Mfg BOMRtg Contract ori"
     begin
         Argument.AddError("Bifrost Error Code ori"::RecordNotFound, StrSubstNo(VersionMissingErr, VersionCode, Kind, DocumentNo), 'versionCode', VersionCode, ExistingVersionTxt, VersionMissingNextStepTxt);
         RaiseCollected(Argument);
-    end;
-
-    /// <summary>Keeps standard platform failures actionable without catching database writes.</summary>
-    /// <param name="Argument">The message argument.</param>
-    internal procedure SetStatusErrorContext(var Argument: Record "Message Argument ori")
-    begin
-        Argument.SetErrorContext('status', StatusExpectedTxt, CheckFailedNextStepTxt);
     end;
 
     /// <summary>Writes the success answer. lowLevelCode and usedOnItems are header-only.</summary>
@@ -523,11 +522,4 @@ codeunit 10077086 "Mfg BOMRtg Contract ori"
         exit(true);
     end;
 
-    local procedure IsPermissionError(ErrorCode: Text; ErrorText: Text): Boolean
-    var
-        Combined: Text;
-    begin
-        Combined := LowerCase(ErrorCode + ' ' + ErrorText);
-        exit(Combined.Contains('permission') or Combined.Contains('heimild'));
-    end;
 }

@@ -162,13 +162,12 @@ codeunit 10077089 "Routing Status Impl ori" implements "Msg Interface ori", "Msg
     begin
         Argument.AssertVersion1();
         Argument.AssertIsLicensed();
-        Contract.SetStatusErrorContext(Argument);
         if Argument."Omit Commit" then begin
             Proc.Apply(Argument);
             exit;
         end;
         if not Codeunit.Run(Codeunit::"Routing Status Proc ori", Argument) then
-            Argument.RespondWithLastError();
+            Contract.RespondWithPlatformError(Argument);
     end;
 
     local procedure MessageTypeName(): Text
