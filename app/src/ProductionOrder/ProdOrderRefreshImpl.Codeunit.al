@@ -174,6 +174,9 @@ codeunit 10077042 "Prod Order Refresh Impl ori" implements "Msg Interface ori", 
         CalculateLines: Boolean;
         CalculateRoutings: Boolean;
         CalculateComponents: Boolean;
+        PreviousTransactionType: TransactionType;
+        RefreshSucceeded: Boolean;
+        RefreshError: Text;
         DirectionLbl: Label 'direction must be Forward or Backward.', Comment = 'is-IS=direction verður að vera Forward eða Backward.';
         DirectionNextLbl: Label 'Send Forward or Backward, or omit direction for Backward.', Comment = 'is-IS=Sendu Forward eða Backward, eða slepptu direction til að nota Backward.';
         CalculateLbl: Label 'When calculateLines is true, calculateRoutings and calculateComponents must both be true.', Comment = 'is-IS=Þegar calculateLines er true verða calculateRoutings og calculateComponents bæði að vera true.';
@@ -207,9 +210,15 @@ codeunit 10077042 "Prod Order Refresh Impl ori" implements "Msg Interface ori", 
             exit;
         if Argument."Omit Commit" then
             Codeunit.Run(Codeunit::"Prod Order Refresh Proc ori", Argument)
-        else
-            if not Codeunit.Run(Codeunit::"Prod Order Refresh Proc ori", Argument) then
-                Argument.RespondWithError("Bifrost Error Code ori"::BusinessCentralError, GetLastErrorText(), '', '', '', BcNextLbl);
+        else begin
+            PreviousTransactionType := CurrentTransactionType();
+            RefreshSucceeded := Codeunit.Run(Codeunit::"Prod Order Refresh Proc ori", Argument);
+            if not RefreshSucceeded then
+                RefreshError := GetLastErrorText();
+            CurrentTransactionType(PreviousTransactionType);
+            if not RefreshSucceeded then
+                Argument.RespondWithError("Bifrost Error Code ori"::BusinessCentralError, RefreshError, '', '', '', BcNextLbl);
+        end;
     end;
 
     local procedure RunRefresh(var Argument: Record "Message Argument ori")

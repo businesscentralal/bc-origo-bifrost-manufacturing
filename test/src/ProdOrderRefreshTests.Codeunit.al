@@ -17,6 +17,56 @@ codeunit 97605 "Prod Order Refresh Tests ori"
         Assert: Codeunit "Library Assert";
 
     [Test]
+    procedure Scenario_AC07_NormalBoundary_CreatesLinesAndRestoresTransaction()
+    var
+        Item: Record Item;
+        Order: Record "Production Order";
+        Line: Record "Prod. Order Line";
+        Response: JsonObject;
+        PreviousTransactionType: TransactionType;
+    begin
+        // Story #5 AC07: committed owned fixture; original Omit Commit tests remain separate.
+        Prepare(Item, Order);
+        Commit();
+        PreviousTransactionType := CurrentTransactionType();
+
+        Response := Refresh(Order, 'Backward', true, true, true, false);
+
+        Assert.AreEqual('Success', Data.TextValue(Response, 'status'), 'Normal refresh succeeds.');
+        Assert.IsTrue(CurrentTransactionType() = PreviousTransactionType, 'Normal refresh restores transaction type.');
+        Line.SetRange(Status, Order.Status);
+        Line.SetRange("Prod. Order No.", Order."No.");
+        Assert.AreEqual(1, Line.Count(), 'Normal refresh creates its manufactured-item line.');
+        Assert.IsTrue(Data.NumberValue(Response, 'routingLineCount') > 0, 'Normal refresh creates routing rows.');
+        Assert.IsTrue(Data.NumberValue(Response, 'componentCount') > 0, 'Normal refresh creates component rows.');
+    end;
+
+    [Test]
+    procedure Scenario_AC10_NormalBoundary_FailureRestoresTransaction()
+    var
+        Item: Record Item;
+        Order: Record "Production Order";
+        Bom: Record "Production BOM Header";
+        Line: Record "Prod. Order Line";
+        PreviousTransactionType: TransactionType;
+    begin
+        // Story #5 AC10: native refusal after a committed owned fixture, no existing line replacement.
+        Prepare(Item, Order);
+        Bom.Get(Item."Production BOM No.");
+        Bom.Validate(Status, Bom.Status::"Under Development");
+        Bom.Modify(true);
+        Commit();
+        PreviousTransactionType := CurrentTransactionType();
+
+        Data.AssertRefusal(Refresh(Order, 'Backward', true, true, true, false), 'BusinessCentralError');
+
+        Assert.IsTrue(CurrentTransactionType() = PreviousTransactionType, 'Failed refresh restores transaction type.');
+        Line.SetRange(Status, Order.Status);
+        Line.SetRange("Prod. Order No.", Order."No.");
+        Assert.IsTrue(Line.IsEmpty(), 'Failed normal refresh leaves no partial line.');
+    end;
+
+    [Test]
     procedure Scenario_AC07_Refresh_CreatesMatchingLinesAndCounts()
     var
         Item: Record Item;
