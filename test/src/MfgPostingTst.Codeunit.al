@@ -27,7 +27,7 @@ codeunit 97615 "Mfg Posting Tst ori"
 
     /// <summary>After a real reversal the original output is refused with a coded error and no additional posting.</summary>
     [Test]
-    [HandlerFunctions('ConfirmReversal')]
+    [HandlerFunctions('ConfirmReversal,ReversalPosted')]
     procedure Reverse_OutputTwice_SecondRefused()
     begin
         // PR11 blocker4 | Time: WorkDate from fixture; Today unused | Risk: None
@@ -39,6 +39,13 @@ codeunit 97615 "Mfg Posting Tst ori"
     procedure ConfirmReversal(Question: Text[1024]; var Reply: Boolean)
     begin
         Reply := true;
+    end;
+
+    /// <summary>Checks the standard confirmation shown after the native-client reversal.</summary>
+    [MessageHandler]
+    procedure ReversalPosted(Message: Text[1024])
+    begin
+        Assert.AreEqual('The journal lines were successfully posted.', Message, 'Expected standard reversal completion message.');
     end;
 
     local procedure VerifyOutput(ReverseOutput: Boolean)
