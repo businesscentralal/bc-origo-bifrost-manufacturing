@@ -51,9 +51,9 @@ codeunit 97603 "Mfg Refresh Order Tst ori"
     procedure Refresh_MissingOrderNumber_ReturnsError()
     var
         Dispatcher: Codeunit "Dispatcher ori";
-        MessageType: Enum "Message Type ori";
         RequestContent: BigText;
         ResponseContent: BigText;
+        MessageType: Enum "Message Type ori";
         ResponseJson: JsonObject;
         ResponseToken: JsonToken;
         ResponseText: Text;

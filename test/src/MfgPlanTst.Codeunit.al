@@ -19,9 +19,9 @@ codeunit 97609 "Mfg Plan Tst ori"
     procedure CalculatePlan_MissingTemplate_ReturnsError()
     var
         Dispatcher: Codeunit "Dispatcher ori";
-        MessageType: Enum "Message Type ori";
         RequestContent: BigText;
         ResponseContent: BigText;
+        MessageType: Enum "Message Type ori";
         ResponseJson: JsonObject;
         ResponseToken: JsonToken;
         ResponseText: Text;
