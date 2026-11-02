@@ -282,7 +282,7 @@ codeunit 97660 "Prod BOM Status Tests ori"
     end;
 
     [Test]
-    procedure AC09_MissingUnknownAndSeveralProblems()
+    procedure AC09_MissingAndUnknownParameters()
     var
         Request: JsonObject;
         Response: JsonObject;
@@ -308,7 +308,9 @@ codeunit 97660 "Prod BOM Status Tests ori"
         Request.Add('status', 'Certified');
         Request.Add('extra', 'x');
         Response := Lib.Invoke(Enum::"Message Type ori"::"Manufacturing.ProductionBOM.SetStatus", Request, true);
-        Lib.AssertRefusal(Response, 'MultipleErrors', 'UnknownParameter');
+        // Foundation rejects undeclared keys before app parameter validation (AC09).
+        Lib.AssertRefusal(Response, 'UnknownParameter', 'extra');
+        Assert.AreEqual('extra', Lib.GetText(Response, 'parameter'), 'unknown parameter');
 
         Clear(Request);
         Request.Add('no', BomNo);
