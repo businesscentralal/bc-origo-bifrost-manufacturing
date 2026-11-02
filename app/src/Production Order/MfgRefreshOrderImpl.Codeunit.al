@@ -298,9 +298,7 @@ codeunit 10077040 "Mfg Refresh Order Impl ori" implements "Msg Interface ori", "
         RefreshOrderReport: Report "Refresh Production Order";
         ReplanOrderReport: Report "Replan Production Order";
         UpdateUnitCostReport: Report "Update Unit Cost";
-        CalculationMethod: Option "One Level","All Levels";
         StatusManagement: Codeunit "Prod. Order Status Management";
-        RequestJson: JsonObject;
         ResponseJson: JsonObject;
         ProductionOrderNo: Code[20];
         ProductionOrderNoText: Text;
@@ -312,8 +310,8 @@ codeunit 10077040 "Mfg Refresh Order Impl ori" implements "Msg Interface ori", "
         FinishOrderWithoutOutput: Boolean;
         MultipleLevels: Boolean;
         UpdateReservations: Boolean;
+        CalculationMethod: Option "One Level","All Levels";
     begin
-        RequestJson := Argument.GetRequestJson();
         AllowedKeys := '|productionOrderNo|';
         case Argument.Type of
             Enum::"Message Type ori"::"Manufacturing.ProductionOrder.ChangeStatus":
@@ -360,7 +358,7 @@ codeunit 10077040 "Mfg Refresh Order Impl ori" implements "Msg Interface ori", "
             exit;
 
         // Configure request pages before entering the locked write transaction.
-        // The platform forbids changing modal request-page state after a write lock.
+        // Keep request-page setup outside the transaction that protects the order.
         case Argument.Type of
             Enum::"Message Type ori"::"Manufacturing.ProductionOrder.Refresh":
                 begin
