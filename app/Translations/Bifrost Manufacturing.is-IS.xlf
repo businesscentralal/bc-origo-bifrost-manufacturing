@@ -213,6 +213,420 @@
           <note from="Developer" annotates="general" priority="2">is-IS=Bifröst - framleiðsla</note>
           <note from="Xliff Generator" annotates="general" priority="3">PermissionSet BIFROST Mfg ori - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Codeunit 1500613919 - NamedType 2330718397" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No calendar absence entry exists for center %1 on %2.</source>
+          <target>Engin fjarvistarfærsla er til fyrir miðstöð %1 þann %2.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = capacity center number, %2 = absence date||is-IS=Engin fjarvistarfærsla er til fyrir miðstöð %1 þann %2.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Absence Impl ori - NamedType AbsenceNotFoundErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1500613919 - NamedType 2533831347" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Provide a capacityNo.</source>
+          <target>Tilgreindu capacityNo.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Tilgreindu capacityNo.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Absence Impl ori - NamedType CapacityNoRequiredErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1500613919 - NamedType 2355465980" size-unit="char" translate="yes" xml:space="preserve">
+          <source>capacityType must be WorkCenter or MachineCenter.</source>
+          <target>capacityType verður að vera WorkCenter eða MachineCenter.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=capacityType verður að vera WorkCenter eða MachineCenter.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Absence Impl ori - NamedType CapacityTypeRequiredErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1500613919 - NamedType 3569966352" maxwidth="250" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Applies or removes an existing Calendar Absence Entry from capacity calendar records for a work center or machine center.</source>
+          <target>Beitir eða fjarlægir fyrirliggjandi Calendar Absence Entry úr afkastadagatal vinnustöðvar eða vélar.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Beitir eða fjarlægir fyrirliggjandi Calendar Absence Entry úr afkastadagatal vinnustöðvar eða vélar.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Absence Impl ori - NamedType DescriptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1500613919 - NamedType 3678219170" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Provide a valid absenceDate, startingTime, and endingTime.</source>
+          <target>Tilgreindu gilda absenceDate, startingTime og endingTime.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Tilgreindu gilda absenceDate, startingTime og endingTime.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Absence Impl ori - NamedType InvalidAbsenceKeyErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1500613919 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>calendar absence, work center absence, machine center absence, update absence, remove absence, capacity</source>
+          <target>dagatalsfjarvist, fjarvist vinnustöðvar, fjarvist vélar, uppfæra fjarvist, fjarlægja fjarvist, afkastageta</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=dagatalsfjarvist, fjarvist vinnustöðvar, fjarvist vélar, uppfæra fjarvist, fjarlægja fjarvist, afkastageta</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Absence Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1500613919 - Method 79446908 - NamedType 895773054" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Applies or removes the selected absence interval from calendar capacity. The Calendar Absence Entry must already exist.</source>
+          <target>Beitir valda fjarvistartímabilinu á dagatalsafköst eða fjarlægir það. Calendar Absence Entry verður að vera til.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Beitir valda fjarvistartímabilinu á dagatalsafköst eða fjarlægir það. Calendar Absence Entry verður að vera til.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Absence Impl ori - Method GetSelectionDescription - NamedType SelectionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3282703620 - NamedType 3569966352" maxwidth="250" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Calculates consumption, explodes output routing, or posts a production journal batch.</source>
+          <target>Reiknar notkun, springur út afkastaleið eða bókar framleiðslufærslubókarlotu.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Reiknar notkun, springur út afkastaleið eða bókar framleiðslufærslubókarlotu.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Calc Consumption Impl ori - NamedType DescriptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3282703620 - NamedType 33968167" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Journal batch %1 in template %2 has no lines to post.</source>
+          <target>Færslubókarlota %1 í sniðmáti %2 inniheldur engar línur til bókunar.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = batch name, %2 = template name||is-IS=Færslubókarlota %1 í sniðmáti %2 inniheldur engar línur til bókunar.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Calc Consumption Impl ori - NamedType JournalBatchEmptyErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3282703620 - NamedType 2108265149" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Journal batch %1 does not exist in template %2.</source>
+          <target>Færslubókarlota %1 er ekki til í sniðmáti %2.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = batch name, %2 = template name||is-IS=Færslubókarlota %1 er ekki til í sniðmáti %2.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Calc Consumption Impl ori - NamedType JournalBatchNotFoundErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3282703620 - NamedType 3701572819" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Provide a journal batch name in the subject or data.journalBatchName.</source>
+          <target>Tilgreindu heiti færslubókarlotu í subject eða data.journalBatchName.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Tilgreindu heiti færslubókarlotu í subject eða data.journalBatchName.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Calc Consumption Impl ori - NamedType JournalBatchRequiredErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3282703620 - NamedType 92776886" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Provide journalLineNo for Manufacturing.Journal.ExplodeRouting.</source>
+          <target>Tilgreindu journalLineNo fyrir Manufacturing.Journal.ExplodeRouting.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Tilgreindu journalLineNo fyrir Manufacturing.Journal.ExplodeRouting.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Calc Consumption Impl ori - NamedType JournalLineNoRequiredErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3282703620 - NamedType 388869819" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Journal line %1 does not exist in batch %2.</source>
+          <target>Færslubókarlína %1 er ekki til í lotu %2.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = line number, %2 = batch name||is-IS=Færslubókarlína %1 er ekki til í lotu %2.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Calc Consumption Impl ori - NamedType JournalLineNotFoundErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3282703620 - NamedType 1974010655" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Provide a journal template name in data.journalTemplateName.</source>
+          <target>Tilgreindu heiti færslubókarsniðmáts í data.journalTemplateName.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Tilgreindu heiti færslubókarsniðmáts í data.journalTemplateName.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Calc Consumption Impl ori - NamedType JournalTemplateRequiredErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3282703620 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>production journal, consumption, calculate consumption, explode routing, post journal, output, batch</source>
+          <target>framleiðslufærslubók, notkun, reikna notkun, springa út leið, bóka færslubók, afköst, lota</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=framleiðslufærslubók, notkun, reikna notkun, springa út leið, bóka færslubók, afköst, lota</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Calc Consumption Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3282703620 - Method 79446908 - NamedType 895773054" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Calculate adds consumption lines; ExplodeRouting replaces one output line with routing lines; Post records the batch. Review journal lines before posting.</source>
+          <target>Calculate bætir notkunarlínum við; ExplodeRouting skiptir einni afkastalínu út fyrir leiðarlínur; Post færir lotuna. Farðu yfir línur áður en þær eru bókaðar.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Calculate bætir notkunarlínum við; ExplodeRouting skiptir einni afkastalínu út fyrir leiðarlínur; Post færir lotuna. Farðu yfir línur áður en þær eru bókaðar.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Calc Consumption Impl ori - Method GetSelectionDescription - NamedType SelectionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3628918838 - NamedType 2470558915" size-unit="char" translate="yes" xml:space="preserve">
+          <source>The %1 %2 does not exist.</source>
+          <target>%1 %2 er ekki til.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = capacity type, %2 = capacity center number||is-IS=%1 %2 er ekki til.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Calendar Impl ori - NamedType CapacityCenterNotFoundErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3628918838 - NamedType 2533831347" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Provide a capacityNo.</source>
+          <target>Tilgreindu capacityNo.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Tilgreindu capacityNo.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Calendar Impl ori - NamedType CapacityNoRequiredErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3628918838 - NamedType 2355465980" size-unit="char" translate="yes" xml:space="preserve">
+          <source>capacityType must be WorkCenter or MachineCenter.</source>
+          <target>capacityType verður að vera WorkCenter eða MachineCenter.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=capacityType verður að vera WorkCenter eða MachineCenter.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Calendar Impl ori - NamedType CapacityTypeRequiredErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3628918838 - NamedType 3569966352" maxwidth="250" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Recalculates shop-calendar entries for one work center or machine center over a selected date range.</source>
+          <target>Endurreiknar dagatalsfærslur fyrir eina vinnustöð eða vél yfir valið tímabil.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Endurreiknar dagatalsfærslur fyrir eina vinnustöð eða vél yfir valið tímabil.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Calendar Impl ori - NamedType DescriptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3628918838 - NamedType 2748706753" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Provide valid startingDate and endingDate values in YYYY-MM-DD format, with endingDate on or after startingDate.</source>
+          <target>Tilgreindu gild startingDate og endingDate á sniðinu ÁÁÁÁ-MM-DD, þar sem endingDate er sama dagsetning eða seinna en startingDate.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Tilgreindu gild startingDate og endingDate á sniðinu ÁÁÁÁ-MM-DD, þar sem endingDate er sama dagsetning eða seinna en startingDate.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Calendar Impl ori - NamedType InvalidDateRangeErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3628918838 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>shop calendar, capacity calendar, recalculate calendar, work center, machine center, absence</source>
+          <target>verslunardagatal, afkastadagatal, endurreikna dagatal, vinnustöð, vél, fjarvera</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=verslunardagatal, afkastadagatal, endurreikna dagatal, vinnustöð, vél, fjarvera</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Calendar Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3628918838 - Method 79446908 - NamedType 895773054" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Recalculates calendar capacity and processes pending absence entries for the selected center and dates.</source>
+          <target>Endurreiknar dagatalsafkast og vinnur úr biðfærslum fjarvista fyrir valda miðstöð og dagsetningar.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Endurreiknar dagatalsafkast og vinnur úr biðfærslum fjarvista fyrir valda miðstöð og dagsetningar.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Calendar Impl ori - Method GetSelectionDescription - NamedType SelectionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1702469251 - NamedType 3543090258" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production capacity ledger entry %1 was not found.</source>
+          <target>Afkastabókafærsla framleiðslu %1 fannst ekki.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = capacity ledger entry number||is-IS=Afkastabókafærsla framleiðslu %1 fannst ekki.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Journal Reverse Impl ori - NamedType CapacityEntryNotFoundErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1702469251 - NamedType 3569966352" maxwidth="250" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reverses one posted production item or capacity ledger entry using Microsoft production undo logic.</source>
+          <target>Bakfærir eina bókaða vöru- eða afkastabókafærslu framleiðslu með bakfærslurökfræði Microsoft.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Bakfærir eina bókaða vöru- eða afkastabókafærslu framleiðslu með bakfærslurökfræði Microsoft.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Journal Reverse Impl ori - NamedType DescriptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1702469251 - NamedType 3981522027" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Provide a positive entryNo.</source>
+          <target>Tilgreindu jákvætt entryNo.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Tilgreindu jákvætt entryNo.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Journal Reverse Impl ori - NamedType EntryNoRequiredErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1702469251 - NamedType 2102839273" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production item ledger entry %1 was not found.</source>
+          <target>Færslubókarfærsla framleiðsluvöru %1 fannst ekki.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = item ledger entry number||is-IS=Færslubókarfærsla framleiðsluvöru %1 fannst ekki.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Journal Reverse Impl ori - NamedType ItemEntryNotFoundErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1702469251 - NamedType 362713291" size-unit="char" translate="yes" xml:space="preserve">
+          <source>ledgerType must be Item or Capacity.</source>
+          <target>ledgerType verður að vera Item eða Capacity.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=ledgerType verður að vera Item eða Capacity.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Journal Reverse Impl ori - NamedType LedgerTypeRequiredErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1702469251 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>production journal, reverse posting, undo output, undo consumption, capacity ledger</source>
+          <target>framleiðslufærslubók, bakfæra bókun, afturkalla afköst, afturkalla notkun, afkastabók</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=framleiðslufærslubók, bakfæra bókun, afturkalla afköst, afturkalla notkun, afkastabók</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Journal Reverse Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1702469251 - Method 79446908 - NamedType 895773054" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Irreversible accounting action. Reverses the selected production item or capacity ledger entry and creates correcting entries.</source>
+          <target>Óafturkræf bókunaraðgerð. Bakfærir valda vöru- eða afkastabókafærslu framleiðslu og stofnar leiðréttingarfærslur.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Óafturkræf bókunaraðgerð. Bakfærir valda vöru- eða afkastabókafærslu framleiðslu og stofnar leiðréttingarfærslur.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Journal Reverse Impl ori - Method GetSelectionDescription - NamedType SelectionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 260134378 - NamedType 3569966352" maxwidth="250" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Calculates supply and production proposals in one planning worksheet for a defined planning horizon.</source>
+          <target>Reiknar tillögur um framboð og framleiðslu á einu áætlunarblaði fyrir skilgreint áætlanatímabil.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Reiknar tillögur um framboð og framleiðslu á einu áætlunarblaði fyrir skilgreint áætlanatímabil.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Plan Calc Impl ori - NamedType DescriptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 260134378 - NamedType 1432801292" size-unit="char" translate="yes" xml:space="preserve">
+          <source>%1 must be a valid ISO date in YYYY-MM-DD format.</source>
+          <target>%1 verður að vera gild dagsetning á ISO sniði ÁÁÁÁ-MM-DD.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = parameter name||is-IS=%1 verður að vera gild dagsetning á ISO sniði ÁÁÁÁ-MM-DD.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Plan Calc Impl ori - NamedType InvalidDateErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 260134378 - NamedType 2748706753" size-unit="char" translate="yes" xml:space="preserve">
+          <source>toDate must be on or after fromDate.</source>
+          <target>toDate verður að vera sama dagsetning eða seinna en fromDate.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=toDate verður að vera sama dagsetning eða seinna en fromDate.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Plan Calc Impl ori - NamedType InvalidDateRangeErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 260134378 - NamedType 3035529670" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Parameter %1 exceeds the maximum length of %2 characters.</source>
+          <target>Færibreytan %1 er lengri en hámarkslengd, %2 stafir.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = parameter name, %2 = maximum character count||is-IS=Færibreytan %1 er lengri en hámarkslengd, %2 stafir.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Plan Calc Impl ori - NamedType ParameterTooLongErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 260134378 - NamedType 87635975" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Provide the required planning parameter %1.</source>
+          <target>Tilgreindu nauðsynlega áætlanabreytu %1.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = parameter name||is-IS=Tilgreindu nauðsynlega áætlanabreytu %1.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Plan Calc Impl ori - NamedType RequiredParameterErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 260134378 - NamedType 1107340532" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Planning worksheet %1 does not exist in template %2.</source>
+          <target>Áætlunarblað %1 er ekki til í sniðmáti %2.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = worksheet name, %2 = template name||is-IS=Áætlunarblað %1 er ekki til í sniðmáti %2.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Plan Calc Impl ori - NamedType WorksheetNotFoundErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 260134378 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>planning worksheet, calculate plan, MPS, MRP, supply planning, regenerative planning</source>
+          <target>áætlunarblað, reikna áætlun, MPS, MRP, framboðsáætlun, endurnýjunar áætlun</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=áætlunarblað, reikna áætlun, MPS, MRP, framboðsáætlun, endurnýjunar áætlun</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Plan Calc Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 260134378 - Method 79446908 - NamedType 895773054" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Creates or updates planning worksheet proposals for the selected horizon and options. Review the worksheet before carrying out actions.</source>
+          <target>Stofnar eða uppfærir tillögur á áætlunarblaði fyrir valið tímabil og valkosti. Farðu yfir blaðið áður en aðgerðir eru framkvæmdar.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Stofnar eða uppfærir tillögur á áætlunarblaði fyrir valið tímabil og valkosti. Farðu yfir blaðið áður en aðgerðir eru framkvæmdar.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Plan Calc Impl ori - Method GetSelectionDescription - NamedType SelectionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3697644530 - NamedType 3569966352" maxwidth="250" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Creates a Planned or Firm Planned production order from one selected production proposal line.</source>
+          <target>Stofnar áætlaða eða fasta áætlaða framleiðslupöntun úr einni valinni tillögulínu.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Stofnar áætlaða eða fasta áætlaða framleiðslupöntun úr einni valinni tillögulínu.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Plan Carryout Impl ori - NamedType DescriptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3697644530 - NamedType 2813087801" size-unit="char" translate="yes" xml:space="preserve">
+          <source>productionOrderChoice must be Planned or Firm Planned.</source>
+          <target>productionOrderChoice verður að vera Planned eða Firm Planned.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=productionOrderChoice verður að vera Planned eða Firm Planned.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Plan Carryout Impl ori - NamedType InvalidChoiceErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3697644530 - NamedType 1550293341" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Provide a positive lineNo.</source>
+          <target>Tilgreindu jákvætt lineNo.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Tilgreindu jákvætt lineNo.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Plan Carryout Impl ori - NamedType LineNoRequiredErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3697644530 - NamedType 1539612054" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Requisition line %1 is not a production-order proposal.</source>
+          <target>Áætlunarlína %1 er ekki tillaga að framleiðslupöntun.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = worksheet line number||is-IS=Áætlunarlína %1 er ekki tillaga að framleiðslupöntun.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Plan Carryout Impl ori - NamedType ProductionOnlyErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3697644530 - NamedType 1841829214" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Provide a valid %1.</source>
+          <target>Tilgreindu gilt gildi fyrir %1.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = parameter name||is-IS=Tilgreindu gilt gildi fyrir %1.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Plan Carryout Impl ori - NamedType WorksheetParameterErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3697644530 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>planning worksheet, carry out, create production order, planned order, firm planned order</source>
+          <target>áætlunarblað, framkvæma, stofna framleiðslupöntun, áætluð pöntun, föst áætluð pöntun</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=áætlunarblað, framkvæma, stofna framleiðslupöntun, áætluð pöntun, föst áætluð pöntun</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Plan Carryout Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3697644530 - Method 79446908 - NamedType 895773054" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Creates a production order from one planning line. Choose Planned or Firm Planned and verify the source line before running.</source>
+          <target>Stofnar framleiðslupöntun úr einni áætlunarlínu. Veldu Planned eða Firm Planned og staðfestu upprunalínuna áður en aðgerðin er keyrð.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Stofnar framleiðslupöntun úr einni áætlunarlínu. Veldu Planned eða Firm Planned og staðfestu upprunalínuna áður en aðgerðin er keyrð.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Plan Carryout Impl ori - Method GetSelectionDescription - NamedType SelectionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3581944171 - NamedType 3569966352" maxwidth="250" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Checks production BOM structure or copies BOM lines from one production BOM into another BOM or version.</source>
+          <target>Yfirfer byggingu framleiðsluuppskriftar eða afritar uppskriftarlínur úr einni framleiðsluuppskrift í aðra uppskrift eða útgáfu.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Yfirfer byggingu framleiðsluuppskriftar eða afritar uppskriftarlínur úr einni framleiðsluuppskrift í aðra uppskrift eða útgáfu.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Prod BOM Impl ori - NamedType DescriptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3581944171 - NamedType 4191481415" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production BOM %1 does not exist.</source>
+          <target>Framleiðsluuppskrift %1 er ekki til.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = production BOM number||is-IS=Framleiðsluuppskrift %1 er ekki til.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Prod BOM Impl ori - NamedType ProductionBOMNotFoundErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3581944171 - NamedType 2996753089" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Provide a production BOM number in the subject or data.productionBOMNo.</source>
+          <target>Tilgreindu uppskriftarnúmer í subject eða data.productionBOMNo.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Tilgreindu uppskriftarnúmer í subject eða data.productionBOMNo.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Prod BOM Impl ori - NamedType ProductionBOMRequiredErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3581944171 - NamedType 3372845550" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Provide sourceProductionBOMNo for Manufacturing.ProductionBOM.Copy.</source>
+          <target>Tilgreindu sourceProductionBOMNo fyrir Manufacturing.ProductionBOM.Copy.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Tilgreindu sourceProductionBOMNo fyrir Manufacturing.ProductionBOM.Copy.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Prod BOM Impl ori - NamedType SourceProductionBOMRequiredErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3581944171 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>production BOM, check BOM, copy BOM, version, components, low-level code</source>
+          <target>framleiðsluuppskrift, yfirfara uppskrift, afrita uppskrift, útgáfa, íhlutir, lágstigskóði</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=framleiðsluuppskrift, yfirfara uppskrift, afrita uppskrift, útgáfa, íhlutir, lágstigskóði</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Prod BOM Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3581944171 - Method 79446908 - NamedType 895773054" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Check recalculates low-level codes; Copy replaces destination lines unless the source and destination version are the same. Certified destinations cannot be overwritten.</source>
+          <target>Check endurreiknar lágstigskóða; Copy skiptir út línum í áfangauppskrift nema uppruna- og áfangagerð séu sömu. Vottuðum áföngum er ekki hægt að skrifa yfir.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Check endurreiknar lágstigskóða; Copy skiptir út línum í áfangauppskrift nema uppruna- og áfangagerð séu sömu. Vottuðum áföngum er ekki hægt að skrifa yfir.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Prod BOM Impl ori - Method GetSelectionDescription - NamedType SelectionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3323283397 - NamedType 3569966352" maxwidth="250" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Recalculates component and routing demand for one production order by refreshing its lines or replanning dependent demand.</source>
+          <target>Endurreiknar íhluta- og leiðarþörf fyrir eina framleiðslupöntun með því að uppfæra línur hennar eða endurskipuleggja háða þörf.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Endurreiknar íhluta- og leiðarþörf fyrir eina framleiðslupöntun með því að uppfæra línur hennar eða endurskipuleggja háða þörf.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Refresh Order Impl ori - NamedType DescriptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3323283397 - NamedType 3120007500" size-unit="char" translate="yes" xml:space="preserve">
+          <source>postingDate must be a valid ISO date in YYYY-MM-DD format.</source>
+          <target>postingDate verður að vera gild dagsetning á ISO sniði ÁÁÁÁ-MM-DD.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=postingDate verður að vera gild dagsetning á ISO sniði ÁÁÁÁ-MM-DD.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Refresh Order Impl ori - NamedType InvalidPostingDateErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3323283397 - NamedType 882578244" size-unit="char" translate="yes" xml:space="preserve">
+          <source>newStatus must be Firm Planned, Released, or Finished.</source>
+          <target>newStatus verður að vera Firm Planned, Released eða Finished.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=newStatus verður að vera Firm Planned, Released eða Finished.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Refresh Order Impl ori - NamedType InvalidStatusErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3323283397 - NamedType 1564213525" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order %1 was not found.</source>
+          <target>Framleiðslupöntun %1 fannst ekki.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = production order number||is-IS=Framleiðslupöntun %1 fannst ekki.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Refresh Order Impl ori - NamedType ProductionOrderNotFoundErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3323283397 - NamedType 2256779995" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Provide a production order number in the subject or data.productionOrderNo.</source>
+          <target>Tilgreindu framleiðslupöntunarnúmer í subject eða data.productionOrderNo.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Tilgreindu framleiðslupöntunarnúmer í subject eða data.productionOrderNo.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Refresh Order Impl ori - NamedType ProductionOrderRequiredErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3323283397 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>production order, refresh, replan, change status, recalculate, components, routing, dependent demand</source>
+          <target>framleiðslupöntun, endurlesa, endurskipuleggja, breyta stöðu, endurreikna, íhlutir, leið, háð þörf</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=framleiðslupöntun, endurlesa, endurskipuleggja, breyta stöðu, endurreikna, íhlutir, leið, háð þörf</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Refresh Order Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3323283397 - Method 79446908 - NamedType 895773054" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Refresh replaces calculated lines; replan recalculates dependent demand; change status may post consumption, output, or capacity. Review the order before running.</source>
+          <target>Uppfærsla skiptir út reiknuðum línum; endurskipulagning endurreiknar háða þörf; stöðubreyting getur bókað notkun, afköst eða afkastagetu. Farðu yfir pöntunina áður en aðgerðin er keyrð.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Uppfærsla skiptir út reiknuðum línum; endurskipulagning endurreiknar háða þörf; stöðubreyting getur bókað notkun, afköst eða afkastagetu. Farðu yfir pöntunina áður en aðgerðin er keyrð.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Refresh Order Impl ori - Method GetSelectionDescription - NamedType SelectionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 716360856 - NamedType 3569966352" maxwidth="250" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Calculates routing sequences and validates a routing, or copies routing and related lines into a destination routing or version.</source>
+          <target>Reiknar raðir og yfirfer leið eða afritar leið og tengdar línur í áfangaleið eða útgáfu.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Reiknar raðir og yfirfer leið eða afritar leið og tengdar línur í áfangaleið eða útgáfu.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Routing Impl ori - NamedType DescriptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 716360856 - NamedType 214510838" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Routing %1 does not exist.</source>
+          <target>Leið %1 er ekki til.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = routing number||is-IS=Leið %1 er ekki til.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Routing Impl ori - NamedType RoutingNotFoundErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 716360856 - NamedType 1154721180" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Provide a routing number in the subject or data.routingNo.</source>
+          <target>Tilgreindu leiðarnúmer í subject eða data.routingNo.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Tilgreindu leiðarnúmer í subject eða data.routingNo.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Routing Impl ori - NamedType RoutingRequiredErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 716360856 - NamedType 831587823" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Provide sourceRoutingNo for Manufacturing.Routing.Copy.</source>
+          <target>Tilgreindu sourceRoutingNo fyrir Manufacturing.Routing.Copy.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Tilgreindu sourceRoutingNo fyrir Manufacturing.Routing.Copy.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Routing Impl ori - NamedType SourceRoutingRequiredErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 716360856 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>routing, check routing, calculate routing, copy routing, operation sequence</source>
+          <target>leið, yfirfara leið, reikna leið, afrita leið, raðnúmer aðgerðar</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=leið, yfirfara leið, reikna leið, afrita leið, raðnúmer aðgerðar</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Routing Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 716360856 - Method 79446908 - NamedType 895773054" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Check recalculates routing sequences; Copy replaces destination lines, tools, personnel, quality measures, and comments. Certified destinations cannot be overwritten.</source>
+          <target>Check endurreiknar raðir leiðar; Copy skiptir út línum, verkfærum, starfsfólki, gæðamælingum og athugasemdum á áfangaleið. Ekki er hægt að skrifa yfir vottaðar leiðir.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Check endurreiknar raðir leiðar; Copy skiptir út línum, verkfærum, starfsfólki, gæðamælingum og athugasemdum á áfangaleið. Ekki er hægt að skrifa yfir vottaðar leiðir.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Routing Impl ori - Method GetSelectionDescription - NamedType SelectionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2427883143 - NamedType 3569966352" maxwidth="250" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Creates production component warehouse picks or output put-away activities for one released production order.</source>
+          <target>Stofnar vöruafhendingarval eða frágangsaðgerðir fyrir afköst einnar útgefinnar framleiðslupöntunar.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Stofnar vöruafhendingarval eða frágangsaðgerðir fyrir afköst einnar útgefinnar framleiðslupöntunar.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Warehouse Impl ori - NamedType DescriptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2427883143 - NamedType 1564213525" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Released production order %1 was not found.</source>
+          <target>Útgefin framleiðslupöntun %1 fannst ekki.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = production order number||is-IS=Útgefin framleiðslupöntun %1 fannst ekki.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Warehouse Impl ori - NamedType ProductionOrderNotFoundErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2427883143 - NamedType 2256779995" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Provide a released production order number in the subject or data.productionOrderNo.</source>
+          <target>Tilgreindu númer útgefinnar framleiðslupöntunar í subject eða data.productionOrderNo.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Tilgreindu númer útgefinnar framleiðslupöntunar í subject eða data.productionOrderNo.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Warehouse Impl ori - NamedType ProductionOrderRequiredErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2427883143 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>production warehouse, create pick, create put-away, production components, output</source>
+          <target>framleiðsluvöruhús, stofna tínslu, stofna frágang, framleiðsluíhlutir, afköst</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=framleiðsluvöruhús, stofna tínslu, stofna frágang, framleiðsluíhlutir, afköst</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Warehouse Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2427883143 - Method 79446908 - NamedType 895773054" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Creates warehouse activities for eligible components or output lines in one released production order. Review created activities before registration.</source>
+          <target>Stofnar vöruhúsaðgerðir fyrir viðeigandi íhluti eða afkastalínur í einni útgefinni framleiðslupöntun. Farðu yfir aðgerðirnar áður en þær eru skráðar.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Stofnar vöruhúsaðgerðir fyrir viðeigandi íhluti eða afkastalínur í einni útgefinni framleiðslupöntun. Farðu yfir aðgerðirnar áður en þær eru skráðar.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Warehouse Impl ori - Method GetSelectionDescription - NamedType SelectionLbl</note>
+        </trans-unit>
       </group>
     </body>
   </file>
