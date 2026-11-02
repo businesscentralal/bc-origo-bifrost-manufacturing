@@ -25,6 +25,39 @@ consumption, so an agent can operate it end to end. It is built on the same basi
 
 ---
 
+## Allocated objects
+
+| Id | Object | Name |
+| --- | --- | --- |
+| 10077035 | codeunit | Mfg Registration ori |
+| 10077036 | permissionset | BIFROST Mfg ori |
+| 10077037 | permissionsetextension | BIFROST MfgFull ori |
+| 10077038 | permissionsetextension | BIFROST MfgRead ori |
+| 10077085 | enumextension | Mfg BOMRtg MsgType ori |
+| 10077086 | codeunit | Mfg BOMRtg Contract ori |
+| 10077087 | codeunit | Prod BOM Status Impl ori |
+| 10077088 | codeunit | Prod BOM Status Proc ori |
+| 10077089 | codeunit | Routing Status Impl ori |
+| 10077090 | codeunit | Routing Status Proc ori |
+| 10077091 | codeunit | BOM Routing Restrict ori |
+| 10077092 | codeunit | BOM Routing Events ori |
+| 10077093 | codeunit | BOM Routing Context ori |
+| 10077094-10077104 | reserved | unused; do not reuse without recording the object |
+| 97600 | codeunit (test) | Mfg Test Install ori |
+| 97601 | codeunit (test) | Mfg Test Upgrade ori |
+| 97602 | codeunit (test) | Mfg Registration Tst ori |
+| 97603 | permissionset (test) | Mfg Platform Tst ori |
+| 97660 | codeunit (test) | Prod BOM Status Tests ori |
+| 97661 | codeunit (test) | Routing Status Tests ori |
+| 97662 | codeunit (test) | BOM Routing Restrict Tests ori |
+| 97663 | codeunit (test) | BOM Routing Contract Tests ori |
+| 97664 | codeunit (test) | BOM Routing Perm Tests ori |
+| 97665 | codeunit (test) | BOM Rtg OmitCommit Tests ori |
+| 97666 | codeunit (test) | BOM Routing Test Lib ori |
+| 97667-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
+
+The version commit suppression uses a locally bound manual subscriber. Its lifetime is the status call, including exception unwinding; the single-instance context reports that binding without retaining a Boolean after an error.
+
 ## Documentation
 
 All public documentation lives in the [businesscentralal/bifrost](https://github.com/businesscentralal/bifrost)
