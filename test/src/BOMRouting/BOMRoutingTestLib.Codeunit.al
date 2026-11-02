@@ -154,12 +154,23 @@ codeunit 97666 "BOM Routing Test Lib ori"
     procedure SetBomStatus(DocumentNo: Code[20]; VersionCode: Code[20]; StatusToken: Text; OmitCommit: Boolean) ResponseJson: JsonObject
     begin
         ResponseJson := Invoke(Enum::"Message Type ori"::"Manufacturing.ProductionBOM.SetStatus", StatusRequest(DocumentNo, VersionCode, StatusToken), OmitCommit);
+        AssertPlatformNextStep(ResponseJson);
     end;
 
     /// <summary>Sends Manufacturing.Routing.SetStatus.</summary>
     procedure SetRoutingStatus(DocumentNo: Code[20]; VersionCode: Code[20]; StatusToken: Text; OmitCommit: Boolean) ResponseJson: JsonObject
     begin
         ResponseJson := Invoke(Enum::"Message Type ori"::"Manufacturing.Routing.SetStatus", StatusRequest(DocumentNo, VersionCode, StatusToken), OmitCommit);
+        AssertPlatformNextStep(ResponseJson);
+    end;
+
+    local procedure AssertPlatformNextStep(ResponseJson: JsonObject)
+    var
+        CodeToken: JsonToken;
+    begin
+        if ResponseJson.Get('code', CodeToken) then
+            if CodeToken.AsValue().AsText() = 'BusinessCentralError' then
+                Assert.IsTrue(GetText(ResponseJson, 'nextStep').Contains('Data.Records.Set'), 'A manufacturing status validation error must explain how to correct the lines.');
     end;
 
     /// <summary>Asserts a Success answer.</summary>
@@ -179,8 +190,6 @@ codeunit 97666 "BOM Routing Test Lib ori"
         ResponseJson.WriteTo(ResponseText);
         Assert.AreEqual('Error', GetText(ResponseJson, 'status'), 'Expected a refusal: ' + ResponseText);
         Assert.AreEqual(ExpectedCode, GetText(ResponseJson, 'code'), 'Unexpected error code: ' + ResponseText);
-        if ExpectedCode = 'BusinessCentralError' then
-            Assert.IsTrue(GetText(ResponseJson, 'nextStep').Contains('Data.Records.Set'), 'A platform validation error must explain how to correct the lines.');
         Assert.IsTrue(ResponseText.Contains(ExpectedFragment), 'The refusal must contain ''' + ExpectedFragment + ''': ' + ResponseText);
     end;
 
