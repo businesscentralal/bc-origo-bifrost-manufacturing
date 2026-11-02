@@ -4,6 +4,7 @@ using Microsoft.Foundation.NoSeries;
 using Microsoft.Manufacturing.Document;
 using Microsoft.Manufacturing.Setup;
 using Origo.Bifrost;
+using Origo.Bifrost.Manufacturing;
 using System.TestLibraries.Security.AccessControl;
 using System.TestLibraries.Utilities;
 
@@ -139,6 +140,32 @@ codeunit 97614 "Mfg Lifecycle Tst ori"
         Line.SetRange(Status, Order.Status);
         Line.SetRange("Prod. Order No.", OrderNo);
         Assert.AreEqual(1, Line.Count(), 'Standard report fixture creates one line.');
+        Cleanup(OrderNo);
+    end;
+
+    /// <summary>Exercises the transaction runner directly so platform errors retain their diagnostic text.</summary>
+    [Test]
+    procedure Refresh_TransactionRunner_CreatesLine()
+    var
+        Order: Record "Production Order";
+        Line: Record "Prod. Order Line";
+        Argument: Record "Message Argument ori" temporary;
+        Request: JsonObject;
+        OrderNo: Code[20];
+        Succeeded: Boolean;
+    begin
+        InitializePermissions();
+        OrderNo := NewNo();
+        CreateOrder(Order, OrderNo);
+        Request.Add('productionOrderNo', OrderNo);
+        Argument.Type := "Message Type ori"::"Manufacturing.ProductionOrder.Refresh";
+        Argument.SetRequestJson(Request);
+        Commit();
+        Succeeded := Codeunit.Run(Codeunit::"Mfg Refresh Order Impl ori", Argument);
+        Assert.IsTrue(Succeeded, GetLastErrorText());
+        Line.SetRange(Status, Order.Status);
+        Line.SetRange("Prod. Order No.", OrderNo);
+        Assert.AreEqual(1, Line.Count(), 'Transaction runner creates one production line.');
         Cleanup(OrderNo);
     end;
 
