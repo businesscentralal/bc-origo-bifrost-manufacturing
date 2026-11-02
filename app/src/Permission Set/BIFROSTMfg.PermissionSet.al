@@ -20,5 +20,13 @@ permissionset 10077036 "BIFROST Mfg ori"
         codeunit "Prod Order Refresh Impl ori" = X,
         codeunit "Prod Order Refresh Proc ori" = X,
         codeunit "Mfg Prod Order Lookup ori" = X,
-        codeunit "Mfg Prod Order Request ori" = X;
+        codeunit "Mfg Prod Order Request ori" = X,
+        codeunit "Mfg BOMRtg Contract ori" = X,
+        codeunit "Prod BOM Status Impl ori" = X,
+        codeunit "Prod BOM Status Proc ori" = X,
+        codeunit "Routing Status Impl ori" = X,
+        codeunit "Routing Status Proc ori" = X,
+        codeunit "BOM Routing Restrict ori" = X,
+        codeunit "BOM Routing Events ori" = X,
+        codeunit "BOM Routing Context ori" = X;
 }
