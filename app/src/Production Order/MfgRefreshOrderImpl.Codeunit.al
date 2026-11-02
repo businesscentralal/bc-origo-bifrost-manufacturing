@@ -272,6 +272,9 @@ codeunit 10077040 "Mfg Refresh Order Impl ori" implements "Msg Interface ori", "
 
     trigger OnRun()
     begin
+        // Refresh Production Order requires Update isolation. Select it before
+        // the first database access; the platform cannot promote an active transaction.
+        Database.CurrentTransactionType(TransactionType::Update);
         PerformRefresh(Rec);
     end;
 

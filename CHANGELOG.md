@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Configure production report request pages before entering the locked transaction, retaining exact-order locks and native report execution (10077040).
+- Select Update isolation before the production transaction begins, matching the standard refresh report while retaining exact-order locks and native execution (10077040).
 
 - Synchronize the existing Icelandic label translations for the manufacturing actions into the application XLF file.
 
