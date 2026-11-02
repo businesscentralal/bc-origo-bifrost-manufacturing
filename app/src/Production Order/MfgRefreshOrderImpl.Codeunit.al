@@ -386,7 +386,7 @@ codeunit 10077040 "Mfg Refresh Order Impl ori" implements "Msg Interface ori", "
                     ReplanOrderReport.InitializeRequest(1, 1);
                     ReplanOrderReport.SetTableView(ProductionOrder);
                     ReplanOrderReport.UseRequestPage(false);
-                    ReplanOrderReport.RunModal();
+                    ReplanOrderReport.Run();
                 end;
             Enum::"Message Type ori"::"Manufacturing.ProductionOrder.UpdateCost":
                 PerformUpdateCost(ProductionOrder, RequestJson);
@@ -396,7 +396,7 @@ codeunit 10077040 "Mfg Refresh Order Impl ori" implements "Msg Interface ori", "
                     RefreshOrderReport.SetHideValidationDialog(true);
                     RefreshOrderReport.SetTableView(ProductionOrder);
                     RefreshOrderReport.UseRequestPage(false);
-                    RefreshOrderReport.RunModal();
+                    RefreshOrderReport.Run();
                 end;
         end;
         ResponseJson.Add('status', 'Success');
@@ -429,6 +429,6 @@ codeunit 10077040 "Mfg Refresh Order Impl ori" implements "Msg Interface ori", "
         UpdateUnitCostReport.InitializeRequest(CalculationMethod, UpdateReservations);
         UpdateUnitCostReport.SetTableView(ProductionOrder);
         UpdateUnitCostReport.UseRequestPage(false);
-        UpdateUnitCostReport.RunModal();
+        UpdateUnitCostReport.Run();
     end;
 }
