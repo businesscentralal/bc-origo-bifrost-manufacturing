@@ -1,5 +1,6 @@
 namespace Origo.Bifrost.Manufacturing;
 
+using Microsoft.Inventory.Journal;
 using Microsoft.Inventory.Ledger;
 using Microsoft.Manufacturing.Capacity;
 using Microsoft.Manufacturing.Journal;
@@ -11,10 +12,6 @@ using Origo.Bifrost;
 codeunit 10077047 "Mfg Journal Reverse Impl ori" implements "Msg Interface ori", "Msg Discovery ori", "Msg Contract ori"
 {
     TableNo = "Message Argument ori";
-    // Standard business roles grant indirect ledger modification. The caller must
-    // still hold that right; ledger writes are performed only by standard reversal.
-    Permissions = tabledata "Item Ledger Entry" = m,
-                  tabledata "Capacity Ledger Entry" = m;
 
     var
         ContractMgt: Codeunit "Msg Contract Mgt ori";
@@ -229,6 +226,7 @@ codeunit 10077047 "Mfg Journal Reverse Impl ori" implements "Msg Interface ori",
     local procedure PerformReverse(var Argument: Record "Message Argument ori")
     var
         ItemLedgerEntry: Record "Item Ledger Entry";
+        ItemJournalLine: Record "Item Journal Line";
         CapacityLedgerEntry: Record "Capacity Ledger Entry";
         UndoProdPosting: Codeunit "Undo Prod. Posting Mgmt.";
         ResponseJson: JsonObject;
@@ -246,10 +244,12 @@ codeunit 10077047 "Mfg Journal Reverse Impl ori" implements "Msg Interface ori",
         end;
         if not Contract.ReadPositiveInteger(Argument, 'entryNo', EntryNo) then
             exit;
+        // Reversal creates a correcting journal. Standard posting enforces its own
+        // indirect ledger permissions; callers must not need direct ledger editing.
         case LedgerTypeText of
             'ITEM':
                 begin
-                    if not Contract.HasPermission(Argument, ItemLedgerEntry.ReadPermission(), ItemLedgerEntry.WritePermission()) then
+                    if not Contract.HasPermission(Argument, ItemLedgerEntry.ReadPermission(), ItemJournalLine.WritePermission()) then
                         exit;
                     ItemLedgerEntry.LockTable();
                     if not ItemLedgerEntry.Get(EntryNo) then begin
@@ -270,7 +270,7 @@ codeunit 10077047 "Mfg Journal Reverse Impl ori" implements "Msg Interface ori",
                 end;
             'CAPACITY':
                 begin
-                    if not Contract.HasPermission(Argument, CapacityLedgerEntry.ReadPermission(), CapacityLedgerEntry.WritePermission()) then
+                    if not Contract.HasPermission(Argument, CapacityLedgerEntry.ReadPermission(), ItemJournalLine.WritePermission()) then
                         exit;
                     CapacityLedgerEntry.LockTable();
                     if not CapacityLedgerEntry.Get(EntryNo) then begin

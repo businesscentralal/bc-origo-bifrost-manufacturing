@@ -1,8 +1,6 @@
 namespace Origo.Bifrost.Manufacturing.Test;
 
 using Microsoft.Foundation.NoSeries;
-using Microsoft.Inventory.Item;
-using Microsoft.Inventory.Planning;
 using Microsoft.Manufacturing.Document;
 using Microsoft.Manufacturing.Setup;
 using Origo.Bifrost;
@@ -18,6 +16,7 @@ codeunit 97614 "Mfg Lifecycle Tst ori"
     var
         Assert: Codeunit "Library Assert";
         Lib: Codeunit "BOM Routing Test Lib ori";
+        Fixtures: Codeunit "Mfg Posting Fixture ori";
         LowerPermissions: Codeunit "Library - Lower Permissions";
 
     /// <summary>Refresh must create an actual production line, not merely return Success.</summary>
@@ -150,45 +149,13 @@ codeunit 97614 "Mfg Lifecycle Tst ori"
 
     local procedure CreateOrder(var Order: Record "Production Order"; OrderNo: Code[20])
     begin
-        Lib.CreateItem(OrderNo, '', '');
-        Order.Init();
-        Order.Status := Order.Status::"Firm Planned";
-        Order."No." := OrderNo;
-        Order.Insert(true);
-        Order.SetHideValidationDialog(true);
-        Order.Validate("Source Type", Order."Source Type"::Item);
-        Order.Validate("Source No.", OrderNo);
-        Order.Validate(Quantity, 2);
-        Order.Validate("Due Date", WorkDate());
-        Order.Modify(true);
+        Fixtures.SeedWithStatus(OrderNo, Order.Status::"Firm Planned");
+        Order.Get(Order.Status::"Firm Planned", OrderNo);
     end;
 
     local procedure Cleanup(OrderNo: Code[20])
-    var
-        Order: Record "Production Order";
-        Line: Record "Prod. Order Line";
-        Component: Record "Prod. Order Component";
-        RoutingLine: Record "Prod. Order Routing Line";
-        Item: Record Item;
-        ItemUom: Record "Item Unit of Measure";
-        PlanningAssignment: Record "Planning Assignment";
     begin
-        Component.SetRange("Prod. Order No.", OrderNo);
-        Component.DeleteAll(false);
-        RoutingLine.SetRange("Prod. Order No.", OrderNo);
-        RoutingLine.DeleteAll(false);
-        Line.SetRange("Prod. Order No.", OrderNo);
-        Line.DeleteAll(false);
-        Order.SetRange("No.", OrderNo);
-        Order.DeleteAll(false);
-        ItemUom.SetRange("Item No.", OrderNo);
-        ItemUom.DeleteAll(false);
-        PlanningAssignment.SetRange("Item No.", OrderNo);
-        PlanningAssignment.DeleteAll(false);
-        Item.Get(OrderNo);
-        Item.Delete(false);
-        Assert.IsTrue(Order.IsEmpty() and Line.IsEmpty() and Component.IsEmpty() and RoutingLine.IsEmpty() and ItemUom.IsEmpty() and PlanningAssignment.IsEmpty(), 'Owned lifecycle fixture cleanup.');
-        Commit();
+        Fixtures.Cleanup(OrderNo);
     end;
     local procedure InitializePermissions()
     begin

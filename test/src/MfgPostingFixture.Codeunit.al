@@ -29,6 +29,12 @@ codeunit 97616 "Mfg Posting Fixture ori"
 
     /// <summary>Seeds a fresh Released production order and its own item, accounting groups and journal batch.</summary>
     procedure Seed(FixtureNo: Code[20])
+    begin
+        SeedWithStatus(FixtureNo, "Production Order Status"::Released);
+    end;
+
+    /// <summary>Seeds a fresh lifecycle fixture at the requested active status.</summary>
+    procedure SeedWithStatus(FixtureNo: Code[20]; OrderStatus: Enum "Production Order Status")
     var
         Item: Record Item;
         Account: Record "G/L Account";
@@ -71,7 +77,7 @@ codeunit 97616 "Mfg Posting Fixture ori"
         Item."Gen. Prod. Posting Group" := FixtureNo;
         Item."Inventory Posting Group" := FixtureNo;
         Item.Modify(false);
-        Order.Status := Order.Status::Released;
+        Order.Status := OrderStatus;
         Order."No." := FixtureNo;
         Order.Insert(true);
         Order.SetHideValidationDialog(true);
