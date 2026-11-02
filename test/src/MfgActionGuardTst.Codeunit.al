@@ -128,6 +128,21 @@ codeunit 97613 "Mfg Action Guard Tst ori"
         end;
     end;
 
+    /// <summary>A confirmation count must be a JSON integer before a reversal can run.</summary>
+    [Test]
+    procedure Reverse_InvalidConfirmationCount_Refused()
+    var
+        Request: JsonObject;
+        Response: JsonObject;
+    begin
+        InitializePermissions();
+        Request.Add('ledgerType', 'Item');
+        Request.Add('entryNo', 1);
+        Request.Add('expectedCount', 'one');
+        Response := Lib.Invoke("Message Type ori"::"Manufacturing.Journal.ReversePosting", Request, true);
+        Lib.AssertRefusal(Response, 'InvalidParameterFormat', 'expectedCount');
+    end;
+
     /// <summary>A purchase ledger entry cannot be reversed by a production operation.</summary>
     [Test]
     procedure Reverse_NonProductionEntry_Refused()
@@ -146,6 +161,7 @@ codeunit 97613 "Mfg Action Guard Tst ori"
         Entry.Insert(false);
         Commit();
         Request.Add('ledgerType', 'Item');
+        Request.Add('expectedCount', 1);
         Request.Add('entryNo', Entry."Entry No.");
         Response := Lib.Invoke("Message Type ori"::"Manufacturing.Journal.ReversePosting", Request, true);
         Assert.IsTrue(Entry.Get(Entry."Entry No."), 'Entry retained.');
@@ -175,6 +191,7 @@ codeunit 97613 "Mfg Action Guard Tst ori"
         Entry.Insert(false);
         Commit();
         Request.Add('ledgerType', 'Item');
+        Request.Add('expectedCount', 1);
         Request.Add('entryNo', Entry."Entry No.");
         Response := Lib.Invoke("Message Type ori"::"Manufacturing.Journal.ReversePosting", Request, true);
         Entry.Delete(false);

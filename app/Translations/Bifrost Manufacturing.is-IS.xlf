@@ -303,6 +303,12 @@
           <note from="Developer" annotates="general" priority="2">is-IS=Bakfærir eina bókaða vöru- eða afkastabókafærslu framleiðslu með bakfærslurökfræði Microsoft.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Journal Reverse Impl ori - NamedType DescriptionLbl</note>
         </trans-unit>
+        <trans-unit id="Codeunit 1702469251 - NamedType 2389308308" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production reversal affects exactly one ledger entry; expectedCount must be 1.</source>
+          <target state="translated">Bakfærsla framleiðslu hefur áhrif á nákvæmlega eina bókarfærslu; expectedCount verður að vera 1.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Bakfærsla framleiðslu hefur áhrif á nákvæmlega eina bókarfærslu; expectedCount verður að vera 1.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Journal Reverse Impl ori - NamedType ExpectedCountErr</note>
+        </trans-unit>
         <trans-unit id="Codeunit 1702469251 - NamedType 2102839273" size-unit="char" translate="yes" xml:space="preserve">
           <source>Production item ledger entry %1 was not found.</source>
           <target state="translated">Færslubókarfærsla framleiðsluvöru %1 fannst ekki.</target>

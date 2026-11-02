@@ -26,6 +26,7 @@
 - Added message types for production-order refresh, replan, status changes, and cost recalculation.
 
 ### Changed
+- Production reversal (10077047) accepts Foundation’s shared `expectedCount` confirmation parameter and validates its single target on the minimum Foundation dependency. Native reversal tests explicitly confirm their one owned entry, retaining the exact missing-parameter/state/ledger assertions.
 - Standard journal posting runs with a scoped manual dialog subscriber (10077061) so API calls do not wait for confirmation. Reversal (10077047) checks ledger read and correcting-journal write permission; standard posting retains enforcement of indirect ledger rights. Tests 97615/97616 prove output posting with owned accounting fixtures; test page 97617 exposes explicit setup/message execution/verified cleanup.
 - Production actions (10077040/10077044/10077047/10077057) use shared coded validation (10077060), explicit permissions, locked target/state checks and pre-write Omit Commit refusals. Refresh explicitly initializes calculations; ChangeStatus resolves one active composite-key record and returns the resulting order number. Regression tests 97613/97614 exercise refusals, restricted roles and actual order/line changes.
 - Synchronize en-US/is-IS product and test XLF files; align the test dependency with Manufacturing 28.0.2.0.

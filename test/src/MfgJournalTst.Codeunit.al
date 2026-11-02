@@ -70,7 +70,7 @@ codeunit 97604 "Mfg Journal Tst ori"
         ResponseContentType: Text[100];
     begin
         InitializePermissions();
-        RequestContent.AddText('{"ledgerType":"Item"}');
+        RequestContent.AddText('{"ledgerType":"Item","expectedCount":1}');
         MessageType := MessageType::"Manufacturing.Journal.ReversePosting";
 
         Dispatcher.Execute(

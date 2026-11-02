@@ -84,6 +84,7 @@ codeunit 97615 "Mfg Posting Tst ori"
         if ReverseOutput then begin
             Clear(Request);
             Request.Add('ledgerType', 'Item');
+            Request.Add('expectedCount', 1);
             Request.Add('entryNo', Entry."Entry No.");
             Commit();
             Lib.AssertSuccess(Lib.Invoke("Message Type ori"::"Manufacturing.Journal.ReversePosting", Request, false));

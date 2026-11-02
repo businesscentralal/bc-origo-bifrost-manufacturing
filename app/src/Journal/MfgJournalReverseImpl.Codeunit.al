@@ -20,6 +20,7 @@ codeunit 10077047 "Mfg Journal Reverse Impl ori" implements "Msg Interface ori",
         ItemEntryNotFoundErr: Label 'Production item ledger entry %1 was not found.', Comment = '%1 = item ledger entry number||is-IS=Færslubókarfærsla framleiðsluvöru %1 fannst ekki.';
         CapacityEntryNotFoundErr: Label 'Production capacity ledger entry %1 was not found.', Comment = '%1 = capacity ledger entry number||is-IS=Afkastabókafærsla framleiðslu %1 fannst ekki.';
         ProductionEntryErr: Label 'Only an unreversed production-order posting can be reversed.', Comment = 'is-IS=Aðeins má bakfæra óbakfærða bókun framleiðslupöntunar.';
+        ExpectedCountErr: Label 'Production reversal affects exactly one ledger entry; expectedCount must be 1.', Comment = 'is-IS=Bakfærsla framleiðslu hefur áhrif á nákvæmlega eina bókarfærslu; expectedCount verður að vera 1.';
         OutputAppliedErr: Label 'Only positive production output with its full quantity remaining can be reversed.', Comment = 'is-IS=Aðeins má bakfæra jákvæð framleiðsluafköst þegar allt magnið er enn eftir.';
         DescriptionLbl: Label 'Reverses one posted production item or capacity ledger entry using Microsoft production undo logic.', MaxLength = 250, Comment = 'is-IS=Bakfærir eina bókaða vöru- eða afkastabókafærslu framleiðslu með bakfærslurökfræði Microsoft.';
 
@@ -194,7 +195,7 @@ codeunit 10077047 "Mfg Journal Reverse Impl ori" implements "Msg Interface ori",
     /// <summary>Documents important behavior of production posting reversal.</summary>
     procedure GetNotes(var Notes: Text): Boolean
     begin
-        Notes := 'Omit Commit is refused with PreconditionFailed before any write because standard Business Central actions may commit. Reversal writes correcting entries and cannot be repeated as a no-op. Confirm the entry belongs to a production order before calling this message.';
+        Notes := 'Omit Commit is refused with PreconditionFailed before any write because standard Business Central actions may commit. Reversal writes correcting entries and cannot be repeated as a no-op. Confirm the entry belongs to a production order before calling this message. When Foundation requests confirmation, repeat the request with expectedCount set to 1. An explicit count must be the integer 1, including on the minimum supported Foundation version.';
         exit(true);
     end;
 
@@ -233,9 +234,22 @@ codeunit 10077047 "Mfg Journal Reverse Impl ori" implements "Msg Interface ori",
         ResponseJson: JsonObject;
         LedgerTypeText: Text;
         EntryNo: Integer;
+        ExpectedCount: Integer;
+        Request: JsonObject;
     begin
-        if not Contract.ValidateKeys(Argument, '|ledgerType|entryNo|') then
+        if not Contract.ValidateKeys(Argument, '|ledgerType|entryNo|expectedCount|') then
             exit;
+        // Foundation confirms irreversible calls before the handler. Accept its shared
+        // parameter and retain a strict single-target check on the minimum dependency.
+        Request := Argument.GetRequestJson();
+        if Request.Contains('expectedCount') then begin
+            if not Contract.ReadPositiveInteger(Argument, 'expectedCount', ExpectedCount) then
+                exit;
+            if ExpectedCount <> 1 then begin
+                Contract.Refuse(Argument, "Bifrost Error Code ori"::PreconditionFailed, 'expectedCount', ExpectedCountErr);
+                exit;
+            end;
+        end;
         if not Contract.ReadCode(Argument, 'ledgerType', '', 20, LedgerTypeText) then
             exit;
         LedgerTypeText := UpperCase(LedgerTypeText);
