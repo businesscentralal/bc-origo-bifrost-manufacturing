@@ -1,6 +1,7 @@
 namespace Origo.Bifrost.Manufacturing.Test;
 
 using Origo.Bifrost;
+using System.TestLibraries.Security.AccessControl;
 using System.TestLibraries.Utilities;
 
 /// <summary>
@@ -13,6 +14,7 @@ codeunit 97603 "Mfg Refresh Order Tst ori"
 
     var
         Assert: Codeunit "Library Assert";
+        LowerPermissions: Codeunit "Library - Lower Permissions";
 
     /// <summary>Returns an error response when the requested production order does not exist.</summary>
     [Test]
@@ -27,6 +29,7 @@ codeunit 97603 "Mfg Refresh Order Tst ori"
         ResponseText: Text;
         ResponseContentType: Text[100];
     begin
+        InitializePermissions();
         RequestContent.AddText('{"productionOrderNo":"X-MISSING"}');
         MessageType := Enum::"Message Type ori".FromInteger(10077040);
 
@@ -61,6 +64,7 @@ codeunit 97603 "Mfg Refresh Order Tst ori"
         ResponseText: Text;
         ResponseContentType: Text[100];
     begin
+        InitializePermissions();
         RequestContent.AddText('{}');
         MessageType := Enum::"Message Type ori".FromInteger(10077040);
 
@@ -95,6 +99,7 @@ codeunit 97603 "Mfg Refresh Order Tst ori"
         ResponseText: Text;
         ResponseContentType: Text[100];
     begin
+        InitializePermissions();
         RequestContent.AddText('{"productionOrderNo":"X-MISSING"}');
         MessageType := Enum::"Message Type ori".FromInteger(10077041);
 
@@ -129,6 +134,7 @@ codeunit 97603 "Mfg Refresh Order Tst ori"
         ResponseText: Text;
         ResponseContentType: Text[100];
     begin
+        InitializePermissions();
         RequestContent.AddText('{"productionOrderNo":"X-MISSING"}');
         MessageType := Enum::"Message Type ori".FromInteger(10077043);
 
@@ -160,6 +166,7 @@ codeunit 97603 "Mfg Refresh Order Tst ori"
         Contract: JsonObject;
         MessageTypeOrdinal: Integer;
     begin
+        InitializePermissions();
         for MessageTypeOrdinal := 10077040 to 10077043 do begin
             MessageType := Enum::"Message Type ori".FromInteger(MessageTypeOrdinal);
             MessageTypeInterface := MessageType;
@@ -173,5 +180,11 @@ codeunit 97603 "Mfg Refresh Order Tst ori"
             Assert.IsTrue(Contract.Contains('parameters'), 'Every operation should describe its parameters.');
             Assert.IsTrue(Contract.Contains('response'), 'Every operation should describe its response.');
         end;
+    end;
+    local procedure InitializePermissions()
+    begin
+        LowerPermissions.SetOutsideO365Scope();
+        LowerPermissions.SetExactPermissionSet('D365 BUS PREMIUM');
+        LowerPermissions.AddPermissionSet('BIFROST Full ori');
     end;
 }

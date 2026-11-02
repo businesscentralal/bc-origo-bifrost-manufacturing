@@ -138,17 +138,17 @@ codeunit 10077040 "Mfg Refresh Order Impl ori" implements "Msg Interface ori", "
     procedure GetResponse(var Response: JsonObject): Boolean
     var
         Fields: JsonArray;
-        Field: JsonObject;
+        ResponseField: JsonObject;
     begin
-        Field.Add('name', 'status');
-        Field.Add('type', 'string');
-        Field.Add('description', 'Success when the production order was refreshed.');
-        Fields.Add(Field);
-        Clear(Field);
-        Field.Add('name', 'productionOrderNo');
-        Field.Add('type', 'string');
-        Field.Add('description', 'The refreshed production order number.');
-        Fields.Add(Field);
+        ResponseField.Add('name', 'status');
+        ResponseField.Add('type', 'string');
+        ResponseField.Add('description', 'Success when the production order was refreshed.');
+        Fields.Add(ResponseField);
+        Clear(ResponseField);
+        ResponseField.Add('name', 'productionOrderNo');
+        ResponseField.Add('type', 'string');
+        ResponseField.Add('description', 'The refreshed production order number.');
+        Fields.Add(ResponseField);
         Response.Add('contentType', 'text/json');
         Response.Add('fields', Fields);
         exit(true);

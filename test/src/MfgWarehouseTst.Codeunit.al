@@ -1,6 +1,7 @@
 namespace Origo.Bifrost.Manufacturing.Test;
 
 using Origo.Bifrost;
+using System.TestLibraries.Security.AccessControl;
 using System.TestLibraries.Utilities;
 
 /// <summary>
@@ -13,6 +14,7 @@ codeunit 97612 "Mfg Warehouse Tst ori"
 
     var
         Assert: Codeunit "Library Assert";
+        LowerPermissions: Codeunit "Library - Lower Permissions";
 
     /// <summary>Returns an error response when a released production order is missing.</summary>
     [Test]
@@ -28,6 +30,7 @@ codeunit 97612 "Mfg Warehouse Tst ori"
         ResponseContentType: Text[100];
         MessageTypeOrdinal: Integer;
     begin
+        InitializePermissions();
         RequestContent.AddText('{}');
         for MessageTypeOrdinal := 10077057 to 10077058 do begin
             MessageType := Enum::"Message Type ori".FromInteger(MessageTypeOrdinal);
@@ -51,5 +54,11 @@ codeunit 97612 "Mfg Warehouse Tst ori"
             Clear(ResponseContent);
             Clear(ResponseJson);
         end;
+    end;
+    local procedure InitializePermissions()
+    begin
+        LowerPermissions.SetOutsideO365Scope();
+        LowerPermissions.SetExactPermissionSet('D365 BUS PREMIUM');
+        LowerPermissions.AddPermissionSet('BIFROST Full ori');
     end;
 }

@@ -12,6 +12,7 @@ codeunit 97613 "Mfg Action Guard Tst ori"
 {
     Subtype = Test;
     TestPermissions = Restrictive;
+    Permissions = tabledata "Item Ledger Entry" = ID;
 
     var
         Assert: Codeunit "Library Assert";
@@ -27,6 +28,7 @@ codeunit 97613 "Mfg Action Guard Tst ori"
         Response: JsonObject;
         OrderNo: Code[20];
     begin
+        InitializePermissions();
         OrderNo := NewNo();
         CreateOrder(Order, OrderNo, Order.Status::Planned);
         CreateOrder(Order, OrderNo, Order.Status::Released);
@@ -49,6 +51,7 @@ codeunit 97613 "Mfg Action Guard Tst ori"
         Response: JsonObject;
         OrderNo: Code[20];
     begin
+        InitializePermissions();
         OrderNo := NewNo();
         CreateOrder(Order, OrderNo, Order.Status::Finished);
         Commit();
@@ -69,6 +72,7 @@ codeunit 97613 "Mfg Action Guard Tst ori"
         OrderNo: Code[20];
         Ordinal: Integer;
     begin
+        InitializePermissions();
         OrderNo := NewNo();
         CreateOrder(Order, OrderNo, Order.Status::"Firm Planned");
         Commit();
@@ -91,6 +95,7 @@ codeunit 97613 "Mfg Action Guard Tst ori"
         Request: JsonObject;
         Response: JsonObject;
     begin
+        InitializePermissions();
         Request.Add('productionOrderNo', 123);
         Response := Lib.Invoke("Message Type ori"::"Manufacturing.ProductionOrder.Refresh", Request, true);
         Lib.AssertRefusal(Response, 'InvalidParameterFormat', 'productionOrderNo');
@@ -111,6 +116,7 @@ codeunit 97613 "Mfg Action Guard Tst ori"
         Response: JsonObject;
         Ordinal: Integer;
     begin
+        InitializePermissions();
         Request.Add('unexpected', true);
         for Ordinal := 10077040 to 10077047 do begin
             Response := Lib.Invoke("Message Type ori".FromInteger(Ordinal), Request, true);
@@ -130,6 +136,7 @@ codeunit 97613 "Mfg Action Guard Tst ori"
         Request: JsonObject;
         Response: JsonObject;
     begin
+        InitializePermissions();
         Entry.LockTable();
         if Entry.FindLast() then;
         Entry."Entry No." += 1;
@@ -156,6 +163,7 @@ codeunit 97613 "Mfg Action Guard Tst ori"
         Request: JsonObject;
         Response: JsonObject;
     begin
+        InitializePermissions();
         Entry.LockTable();
         if Entry.FindLast() then;
         Entry."Entry No." += 1;
@@ -183,6 +191,7 @@ codeunit 97613 "Mfg Action Guard Tst ori"
         Response: JsonObject;
         Ordinal: Integer;
     begin
+        InitializePermissions();
         JournalTemplate.Name := CopyStr(NewNo(), 1, MaxStrLen(JournalTemplate.Name));
         JournalTemplate.Type := JournalTemplate.Type::Item;
         JournalTemplate.Insert(false);
@@ -206,7 +215,8 @@ codeunit 97613 "Mfg Action Guard Tst ori"
     begin
         Request.Add('productionOrderNo', 'XMFG11-MISSING');
         LowerPermissions.SetOutsideO365Scope();
-        LowerPermissions.SetExactPermissionSet('BIFROST Full ori');
+        LowerPermissions.SetExactPermissionSet('D365 BASIC');
+        LowerPermissions.AddPermissionSet('BIFROST Full ori');
         Response := Lib.Invoke("Message Type ori"::"Manufacturing.ProductionOrder.Refresh", Request, true);
         LowerPermissions.SetOutsideO365Scope();
         Lib.AssertRefusal(Response, 'PermissionDenied', 'permission');
@@ -253,5 +263,11 @@ codeunit 97613 "Mfg Action Guard Tst ori"
         Order.DeleteAll(false);
         Assert.IsTrue(Order.IsEmpty(), 'No owned order fixture remains.');
         Commit();
+    end;
+    local procedure InitializePermissions()
+    begin
+        LowerPermissions.SetOutsideO365Scope();
+        LowerPermissions.SetExactPermissionSet('D365 BUS PREMIUM');
+        LowerPermissions.AddPermissionSet('BIFROST Full ori');
     end;
 }

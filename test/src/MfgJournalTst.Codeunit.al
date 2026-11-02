@@ -1,6 +1,7 @@
 namespace Origo.Bifrost.Manufacturing.Test;
 
 using Origo.Bifrost;
+using System.TestLibraries.Security.AccessControl;
 using System.TestLibraries.Utilities;
 
 /// <summary>
@@ -13,6 +14,7 @@ codeunit 97604 "Mfg Journal Tst ori"
 
     var
         Assert: Codeunit "Library Assert";
+        LowerPermissions: Codeunit "Library - Lower Permissions";
 
     /// <summary>Returns an error response when the journal template name is missing.</summary>
     [Test]
@@ -28,6 +30,7 @@ codeunit 97604 "Mfg Journal Tst ori"
         ResponseContentType: Text[100];
         MessageTypeOrdinal: Integer;
     begin
+        InitializePermissions();
         RequestContent.AddText('{}');
         for MessageTypeOrdinal := 10077044 to 10077046 do begin
             MessageType := Enum::"Message Type ori".FromInteger(MessageTypeOrdinal);
@@ -66,6 +69,7 @@ codeunit 97604 "Mfg Journal Tst ori"
         ResponseText: Text;
         ResponseContentType: Text[100];
     begin
+        InitializePermissions();
         RequestContent.AddText('{"ledgerType":"Item"}');
         MessageType := MessageType::"Manufacturing.Journal.ReversePosting";
 
@@ -85,5 +89,11 @@ codeunit 97604 "Mfg Journal Tst ori"
         Assert.AreEqual('Error', ResponseToken.AsValue().AsText(), 'A missing entry number should return an error.');
             Assert.IsTrue(ResponseJson.Get('code', ResponseToken), 'The refusal must include a stable error code.');
             Assert.AreEqual('MissingParameter', ResponseToken.AsValue().AsText(), 'Expected the precise missing-parameter code.');
+    end;
+    local procedure InitializePermissions()
+    begin
+        LowerPermissions.SetOutsideO365Scope();
+        LowerPermissions.SetExactPermissionSet('D365 BUS PREMIUM');
+        LowerPermissions.AddPermissionSet('BIFROST Full ori');
     end;
 }

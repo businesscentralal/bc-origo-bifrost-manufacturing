@@ -30,6 +30,7 @@ codeunit 97614 "Mfg Lifecycle Tst ori"
         Response: JsonObject;
         OrderNo: Code[20];
     begin
+        InitializePermissions();
         OrderNo := NewNo();
         CreateOrder(Order, OrderNo);
         Commit();
@@ -57,6 +58,7 @@ codeunit 97614 "Mfg Lifecycle Tst ori"
         Response: JsonObject;
         OrderNo: Code[20];
     begin
+        InitializePermissions();
         OrderNo := NewNo();
         CreateOrder(Order, OrderNo);
         Setup.Get();
@@ -98,6 +100,7 @@ codeunit 97614 "Mfg Lifecycle Tst ori"
         Response: JsonObject;
         OrderNo: Code[20];
     begin
+        InitializePermissions();
         OrderNo := NewNo();
         CreateOrder(Order, OrderNo);
         Commit();
@@ -161,5 +164,11 @@ codeunit 97614 "Mfg Lifecycle Tst ori"
         Item.Delete(false);
         Assert.IsTrue(Order.IsEmpty() and Line.IsEmpty() and Component.IsEmpty() and RoutingLine.IsEmpty() and ItemUom.IsEmpty() and PlanningAssignment.IsEmpty(), 'Owned lifecycle fixture cleanup.');
         Commit();
+    end;
+    local procedure InitializePermissions()
+    begin
+        LowerPermissions.SetOutsideO365Scope();
+        LowerPermissions.SetExactPermissionSet('D365 BUS PREMIUM');
+        LowerPermissions.AddPermissionSet('BIFROST Full ori');
     end;
 }
