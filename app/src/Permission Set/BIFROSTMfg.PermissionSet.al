@@ -14,5 +14,13 @@ permissionset 10077036 "BIFROST Mfg ori"
     Access = Public;
 
     Permissions =
-        codeunit "Mfg Registration ori" = X;
+        codeunit "Mfg Registration ori" = X,
+        codeunit "Mfg BOMRtg Contract ori" = X,
+        codeunit "Prod BOM Status Impl ori" = X,
+        codeunit "Prod BOM Status Proc ori" = X,
+        codeunit "Routing Status Impl ori" = X,
+        codeunit "Routing Status Proc ori" = X,
+        codeunit "BOM Routing Restrict ori" = X,
+        codeunit "BOM Routing Events ori" = X,
+        codeunit "BOM Routing Context ori" = X;
 }
