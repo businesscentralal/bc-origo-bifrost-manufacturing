@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add a native refresh fixture regression (97605) and explicit owned production-order fixture action (97667) for runtime diagnosis and MCP verification.
+
 - Enable Premium experience in the shared Default/Test build container so all Manufacturing Refresh tests execute with the required platform configuration; retain every assertion and failure gate.
 
 - Preserve bilingual BOM/routing test assertions in LCIDs 1033 and 1039 (codeunits 97660, 97661, 97663–97666); use Disabled isolation only for the ordinary-company background-session test 97613.

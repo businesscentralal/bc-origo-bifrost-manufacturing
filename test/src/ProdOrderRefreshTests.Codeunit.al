@@ -17,6 +17,27 @@ codeunit 97605 "Prod Order Refresh Tests ori"
         Assert: Codeunit "Library Assert";
 
     [Test]
+    procedure Scenario_AC07_NativeReport_UsesSameManufacturedFixture()
+    var
+        Item: Record Item;
+        Order: Record "Production Order";
+        Line: Record "Prod. Order Line";
+        NativeRefresh: Report "Refresh Production Order";
+    begin
+        // Prove the same fixture works through the native report before testing dispatcher parity.
+        Prepare(Item, Order);
+        Order.SetRecFilter();
+        NativeRefresh.InitializeRequest(1, true, true, true, false);
+        NativeRefresh.SetHideValidationDialog(true);
+        NativeRefresh.SetTableView(Order);
+        NativeRefresh.UseRequestPage(false);
+        NativeRefresh.RunModal();
+        Line.SetRange(Status, Order.Status);
+        Line.SetRange("Prod. Order No.", Order."No.");
+        Assert.AreEqual(1, Line.Count(), 'Native refresh creates the manufactured-item line.');
+    end;
+
+    [Test]
     procedure Scenario_AC07_Refresh_CreatesMatchingLinesAndCounts()
     var
         Item: Record Item;
