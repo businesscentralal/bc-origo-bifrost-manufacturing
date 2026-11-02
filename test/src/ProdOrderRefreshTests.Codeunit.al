@@ -70,7 +70,7 @@ codeunit 97605 "Prod Order Refresh Tests ori"
         NativeRefresh.SetHideValidationDialog(true);
         NativeRefresh.SetTableView(Order);
         NativeRefresh.UseRequestPage(false);
-        NativeRefresh.Run();
+        NativeRefresh.RunModal();
         Order.Get(Order.Status, Order."No.");
         NativeStart := Order."Starting Date";
         NativeEnd := Order."Ending Date";

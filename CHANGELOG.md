@@ -2,8 +2,6 @@
 
 ## Unreleased
 
-- Run the processing-only production-order refresh without a modal request-page boundary (10077043); preserve native-report parity and caller-rollback assertions (97605, 97610).
-
 - Enable Premium experience in the shared Default/Test build container so all Manufacturing Refresh tests execute with the required platform configuration; retain every assertion and failure gate.
 
 - Preserve bilingual BOM/routing test assertions in LCIDs 1033 and 1039 (codeunits 97660, 97661, 97663–97666); use Disabled isolation only for the ordinary-company background-session test 97613.

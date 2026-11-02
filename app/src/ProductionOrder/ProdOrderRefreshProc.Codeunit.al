@@ -43,7 +43,7 @@ codeunit 10077043 "Prod Order Refresh Proc ori"
         Refresh.SetHideValidationDialog(true);
         Refresh.SetTableView(ProductionOrder);
         Refresh.UseRequestPage(false);
-        Refresh.Run();
+        Refresh.RunModal();
         ProductionOrder.Get(ProductionOrder.Status, ProductionOrder."No.");
         ProductionLine.SetLoadFields(Status, "Prod. Order No.", "Line No.", "Item No.", Quantity, "Routing No.", "Production BOM No.");
         ProductionLine.SetRange(Status, ProductionOrder.Status);
