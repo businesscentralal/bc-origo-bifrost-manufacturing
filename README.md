@@ -70,6 +70,8 @@ Use `describe_message_type` for parameter, response, error and workflow chapters
 | 97613 | codeunit (test) | Mfg Licence Tests ori |
 | 97614 | codeunit (test fixture) | Mfg MCP Fixture Tst ori |
 | 97615 | codeunit (test) | Mfg Native Refresh Tst ori |
+| 97616 | codeunit (test cleanup) | Mfg MCP Cleanup Tst ori |
+| 97617 | codeunit (test) | Mfg MCP Cleanup Tests ori |
 | 97660 | codeunit (test) | Prod BOM Status Tests ori |
 | 97661 | codeunit (test) | Routing Status Tests ori |
 | 97662 | codeunit (test) | BOM Routing Restrict Tests ori |
@@ -112,3 +114,5 @@ site repository and is published at <https://docs.bifrost.origo.is>.
 | `test/` | Test app (`Bifrost Manufacturing - Tests`) |
 | `tools/` | Pipeline guard scripts |
 | `.AL-Go/`, `.github/`, `.alpaca/` | AL-Go for GitHub / COSMO Alpaca pipeline configuration |
+
+Owned production-order MCP fixtures record their company name and SystemId in the global test receipt. After removing that owned company, run test codeunit 97616 to delete only its receipt; cleanup refuses while either the company identity or name exists. Codeunit 97617 covers removal, idempotence, foreign-receipt preservation and live/missing-company guards.

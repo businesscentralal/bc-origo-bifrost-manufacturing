@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Record the owned MCP fixture company identity (97614) and provide explicit receipt cleanup after company removal (97616), with company/foreign-receipt isolation tests (97617).
+
 - Add an isolated native refresh fixture control (97615) and explicit owned production-order fixture action (97667) for runtime diagnosis and MCP verification.
 
 - Enable Premium experience in the shared Default/Test build container so all Manufacturing Refresh tests execute with the required platform configuration; retain every assertion and failure gate.

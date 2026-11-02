@@ -57,6 +57,8 @@ Allocated ids (record every new id here):
 | 97613 | codeunit (test) | Mfg Licence Tests ori |
 | 97614 | codeunit (test fixture) | Mfg MCP Fixture Tst ori |
 | 97615 | codeunit (test) | Mfg Native Refresh Tst ori |
+| 97616 | codeunit (test cleanup) | Mfg MCP Cleanup Tst ori |
+| 97617 | codeunit (test) | Mfg MCP Cleanup Tests ori |
 | 10077039 | enumextension | Mfg ProdOrder MsgType ori |
 | 10077040 | codeunit | Mfg ProdOrder Contract ori |
 | 10077041 | codeunit | Prod Order Create Impl ori |
@@ -133,3 +135,5 @@ Key rules always in effect:
 Test fixture codeunit `97614 Mfg MCP Fixture Tst ori` seeds owned items, BOM, routing and numbering through native validation for MCP verification; it does not change write guards or consent. Licence test codeunit `97613` requires disabled test isolation because it starts a real background session, and cleans its own company and result record. Both isolation groups belong to the full configured suite.
 
 Native fixture control `97615` runs the standard report using Microsoft's test-library transaction setup. It proves fixture validity separately; it does not replace or waive the dispatcher and caller-rollback tests.
+
+Owned production-order MCP fixtures record their company name and SystemId in the global test receipt. After removing that owned company, run test codeunit 97616 to delete only its receipt; cleanup refuses while either the company identity or name exists. Codeunit 97617 covers removal, idempotence, foreign-receipt preservation and live/missing-company guards.
