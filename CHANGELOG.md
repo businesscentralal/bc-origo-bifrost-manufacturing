@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Enable Premium experience in the shared Default/Test build container so all Manufacturing Refresh tests execute with the required platform configuration; retain every assertion and failure gate.
+
 - Preserve bilingual BOM/routing test assertions in LCIDs 1033 and 1039 (codeunits 97660, 97661, 97663–97666); use Disabled isolation only for the ordinary-company background-session test 97613.
 
 - Production order creation and refresh through `Manufacturing.ProductionOrder.Create` and `Manufacturing.ProductionOrder.Refresh` (#5). Native numbering, planning-only refresh, structured bilingual validation, conflict-aware identity lookup and caller rollback. App objects 10077039–10077045; test objects 97604–97613.
