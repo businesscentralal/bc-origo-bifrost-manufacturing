@@ -90,6 +90,28 @@ codeunit 97614 "Mfg Lifecycle Tst ori"
         Cleanup(OrderNo);
     end;
 
+    /// <summary>A same-status request is refused before standard status management tries to duplicate the key.</summary>
+    [Test]
+    procedure ChangeStatus_SameStatus_Refused()
+    var
+        Order: Record "Production Order";
+        Request: JsonObject;
+        Response: JsonObject;
+        OrderNo: Code[20];
+    begin
+        // PR11 blocker4 | Time: WorkDate from fixture; Today unused | Risk: None
+        InitializePermissions();
+        OrderNo := NewNo();
+        CreateOrder(Order, OrderNo);
+        Request.Add('productionOrderNo', OrderNo);
+        Request.Add('newStatus', 'Firm Planned');
+        Response := Lib.Invoke("Message Type ori"::"Manufacturing.ProductionOrder.ChangeStatus", Request, false);
+        Lib.AssertRefusal(Response, 'PreconditionFailed', 'newStatus');
+        Assert.IsTrue(Order.Get(Order.Status::"Firm Planned", OrderNo), 'Original order retained.');
+        Assert.AreEqual(2, Order.Quantity, 'Refusal preserved quantity.');
+        Cleanup(OrderNo);
+    end;
+
     /// <summary>Replanning and cost calculation preserve the selected item and quantity.</summary>
     [Test]
     procedure ReplanAndCost_ExistingOrder_Succeed()

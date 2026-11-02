@@ -16,6 +16,7 @@ codeunit 10077040 "Mfg Refresh Order Impl ori" implements "Msg Interface ori", "
         AmbiguousOrderErr: Label 'The number identifies more than one active production order. Use an unambiguous order number.', Comment = 'is-IS=Númerið auðkennir fleiri en eina virka framleiðslupöntun. Notaðu ótvírætt pöntunarnúmer.';
         ProductionOrderNotFoundErr: Label 'Production order %1 was not found.', Comment = '%1 = production order number||is-IS=Framleiðslupöntun %1 fannst ekki.';
         InvalidStatusErr: Label 'newStatus must be Firm Planned, Released, or Finished.', Comment = 'is-IS=newStatus verður að vera Firm Planned, Released eða Finished.';
+        SameStatusErr: Label 'The production order already has the requested status.', Comment = 'is-IS=Framleiðslupöntunin hefur þegar umbeðna stöðu.';
         DescriptionLbl: Label 'Recalculates component and routing demand for one production order by refreshing its lines or replanning dependent demand.', MaxLength = 250, Comment = 'is-IS=Endurreiknar íhluta- og leiðarþörf fyrir eina framleiðslupöntun með því að uppfæra línur hennar eða endurskipuleggja háða þörf.';
         FirmPlannedStatusTok: Label 'FIRM PLANNED', Locked = true;
         ReleasedStatusTok: Label 'RELEASED', Locked = true;
@@ -398,6 +399,11 @@ codeunit 10077040 "Mfg Refresh Order Impl ori" implements "Msg Interface ori", "
         end;
         ProductionOrder.FindFirst();
         ProductionOrder.SetRecFilter();
+        if Argument.Type = Enum::"Message Type ori"::"Manufacturing.ProductionOrder.ChangeStatus" then
+            if ProductionOrder.Status = NewStatus then begin
+                Contract.Refuse(Argument, "Bifrost Error Code ori"::PreconditionFailed, 'newStatus', SameStatusErr);
+                exit;
+            end;
         if not Contract.RequireCommittingCall(Argument) then
             exit;
         case Argument.Type of

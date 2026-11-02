@@ -20,6 +20,7 @@ codeunit 10077047 "Mfg Journal Reverse Impl ori" implements "Msg Interface ori",
         ItemEntryNotFoundErr: Label 'Production item ledger entry %1 was not found.', Comment = '%1 = item ledger entry number||is-IS=Færslubókarfærsla framleiðsluvöru %1 fannst ekki.';
         CapacityEntryNotFoundErr: Label 'Production capacity ledger entry %1 was not found.', Comment = '%1 = capacity ledger entry number||is-IS=Afkastabókafærsla framleiðslu %1 fannst ekki.';
         ProductionEntryErr: Label 'Only an unreversed production-order posting can be reversed.', Comment = 'is-IS=Aðeins má bakfæra óbakfærða bókun framleiðslupöntunar.';
+        OutputAppliedErr: Label 'Only positive production output with its full quantity remaining can be reversed.', Comment = 'is-IS=Aðeins má bakfæra jákvæð framleiðsluafköst þegar allt magnið er enn eftir.';
         DescriptionLbl: Label 'Reverses one posted production item or capacity ledger entry using Microsoft production undo logic.', MaxLength = 250, Comment = 'is-IS=Bakfærir eina bókaða vöru- eða afkastabókafærslu framleiðslu með bakfærslurökfræði Microsoft.';
 
     /// <summary>Reports whether production posting reversal is available.</summary>
@@ -263,6 +264,11 @@ codeunit 10077047 "Mfg Journal Reverse Impl ori" implements "Msg Interface ori",
                         Contract.Refuse(Argument, "Bifrost Error Code ori"::PreconditionFailed, 'entryNo', ProductionEntryErr);
                         exit;
                     end;
+                    if ItemLedgerEntry."Entry Type" = ItemLedgerEntry."Entry Type"::Output then
+                        if (ItemLedgerEntry.Quantity <= 0) or (ItemLedgerEntry."Remaining Quantity" <> ItemLedgerEntry.Quantity) then begin
+                            Contract.Refuse(Argument, "Bifrost Error Code ori"::PreconditionFailed, 'entryNo', OutputAppliedErr);
+                            exit;
+                        end;
                     if not Contract.RequireCommittingCall(Argument) then
                         exit;
                     ItemLedgerEntry.SetRecFilter();

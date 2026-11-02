@@ -315,6 +315,12 @@
           <note from="Developer" annotates="general" priority="2">is-IS=ledgerType verður að vera Item eða Capacity.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Journal Reverse Impl ori - NamedType LedgerTypeRequiredErr</note>
         </trans-unit>
+        <trans-unit id="Codeunit 1702469251 - NamedType 197507969" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Only positive production output with its full quantity remaining can be reversed.</source>
+          <target state="translated">Aðeins má bakfæra jákvæð framleiðsluafköst þegar allt magnið er enn eftir.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Aðeins má bakfæra jákvæð framleiðsluafköst þegar allt magnið er enn eftir.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Journal Reverse Impl ori - NamedType OutputAppliedErr</note>
+        </trans-unit>
         <trans-unit id="Codeunit 1702469251 - NamedType 3574606574" size-unit="char" translate="yes" xml:space="preserve">
           <source>Only an unreversed production-order posting can be reversed.</source>
           <target state="translated">Aðeins má bakfæra óbakfærða bókun framleiðslupöntunar.</target>
@@ -356,6 +362,12 @@
           <target state="translated">Framleiðslupöntun %1 fannst ekki.</target>
           <note from="Developer" annotates="general" priority="2">%1 = production order number||is-IS=Framleiðslupöntun %1 fannst ekki.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Refresh Order Impl ori - NamedType ProductionOrderNotFoundErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3323283397 - NamedType 31841941" size-unit="char" translate="yes" xml:space="preserve">
+          <source>The production order already has the requested status.</source>
+          <target state="translated">Framleiðslupöntunin hefur þegar umbeðna stöðu.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Framleiðslupöntunin hefur þegar umbeðna stöðu.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Refresh Order Impl ori - NamedType SameStatusErr</note>
         </trans-unit>
         <trans-unit id="Codeunit 3323283397 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
           <source>production order, refresh, replan, change status, recalculate, components, routing, dependent demand</source>

@@ -21,6 +21,27 @@ codeunit 97615 "Mfg Posting Tst ori"
     /// <summary>Posting without SUPER creates the output ledger entry and removes the journal line without a dialog.</summary>
     [Test]
     procedure Post_Output_CreatesLedgerEntry()
+    begin
+        VerifyOutput(false);
+    end;
+
+    /// <summary>After a real reversal the original output is refused with a coded error and no additional posting.</summary>
+    [Test]
+    [HandlerFunctions('ConfirmReversal')]
+    procedure Reverse_OutputTwice_SecondRefused()
+    begin
+        // PR11 blocker4 | Time: WorkDate from fixture; Today unused | Risk: None
+        VerifyOutput(true);
+    end;
+
+    /// <summary>Accepts the standard reversal confirmation in the native test client.</summary>
+    [ConfirmHandler]
+    procedure ConfirmReversal(Question: Text[1024]; var Reply: Boolean)
+    begin
+        Reply := true;
+    end;
+
+    local procedure VerifyOutput(ReverseOutput: Boolean)
     var
         Entry: Record "Item Ledger Entry";
         JournalLine: Record "Item Journal Line";
@@ -53,6 +74,20 @@ codeunit 97615 "Mfg Posting Tst ori"
         JournalLine.SetRange("Journal Template Name", JournalName);
         JournalLine.SetRange("Journal Batch Name", JournalName);
         Assert.IsTrue(JournalLine.IsEmpty(), 'Posted journal line removed.');
+        if ReverseOutput then begin
+            Clear(Request);
+            Request.Add('ledgerType', 'Item');
+            Request.Add('entryNo', Entry."Entry No.");
+            Commit();
+            Lib.AssertSuccess(Lib.Invoke("Message Type ori"::"Manufacturing.Journal.ReversePosting", Request, false));
+            Assert.AreEqual(2, Entry.Count(), 'Reversal created one correcting output.');
+            Entry.CalcSums(Quantity);
+            Assert.AreEqual(0, Entry.Quantity, 'Output and reversal balance.');
+            Commit();
+            Response := Lib.Invoke("Message Type ori"::"Manufacturing.Journal.ReversePosting", Request, false);
+            Lib.AssertRefusal(Response, 'PreconditionFailed', 'entryNo');
+            Assert.AreEqual(2, Entry.Count(), 'Repeated reversal created no extra entry.');
+        end;
         Fixtures.Cleanup(FixtureNo);
         LowerPermissions.SetOutsideO365Scope();
     end;
