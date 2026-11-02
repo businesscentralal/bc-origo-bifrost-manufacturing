@@ -93,6 +93,7 @@ codeunit 10077047 "Mfg Journal Reverse Impl ori" implements "Msg Interface ori",
         LedgerTypeParameter.Add('description', 'Item reverses a production item ledger entry; Capacity reverses a capacity ledger entry.');
         Parameters.Add(LedgerTypeParameter);
         Parameters.Add(ContractMgt.Parameter('entryNo', 'integer', true, 'The entry number in the selected production ledger.'));
+        Parameters.Add(ContractMgt.Parameter('expectedCount', 'integer', false, 'Confirmation that exactly one production ledger entry will be reversed. Must be 1 when supplied.'));
         exit(true);
     end;
 
