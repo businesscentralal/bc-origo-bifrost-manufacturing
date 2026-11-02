@@ -149,7 +149,7 @@ codeunit 97614 "Mfg Lifecycle Tst ori"
     var
         Order: Record "Production Order";
         Line: Record "Prod. Order Line";
-        Argument: Record "Message Argument ori" temporary;
+        TempArgument: Record "Message Argument ori" temporary;
         Request: JsonObject;
         OrderNo: Code[20];
         Succeeded: Boolean;
@@ -158,10 +158,10 @@ codeunit 97614 "Mfg Lifecycle Tst ori"
         OrderNo := NewNo();
         CreateOrder(Order, OrderNo);
         Request.Add('productionOrderNo', OrderNo);
-        Argument.Type := "Message Type ori"::"Manufacturing.ProductionOrder.Refresh";
-        Argument.SetRequestJson(Request);
+        TempArgument.Type := "Message Type ori"::"Manufacturing.ProductionOrder.Refresh";
+        TempArgument.SetRequestJson(Request);
         Commit();
-        Succeeded := Codeunit.Run(Codeunit::"Mfg Refresh Order Impl ori", Argument);
+        Succeeded := Codeunit.Run(Codeunit::"Mfg Refresh Order Impl ori", TempArgument);
         Assert.IsTrue(Succeeded, GetLastErrorText());
         Line.SetRange(Status, Order.Status);
         Line.SetRange("Prod. Order No.", OrderNo);
