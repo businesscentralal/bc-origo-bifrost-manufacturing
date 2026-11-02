@@ -66,12 +66,12 @@ codeunit 97664 "BOM Routing Perm Tests ori"
         LowerPermissions.SetExactPermissionSet('BIFROST Full ori');
         Response := Lib.SetBomStatus(BomNo, '', 'Certified', true);
         LowerPermissions.SetOutsideO365Scope();
-        Lib.AssertRefusal(Response, 'PermissionDenied', 'permission');
+        Lib.AssertRefusal(Response, 'PermissionDenied', Lib.ExpectedText('permission', 'heimild'));
 
         LowerPermissions.SetExactPermissionSet('BIFROST Full ori');
         Response := Lib.SetRoutingStatus(RoutingNo, '', 'Certified', true);
         LowerPermissions.SetOutsideO365Scope();
-        Lib.AssertRefusal(Response, 'PermissionDenied', 'permission');
+        Lib.AssertRefusal(Response, 'PermissionDenied', Lib.ExpectedText('permission', 'heimild'));
         Lib.Sweep();
     end;
 

@@ -193,6 +193,22 @@ codeunit 97666 "BOM Routing Test Lib ori"
         Assert.IsTrue(ResponseText.Contains(ExpectedFragment), 'The refusal must contain ''' + ExpectedFragment + ''': ' + ResponseText);
     end;
 
+    /// <summary>Selects the independent expected text for the actual test session language.</summary>
+    /// <param name="English">The English expectation.</param>
+    /// <param name="Icelandic">The Icelandic expectation.</param>
+    /// <returns>The expected text without changing the session language.</returns>
+    procedure ExpectedText(English: Text; Icelandic: Text): Text
+    begin
+        case GlobalLanguage() of
+            1033:
+                exit(English);
+            1039:
+                exit(Icelandic);
+            else
+                Error('Run bilingual manufacturing tests in LCID 1033 or 1039.');
+        end;
+    end;
+
     /// <summary>Reads a text property. Fails when it is missing.</summary>
     procedure GetText(ResponseJson: JsonObject; PropertyName: Text): Text
     var
