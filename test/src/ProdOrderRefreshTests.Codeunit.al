@@ -26,7 +26,7 @@ codeunit 97605 "Prod Order Refresh Tests ori"
     begin
         // Prove the same fixture works through the native report before testing dispatcher parity.
         Prepare(Item, Order);
-        CurrentTransactionType(TransactionType::Update);
+        Commit();
         Order.SetRecFilter();
         NativeRefresh.InitializeRequest(1, true, true, true, false);
         NativeRefresh.SetHideValidationDialog(true);
