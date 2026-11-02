@@ -45,21 +45,18 @@ Allocated ids (record every new id here):
 | 97667 | page (test only) | BOM Routing Fixtures ori |
 | 97668-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
 
-| 97604 | codeunit | Prod Order Create Tests ori |
-| 97605 | codeunit | Prod Order Refresh Tests ori |
-| 97606 | codeunit | Mfg ProdOrder Contract Tst ori |
-| 97607 | codeunit | Mfg Test Data ori |
-| 97610 | codeunit | Mfg ProdOrder Rollback Tst ori |
-| 97604 | codeunit | Prod Order Create Tests ori |
-| 97605 | codeunit | Prod Order Refresh Tests ori |
-| 97606 | codeunit | Mfg ProdOrder Contract Tst ori |
-| 97607 | codeunit | Mfg Test Data ori |
-| 97608 | codeunit | Mfg ProdOrder Perm Tests ori |
-| 97609 | permissionset | Mfg NoGrant Tst ori |
-| 97610 | codeunit | Mfg ProdOrder Rollback Tst ori |
-| 97611 | codeunit | Mfg Licence Probe Tst ori |
-| 97612 | table | Mfg Licence Result Tst ori |
-| 97613 | codeunit | Mfg Licence Tests ori |
+| 97604 | codeunit (test) | Prod Order Create Tests ori |
+| 97605 | codeunit (test) | Prod Order Refresh Tests ori |
+| 97606 | codeunit (test) | Mfg ProdOrder Contract Tst ori |
+| 97607 | codeunit (test) | Mfg Test Data ori |
+| 97608 | codeunit (test) | Mfg ProdOrder Perm Tests ori |
+| 97609 | permissionset (test) | Mfg NoGrant Tst ori |
+| 97610 | codeunit (test) | Mfg ProdOrder Rollback Tst ori |
+| 97611 | codeunit (test) | Mfg Licence Probe Tst ori |
+| 97612 | table (test) | Mfg Licence Result Tst ori |
+| 97613 | codeunit (test) | Mfg Licence Tests ori |
+| 97614 | codeunit (test fixture) | Mfg MCP Fixture Tst ori |
+| 97615 | codeunit (test) | Mfg Native Refresh Tst ori |
 | 10077039 | enumextension | Mfg ProdOrder MsgType ori |
 | 10077040 | codeunit | Mfg ProdOrder Contract ori |
 | 10077041 | codeunit | Prod Order Create Impl ori |
@@ -134,3 +131,5 @@ Key rules always in effect:
 - Keep MCP calls serial - parallel bursts crash the server.
 
 Test fixture codeunit `97614 Mfg MCP Fixture Tst ori` seeds owned items, BOM, routing and numbering through native validation for MCP verification; it does not change write guards or consent. Licence test codeunit `97613` requires disabled test isolation because it starts a real background session, and cleans its own company and result record. Both isolation groups belong to the full configured suite.
+
+Native fixture control `97615` runs the standard report using Microsoft's test-library transaction setup. It proves fixture validity separately; it does not replace or waive the dispatcher and caller-rollback tests.
