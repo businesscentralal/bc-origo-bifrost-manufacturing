@@ -8,7 +8,9 @@ if ($Parameters.extensionId -ne '564eea9a-e27b-4358-bbae-28d380268382') {
 
 $isolated = $Parameters.Clone()
 $isolated.testCodeunit = '*'
-$isolated.testCodeunitRange = '<>97613'
+# A codeunit range replaces extension selection in the BC command-line runner.
+# Keep it inside this test app's assigned 97600..97699 range.
+$isolated.testCodeunitRange = '97600..97612|97614..97699'
 $isolated.testRunnerCodeunitId = '130450'
 $isolatedPassed = Run-TestsInBcContainer @isolated
 
