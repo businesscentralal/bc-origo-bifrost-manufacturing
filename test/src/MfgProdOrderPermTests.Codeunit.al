@@ -23,6 +23,7 @@ codeunit 97608 "Mfg ProdOrder Perm Tests ori"
         Item: Record Item;
         Request: JsonObject;
         Response: JsonObject;
+        ResponseText: Text;
     begin
         // Story #5 AC18: the Bifrost Full extension supplies execute rights; Microsoft roles supply native data rights.
         Data.SetupNumbering(false);
@@ -40,7 +41,8 @@ codeunit 97608 "Mfg ProdOrder Perm Tests ori"
         AddNativePermissions();
         Response := Data.Invoke("Message Type ori"::"Manufacturing.ProductionOrder.Refresh", Request, 1033, false);
         LowerPermissions.SetOutsideO365Scope();
-        Assert.AreEqual('Success', Data.TextValue(Response, 'status'), 'Full role can refresh.');
+        Response.WriteTo(ResponseText);
+        Assert.AreEqual('Success', Data.TextValue(Response, 'status'), 'Full role can refresh. Response: ' + ResponseText);
     end;
 
     [Test]
