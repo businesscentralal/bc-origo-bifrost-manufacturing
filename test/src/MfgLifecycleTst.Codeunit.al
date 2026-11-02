@@ -158,11 +158,13 @@ codeunit 97614 "Mfg Lifecycle Tst ori"
         OrderNo := NewNo();
         CreateOrder(Order, OrderNo);
         Request.Add('productionOrderNo', OrderNo);
+        TempArgument.ID := CreateGuid();
+        TempArgument.Insert(false);
         TempArgument.Type := "Message Type ori"::"Manufacturing.ProductionOrder.Refresh";
         TempArgument.SetRequestJson(Request);
         Commit();
         Succeeded := Codeunit.Run(Codeunit::"Mfg Refresh Order Impl ori", TempArgument);
-        Assert.IsTrue(Succeeded, GetLastErrorText());
+        Assert.IsTrue(Succeeded, GetLastErrorText() + GetLastErrorCallStack());
         Line.SetRange(Status, Order.Status);
         Line.SetRange("Prod. Order No.", OrderNo);
         Assert.AreEqual(1, Line.Count(), 'Transaction runner creates one production line.');
