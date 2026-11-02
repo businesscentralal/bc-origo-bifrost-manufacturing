@@ -48,6 +48,7 @@ codeunit 97605 "Prod Order Refresh Tests ori"
         Order: Record "Production Order";
         Bom: Record "Production BOM Header";
         Line: Record "Prod. Order Line";
+        Response: JsonObject;
         PreviousTransactionType: TransactionType;
     begin
         // Story #5 AC10: native refusal after a committed owned fixture, no existing line replacement.
@@ -58,7 +59,9 @@ codeunit 97605 "Prod Order Refresh Tests ori"
         Commit();
         PreviousTransactionType := CurrentTransactionType();
 
-        Data.AssertRefusal(Refresh(Order, 'Backward', true, true, true, false), 'BusinessCentralError');
+        Response := Refresh(Order, 'Backward', true, true, true, false);
+        Data.AssertRefusal(Response, 'BusinessCentralError');
+        Assert.IsTrue(Data.TextValue(Response, 'error').Contains(Bom."No."), 'Refusal identifies the native BOM validation, not a generic transaction failure.');
 
         Assert.IsTrue(CurrentTransactionType() = PreviousTransactionType, 'Failed refresh restores transaction type.');
         Line.SetRange(Status, Order.Status);
