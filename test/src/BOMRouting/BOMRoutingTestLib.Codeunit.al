@@ -10,6 +10,7 @@ using Microsoft.Manufacturing.WorkCenter;
 using Origo.Bifrost;
 using Origo.Bifrost.Manufacturing;
 using System.Diagnostics;
+using System.TestLibraries.Security.AccessControl;
 using System.TestLibraries.Utilities;
 using System.Utilities;
 
@@ -26,8 +27,65 @@ codeunit 97666 "BOM Routing Test Lib ori"
 
     var
         Assert: Codeunit "Library Assert";
+        LowerPermissions: Codeunit "Library - Lower Permissions";
+        RestrictedMessageType: Enum "Message Type ori";
+        RestrictedRequest: JsonObject;
+        RestrictedResponse: JsonObject;
+        RestrictedPermissionSet: Code[20];
+        RestrictedPrepared: Boolean;
         UomCodeTok: Label 'XMFG8', Locked = true;
         PrefixTok: Label 'XMFG8*', Locked = true;
+        LibraryNameTok: Label 'BOM Routing Test Lib ori', Locked = true;
+
+    /// <summary>
+    /// Runs the dispatch prepared by <c>AssertRefusedByPermission</c> under the exact permission set.
+    /// The permissions are lowered inside this run, so the platform checks the message type
+    /// implementation and not the test library itself.
+    /// </summary>
+    trigger OnRun()
+    begin
+        Assert.IsTrue(RestrictedPrepared, 'The library runs only a dispatch prepared by AssertRefusedByPermission.');
+        RestrictedPrepared := false;
+        LowerPermissions.SetOutsideO365Scope();
+        LowerPermissions.SetExactPermissionSet(RestrictedPermissionSet);
+        RestrictedResponse := Invoke(RestrictedMessageType, RestrictedRequest, false);
+    end;
+
+    /// <summary>
+    /// Dispatches a message type under one exact permission set and asserts a permission refusal.
+    /// The refusal can be a platform permission error raised during the dispatch, or an Error answer
+    /// that reports the permission failure (Foundation 28.0.11 and later enqueue with inherent
+    /// permissions, core#1236, so the missing execute permission is answered instead of raised).
+    /// A Success answer, any other refusal or a permission error on the test library fails the test.
+    /// </summary>
+    /// <param name="MessageType">The message type to dispatch.</param>
+    /// <param name="RequestJson">The request data.</param>
+    /// <param name="PermissionSetId">The only permission set the caller holds during the dispatch.</param>
+    procedure AssertRefusedByPermission(MessageType: Enum "Message Type ori"; RequestJson: JsonObject; PermissionSetId: Code[20])
+    var
+        Refusal: Text;
+        Completed: Boolean;
+    begin
+        RestrictedMessageType := MessageType;
+        RestrictedRequest := RequestJson;
+        RestrictedPermissionSet := PermissionSetId;
+        Clear(RestrictedResponse);
+        RestrictedPrepared := true;
+        // Codeunit.Run needs a clean transaction; the dispatch itself commits as a normal caller would.
+        Commit();
+        ClearLastError();
+        Completed := this.Run();
+        if not Completed then
+            Refusal := GetLastErrorText();
+        LowerPermissions.SetOutsideO365Scope();
+        RestrictedPrepared := false;
+        if Completed then begin
+            RestrictedResponse.WriteTo(Refusal);
+            Assert.AreEqual('Error', GetText(RestrictedResponse, 'status'), 'Expected a permission refusal: ' + Refusal);
+        end;
+        Assert.IsFalse(Refusal.Contains(LibraryNameTok), 'The refusal must come from the message type, not the test library: ' + Refusal);
+        Assert.IsTrue(LowerCase(Refusal).Contains('permission') or LowerCase(Refusal).Contains('heimild'), 'Expected a permission refusal: ' + Refusal);
+    end;
 
     /// <summary>Removes every XMFG8 fixture this library created and commits the delete.</summary>
     procedure Sweep()

@@ -35,6 +35,8 @@ codeunit 97664 "BOM Routing Perm Tests ori"
         Request: JsonObject;
         Response: JsonObject;
     begin
+        // Start from no fixture rows; this also loads the library before the permissions are lowered.
+        Lib.Sweep();
         LowerPermissions.SetOutsideO365Scope();
         LowerPermissions.SetExactPermissionSet('BIFROST Full ori');
         Request.Add('status', 'Certified');
@@ -122,16 +124,9 @@ codeunit 97664 "BOM Routing Perm Tests ori"
     local procedure AssertPlatformRefusal(MessageType: Enum "Message Type ori")
     var
         Request: JsonObject;
-        Response: JsonObject;
-        ErrorText: Text;
     begin
         Request.Add('no', 'XMFG8');
         Request.Add('status', 'Certified');
-        LowerPermissions.SetOutsideO365Scope();
-        LowerPermissions.SetExactPermissionSet('BIFROST Read ori');
-        asserterror Response := Lib.Invoke(MessageType, Request, false);
-        ErrorText := GetLastErrorText();
-        LowerPermissions.SetOutsideO365Scope();
-        Assert.IsTrue(LowerCase(ErrorText).Contains('permission') or LowerCase(ErrorText).Contains('heimild'), ErrorText);
+        Lib.AssertRefusedByPermission(MessageType, Request, 'BIFROST Read ori');
     end;
 }
