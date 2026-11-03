@@ -17,6 +17,7 @@ on:
       - 'app/src/**'
       - 'app/Translations/**'
       - 'tools/**'
+      - 'tools/Test-MessageTypeNames.ps1'
       - '.github/workflows/SourceGuards.yaml'
   workflow_dispatch:
 
@@ -88,6 +89,20 @@ jobs:
       - name: Every Icelandic keyword list is complete
         shell: pwsh
         run: ./tools/Test-IcelandicKeywordCounts.ps1
+
+  MessageTypeNames:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: The guard checks itself
+        shell: pwsh
+        run: ./tools/Test-MessageTypeNames.ps1 -SelfTest
+
+      - name: Every message type name in the app has exactly three parts
+        shell: pwsh
+        run: ./tools/Test-MessageTypeNames.ps1
 
   ObjectIdsUnique:
     runs-on: ubuntu-latest
