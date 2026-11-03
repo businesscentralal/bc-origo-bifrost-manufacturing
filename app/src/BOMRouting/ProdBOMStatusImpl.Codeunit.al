@@ -158,10 +158,12 @@ codeunit 10077087 "Prod BOM Status Impl ori" implements "Msg Interface ori", "Ms
     /// <param name="Argument">The message argument.</param>
     procedure ExecuteBifrostTask(var Argument: Record "Message Argument ori")
     var
+        WriteCheck: Codeunit "Mfg Write Check ori";
         Proc: Codeunit "Prod BOM Status Proc ori";
     begin
         Argument.AssertVersion1();
         Argument.AssertIsLicensed();
+        WriteCheck.AssertCanWrite('Manufacturing.ProductionBOM.SetStatus');
         if Argument."Omit Commit" then begin
             Proc.Apply(Argument);
             exit;

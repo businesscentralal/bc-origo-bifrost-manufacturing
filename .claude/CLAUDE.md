@@ -66,6 +66,8 @@ Allocated ids (record every new id here):
 | 10077043 | codeunit | Prod Order Refresh Proc ori |
 | 10077044 | codeunit | Mfg Prod Order Lookup ori |
 | 10077045 | codeunit | Mfg Prod Order Request ori |
+| 10077046 | table | Mfg Write Gate ori |
+| 10077047 | codeunit | Mfg Write Check ori |
 
 ## Microsoft source
 Business Central manufacturing (production orders, production BOMs, routings, work and machine centers, output and consumption) lives in the **Base Application**; BC 28 has no separate Microsoft manufacturing app to depend on. Source: https://github.com/microsoft/BCApps/tree/main/src/Layers/W1/BaseApp/Manufacturing
@@ -137,3 +139,7 @@ Test fixture codeunit `97614 Mfg MCP Fixture Tst ori` seeds owned items, BOM, ro
 Native fixture control `97615` runs the standard report using Microsoft's test-library transaction setup. It proves fixture validity separately; it does not replace or waive the dispatcher and caller-rollback tests.
 
 Owned production-order MCP fixtures record their company name and SystemId in the global test receipt. After removing that owned company, run test codeunit 97616 to delete only its receipt; cleanup refuses while either the company identity or name exists. Codeunit 97617 covers removal, idempotence, foreign-receipt preservation and live/missing-company guards.
+
+Manufacturing write messages require `BIFROST Mfg ori` or `BIFROST Full ori`.
+The read role receives only read access to the empty permission gate; broad native
+Execute grants do not confer Manufacturing write access. Native record permissions remain required.

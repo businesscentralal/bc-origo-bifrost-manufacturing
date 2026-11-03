@@ -169,6 +169,7 @@ codeunit 10077041 "Prod Order Create Impl ori" implements "Msg Interface ori", "
         Item: Record Item;
         Setup: Record "Manufacturing Setup";
         Reader: Codeunit "Mfg Prod Order Request ori";
+        WriteCheck: Codeunit "Mfg Write Check ori";
         Request: JsonObject;
         SourceNo: Text;
         StatusText: Text;
@@ -182,6 +183,7 @@ codeunit 10077041 "Prod Order Create Impl ori" implements "Msg Interface ori", "
     begin
         Argument.AssertIsLicensed();
         Argument.AssertVersion1();
+        WriteCheck.AssertCanWrite('Manufacturing.ProductionOrder.Create');
         Request := Argument.GetRequestJson();
         Reader.CheckKeys('sourceNo|quantity|status|dueDate|variantCode|description|locationCode|binCode|no', Request, Argument);
         SourceNo := Reader.ReadText(Request, 'sourceNo', true, 20, Argument);

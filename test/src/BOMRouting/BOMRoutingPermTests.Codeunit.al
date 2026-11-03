@@ -132,6 +132,7 @@ codeunit 97664 "BOM Routing Perm Tests ori"
         asserterror Response := Lib.Invoke(MessageType, Request, false);
         ErrorText := GetLastErrorText();
         LowerPermissions.SetOutsideO365Scope();
+        Assert.IsTrue(ErrorText.Contains('BIFROST Mfg ori'), 'The Manufacturing write gate must refuse; a native licence or table error is not proof. Actual: ' + ErrorText);
         Assert.IsTrue(LowerCase(ErrorText).Contains('permission') or LowerCase(ErrorText).Contains('heimild'), ErrorText);
     end;
 }

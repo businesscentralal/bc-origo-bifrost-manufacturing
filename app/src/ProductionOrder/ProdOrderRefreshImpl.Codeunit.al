@@ -168,6 +168,7 @@ codeunit 10077042 "Prod Order Refresh Impl ori" implements "Msg Interface ori", 
     var
         ProductionOrder: Record "Production Order";
         Reader: Codeunit "Mfg Prod Order Request ori";
+        WriteCheck: Codeunit "Mfg Write Check ori";
         Lookup: Codeunit "Mfg Prod Order Lookup ori";
         Request: JsonObject;
         Direction: Text;
@@ -188,6 +189,7 @@ codeunit 10077042 "Prod Order Refresh Impl ori" implements "Msg Interface ori", 
     begin
         Argument.AssertIsLicensed();
         Argument.AssertVersion1();
+        WriteCheck.AssertCanWrite('Manufacturing.ProductionOrder.Refresh');
         Request := Argument.GetRequestJson();
         Reader.CheckKeys('no|systemId|productionOrderStatus|direction|calculateLines|calculateRoutings|calculateComponents', Request, Argument);
         Direction := Reader.ReadText(Request, 'direction', false, 8, Argument);

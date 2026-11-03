@@ -74,6 +74,7 @@ codeunit 97608 "Mfg ProdOrder Perm Tests ori"
         asserterror Response := Data.Invoke(MessageType, Request, 1033, false);
         ErrorText := GetLastErrorText();
         LowerPermissions.SetOutsideO365Scope();
+        Assert.IsTrue(ErrorText.Contains('BIFROST Mfg ori'), 'The Manufacturing write gate must refuse; a native licence or table error is not proof. Actual: ' + ErrorText);
         Assert.IsTrue(ErrorText.Contains('permission') or ErrorText.Contains('Permission'), 'Platform must refuse execution permission.');
     end;
 

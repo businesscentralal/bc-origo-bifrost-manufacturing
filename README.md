@@ -44,6 +44,8 @@ Use `describe_message_type` for parameter, response, error and workflow chapters
 | 10077043 | codeunit | Prod Order Refresh Proc ori |
 | 10077044 | codeunit | Mfg Prod Order Lookup ori |
 | 10077045 | codeunit | Mfg Prod Order Request ori |
+| 10077046 | table | Mfg Write Gate ori |
+| 10077047 | codeunit | Mfg Write Check ori |
 | 10077085 | enumextension | Mfg BOMRtg MsgType ori |
 | 10077086 | codeunit | Mfg BOMRtg Contract ori |
 | 10077087 | codeunit | Prod BOM Status Impl ori |
@@ -116,3 +118,7 @@ site repository and is published at <https://docs.bifrost.origo.is>.
 | `.AL-Go/`, `.github/`, `.alpaca/` | AL-Go for GitHub / COSMO Alpaca pipeline configuration |
 
 Owned production-order MCP fixtures record their company name and SystemId in the global test receipt. After removing that owned company, run test codeunit 97616 to delete only its receipt; cleanup refuses while either the company identity or name exists. Codeunit 97617 covers removal, idempotence, foreign-receipt preservation and live/missing-company guards.
+
+Manufacturing write messages require `BIFROST Mfg ori` or `BIFROST Full ori`.
+The read role receives only read access to the empty permission gate; broad native
+Execute grants do not confer Manufacturing write access. Native record permissions remain required.

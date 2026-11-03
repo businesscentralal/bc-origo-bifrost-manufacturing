@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Enforce the Manufacturing write role for Create, Refresh, BOM status and routing status even when native D365 roles grant broad codeunit Execute access (#5). Empty permission table 10077046 and check codeunit 10077047 distinguish full and read roles without widening native record access. Existing denial assertions now also reject misleading native licensing errors.
+
 - Supply native Planning Assignment indirect insert/modify and Work Center read permissions in the shared permission-test baseline (97609); preserve distinct Manufacturing full/read grants and expose native refusal details in the full-role assertion (97608).
 
 - Select the native report's transaction type before reading inside the normal Refresh rollback boundary and restore the caller's type after success or refusal (10077042/10077043); retain the independent Omit Commit tests and add normal-boundary regression cases (97605).
