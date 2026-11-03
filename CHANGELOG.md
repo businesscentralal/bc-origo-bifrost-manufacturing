@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Test fixture cleanup (`Mfg Posting Fixture ori` 97616) also removes the owned order's capacity ledger entries, average-cost adjustment entry points and output put-away/pick activities, and verifies they are gone. Owned MCP verification found these left behind after posting, reversing and finishing a fixture order.
+
 - Refuse same-status production-order changes and already-applied or correcting output reversals with `PreconditionFailed` before standard posting (10077040/10077047). Native regressions 97614/97615 exercise unchanged orders and a real post/reverse/repeat sequence.
 
 - Select Update isolation before the production transaction begins, matching the standard refresh report while retaining exact-order locks and native execution (10077040).

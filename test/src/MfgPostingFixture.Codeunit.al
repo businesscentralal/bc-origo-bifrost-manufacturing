@@ -9,7 +9,9 @@ using Microsoft.Inventory.Item;
 using Microsoft.Inventory.Journal;
 using Microsoft.Inventory.Ledger;
 using Microsoft.Inventory.Planning;
+using Microsoft.Manufacturing.Capacity;
 using Microsoft.Manufacturing.Document;
+using Microsoft.Warehouse.Activity;
 using System.TestLibraries.Utilities;
 
 /// <summary>Creates and removes individually named zero-cost production posting fixtures, including their own posting setup.</summary>
@@ -21,7 +23,9 @@ codeunit 97616 "Mfg Posting Fixture ori"
                   tabledata "Item Application Entry" = D,
                   tabledata "Item Register" = D,
                   tabledata "G/L Entry" = D,
-                  tabledata "Inventory Adjmt. Entry (Order)" = D;
+                  tabledata "Inventory Adjmt. Entry (Order)" = D,
+                  tabledata "Capacity Ledger Entry" = D,
+                  tabledata "Avg. Cost Adjmt. Entry Point" = D;
 
     var
         Assert: Codeunit "Library Assert";
@@ -149,10 +153,36 @@ codeunit 97616 "Mfg Posting Fixture ori"
         Adjustment: Record "Inventory Adjmt. Entry (Order)";
         Planning: Record "Planning Assignment";
         SourceCode: Record "Source Code";
+        CapacityEntry: Record "Capacity Ledger Entry";
+        CostEntryPoint: Record "Avg. Cost Adjmt. Entry Point";
+        WhseActivityLine: Record "Warehouse Activity Line";
+        WhseActivityHeader: Record "Warehouse Activity Header";
+        WhseRemainingLine: Record "Warehouse Activity Line";
         JournalName: Code[10];
     begin
         Assert.IsTrue(CopyStr(FixtureNo, 1, 4) = 'XM11', 'Only owned fixture names are accepted.');
         JournalName := CopyStr(FixtureNo, 1, MaxStrLen(JournalName));
+        WhseActivityLine.SetRange("Source Type", Database::"Prod. Order Line");
+        WhseActivityLine.SetRange("Source No.", FixtureNo);
+        if WhseActivityLine.FindSet() then
+            repeat
+                if WhseActivityHeader.Get(WhseActivityLine."Activity Type", WhseActivityLine."No.") then
+                    WhseActivityHeader.Mark(true);
+            until WhseActivityLine.Next() = 0;
+        WhseActivityLine.DeleteAll(false);
+        WhseActivityHeader.MarkedOnly(true);
+        if WhseActivityHeader.FindSet() then
+            repeat
+                WhseRemainingLine.SetRange("Activity Type", WhseActivityHeader.Type);
+                WhseRemainingLine.SetRange("No.", WhseActivityHeader."No.");
+                if WhseRemainingLine.IsEmpty() then
+                    WhseActivityHeader.Delete(false);
+            until WhseActivityHeader.Next() = 0;
+        CapacityEntry.SetRange("Order Type", CapacityEntry."Order Type"::Production);
+        CapacityEntry.SetRange("Order No.", FixtureNo);
+        CapacityEntry.DeleteAll(false);
+        CostEntryPoint.SetRange("Item No.", FixtureNo);
+        CostEntryPoint.DeleteAll(false);
         Entry.SetRange("Item No.", FixtureNo);
         if Entry.FindSet() then
             repeat
@@ -205,7 +235,7 @@ codeunit 97616 "Mfg Posting Fixture ori"
             Account.Delete(false);
         if SourceCode.Get(JournalName) then
             SourceCode.Delete(false);
-        Assert.IsTrue(Entry.IsEmpty() and ValueEntry.IsEmpty() and Line.IsEmpty() and ProdLine.IsEmpty() and Order.IsEmpty() and GLEntry.IsEmpty(), 'Owned production and ledger fixtures removed.');
+        Assert.IsTrue(Entry.IsEmpty() and ValueEntry.IsEmpty() and Line.IsEmpty() and ProdLine.IsEmpty() and Order.IsEmpty() and GLEntry.IsEmpty() and CapacityEntry.IsEmpty() and CostEntryPoint.IsEmpty() and WhseActivityLine.IsEmpty(), 'Owned production and ledger fixtures removed.');
         Commit();
     end;
 }
