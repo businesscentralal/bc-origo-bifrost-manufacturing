@@ -94,8 +94,8 @@ codeunit 97607 "Mfg Test Data ori"
     procedure Invoke(MessageType: Enum "Message Type ori"; Request: JsonObject; LanguageId: Integer; OmitCommit: Boolean): JsonObject
     var
         Dispatcher: Codeunit "Dispatcher ori";
-        Input: BigText;
         ResponseBlob: Codeunit "Temp Blob";
+        Input: BigText;
         ResponseStream: InStream;
         RequestText: Text;
         ResponseText: Text;
