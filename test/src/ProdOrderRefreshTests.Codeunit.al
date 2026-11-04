@@ -109,26 +109,19 @@ codeunit 97605 "Prod Order Refresh Tests ori"
         Forward: JsonObject;
         NativeStart: Date;
         NativeEnd: Date;
-        PlanningDueDate: Date;
+
     begin
-        // Story #5 AC08: retain a valid due date when native starting-date validation clears it.
+        // Story #5 AC08: explicit independent endpoints exercise both native scheduling directions.
         Prepare(Item, Order);
-        PlanningDueDate := Order."Due Date";
-        Order.Validate("Starting Date", CalcDate('<-10D>', WorkDate()));
-        Order."Due Date" := PlanningDueDate;
-        Order.Modify(true);
+        SetPlanningWindow(Order);
         Backward := Refresh(Order, 'Backward', true, true, true, false);
         Order.Get(Order.Status, Order."No.");
-        Order.Validate("Starting Date", CalcDate('<-10D>', WorkDate()));
-        Order."Due Date" := PlanningDueDate;
-        Order.Modify(true);
+        SetPlanningWindow(Order);
         Manufacturing.RefreshProdOrder(Order, true, true, true, true, false);
         Order.Get(Order.Status, Order."No.");
         NativeStart := Order."Starting Date";
         NativeEnd := Order."Ending Date";
-        Order.Validate("Starting Date", CalcDate('<-10D>', WorkDate()));
-        Order."Due Date" := PlanningDueDate;
-        Order.Modify(true);
+        SetPlanningWindow(Order);
         Forward := Refresh(Order, 'Forward', true, true, true, false);
         Assert.AreEqual(Format(NativeStart, 0, 9), Data.TextValue(Forward, 'startingDate'), 'Same start as BC report.');
         Assert.AreEqual(Format(NativeEnd, 0, 9), Data.TextValue(Forward, 'endingDate'), 'Same end as BC report.');
@@ -246,6 +239,19 @@ codeunit 97605 "Prod Order Refresh Tests ori"
         Clear(Request);
         Request.Add('systemId', Format(CreateGuid(), 0, 4));
         Data.AssertRefusal(Data.Invoke("Message Type ori"::"Manufacturing.ProductionOrder.Refresh", Request, 1033, false), 'RecordNotFound');
+    end;
+
+    local procedure SetPlanningWindow(var Order: Record "Production Order")
+    begin
+        // Fixture endpoints must be independent: native field validation otherwise reschedules both.
+        Order."Starting Date" := CalcDate('<-10D>', WorkDate());
+        Order."Starting Time" := 080000T;
+        Order."Starting Date-Time" := CreateDateTime(Order."Starting Date", Order."Starting Time");
+        Order."Ending Date" := WorkDate();
+        Order."Ending Time" := 170000T;
+        Order."Ending Date-Time" := CreateDateTime(Order."Ending Date", Order."Ending Time");
+        Order."Due Date" := WorkDate();
+        Order.Modify(true);
     end;
 
     local procedure Prepare(var Item: Record Item; var Order: Record "Production Order")
