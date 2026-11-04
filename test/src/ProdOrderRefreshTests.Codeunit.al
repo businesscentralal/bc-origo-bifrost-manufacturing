@@ -25,7 +25,7 @@ codeunit 97605 "Prod Order Refresh Tests ori"
         Response: JsonObject;
         PreviousTransactionType: TransactionType;
     begin
-        // Story #5 AC07: committed owned fixture; original Omit Commit tests remain separate.
+        // Story #5 AC07: committed owned fixture; Omit Commit refusal is tested separately.
         Prepare(Item, Order);
         Commit();
         PreviousTransactionType := CurrentTransactionType();
@@ -82,7 +82,7 @@ codeunit 97605 "Prod Order Refresh Tests ori"
     begin
         // Story #5 AC07: self-created certified BOM/routing; WorkDate drives planning.
         Prepare(Item, Order);
-        Response := Refresh(Order, 'Backward', true, true, true, true);
+        Response := Refresh(Order, 'Backward', true, true, true, false);
         Assert.AreEqual('Success', Data.TextValue(Response, 'status'), 'Refresh succeeds.');
         Line.SetRange(Status, Order.Status);
         Line.SetRange("Prod. Order No.", Order."No.");
@@ -104,7 +104,7 @@ codeunit 97605 "Prod Order Refresh Tests ori"
     var
         Item: Record Item;
         Order: Record "Production Order";
-        NativeRefresh: Report "Refresh Production Order";
+        Manufacturing: Codeunit "Library - Manufacturing";
         Backward: JsonObject;
         Forward: JsonObject;
         NativeStart: Date;
@@ -114,22 +114,17 @@ codeunit 97605 "Prod Order Refresh Tests ori"
         Prepare(Item, Order);
         Order.Validate("Starting Date", CalcDate('<-10D>', WorkDate()));
         Order.Modify(true);
-        Backward := Refresh(Order, 'Backward', true, true, true, true);
+        Backward := Refresh(Order, 'Backward', true, true, true, false);
         Order.Get(Order.Status, Order."No.");
         Order.Validate("Starting Date", CalcDate('<-10D>', WorkDate()));
         Order.Modify(true);
-        Order.SetRecFilter();
-        NativeRefresh.InitializeRequest(0, true, true, true, false);
-        NativeRefresh.SetHideValidationDialog(true);
-        NativeRefresh.SetTableView(Order);
-        NativeRefresh.UseRequestPage(false);
-        NativeRefresh.RunModal();
+        Manufacturing.RefreshProdOrder(Order, true, true, true, true, false);
         Order.Get(Order.Status, Order."No.");
         NativeStart := Order."Starting Date";
         NativeEnd := Order."Ending Date";
         Order.Validate("Starting Date", CalcDate('<-10D>', WorkDate()));
         Order.Modify(true);
-        Forward := Refresh(Order, 'Forward', true, true, true, true);
+        Forward := Refresh(Order, 'Forward', true, true, true, false);
         Assert.AreEqual(Format(NativeStart, 0, 9), Data.TextValue(Forward, 'startingDate'), 'Same start as BC report.');
         Assert.AreEqual(Format(NativeEnd, 0, 9), Data.TextValue(Forward, 'endingDate'), 'Same end as BC report.');
         Assert.AreNotEqual(Data.TextValue(Backward, 'endingDate'), Data.TextValue(Forward, 'endingDate'), 'Direction changes the dates.');
@@ -146,7 +141,7 @@ codeunit 97605 "Prod Order Refresh Tests ori"
     begin
         // Story #5 AC09: invalid replacement options never delete existing lines.
         Prepare(Item, Order);
-        Refresh(Order, 'Backward', true, true, true, true);
+        Refresh(Order, 'Backward', true, true, true, false);
         Line.SetRange(Status, Order.Status);
         Line.SetRange("Prod. Order No.", Order."No.");
         Line.FindFirst();
@@ -174,7 +169,7 @@ codeunit 97605 "Prod Order Refresh Tests ori"
     begin
         // Story #5 AC10: report refusal preserves previously calculated records.
         Prepare(Item, Order);
-        Refresh(Order, 'Backward', true, true, true, true);
+        Refresh(Order, 'Backward', true, true, true, false);
         Line.SetRange(Status, Order.Status);
         Line.SetRange("Prod. Order No.", Order."No.");
         Line.FindFirst();

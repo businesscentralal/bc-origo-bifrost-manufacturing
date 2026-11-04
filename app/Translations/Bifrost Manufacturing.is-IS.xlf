@@ -417,10 +417,22 @@
           <note from="Developer" annotates="general" priority="2">is-IS=Endurnýjaðu áætlaða eða fastákveðna pöntun áður en hún er gefin út. Þessi gerð endurnýjar ekki útgefnar pantanir.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Refresh Impl ori - Method ExecuteBifrostTask - NamedType StatusNextLbl</note>
         </trans-unit>
+        <trans-unit id="Codeunit 2804456418 - Method 3571782927 - NamedType 4064548664" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order refresh always commits and cannot run with Omit Commit.</source>
+          <target>Endurnýjun framleiðslupöntunar staðfestir alltaf færslur og getur ekki keyrt með Omit Commit.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Endurnýjun framleiðslupöntunar staðfestir alltaf færslur og getur ekki keyrt með Omit Commit.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Refresh Impl ori - Method ExecuteBifrostTask - NamedType OmitCommitLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2804456418 - Method 3571782927 - NamedType 563883597" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Run Refresh as a separate committing operation without Omit Commit.</source>
+          <target>Keyrðu Refresh sem aðskilda aðgerð sem staðfestir færslur, án Omit Commit.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Keyrðu Refresh sem aðskilda aðgerð sem staðfestir færslur, án Omit Commit.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Refresh Impl ori - Method ExecuteBifrostTask - NamedType OmitCommitNextLbl</note>
+        </trans-unit>
         <trans-unit id="Codeunit 2804456418 - Method 3571782927 - NamedType 807145736" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Correct the Business Central field, BOM, routing or setup named in the error and retry. Nothing was changed.</source>
-          <target>Leiðréttu reitinn, framleiðsluuppskriftina, vinnsluleiðina eða uppsetninguna sem Business Central nefnir í villunni og reyndu aftur. Engu var breytt.</target>
-          <note from="Developer" annotates="general" priority="2">is-IS=Leiðréttu reitinn, framleiðsluuppskriftina, vinnsluleiðina eða uppsetninguna sem Business Central nefnir í villunni og reyndu aftur. Engu var breytt.</note>
+          <source>Inspect the production order, correct the Business Central field, BOM, routing or setup named in the error, and retry.</source>
+          <target>Skoðaðu framleiðslupöntunina, leiðréttu reitinn, framleiðsluuppskriftina, vinnsluleiðina eða uppsetninguna sem Business Central nefnir í villunni og reyndu aftur.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Skoðaðu framleiðslupöntunina, leiðréttu reitinn, framleiðsluuppskriftina, vinnsluleiðina eða uppsetninguna sem Business Central nefnir í villunni og reyndu aftur.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Refresh Impl ori - Method ExecuteBifrostTask - NamedType BcNextLbl</note>
         </trans-unit>
         <trans-unit id="Codeunit 2804456418 - Method 4077369804 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">

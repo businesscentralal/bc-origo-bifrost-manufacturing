@@ -2,11 +2,13 @@
 
 ## Unreleased
 
+- Apply Gunnar’s 04 November Refresh transaction decision (#5): Refresh always commits, refuses Omit Commit before writes, and documents that boundary (10077042/10077043/10077045). Update native AC07–AC10 and AC13 tests (97605/97610) to the approved committing contract; Create retains caller rollback.
+
 - Enforce the Manufacturing write role for Create, Refresh, BOM status and routing status even when native D365 roles grant broad codeunit Execute access (#5). Empty permission table 10077046 and check codeunit 10077047 distinguish full and read roles without widening native record access. Existing denial assertions now also reject misleading native licensing errors.
 
 - Supply native Planning Assignment indirect insert/modify and Work Center read permissions in the shared permission-test baseline (97609); preserve distinct Manufacturing full/read grants and expose native refusal details in the full-role assertion (97608).
 
-- Select the native report's transaction type before reading inside the normal Refresh rollback boundary and restore the caller's type after success or refusal (10077042/10077043); retain the independent Omit Commit tests and add normal-boundary regression cases (97605).
+- Select the native report's transaction type before reading inside the normal Refresh rollback boundary and restore the caller's type after success or refusal (10077042/10077043); retain independent transaction-contract tests and add normal-boundary regression cases (97605).
 
 - Record the owned MCP fixture company identity (97614) and provide explicit receipt cleanup after company removal (97616), with company/foreign-receipt isolation tests (97617).
 
@@ -16,7 +18,7 @@
 
 - Preserve bilingual BOM/routing test assertions in LCIDs 1033 and 1039 (codeunits 97660, 97661, 97663–97666); use Disabled isolation only for the ordinary-company background-session test 97613.
 
-- Production order creation and refresh through `Manufacturing.ProductionOrder.Create` and `Manufacturing.ProductionOrder.Refresh` (#5). Native numbering, planning-only refresh, structured bilingual validation, conflict-aware identity lookup and caller rollback. App objects 10077039–10077045; test objects 97604–97613.
+- Production order creation and refresh through `Manufacturing.ProductionOrder.Create` and `Manufacturing.ProductionOrder.Refresh` (#5). Native numbering, planning-only refresh, structured bilingual validation, conflict-aware identity lookup, Create caller rollback and explicit committing Refresh. App objects 10077039–10077045; test objects 97604–97613.
 
 - Source Guards runs `tools/Test-MessageTypeNames.ps1` (self-test, then the app check) in a new `MessageTypeNames` job, the same as Foundation's, so every shipped message type name keeps exactly three parts (#12, AC20).
 

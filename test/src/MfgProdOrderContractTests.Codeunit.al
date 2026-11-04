@@ -47,6 +47,11 @@ codeunit 97606 "Mfg ProdOrder Contract Tst ori"
                 Assert.IsTrue(Contract.Contains(Chapter), 'Missing contract chapter: ' + Chapter);
             Contract.Get('effect', Token);
             Assert.AreEqual('write', Data.TextValue(Token.AsObject(), 'effect'), 'No posting effect.');
+            if MessageType = "Message Type ori"::"Manufacturing.ProductionOrder.Refresh" then begin
+                Contract.Get('notes', Token);
+                Assert.IsTrue(Token.AsValue().AsText().Contains('Refresh always commits'), 'Refresh help discloses the commit.');
+                Assert.IsTrue(Token.AsValue().AsText().Contains('Omit Commit is refused'), 'Refresh help discloses the refusal.');
+            end;
         end;
     end;
 

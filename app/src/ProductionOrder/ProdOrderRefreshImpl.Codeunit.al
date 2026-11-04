@@ -163,7 +163,7 @@ codeunit 10077042 "Prod Order Refresh Impl ori" implements "Msg Interface ori", 
         exit(false);
     end;
 
-    /// <summary>Checks refresh options and order status before running BC's report in an atomic boundary.</summary>
+    /// <summary>Checks refresh options and order status before running BC's committing report; Omit Commit is refused before any write.</summary>
     procedure ExecuteBifrostTask(var Argument: Record "Message Argument ori")
     var
         ProductionOrder: Record "Production Order";
@@ -185,11 +185,17 @@ codeunit 10077042 "Prod Order Refresh Impl ori" implements "Msg Interface ori", 
         ReleasedLbl: Label 'Production order %1 is Released and cannot be refreshed by this message type. Nothing was changed.', Comment = '%1 = order number, is-IS=Framleiðslupöntun %1 er útgefin og ekki er hægt að endurnýja hana með þessari skilaboðagerð. Engu var breytt.';
         FinishedLbl: Label 'Production order %1 is Finished and cannot be refreshed.', Comment = '%1 = order number, is-IS=Framleiðslupöntun %1 er lokið og ekki er hægt að endurnýja hana.';
         StatusNextLbl: Label 'Refresh a Planned or FirmPlanned order before releasing it. Released orders are not refreshed by this type.', Comment = 'is-IS=Endurnýjaðu áætlaða eða fastákveðna pöntun áður en hún er gefin út. Þessi gerð endurnýjar ekki útgefnar pantanir.';
-        BcNextLbl: Label 'Correct the Business Central field, BOM, routing or setup named in the error and retry. Nothing was changed.', Comment = 'is-IS=Leiðréttu reitinn, framleiðsluuppskriftina, vinnsluleiðina eða uppsetninguna sem Business Central nefnir í villunni og reyndu aftur. Engu var breytt.';
+        OmitCommitLbl: Label 'Production order refresh always commits and cannot run with Omit Commit.', Comment = 'is-IS=Endurnýjun framleiðslupöntunar staðfestir alltaf færslur og getur ekki keyrt með Omit Commit.';
+        OmitCommitNextLbl: Label 'Run Refresh as a separate committing operation without Omit Commit.', Comment = 'is-IS=Keyrðu Refresh sem aðskilda aðgerð sem staðfestir færslur, án Omit Commit.';
+        BcNextLbl: Label 'Inspect the production order, correct the Business Central field, BOM, routing or setup named in the error, and retry.', Comment = 'is-IS=Skoðaðu framleiðslupöntunina, leiðréttu reitinn, framleiðsluuppskriftina, vinnsluleiðina eða uppsetninguna sem Business Central nefnir í villunni og reyndu aftur.';
     begin
         Argument.AssertIsLicensed();
         Argument.AssertVersion1();
         WriteCheck.AssertCanWrite('Manufacturing.ProductionOrder.Refresh');
+        if Argument."Omit Commit" then begin
+            Argument.RespondWithError("Bifrost Error Code ori"::PreconditionFailed, OmitCommitLbl, '', '', '', OmitCommitNextLbl);
+            exit;
+        end;
         Request := Argument.GetRequestJson();
         Reader.CheckKeys('no|systemId|productionOrderStatus|direction|calculateLines|calculateRoutings|calculateComponents', Request, Argument);
         Direction := Reader.ReadText(Request, 'direction', false, 8, Argument);
@@ -210,17 +216,15 @@ codeunit 10077042 "Prod Order Refresh Impl ori" implements "Msg Interface ori", 
         end;
         if Reader.RespondIfErrors(Argument) then
             exit;
-        if Argument."Omit Commit" then
-            Codeunit.Run(Codeunit::"Prod Order Refresh Proc ori", Argument)
-        else begin
-            PreviousTransactionType := CurrentTransactionType();
-            RefreshSucceeded := Codeunit.Run(Codeunit::"Prod Order Refresh Proc ori", Argument);
-            if not RefreshSucceeded then
-                RefreshError := GetLastErrorText();
-            CurrentTransactionType(PreviousTransactionType);
-            if not RefreshSucceeded then
-                Argument.RespondWithError("Bifrost Error Code ori"::BusinessCentralError, RefreshError, '', '', '', BcNextLbl);
-        end;
+        // Native report 99001025 commits. Gunnar's 04 Nov decision makes this explicit.
+        Commit();
+        PreviousTransactionType := CurrentTransactionType();
+        RefreshSucceeded := Codeunit.Run(Codeunit::"Prod Order Refresh Proc ori", Argument);
+        if not RefreshSucceeded then
+            RefreshError := GetLastErrorText();
+        CurrentTransactionType(PreviousTransactionType);
+        if not RefreshSucceeded then
+            Argument.RespondWithError("Bifrost Error Code ori"::BusinessCentralError, RefreshError, '', '', '', BcNextLbl);
     end;
 
     local procedure RunRefresh(var Argument: Record "Message Argument ori")

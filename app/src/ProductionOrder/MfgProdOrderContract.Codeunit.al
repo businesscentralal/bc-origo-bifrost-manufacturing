@@ -111,6 +111,8 @@ codeunit 10077040 "Mfg ProdOrder Contract ori"
         Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::AmbiguousRecord, 'An order number exists under more than one status.', 'Send productionOrderStatus or systemId.'));
         Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::ConflictingIdentifiers, 'Identifiers name different orders or statuses.', 'Send identifiers belonging to the same order.'));
         Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::PreconditionFailed, 'The item is blocked, numbering is missing, or refresh is requested for Released or Finished.', 'Correct the named precondition; refresh planning orders before release.'));
+        if not IsCreate then
+            Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::PreconditionFailed, 'Refresh always commits; Omit Commit is refused before any write.', 'Run Refresh as a separate committing operation without Omit Commit.'));
         Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::UnknownParameter, 'An undeclared key was supplied.', 'Remove the unknown key.'));
         Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::MultipleErrors, 'Several request problems were collected; nothing was changed.', 'Correct every error entry before retrying.'));
         Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::BusinessCentralError, 'Business Central rejected the operation, including BOM, routing, numbering or duplicate number checks.', 'Correct the field or setup named in the returned BC text.'));
@@ -128,7 +130,8 @@ codeunit 10077040 "Mfg ProdOrder Contract ori"
             Effect.Add('changes', 'Inserts one Planned or FirmPlanned production order header. Does not create lines or post entries.');
             Preconditions.Add('An unblocked item and a configured production order number series.');
         end else begin
-            Effect.Add('changes', 'Recalculates lines, routing and components with the standard BC refresh report.');
+            Effect.Add('changes', 'Recalculates and commits lines, routing and components with the standard BC refresh report.');
+            Preconditions.Add('Omit Commit must be false: Refresh always commits.');
             Preconditions.Add('The order is Simulated, Planned or FirmPlanned, with a due date and certified BOM/routing when assigned.');
         end;
         Preconditions.Add('The caller has native permissions on the affected records.');
@@ -195,10 +198,14 @@ codeunit 10077040 "Mfg ProdOrder Contract ori"
     /// <summary>Documents transaction and status limitations.</summary>
     internal procedure GetNotes(IsCreate: Boolean; var Notes: Text)
     begin
-        Notes := 'Create and Refresh do not post. Released refresh is refused because the BC report can flush output and consumption. ' +
-            'calculateLines=true replaces existing lines and requires routing and component calculation. ' +
-            'There is no Commit in the app path. Under Omit Commit the caller owns the transaction and must roll back on a raised BC error. ' +
-            'The default committing path catches BC errors at a Codeunit.Run boundary and returns BusinessCentralError without partial changes. ' +
+        if IsCreate then
+            Notes := 'Create does not post. Under Omit Commit the caller owns the transaction and must roll back on a raised BC error. '
+        else
+            Notes := 'Refresh always commits: the standard BC report commits internally. Omit Commit is refused with PreconditionFailed before any write. ' +
+                'Run Refresh as a separate committing operation, never as part of a caller rollback transaction. ' +
+                'Refresh does not post. Released refresh is refused because the BC report can flush output and consumption. ' +
+                'calculateLines=true replaces existing lines and requires routing and component calculation. ';
+        Notes += 'The committing path catches BC errors at a Codeunit.Run boundary and returns BusinessCentralError. ' +
             'A later status change replaces the order SystemId; do not cache identity across a status change.';
     end;
 }

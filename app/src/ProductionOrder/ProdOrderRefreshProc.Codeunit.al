@@ -3,7 +3,7 @@ namespace Origo.Bifrost.Manufacturing;
 using Microsoft.Manufacturing.Document;
 using Origo.Bifrost;
 
-/// <summary>Runs the standard refresh report and builds the response within the caller's rollback boundary.</summary>
+/// <summary>Runs the standard refresh report and builds the response in a committing operation.</summary>
 codeunit 10077043 "Prod Order Refresh Proc ori"
 {
     Access = Internal;
@@ -26,10 +26,9 @@ codeunit 10077043 "Prod Order Refresh Proc ori"
         DirectionText: Text;
         ChangedLbl: Label 'The production order is no longer in a planning status. Nothing was changed.', Comment = 'is-IS=Framleiðslupöntunin er ekki lengur í áætlunarstöðu. Engu var breytt.';
     begin
-        // The non-Omit caller supplies a fresh Codeunit.Run rollback boundary.
-        // Select the native report's isolation before any database access starts it.
-        if not Rec."Omit Commit" then
-            CurrentTransactionType(TransactionType::Update);
+        // The dispatcher refuses Omit Commit before entering this committing operation.
+        // Select native report isolation before any database access starts the transaction.
+        CurrentTransactionType(TransactionType::Update);
         Request := Rec.GetRequestJson();
         ProductionOrder.ReadIsolation := IsolationLevel::UpdLock;
         if not Lookup.FindOrder(Rec, ProductionOrder) then

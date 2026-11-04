@@ -5,7 +5,7 @@ using Microsoft.Manufacturing.Document;
 using Origo.Bifrost;
 using System.TestLibraries.Utilities;
 
-/// <summary>Proves Omit Commit does not commit a successful Create or Refresh before the caller aborts.</summary>
+/// <summary>Proves Create caller rollback and the committing Refresh Omit Commit refusal.</summary>
 codeunit 97610 "Mfg ProdOrder Rollback Tst ori"
 {
     Subtype = Test;
@@ -34,24 +34,29 @@ codeunit 97610 "Mfg ProdOrder Rollback Tst ori"
     end;
 
     [Test]
-    procedure Scenario_AC13_Refresh_CallerRollbackRemovesLines()
+    procedure Scenario_AC13_Refresh_OmitCommitRefusedBeforeWrites()
     var
         Item: Record Item;
         Order: Record "Production Order";
         Line: Record "Prod. Order Line";
         Request: JsonObject;
+        Response: JsonObject;
     begin
-        // Story #5 AC13: committed planning header survives; uncommitted refresh rows must not.
+        // Gunnar 04 Nov: Refresh always commits; Omit Commit must refuse before writes.
         Data.SetupNumbering(false);
         Data.CreateManufacturedItem(Item);
         Data.CreateOrder(Order, Item, Order.Status::Planned);
         Request.Add('systemId', Format(Order.SystemId, 0, 4));
         Commit();
-        asserterror RefreshAndAbort(Request);
-        Assert.ExpectedError('X caller rollback after successful refresh');
+        Response := Data.Invoke("Message Type ori"::"Manufacturing.ProductionOrder.Refresh", Request, 1033, true);
+        Data.AssertRefusal(Response, 'PreconditionFailed');
+        Assert.IsTrue(Data.TextValue(Response, 'error').Contains('always commits'), 'English refusal names the committing contract.');
+        Response := Data.Invoke("Message Type ori"::"Manufacturing.ProductionOrder.Refresh", Request, 1039, true);
+        Data.AssertRefusal(Response, 'PreconditionFailed');
+        Assert.IsTrue(Data.TextValue(Response, 'error').Contains('staðfestir alltaf'), 'Icelandic refusal names the committing contract.');
         Line.SetRange(Status, Order.Status);
         Line.SetRange("Prod. Order No.", Order."No.");
-        Assert.IsTrue(Line.IsEmpty(), 'Refresh lines must remain inside caller transaction.');
+        Assert.IsTrue(Line.IsEmpty(), 'Omit Commit refusal must not create any refresh lines.');
     end;
 
     local procedure CreateAndAbort(Request: JsonObject)
@@ -63,13 +68,4 @@ codeunit 97610 "Mfg ProdOrder Rollback Tst ori"
         Error('X caller rollback after successful create');
     end;
 
-    local procedure RefreshAndAbort(Request: JsonObject)
-    var
-        Response: JsonObject;
-    begin
-        Response := Data.Invoke("Message Type ori"::"Manufacturing.ProductionOrder.Refresh", Request, 1033, true);
-        Assert.AreEqual('Success', Data.TextValue(Response, 'status'), 'Refresh succeeded before caller rollback.');
-        Assert.IsTrue(Data.NumberValue(Response, 'componentCount') > 0, 'Refresh actually created components before rollback.');
-        Error('X caller rollback after successful refresh');
-    end;
 }

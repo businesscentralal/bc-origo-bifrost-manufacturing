@@ -14,7 +14,7 @@ consumption, so an agent can operate it end to end. It is built on the same basi
 
 **Status:** production order Create/Refresh and production BOM/routing SetStatus are implemented.
 
-`Manufacturing.ProductionOrder.Create` creates a Planned or FirmPlanned item order using the configured number series. Call `Manufacturing.ProductionOrder.Refresh` to calculate lines, routing and components. Refresh refuses Released and Finished orders; it never posts. Both operations preserve the caller transaction under Omit Commit.
+`Manufacturing.ProductionOrder.Create` creates a Planned or FirmPlanned item order using the configured number series. Call `Manufacturing.ProductionOrder.Refresh` to calculate lines, routing and components. Refresh refuses Released and Finished orders; it never posts. Create preserves the caller transaction under Omit Commit. Refresh always commits because the native BC report commits internally; it refuses Omit Commit with `PreconditionFailed` before any write. Run Refresh as a separate committing operation.
 
 Use `describe_message_type` for parameter, response, error and workflow chapters. Ordinary field reads and edits remain with `Data.Records.Get` and `Data.Records.Set`.
 
