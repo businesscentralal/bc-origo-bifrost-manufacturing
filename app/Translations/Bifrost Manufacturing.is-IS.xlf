@@ -15,12 +15,6 @@
           <note from="Developer" annotates="general" priority="2">is-IS=Aðallykill</note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Mfg Write Gate ori - Field Primary Key - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Codeunit 283880413 - Method 1223142373 - NamedType 1624787246" size-unit="char" translate="yes" xml:space="preserve">
-          <source>You do not have permission to run the Manufacturing message type %1. Ask your administrator for the BIFROST Mfg ori or BIFROST Full ori permission set.</source>
-          <target>Þú hefur ekki heimild til að keyra framleiðsluskilaboðagerðina %1. Biddu kerfisstjóra um heimildasamstæðuna BIFROST Mfg ori eða BIFROST Full ori.</target>
-          <note from="Developer" annotates="general" priority="2">%1 = message type name, is-IS=Þú hefur ekki heimild til að keyra framleiðsluskilaboðagerðina %1. Biddu kerfisstjóra um heimildasamstæðuna BIFROST Mfg ori eða BIFROST Full ori.</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Write Check ori - Method AssertCanWrite - NamedType NoWritePermissionErr</note>
-        </trans-unit>
         <trans-unit id="Codeunit 2938288336 - NamedType 478713203" size-unit="char" translate="yes" xml:space="preserve">
           <source>Use Manufacturing.ProductionBOM.SetStatus</source>
           <target>Notaðu Manufacturing.ProductionBOM.SetStatus</target>
@@ -189,48 +183,6 @@
           <note from="Developer" annotates="general" priority="2">is-IS=Lestu útgáfurnar með Data.Records.Get.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType VersionMissingNextStepTxt</note>
         </trans-unit>
-        <trans-unit id="Codeunit 2641729067 - NamedType 3569966352" maxwidth="250" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Certifies a production BOM or one of its versions, or sets it back to Under Development, with the standard Business Central checks.</source>
-          <target>Staðfestir framleiðsluefnislista eða útgáfu hans, eða setur hann aftur í þróun, með venjulegum athugunum Business Central.</target>
-          <note from="Developer" annotates="general" priority="2">is-IS=Staðfestir framleiðsluefnislista eða útgáfu hans, eða setur hann aftur í þróun, með venjulegum athugunum Business Central.</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod BOM Status Impl ori - NamedType DescriptionLbl</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 2641729067 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
-          <source>production bom, certify bom, bom status, under development, production bom version, certify production bom, bom certification, set bom status</source>
-          <target>framleiðsluefnislisti, staðfesta efnislista, staða efnislista, í þróun, útgáfa framleiðsluefnislista, staðfesta framleiðsluefnislista, vottun efnislista, setja stöðu efnislista</target>
-          <note from="Developer" annotates="general" priority="2">is-IS=framleiðsluefnislisti, staðfesta efnislista, staða efnislista, í þróun, útgáfa framleiðsluefnislista, staðfesta framleiðsluefnislista, vottun efnislista, setja stöðu efnislista</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod BOM Status Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 2641729067 - Method 79446908 - NamedType 895773054" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Certify a production BOM, or one version of it, or set it back to Under Development so its lines can be edited. Send no and status Certified or UnderDevelopment. Send versionCode only for one version. Closed is not supported.</source>
-          <target>Staðfestu framleiðsluefnislista, eða eina útgáfu hans, eða settu hann aftur í þróun svo hægt sé að breyta línum hans. Sendu no og status Certified eða UnderDevelopment. Sendu versionCode aðeins fyrir eina útgáfu. Closed er ekki stutt.</target>
-          <note from="Developer" annotates="general" priority="2">is-IS=Staðfestu framleiðsluefnislista, eða eina útgáfu hans, eða settu hann aftur í þróun svo hægt sé að breyta línum hans. Sendu no og status Certified eða UnderDevelopment. Sendu versionCode aðeins fyrir eina útgáfu. Closed er ekki stutt.</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod BOM Status Impl ori - Method GetSelectionDescription - NamedType SelectionLbl</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 2693990352 - NamedType 3569966352" maxwidth="250" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Certifies a routing or one of its versions, or sets it back to Under Development, with the standard Business Central checks.</source>
-          <target>Staðfestir vinnsluleið eða útgáfu hennar, eða setur hana aftur í þróun, með venjulegum athugunum Business Central.</target>
-          <note from="Developer" annotates="general" priority="2">is-IS=Staðfestir vinnsluleið eða útgáfu hennar, eða setur hana aftur í þróun, með venjulegum athugunum Business Central.</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Routing Status Impl ori - NamedType DescriptionLbl</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 2693990352 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
-          <source>routing, certify routing, routing status, under development, routing version, certify a routing, routing certification, set routing status</source>
-          <target>vinnsluleið, staðfesta vinnsluleið, staða vinnsluleiðar, í þróun, útgáfa vinnsluleiðar, staðfesta vinnsluleiðina, vottun vinnsluleiðar, setja stöðu vinnsluleiðar</target>
-          <note from="Developer" annotates="general" priority="2">is-IS=vinnsluleið, staðfesta vinnsluleið, staða vinnsluleiðar, í þróun, útgáfa vinnsluleiðar, staðfesta vinnsluleiðina, vottun vinnsluleiðar, setja stöðu vinnsluleiðar</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Routing Status Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 2693990352 - Method 79446908 - NamedType 895773054" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Certify a routing, or one version of it, or set it back to Under Development so its operations can be edited. Send no and status Certified or UnderDevelopment. Send versionCode only for one version. Closed is not supported.</source>
-          <target>Staðfestu vinnsluleið, eða eina útgáfu hennar, eða settu hana aftur í þróun svo hægt sé að breyta aðgerðum hennar. Sendu no og status Certified eða UnderDevelopment. Sendu versionCode aðeins fyrir eina útgáfu. Closed er ekki stutt.</target>
-          <note from="Developer" annotates="general" priority="2">is-IS=Staðfestu vinnsluleið, eða eina útgáfu hennar, eða settu hana aftur í þróun svo hægt sé að breyta aðgerðum hennar. Sendu no og status Certified eða UnderDevelopment. Sendu versionCode aðeins fyrir eina útgáfu. Closed er ekki stutt.</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Routing Status Impl ori - Method GetSelectionDescription - NamedType SelectionLbl</note>
-        </trans-unit>
-        <trans-unit id="PermissionSet 293749417 - Property 2879900210" maxwidth="30" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Bifrost Manufacturing</source>
-          <target>Bifröst - framleiðsla</target>
-          <note from="Developer" annotates="general" priority="2">is-IS=Bifröst - framleiðsla</note>
-          <note from="Xliff Generator" annotates="general" priority="3">PermissionSet BIFROST Mfg ori - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Codeunit 678932623 - NamedType 644283978" size-unit="char" translate="yes" xml:space="preserve">
           <source>Production order number %1 exists with more than one status.</source>
           <target>Framleiðslupöntunarnúmer %1 er til með fleiri en einni stöðu.</target>
@@ -332,6 +284,30 @@
           <target>Sendu jákvætt magn í grunneiningu vörunnar.</target>
           <note from="Developer" annotates="general" priority="2">is-IS=Sendu jákvætt magn í grunneiningu vörunnar.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Prod Order Request ori - Method ReadQuantity - NamedType PositiveNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 283880413 - Method 1223142373 - NamedType 1624787246" size-unit="char" translate="yes" xml:space="preserve">
+          <source>You do not have permission to run the Manufacturing message type %1. Ask your administrator for the BIFROST Mfg ori or BIFROST Full ori permission set.</source>
+          <target>Þú hefur ekki heimild til að keyra framleiðsluskilaboðagerðina %1. Biddu kerfisstjóra um heimildasamstæðuna BIFROST Mfg ori eða BIFROST Full ori.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = message type name, is-IS=Þú hefur ekki heimild til að keyra framleiðsluskilaboðagerðina %1. Biddu kerfisstjóra um heimildasamstæðuna BIFROST Mfg ori eða BIFROST Full ori.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Write Check ori - Method AssertCanWrite - NamedType NoWritePermissionErr</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2641729067 - NamedType 3569966352" maxwidth="250" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Certifies a production BOM or one of its versions, or sets it back to Under Development, with the standard Business Central checks.</source>
+          <target>Staðfestir framleiðsluefnislista eða útgáfu hans, eða setur hann aftur í þróun, með venjulegum athugunum Business Central.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Staðfestir framleiðsluefnislista eða útgáfu hans, eða setur hann aftur í þróun, með venjulegum athugunum Business Central.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod BOM Status Impl ori - NamedType DescriptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2641729067 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>production bom, certify bom, bom status, under development, production bom version, certify production bom, bom certification, set bom status</source>
+          <target>framleiðsluefnislisti, staðfesta efnislista, staða efnislista, í þróun, útgáfa framleiðsluefnislista, staðfesta framleiðsluefnislista, vottun efnislista, setja stöðu efnislista</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=framleiðsluefnislisti, staðfesta efnislista, staða efnislista, í þróun, útgáfa framleiðsluefnislista, staðfesta framleiðsluefnislista, vottun efnislista, setja stöðu efnislista</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod BOM Status Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2641729067 - Method 79446908 - NamedType 895773054" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Certify a production BOM, or one version of it, or set it back to Under Development so its lines can be edited. Send no and status Certified or UnderDevelopment. Send versionCode only for one version. Closed is not supported.</source>
+          <target>Staðfestu framleiðsluefnislista, eða eina útgáfu hans, eða settu hann aftur í þróun svo hægt sé að breyta línum hans. Sendu no og status Certified eða UnderDevelopment. Sendu versionCode aðeins fyrir eina útgáfu. Closed er ekki stutt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Staðfestu framleiðsluefnislista, eða eina útgáfu hans, eða settu hann aftur í þróun svo hægt sé að breyta línum hans. Sendu no og status Certified eða UnderDevelopment. Sendu versionCode aðeins fyrir eina útgáfu. Closed er ekki stutt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod BOM Status Impl ori - Method GetSelectionDescription - NamedType SelectionLbl</note>
         </trans-unit>
         <trans-unit id="Codeunit 521425833 - Method 3571782927 - NamedType 2865466285" size-unit="char" translate="yes" xml:space="preserve">
           <source>Item %1 was not found.</source>
@@ -482,6 +458,30 @@
           <target>Framleiðslupöntunin er ekki lengur í áætlunarstöðu. Engu var breytt.</target>
           <note from="Developer" annotates="general" priority="2">is-IS=Framleiðslupöntunin er ekki lengur í áætlunarstöðu. Engu var breytt.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Refresh Proc ori - Method OnRun - NamedType ChangedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2693990352 - NamedType 3569966352" maxwidth="250" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Certifies a routing or one of its versions, or sets it back to Under Development, with the standard Business Central checks.</source>
+          <target>Staðfestir vinnsluleið eða útgáfu hennar, eða setur hana aftur í þróun, með venjulegum athugunum Business Central.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Staðfestir vinnsluleið eða útgáfu hennar, eða setur hana aftur í þróun, með venjulegum athugunum Business Central.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Routing Status Impl ori - NamedType DescriptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2693990352 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>routing, certify routing, routing status, under development, routing version, certify a routing, routing certification, set routing status</source>
+          <target>vinnsluleið, staðfesta vinnsluleið, staða vinnsluleiðar, í þróun, útgáfa vinnsluleiðar, staðfesta vinnsluleiðina, vottun vinnsluleiðar, setja stöðu vinnsluleiðar</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=vinnsluleið, staðfesta vinnsluleið, staða vinnsluleiðar, í þróun, útgáfa vinnsluleiðar, staðfesta vinnsluleiðina, vottun vinnsluleiðar, setja stöðu vinnsluleiðar</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Routing Status Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2693990352 - Method 79446908 - NamedType 895773054" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Certify a routing, or one version of it, or set it back to Under Development so its operations can be edited. Send no and status Certified or UnderDevelopment. Send versionCode only for one version. Closed is not supported.</source>
+          <target>Staðfestu vinnsluleið, eða eina útgáfu hennar, eða settu hana aftur í þróun svo hægt sé að breyta aðgerðum hennar. Sendu no og status Certified eða UnderDevelopment. Sendu versionCode aðeins fyrir eina útgáfu. Closed er ekki stutt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Staðfestu vinnsluleið, eða eina útgáfu hennar, eða settu hana aftur í þróun svo hægt sé að breyta aðgerðum hennar. Sendu no og status Certified eða UnderDevelopment. Sendu versionCode aðeins fyrir eina útgáfu. Closed er ekki stutt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Routing Status Impl ori - Method GetSelectionDescription - NamedType SelectionLbl</note>
+        </trans-unit>
+        <trans-unit id="PermissionSet 293749417 - Property 2879900210" maxwidth="30" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Bifrost Manufacturing</source>
+          <target>Bifröst - framleiðsla</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Bifröst - framleiðsla</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PermissionSet BIFROST Mfg ori - Property Caption</note>
         </trans-unit>
       </group>
     </body>
