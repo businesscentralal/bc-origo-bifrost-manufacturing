@@ -22,5 +22,8 @@ permissionset 10077036 "BIFROST Mfg ori"
         codeunit "Routing Status Proc ori" = X,
         codeunit "BOM Routing Restrict ori" = X,
         codeunit "BOM Routing Events ori" = X,
-        codeunit "BOM Routing Context ori" = X;
+        codeunit "BOM Routing Context ori" = X,
+        codeunit "Mfg Write Check ori" = X,
+        table "Mfg Write Gate ori" = X,
+        tabledata "Mfg Write Gate ori" = RIMD;
 }
