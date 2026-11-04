@@ -9,6 +9,7 @@ using Microsoft.Manufacturing.Setup;
 using Microsoft.Manufacturing.WorkCenter;
 using Origo.Bifrost;
 using System.TestLibraries.Utilities;
+using System.Utilities;
 
 /// <summary>Creates isolated manufacturing fixtures and invokes the public dispatcher, never feature internals.</summary>
 codeunit 97607 "Mfg Test Data ori"
@@ -94,7 +95,8 @@ codeunit 97607 "Mfg Test Data ori"
     var
         Dispatcher: Codeunit "Dispatcher ori";
         Input: BigText;
-        Output: BigText;
+        ResponseBlob: Codeunit "Temp Blob";
+        ResponseStream: InStream;
         RequestText: Text;
         ResponseText: Text;
         ContentType: Text[100];
@@ -109,12 +111,11 @@ codeunit 97607 "Mfg Test Data ori"
         Request.WriteTo(RequestText);
         Input.AddText(RequestText);
         // Native message types are an API surface: the public dispatcher is the user's entry point.
-        if OmitCommit then
-            Dispatcher.Execute(MessageType, "Message Version ori"::"1.0", '', '', 'text/json', Input, Output, ContentType, true)
-        else
-            Dispatcher.EnqueueAndProcess(MessageType, "Message Version ori"::"1.0", '', '', 'text/json', Input, TaskId, LanguageId, MessageId, Output, ContentType, ResponseTime);
+        // The BigText Execute overload uses setup language; use the public explicit-language overload.
+        Dispatcher.EnqueueAndProcess(MessageType, "Message Version ori"::"1.0", '', '', 'text/json', Input, TaskId, LanguageId, MessageId, ResponseBlob, ContentType, ResponseTime, OmitCommit);
         GlobalLanguage(PreviousLanguage);
-        Output.GetSubText(ResponseText, 1);
+        ResponseBlob.CreateInStream(ResponseStream, TextEncoding::UTF8);
+        ResponseStream.ReadText(ResponseText);
         Assert.IsTrue(Response.ReadFrom(ResponseText), 'Dispatcher must return JSON.');
         exit(Response);
     end;

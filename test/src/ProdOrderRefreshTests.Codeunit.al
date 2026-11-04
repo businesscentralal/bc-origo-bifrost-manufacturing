@@ -109,20 +109,25 @@ codeunit 97605 "Prod Order Refresh Tests ori"
         Forward: JsonObject;
         NativeStart: Date;
         NativeEnd: Date;
+        PlanningDueDate: Date;
     begin
-        // Story #5 AC08: explicit starting date makes forward and backward planning distinguishable.
+        // Story #5 AC08: retain a valid due date when native starting-date validation clears it.
         Prepare(Item, Order);
+        PlanningDueDate := Order."Due Date";
         Order.Validate("Starting Date", CalcDate('<-10D>', WorkDate()));
+        Order."Due Date" := PlanningDueDate;
         Order.Modify(true);
         Backward := Refresh(Order, 'Backward', true, true, true, false);
         Order.Get(Order.Status, Order."No.");
         Order.Validate("Starting Date", CalcDate('<-10D>', WorkDate()));
+        Order."Due Date" := PlanningDueDate;
         Order.Modify(true);
         Manufacturing.RefreshProdOrder(Order, true, true, true, true, false);
         Order.Get(Order.Status, Order."No.");
         NativeStart := Order."Starting Date";
         NativeEnd := Order."Ending Date";
         Order.Validate("Starting Date", CalcDate('<-10D>', WorkDate()));
+        Order."Due Date" := PlanningDueDate;
         Order.Modify(true);
         Forward := Refresh(Order, 'Forward', true, true, true, false);
         Assert.AreEqual(Format(NativeStart, 0, 9), Data.TextValue(Forward, 'startingDate'), 'Same start as BC report.');
