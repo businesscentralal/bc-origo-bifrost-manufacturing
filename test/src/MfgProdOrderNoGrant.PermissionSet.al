@@ -11,6 +11,8 @@ permissionset 97609 "Mfg NoGrant Tst ori"
     IncludedPermissionSets = "Mfg Platform Tst ori";
     Permissions = codeunit "Mfg Test Data ori" = X,
                   codeunit "Mfg ProdOrder Perm Tests ori" = X,
+                  codeunit "BOM Routing Test Lib ori" = X,
+                  codeunit "BOM Routing Perm Tests ori" = X,
                   table "Mfg Licence Result Tst ori" = X,
                   tabledata "Mfg Licence Result Tst ori" = RIMD,
                   // Native Refresh inserts and updates assignments through the table's indirect permission.

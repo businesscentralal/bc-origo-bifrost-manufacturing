@@ -122,3 +122,9 @@ Owned production-order MCP fixtures record their company name and SystemId in th
 Manufacturing write messages require `BIFROST Mfg ori` or `BIFROST Full ori`.
 The read role receives only read access to the empty permission gate; broad native
 Execute grants do not confer Manufacturing write access. Native record permissions remain required.
+
+Permission regressions run through Foundation’s public dispatcher. Read-role dispatch tests
+also assign `BIFROST API ori` for the persisted message envelope; that transport role
+does not grant write access to the Manufacturing gate. Test-only helper Execute grants
+keep the checks independent of test order. Full-role success and missing native table
+permissions are checked separately in fresh sessions on Foundation main.

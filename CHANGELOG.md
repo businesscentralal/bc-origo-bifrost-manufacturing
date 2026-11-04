@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Verify the Manufacturing write gate against Foundation main without accepting message-envelope or test-helper permission errors (#15). Restricted-role tests grant the BOM/routing helpers explicitly (97609/97664), supply the Foundation API transport role only for read-role dispatch, and check the same denial in both languages (97608). A separate role test confirms read cannot write the empty gate while Manufacturing and full roles can.
+
 - Keep independent starting/ending dates and times plus a valid due date in the direction-comparison fixture (97605), and pass LCID plus Omit Commit together through Foundation’s public Temp Blob dispatcher overload (97607) so bilingual transaction tests exercise the requested language.
 
 - Apply Gunnar’s 04 November Refresh transaction decision (#5): Refresh always commits, refuses Omit Commit before writes, and documents that boundary (10077042/10077043/10077045). Update native AC07–AC10 and AC13 tests (97605/97610) to the approved committing contract; Create retains caller rollback.
