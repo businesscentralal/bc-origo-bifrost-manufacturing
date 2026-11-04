@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Enforce the Manufacturing write role for Manufacturing.ProductionBOM.SetStatus and Manufacturing.Routing.SetStatus even when native D365 roles grant broad codeunit Execute access (#15). Empty permission table `Mfg Write Gate ori` (10077046) and check codeunit `Mfg Write Check ori` (10077047) are granted for write only by `BIFROST Mfg ori`/`BIFROST MfgFull ori`; `BIFROST MfgRead ori` gets read only. The gate objects are identical to those in #12 so there is one gate. Test permission set `BOM Rtg NoGrant ori` (97668) lets the restricted-role tests reach the gate, and 97664 now asserts the gate refuses (not a licence or helper error) in 1033 and 1039 and adds the gate-role test.
+
 - Source Guards runs `tools/Test-MessageTypeNames.ps1` (self-test, then the app check) in a new `MessageTypeNames` job, the same as Foundation's, so every shipped message type name keeps exactly three parts (#12, AC20).
 
 - Test-only fixture page 97667 exposes explicit setup/cleanup through the Web Client. Test library 97666 provides fresh XMFG8MCP fixtures for owned Web Client/MCP verification and verifies cleanup, including item units, planning assignments and owned change-log entries. AC09 tests (97660) follow Foundation strict validation: an unknown key is refused before app validation; multiple invalid declared parameters are collected separately.

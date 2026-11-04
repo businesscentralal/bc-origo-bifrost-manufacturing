@@ -158,10 +158,12 @@ codeunit 10077089 "Routing Status Impl ori" implements "Msg Interface ori", "Msg
     /// <param name="Argument">The message argument.</param>
     procedure ExecuteBifrostTask(var Argument: Record "Message Argument ori")
     var
+        WriteCheck: Codeunit "Mfg Write Check ori";
         Proc: Codeunit "Routing Status Proc ori";
     begin
         Argument.AssertVersion1();
         Argument.AssertIsLicensed();
+        WriteCheck.AssertCanWrite('Manufacturing.Routing.SetStatus');
         if Argument."Omit Commit" then begin
             Proc.Apply(Argument);
             exit;
