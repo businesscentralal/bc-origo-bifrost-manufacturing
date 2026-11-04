@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Give every test number series its own unique range and delete the production orders each committing test created (97604, 97605, 97607, 97608, 97610, 97615), so Create/Refresh tests pass on repeated runs in the same database instead of colliding on a fixed `X000001`; the Create caller-rollback test uses a unique manual number. Assertions unchanged.
+
 - Verify the Manufacturing write gate against Foundation main without accepting message-envelope or test-helper permission errors (#15). Restricted-role tests grant the BOM/routing helpers and assertion library explicitly (97609/97664), supply the Foundation API transport role only for read-role dispatch, and check the same denial in both languages (97608). A separate role test confirms read cannot write the empty gate while Manufacturing and full roles can.
 
 - Keep independent starting/ending dates and times plus a valid due date in the direction-comparison fixture (97605), and pass LCID plus Omit Commit together through Foundation’s public Temp Blob dispatcher overload (97607) so bilingual transaction tests exercise the requested language.

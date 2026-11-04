@@ -39,6 +39,7 @@ codeunit 97604 "Prod Order Create Tests ori"
         Assert.AreEqual(Item."No.", Order."Source No.", 'Source item.');
         Assert.AreEqual(5, Order.Quantity, 'Quantity persisted.');
         Assert.IsTrue(CopyStr(Order."No.", 1, 1) = 'X', 'Configured numbering used.');
+        Data.CleanupOrders(Item."No.");
     end;
 
     [Test]
@@ -61,6 +62,7 @@ codeunit 97604 "Prod Order Create Tests ori"
         Assert.IsTrue(Order.Get(Order.Status::"Firm Planned", Data.TextValue(Response, 'no')), 'Firm planned persisted.');
         Assert.AreEqual(20261201D, Order."Due Date", 'Explicit due date.');
         Assert.AreEqual('X explicit description', Order.Description, 'Explicit description.');
+        Data.CleanupOrders(Item."No.");
     end;
 
     [Test]
@@ -189,6 +191,7 @@ codeunit 97604 "Prod Order Create Tests ori"
         Data.AssertRefusal(Data.Invoke("Message Type ori"::"Manufacturing.ProductionOrder.Create", Request, 1033, false), 'BusinessCentralError');
         Order.Get(Order.Status::Planned, ManualNo);
         Assert.AreEqual(5, Order.Quantity, 'Duplicate did not overwrite.');
+        Data.CleanupOrders(Item."No.");
     end;
 
     [Test]

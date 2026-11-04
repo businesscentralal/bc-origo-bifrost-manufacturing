@@ -29,5 +29,6 @@ codeunit 97615 "Mfg Native Refresh Tst ori"
         Line.SetRange(Status, Order.Status);
         Line.SetRange("Prod. Order No.", Order."No.");
         Assert.AreEqual(1, Line.Count(), 'Native refresh creates the manufactured-item line.');
+        Data.CleanupOrders(Item."No.");
     end;
 }

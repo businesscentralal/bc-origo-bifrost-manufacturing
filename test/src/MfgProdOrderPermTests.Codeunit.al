@@ -45,6 +45,7 @@ codeunit 97608 "Mfg ProdOrder Perm Tests ori"
         LowerPermissions.SetOutsideO365Scope();
         Response.WriteTo(ResponseText);
         Assert.AreEqual('Success', Data.TextValue(Response, 'status'), 'Full role can refresh. Response: ' + ResponseText);
+        Data.CleanupOrders(Item."No.");
     end;
 
     [Test]
@@ -64,6 +65,7 @@ codeunit 97608 "Mfg ProdOrder Perm Tests ori"
         Clear(Request);
         Request.Add('systemId', Format(Order.SystemId, 0, 4));
         AssertReadRoleDenied("Message Type ori"::"Manufacturing.ProductionOrder.Refresh", Request);
+        Data.CleanupOrders(Item."No.");
     end;
 
     [Test]

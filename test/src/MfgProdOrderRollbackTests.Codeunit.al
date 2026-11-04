@@ -21,16 +21,18 @@ codeunit 97610 "Mfg ProdOrder Rollback Tst ori"
         Item: Record Item;
         Order: Record "Production Order";
         Request: JsonObject;
+        ManualNo: Code[20];
     begin
         // Story #5 AC13: committed fixture precedes the deliberately rolled-back call.
         Data.SetupNumbering(true);
         Data.CreateItem(Item);
         Request := Data.CreateRequest(Item."No.");
-        Request.Add('no', 'X-ROLLBACK-CREATE');
+        ManualNo := CopyStr('X' + DelChr(Format(CreateGuid(), 0, 4), '=', '-'), 1, 20);
+        Request.Add('no', ManualNo);
         Commit();
         asserterror CreateAndAbort(Request);
         Assert.ExpectedError('X caller rollback after successful create');
-        Assert.IsFalse(Order.Get(Order.Status::Planned, 'X-ROLLBACK-CREATE'), 'Create must remain inside caller transaction.');
+        Assert.IsFalse(Order.Get(Order.Status::Planned, ManualNo), 'Create must remain inside caller transaction.');
     end;
 
     [Test]
@@ -57,6 +59,7 @@ codeunit 97610 "Mfg ProdOrder Rollback Tst ori"
         Line.SetRange(Status, Order.Status);
         Line.SetRange("Prod. Order No.", Order."No.");
         Assert.IsTrue(Line.IsEmpty(), 'Omit Commit refusal must not create any refresh lines.');
+        Data.CleanupOrders(Item."No.");
     end;
 
     local procedure CreateAndAbort(Request: JsonObject)

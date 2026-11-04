@@ -39,6 +39,7 @@ codeunit 97605 "Prod Order Refresh Tests ori"
         Assert.AreEqual(1, Line.Count(), 'Normal refresh creates its manufactured-item line.');
         Assert.IsTrue(Data.NumberValue(Response, 'routingLineCount') > 0, 'Normal refresh creates routing rows.');
         Assert.IsTrue(Data.NumberValue(Response, 'componentCount') > 0, 'Normal refresh creates component rows.');
+        Data.CleanupOrders(Item."No.");
     end;
 
     [Test]
@@ -67,6 +68,7 @@ codeunit 97605 "Prod Order Refresh Tests ori"
         Line.SetRange(Status, Order.Status);
         Line.SetRange("Prod. Order No.", Order."No.");
         Assert.IsTrue(Line.IsEmpty(), 'Failed normal refresh leaves no partial line.');
+        Data.CleanupOrders(Item."No.");
     end;
 
     [Test]
@@ -97,6 +99,7 @@ codeunit 97605 "Prod Order Refresh Tests ori"
         Assert.IsTrue(Component.Count() > 0, 'BOM components were calculated.');
         Assert.AreEqual(Routing.Count(), Data.NumberValue(Response, 'routingLineCount'), 'Routing count.');
         Assert.AreEqual(Component.Count(), Data.NumberValue(Response, 'componentCount'), 'Component count.');
+        Data.CleanupOrders(Item."No.");
     end;
 
     [Test]
@@ -126,6 +129,7 @@ codeunit 97605 "Prod Order Refresh Tests ori"
         Assert.AreEqual(Format(NativeStart, 0, 9), Data.TextValue(Forward, 'startingDate'), 'Same start as BC report.');
         Assert.AreEqual(Format(NativeEnd, 0, 9), Data.TextValue(Forward, 'endingDate'), 'Same end as BC report.');
         Assert.AreNotEqual(Data.TextValue(Backward, 'endingDate'), Data.TextValue(Forward, 'endingDate'), 'Direction changes the dates.');
+        Data.CleanupOrders(Item."No.");
     end;
 
     [Test]
@@ -150,6 +154,7 @@ codeunit 97605 "Prod Order Refresh Tests ori"
         Response := Refresh(Order, 'Backward', false, true, true, false);
         Assert.AreEqual('Success', Data.TextValue(Response, 'status'), 'Partial calculation succeeds.');
         Assert.IsTrue(Line.GetBySystemId(BeforeId), 'calculateLines=false preserves original line.');
+        Data.CleanupOrders(Item."No.");
     end;
 
     [Test]
@@ -186,6 +191,7 @@ codeunit 97605 "Prod Order Refresh Tests ori"
         Assert.IsTrue(Line.GetBySystemId(BeforeId), 'Line identity survives failed refresh.');
         Assert.AreEqual(BeforeComponents, Component.Count(), 'Component rows survive.');
         Assert.AreEqual(BeforeRouting, Routing.Count(), 'Routing rows survive.');
+        Data.CleanupOrders(Item."No.");
     end;
 
     [Test]
@@ -212,6 +218,7 @@ codeunit 97605 "Prod Order Refresh Tests ori"
             Commit();
             Data.AssertRefusal(Data.Invoke("Message Type ori"::"Manufacturing.ProductionOrder.Refresh", Request, 1033, false), 'PreconditionFailed');
         end;
+        Data.CleanupOrders(Item."No.");
     end;
 
     [Test]
@@ -239,6 +246,9 @@ codeunit 97605 "Prod Order Refresh Tests ori"
         Clear(Request);
         Request.Add('systemId', Format(CreateGuid(), 0, 4));
         Data.AssertRefusal(Data.Invoke("Message Type ori"::"Manufacturing.ProductionOrder.Refresh", Request, 1033, false), 'RecordNotFound');
+        OtherOrder.Get(OtherOrder.Status::"Firm Planned", Order."No.");
+        OtherOrder.Delete(false);
+        Data.CleanupOrders(Item."No.");
     end;
 
     local procedure SetPlanningWindow(var Order: Record "Production Order")

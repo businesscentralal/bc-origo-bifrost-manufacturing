@@ -18,16 +18,19 @@ codeunit 97607 "Mfg Test Data ori"
         Assert: Codeunit "Library Assert";
 
     /// <summary>Creates a number series for each planning status without modifying licence or consent state.</summary>
+    /// <remarks>Create and Refresh commit, so their orders can outlive the test rollback: every series gets its own number range.</remarks>
     procedure SetupNumbering(Manual: Boolean)
     var
         Setup: Record "Manufacturing Setup";
         Series: Record "No. Series";
         SeriesLine: Record "No. Series Line";
         Utility: Codeunit "Library - Utility";
+        Prefix: Code[10];
     begin
+        Prefix := CopyStr('X' + DelChr(Format(CreateGuid(), 0, 4), '=', '-'), 1, 9) + 'N';
         Utility.CreateNoSeries(Series, true, Manual, false);
         Series.Rename(CopyStr('X' + Series.Code, 1, MaxStrLen(Series.Code)));
-        Utility.CreateNoSeriesLine(SeriesLine, Series.Code, 'X000001', 'X999999');
+        Utility.CreateNoSeriesLine(SeriesLine, Series.Code, Prefix + '000001', Prefix + '999999');
         Setup.SetLoadFields("Planned Order Nos.", "Firm Planned Order Nos.");
         if not Setup.Get() then begin
             Setup.Init();
@@ -36,6 +39,23 @@ codeunit 97607 "Mfg Test Data ori"
         Setup.Validate("Planned Order Nos.", Series.Code);
         Setup.Validate("Firm Planned Order Nos.", Series.Code);
         Setup.Modify(true);
+    end;
+
+    /// <summary>Deletes the production orders a test created for its own item; committed orders survive the test rollback.</summary>
+    procedure CleanupOrders(ItemNo: Code[20])
+    var
+        ProductionOrder: Record "Production Order";
+    begin
+        ProductionOrder.SetRange("Source Type", ProductionOrder."Source Type"::Item);
+        ProductionOrder.SetRange("Source No.", ItemNo);
+        ProductionOrder.SetFilter(Status, '%1|%2', ProductionOrder.Status::Planned, ProductionOrder.Status::"Firm Planned");
+        ProductionOrder.DeleteAll(true);
+        // Released/Finished fixtures are bare headers inserted without lines; no native delete cascade applies.
+        ProductionOrder.SetFilter(Status, '%1|%2', ProductionOrder.Status::Released, ProductionOrder.Status::Finished);
+        ProductionOrder.DeleteAll(false);
+        Commit();
+        ProductionOrder.SetRange(Status);
+        Assert.RecordIsEmpty(ProductionOrder);
     end;
 
     /// <summary>Creates an item with its own certified BOM, component and routing.</summary>
