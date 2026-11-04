@@ -43,7 +43,32 @@ Allocated ids (record every new id here):
 | 97665 | codeunit (test) | BOM Rtg OmitCommit Tests ori |
 | 97666 | codeunit (test) | BOM Routing Test Lib ori |
 | 97667 | page (test only) | BOM Routing Fixtures ori |
-| 97668-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
+| 97668 | permissionset (test) | BOM Rtg NoGrant ori |
+| 97669-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
+
+| 97604 | codeunit (test) | Prod Order Create Tests ori |
+| 97605 | codeunit (test) | Prod Order Refresh Tests ori |
+| 97606 | codeunit (test) | Mfg ProdOrder Contract Tst ori |
+| 97607 | codeunit (test) | Mfg Test Data ori |
+| 97608 | codeunit (test) | Mfg ProdOrder Perm Tests ori |
+| 97609 | permissionset (test) | Mfg NoGrant Tst ori |
+| 97610 | codeunit (test) | Mfg ProdOrder Rollback Tst ori |
+| 97611 | codeunit (test) | Mfg Licence Probe Tst ori |
+| 97612 | table (test) | Mfg Licence Result Tst ori |
+| 97613 | codeunit (test) | Mfg Licence Tests ori |
+| 97614 | codeunit (test fixture) | Mfg MCP Fixture Tst ori |
+| 97615 | codeunit (test) | Mfg Native Refresh Tst ori |
+| 97616 | codeunit (test cleanup) | Mfg MCP Cleanup Tst ori |
+| 97617 | codeunit (test) | Mfg MCP Cleanup Tests ori |
+| 10077039 | enumextension | Mfg ProdOrder MsgType ori |
+| 10077040 | codeunit | Mfg ProdOrder Contract ori |
+| 10077041 | codeunit | Prod Order Create Impl ori |
+| 10077042 | codeunit | Prod Order Refresh Impl ori |
+| 10077043 | codeunit | Prod Order Refresh Proc ori |
+| 10077044 | codeunit | Mfg Prod Order Lookup ori |
+| 10077045 | codeunit | Mfg Prod Order Request ori |
+| 10077046 | table | Mfg Write Gate ori |
+| 10077047 | codeunit | Mfg Write Check ori |
 
 ## Microsoft source
 Business Central manufacturing (production orders, production BOMs, routings, work and machine centers, output and consumption) lives in the **Base Application**; BC 28 has no separate Microsoft manufacturing app to depend on. Source: https://github.com/microsoft/BCApps/tree/main/src/Layers/W1/BaseApp/Manufacturing
@@ -109,3 +134,13 @@ Key rules always in effect:
 
 ## Testing Through the MCP Server
 - Keep MCP calls serial - parallel bursts crash the server.
+
+Test fixture codeunit `97614 Mfg MCP Fixture Tst ori` seeds owned items, BOM, routing and numbering through native validation for MCP verification; it does not change write guards or consent. Licence test codeunit `97613` requires disabled test isolation because it starts a real background session, and cleans its own company and result record. Both isolation groups belong to the full configured suite.
+
+Native fixture control `97615` runs the standard report using Microsoft's test-library transaction setup. It proves fixture validity separately; it does not replace or waive the dispatcher and caller-rollback tests.
+
+Owned production-order MCP fixtures record their company name and SystemId in the global test receipt. After removing that owned company, run test codeunit 97616 to delete only its receipt; cleanup refuses while either the company identity or name exists. Codeunit 97617 covers removal, idempotence, foreign-receipt preservation and live/missing-company guards.
+
+Manufacturing write messages require `BIFROST Mfg ori` or `BIFROST Full ori`.
+The read role receives only read access to the empty permission gate; broad native
+Execute grants do not confer Manufacturing write access. Native record permissions remain required.

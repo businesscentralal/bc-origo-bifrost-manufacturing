@@ -2,6 +2,29 @@
 
 ## Unreleased
 
+- Give every test number series its own unique range and delete the production orders each committing test created (97604, 97605, 97607, 97608, 97610, 97615), so Create/Refresh tests pass on repeated runs in the same database instead of colliding on a fixed `X000001`; the Create caller-rollback test uses a unique manual number. Assertions unchanged.
+
+- Verify the Manufacturing write gate against Foundation main without accepting message-envelope or test-helper permission errors (#15). Restricted-role tests grant the BOM/routing helpers and assertion library explicitly (97609/97664), supply the Foundation API transport role only for read-role dispatch, and check the same denial in both languages (97608). A separate role test confirms read cannot write the empty gate while Manufacturing and full roles can.
+
+- Keep independent starting/ending dates and times plus a valid due date in the direction-comparison fixture (97605), and pass LCID plus Omit Commit together through Foundation’s public Temp Blob dispatcher overload (97607) so bilingual transaction tests exercise the requested language.
+
+- Apply Gunnar’s 04 November Refresh transaction decision (#5): Refresh always commits, refuses Omit Commit before writes, and documents that boundary (10077042/10077043/10077045). Update native AC07–AC10 and AC13 tests (97605/97610) to the approved committing contract; Create retains caller rollback.
+
+- Enforce the Manufacturing write role for Create, Refresh, BOM status and routing status even when native D365 roles grant broad codeunit Execute access (#5). Empty permission table 10077046 and check codeunit 10077047 distinguish full and read roles without widening native record access. Existing denial assertions now also reject misleading native licensing errors.
+
+- Supply native Planning Assignment indirect insert/modify and Work Center read permissions in the shared permission-test baseline (97609); preserve distinct Manufacturing full/read grants and expose native refusal details in the full-role assertion (97608).
+
+- Select the native report's transaction type before reading inside the normal Refresh rollback boundary and restore the caller's type after success or refusal (10077042/10077043); retain independent transaction-contract tests and add normal-boundary regression cases (97605).
+
+- Record the owned MCP fixture company identity (97614) and provide explicit receipt cleanup after company removal (97616), with company/foreign-receipt isolation tests (97617).
+
+- Add an isolated native refresh fixture control (97615) and explicit owned production-order fixture action (97667) for runtime diagnosis and MCP verification.
+
+- Enable Premium experience in the shared Default/Test build container so all Manufacturing Refresh tests execute with the required platform configuration; retain every assertion and failure gate.
+
+- Preserve bilingual BOM/routing test assertions in LCIDs 1033 and 1039 (codeunits 97660, 97661, 97663–97666); use Disabled isolation only for the ordinary-company background-session test 97613.
+
+- Production order creation and refresh through `Manufacturing.ProductionOrder.Create` and `Manufacturing.ProductionOrder.Refresh` (#5). Native numbering, planning-only refresh, structured bilingual validation, conflict-aware identity lookup, Create caller rollback and explicit committing Refresh. App objects 10077039–10077045; test objects 97604–97613.
 - Enforce the Manufacturing write role for Manufacturing.ProductionBOM.SetStatus and Manufacturing.Routing.SetStatus even when native D365 roles grant broad codeunit Execute access (#15). Empty permission table `Mfg Write Gate ori` (10077046) and check codeunit `Mfg Write Check ori` (10077047) are granted for write only by `BIFROST Mfg ori`/`BIFROST MfgFull ori`; `BIFROST MfgRead ori` gets read only. The gate objects are identical to those in #12 so there is one gate. Test permission set `BOM Rtg NoGrant ori` (97668) lets the restricted-role tests reach the gate, and 97664 now asserts the gate refuses (not a licence or helper error) in 1033 and 1039 and adds the gate-role test.
 
 - Source Guards runs `tools/Test-MessageTypeNames.ps1` (self-test, then the app check) in a new `MessageTypeNames` job, the same as Foundation's, so every shipped message type name keeps exactly three parts (#12, AC20).

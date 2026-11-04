@@ -14,6 +14,7 @@ codeunit 97663 "BOM Routing Contract Tests ori"
 
     var
         Assert: Codeunit "Library Assert";
+        Lib: Codeunit "BOM Routing Test Lib ori";
 
     [Test]
     procedure AC14_BothTypes_DeclareTheRequiredChapters()
@@ -30,8 +31,8 @@ codeunit 97663 "BOM Routing Contract Tests ori"
     begin
         Bom := Enum::"Message Type ori"::"Manufacturing.ProductionBOM.SetStatus";
         Routing := Enum::"Message Type ori"::"Manufacturing.Routing.SetStatus";
-        Assert.AreEqual('Certifies a production BOM or one of its versions, or sets it back to Under Development, with the standard Business Central checks.', Bom.GetDescription(), 'BOM description');
-        Assert.AreEqual('Certifies a routing or one of its versions, or sets it back to Under Development, with the standard Business Central checks.', Routing.GetDescription(), 'routing description');
+        Assert.AreEqual(Lib.ExpectedText('Certifies a production BOM or one of its versions, or sets it back to Under Development, with the standard Business Central checks.', 'Staðfestir framleiðsluefnislista eða útgáfu hans, eða setur hann aftur í þróun, með venjulegum athugunum Business Central.'), Bom.GetDescription(), 'BOM description');
+        Assert.AreEqual(Lib.ExpectedText('Certifies a routing or one of its versions, or sets it back to Under Development, with the standard Business Central checks.', 'Staðfestir vinnsluleið eða útgáfu hennar, eða setur hana aftur í þróun, með venjulegum athugunum Business Central.'), Routing.GetDescription(), 'routing description');
     end;
 
     local procedure AssertContract(MessageType: Enum "Message Type ori")

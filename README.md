@@ -12,7 +12,11 @@ consumption, so an agent can operate it end to end. It is built on the same basi
 
 **Microsoft source:** <https://github.com/microsoft/BCApps/tree/main/src/Layers/W1/BaseApp/Manufacturing> (manufacturing is part of the Base Application)
 
-**Status:** Manufacturing.ProductionBOM.SetStatus and Manufacturing.Routing.SetStatus are implemented. Production-order refresh is not in this app yet.
+**Status:** production order Create/Refresh and production BOM/routing SetStatus are implemented.
+
+`Manufacturing.ProductionOrder.Create` creates a Planned or FirmPlanned item order using the configured number series. Call `Manufacturing.ProductionOrder.Refresh` to calculate lines, routing and components. Refresh refuses Released and Finished orders; it never posts. Create preserves the caller transaction under Omit Commit. Refresh always commits because the native BC report commits internally; it refuses Omit Commit with `PreconditionFailed` before any write. Run Refresh as a separate committing operation.
+
+Use `describe_message_type` for parameter, response, error and workflow chapters. Ordinary field reads and edits remain with `Data.Records.Get` and `Data.Records.Set`.
 
 ---
 
@@ -33,6 +37,15 @@ consumption, so an agent can operate it end to end. It is built on the same basi
 | 10077036 | permissionset | BIFROST Mfg ori |
 | 10077037 | permissionsetextension | BIFROST MfgFull ori |
 | 10077038 | permissionsetextension | BIFROST MfgRead ori |
+| 10077039 | enumextension | Mfg ProdOrder MsgType ori |
+| 10077040 | codeunit | Mfg ProdOrder Contract ori |
+| 10077041 | codeunit | Prod Order Create Impl ori |
+| 10077042 | codeunit | Prod Order Refresh Impl ori |
+| 10077043 | codeunit | Prod Order Refresh Proc ori |
+| 10077044 | codeunit | Mfg Prod Order Lookup ori |
+| 10077045 | codeunit | Mfg Prod Order Request ori |
+| 10077046 | table | Mfg Write Gate ori |
+| 10077047 | codeunit | Mfg Write Check ori |
 | 10077085 | enumextension | Mfg BOMRtg MsgType ori |
 | 10077086 | codeunit | Mfg BOMRtg Contract ori |
 | 10077087 | codeunit | Prod BOM Status Impl ori |
@@ -47,6 +60,20 @@ consumption, so an agent can operate it end to end. It is built on the same basi
 | 97601 | codeunit (test) | Mfg Test Upgrade ori |
 | 97602 | codeunit (test) | Mfg Registration Tst ori |
 | 97603 | permissionset (test) | Mfg Platform Tst ori |
+| 97604 | codeunit (test) | Prod Order Create Tests ori |
+| 97605 | codeunit (test) | Prod Order Refresh Tests ori |
+| 97606 | codeunit (test) | Mfg ProdOrder Contract Tst ori |
+| 97607 | codeunit (test) | Mfg Test Data ori |
+| 97608 | codeunit (test) | Mfg ProdOrder Perm Tests ori |
+| 97609 | permissionset (test) | Mfg NoGrant Tst ori |
+| 97610 | codeunit (test) | Mfg ProdOrder Rollback Tst ori |
+| 97611 | codeunit (test) | Mfg Licence Probe Tst ori |
+| 97612 | table (test) | Mfg Licence Result Tst ori |
+| 97613 | codeunit (test) | Mfg Licence Tests ori |
+| 97614 | codeunit (test fixture) | Mfg MCP Fixture Tst ori |
+| 97615 | codeunit (test) | Mfg Native Refresh Tst ori |
+| 97616 | codeunit (test cleanup) | Mfg MCP Cleanup Tst ori |
+| 97617 | codeunit (test) | Mfg MCP Cleanup Tests ori |
 | 97660 | codeunit (test) | Prod BOM Status Tests ori |
 | 97661 | codeunit (test) | Routing Status Tests ori |
 | 97662 | codeunit (test) | BOM Routing Restrict Tests ori |
@@ -55,7 +82,8 @@ consumption, so an agent can operate it end to end. It is built on the same basi
 | 97665 | codeunit (test) | BOM Rtg OmitCommit Tests ori |
 | 97666 | codeunit (test) | BOM Routing Test Lib ori |
 | 97667 | page (test only) | BOM Routing Fixtures ori |
-| 97668-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
+| 97668 | permissionset (test) | BOM Rtg NoGrant ori |
+| 97669-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
 
 The version commit suppression uses a locally bound manual subscriber. Its lifetime is the status call, including exception unwinding; the single-instance context reports that binding without retaining a Boolean after an error.
 
@@ -85,7 +113,19 @@ site repository and is published at <https://docs.bifrost.origo.is>.
 
 | Folder | Content |
 | --- | --- |
-| `app/` | The AppSource app (`Bifrost Manufacturing`), registration, permission sets, and the production BOM and routing status message types |
+| `app/` | The AppSource app (`Bifrost Manufacturing`), registration, permission sets, production planning, and production BOM and routing status message types |
 | `test/` | Test app (`Bifrost Manufacturing - Tests`) |
 | `tools/` | Pipeline guard scripts |
 | `.AL-Go/`, `.github/`, `.alpaca/` | AL-Go for GitHub / COSMO Alpaca pipeline configuration |
+
+Owned production-order MCP fixtures record their company name and SystemId in the global test receipt. After removing that owned company, run test codeunit 97616 to delete only its receipt; cleanup refuses while either the company identity or name exists. Codeunit 97617 covers removal, idempotence, foreign-receipt preservation and live/missing-company guards.
+
+Manufacturing write messages require `BIFROST Mfg ori` or `BIFROST Full ori`.
+The read role receives only read access to the empty permission gate; broad native
+Execute grants do not confer Manufacturing write access. Native record permissions remain required.
+
+Permission regressions run through Foundation’s public dispatcher. Read-role dispatch tests
+also assign `BIFROST API ori` for the persisted message envelope; that transport role
+does not grant write access to the Manufacturing gate. Test-only helper Execute grants
+keep the checks independent of test order. Full-role success and missing native table
+permissions are checked separately in fresh sessions on Foundation main.

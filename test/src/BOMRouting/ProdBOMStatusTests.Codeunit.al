@@ -103,7 +103,7 @@ codeunit 97660 "Prod BOM Status Tests ori"
 
         // [WHEN] A line is edited while the BOM is certified, then the BOM is returned to Under Development and the line is edited again
         Response := Lib.SetField('Production BOM Line', Line.SystemId, 'Description', 'blocked edit');
-        Lib.AssertRefusal(Response, 'BusinessCentralError', 'Status');
+        Lib.AssertRefusal(Response, 'BusinessCentralError', Header.FieldCaption(Status));
         Lib.AssertSuccess(Lib.SetBomStatus(BomNo, '', 'UnderDevelopment', false));
         Line.Get(BomNo, '', 10000);
         Response := Lib.SetField('Production BOM Line', Line.SystemId, 'Description', 'open edit');
@@ -135,7 +135,7 @@ codeunit 97660 "Prod BOM Status Tests ori"
         Response := Lib.SetBomStatus(BomNo, '', 'Certified', false);
         Lib.SetDynamicLowLevelCode(PreviousDynamicLowLevelCode);
 
-        Lib.AssertRefusal(Response, 'BusinessCentralError', 'circular');
+        Lib.AssertRefusal(Response, 'BusinessCentralError', Lib.ExpectedText('circular', 'hringvísun'));
         Assert.IsTrue(ResponseTextContains(Response, 'Data.Records.Set'), 'nextStep names Data.Records.Set');
         Header.Get(BomNo);
         Assert.AreEqual(Header.Status::New, Header.Status, 'status unchanged');
@@ -160,7 +160,7 @@ codeunit 97660 "Prod BOM Status Tests ori"
 
         Response := Lib.SetBomStatus(BomNo, '', 'Certified', false);
 
-        Lib.AssertRefusal(Response, 'BusinessCentralError', 'Unit of Measure');
+        Lib.AssertRefusal(Response, 'BusinessCentralError', Header.FieldCaption("Unit of Measure Code"));
         Header.Get(BomNo);
         Assert.AreEqual(Header.Status::New, Header.Status, 'status unchanged');
         Lib.Sweep();
@@ -180,7 +180,7 @@ codeunit 97660 "Prod BOM Status Tests ori"
 
         Response := Lib.SetBomStatus(BomNo, '', 'Certified', false);
 
-        Lib.AssertRefusal(Response, 'BusinessCentralError', 'No.');
+        Lib.AssertRefusal(Response, 'BusinessCentralError', Lib.ExpectedText('No.', 'Nr.'));
         Header.Get(BomNo);
         Assert.AreEqual(Header.Status::New, Header.Status, 'status unchanged');
         Lib.Sweep();
@@ -201,7 +201,7 @@ codeunit 97660 "Prod BOM Status Tests ori"
 
         Lib.AssertSuccess(Response);
         Assert.IsFalse(Lib.GetBoolean(Response, 'changed'), 'changed');
-        Assert.IsTrue(Lib.GetText(Response, 'message').Contains('Nothing was changed.'), 'unchanged message');
+        Assert.IsTrue(Lib.GetText(Response, 'message').Contains(Lib.ExpectedText('Nothing was changed.', 'Engu var breytt.')), 'unchanged message');
         Header.Get(BomNo);
         Assert.AreEqual(Header.Status::"Under Development", Header.Status, 'status');
         Lib.Sweep();
@@ -266,15 +266,15 @@ codeunit 97660 "Prod BOM Status Tests ori"
         Lib.CreateBomHeader(BomNo, Enum::"BOM Status"::New, true);
 
         Response := Lib.SetBomStatus(BomNo, '', 'Closed', false);
-        Lib.AssertRefusal(Response, 'InvalidParameter', 'not supported');
-        Assert.IsTrue(Lib.GetText(Response, 'nextStep').Contains('screen'), 'closed nextStep');
+        Lib.AssertRefusal(Response, 'InvalidParameter', Lib.ExpectedText('not supported', 'ekki studd'));
+        Assert.IsTrue(Lib.GetText(Response, 'nextStep').Contains(Lib.ExpectedText('screen', 'skjás')), 'closed nextStep');
 
         Response := Lib.SetBomStatus(BomNo, '', 'New', false);
-        Lib.AssertRefusal(Response, 'InvalidParameter', 'not supported');
+        Lib.AssertRefusal(Response, 'InvalidParameter', Lib.ExpectedText('not supported', 'ekki studd'));
         Assert.IsTrue(Lib.GetText(Response, 'nextStep').Contains('Certified'), 'new nextStep');
 
         Response := Lib.SetBomStatus(BomNo, '', 'Released', false);
-        Lib.AssertRefusal(Response, 'InvalidParameter', 'not supported');
+        Lib.AssertRefusal(Response, 'InvalidParameter', Lib.ExpectedText('not supported', 'ekki studd'));
 
         Header.Get(BomNo);
         Assert.AreEqual(Header.Status::New, Header.Status, 'status unchanged');
@@ -301,7 +301,7 @@ codeunit 97660 "Prod BOM Status Tests ori"
         Lib.AssertRefusal(Response, 'MissingParameter', 'status');
 
         Response := Lib.SetBomStatus(Lib.NewNo(), '', 'Certified', true);
-        Lib.AssertRefusal(Response, 'RecordNotFound', 'not found');
+        Lib.AssertRefusal(Response, 'RecordNotFound', Lib.ExpectedText('not found', 'fannst ekki'));
         Assert.AreEqual('no', Lib.GetText(Response, 'parameter'), 'parameter');
 
         Clear(Request);

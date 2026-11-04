@@ -42,6 +42,13 @@ page 97667 "BOM Routing Fixtures ori"
                     ResultText := SeededMsg;
                 end;
             }
+            action(SeedProductionOrder)
+            {
+                Caption = 'Seed production order fixtures', Comment = 'is-IS=Búa til prófunargögn framleiðslupantana';
+                ToolTip = 'Creates an owned manufactured item, certified BOM, routing, calendar and number series. Existing fixture keys are refused.', Comment = 'is-IS=Býr til eigin framleiðsluvöru, staðfesta uppskrift, leið, dagatal og númeraröð. Fyrirliggjandi prófunarlyklar eru ekki leyfðir.';
+                Image = New;
+                RunObject = codeunit "Mfg MCP Fixture Tst ori";
+            }
             action(Cleanup)
             {
                 Caption = 'Clean and verify', Comment = 'is-IS=Hreinsa og staðfesta';

@@ -67,7 +67,7 @@ codeunit 97661 "Routing Status Tests ori"
 
         Response := Lib.SetRoutingStatus(RoutingNo, '', 'Certified', false);
 
-        Lib.AssertRefusal(Response, 'BusinessCentralError', 'termination');
+        Lib.AssertRefusal(Response, 'BusinessCentralError', Lib.ExpectedText('termination', 'stöðvunarferla'));
         Header.Get(RoutingNo);
         Assert.AreEqual(Header.Status::"Under Development", Header.Status, 'status unchanged');
         Lib.Sweep();
@@ -92,7 +92,7 @@ codeunit 97661 "Routing Status Tests ori"
 
         Response := Lib.SetRoutingStatus(RoutingNo, '', 'Certified', false);
 
-        Lib.AssertRefusal(Response, 'BusinessCentralError', 'start');
+        Lib.AssertRefusal(Response, 'BusinessCentralError', Lib.ExpectedText('start', 'ræsiferla'));
         Header.Get(RoutingNo);
         Assert.AreEqual(Header.Status::New, Header.Status, 'status unchanged');
         Lib.Sweep();
@@ -117,7 +117,7 @@ codeunit 97661 "Routing Status Tests ori"
 
         Response := Lib.SetRoutingStatus(RoutingNo, '', 'Certified', false);
 
-        Lib.AssertRefusal(Response, 'BusinessCentralError', 'sequenced');
+        Lib.AssertRefusal(Response, 'BusinessCentralError', Lib.ExpectedText('sequenced', 'raðað'));
         Header.Get(RoutingNo);
         Assert.AreEqual(Header.Status::New, Header.Status, 'status unchanged');
         Lib.Sweep();
@@ -137,7 +137,7 @@ codeunit 97661 "Routing Status Tests ori"
 
         Response := Lib.SetRoutingStatus(RoutingNo, '', 'Certified', false);
 
-        Lib.AssertRefusal(Response, 'BusinessCentralError', 'no longer exists');
+        Lib.AssertRefusal(Response, 'BusinessCentralError', Lib.ExpectedText('no longer exists', 'ekki til lengur'));
         Header.Get(RoutingNo);
         Assert.AreEqual(Header.Status::New, Header.Status, 'status unchanged');
         Assert.IsFalse(Context.IsActive(), 'context must be clear after the error');
@@ -202,8 +202,8 @@ codeunit 97661 "Routing Status Tests ori"
 
         Response := Lib.SetRoutingStatus(RoutingNo, '', 'Closed', true);
 
-        Lib.AssertRefusal(Response, 'InvalidParameter', 'not supported');
-        Assert.IsTrue(Lib.GetText(Response, 'nextStep').Contains('screen'), 'closed nextStep');
+        Lib.AssertRefusal(Response, 'InvalidParameter', Lib.ExpectedText('not supported', 'ekki studd'));
+        Assert.IsTrue(Lib.GetText(Response, 'nextStep').Contains(Lib.ExpectedText('screen', 'skjás')), 'closed nextStep');
         Lib.Sweep();
     end;
 }
