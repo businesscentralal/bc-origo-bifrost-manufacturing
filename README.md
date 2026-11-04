@@ -82,7 +82,8 @@ Use `describe_message_type` for parameter, response, error and workflow chapters
 | 97665 | codeunit (test) | BOM Rtg OmitCommit Tests ori |
 | 97666 | codeunit (test) | BOM Routing Test Lib ori |
 | 97667 | page (test only) | BOM Routing Fixtures ori |
-| 97668-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
+| 97668 | permissionset (test) | BOM Rtg NoGrant ori |
+| 97669-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
 
 The version commit suppression uses a locally bound manual subscriber. Its lifetime is the status call, including exception unwinding; the single-instance context reports that binding without retaining a Boolean after an error.
 

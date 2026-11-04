@@ -25,6 +25,7 @@
 - Preserve bilingual BOM/routing test assertions in LCIDs 1033 and 1039 (codeunits 97660, 97661, 97663–97666); use Disabled isolation only for the ordinary-company background-session test 97613.
 
 - Production order creation and refresh through `Manufacturing.ProductionOrder.Create` and `Manufacturing.ProductionOrder.Refresh` (#5). Native numbering, planning-only refresh, structured bilingual validation, conflict-aware identity lookup, Create caller rollback and explicit committing Refresh. App objects 10077039–10077045; test objects 97604–97613.
+- Enforce the Manufacturing write role for Manufacturing.ProductionBOM.SetStatus and Manufacturing.Routing.SetStatus even when native D365 roles grant broad codeunit Execute access (#15). Empty permission table `Mfg Write Gate ori` (10077046) and check codeunit `Mfg Write Check ori` (10077047) are granted for write only by `BIFROST Mfg ori`/`BIFROST MfgFull ori`; `BIFROST MfgRead ori` gets read only. The gate objects are identical to those in #12 so there is one gate. Test permission set `BOM Rtg NoGrant ori` (97668) lets the restricted-role tests reach the gate, and 97664 now asserts the gate refuses (not a licence or helper error) in 1033 and 1039 and adds the gate-role test.
 
 - Source Guards runs `tools/Test-MessageTypeNames.ps1` (self-test, then the app check) in a new `MessageTypeNames` job, the same as Foundation's, so every shipped message type name keeps exactly three parts (#12, AC20).
 

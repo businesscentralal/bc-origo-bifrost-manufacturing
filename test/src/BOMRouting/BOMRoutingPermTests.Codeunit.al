@@ -37,14 +37,14 @@ codeunit 97664 "BOM Routing Perm Tests ori"
     begin
         LowerPermissions.SetOutsideO365Scope();
         LowerPermissions.SetExactPermissionSet('BIFROST Full ori');
-        LowerPermissions.AddPermissionSet('Mfg NoGrant Tst ori');
+        LowerPermissions.AddPermissionSet('BOM Rtg NoGrant ori');
         Request.Add('status', 'Certified');
         Response := Lib.Invoke(Enum::"Message Type ori"::"Manufacturing.ProductionBOM.SetStatus", Request, true);
         LowerPermissions.SetOutsideO365Scope();
         Lib.AssertRefusal(Response, 'MissingParameter', 'no');
 
         LowerPermissions.SetExactPermissionSet('BIFROST Full ori');
-        LowerPermissions.AddPermissionSet('Mfg NoGrant Tst ori');
+        LowerPermissions.AddPermissionSet('BOM Rtg NoGrant ori');
         Response := Lib.Invoke(Enum::"Message Type ori"::"Manufacturing.Routing.SetStatus", Request, true);
         LowerPermissions.SetOutsideO365Scope();
         Lib.AssertRefusal(Response, 'MissingParameter', 'no');
@@ -66,13 +66,13 @@ codeunit 97664 "BOM Routing Perm Tests ori"
 
         LowerPermissions.SetOutsideO365Scope();
         LowerPermissions.SetExactPermissionSet('BIFROST Full ori');
-        LowerPermissions.AddPermissionSet('Mfg NoGrant Tst ori');
+        LowerPermissions.AddPermissionSet('BOM Rtg NoGrant ori');
         Response := Lib.SetBomStatus(BomNo, '', 'Certified', true);
         LowerPermissions.SetOutsideO365Scope();
         Lib.AssertRefusal(Response, 'PermissionDenied', Lib.ExpectedText('permission', 'heimild'));
 
         LowerPermissions.SetExactPermissionSet('BIFROST Full ori');
-        LowerPermissions.AddPermissionSet('Mfg NoGrant Tst ori');
+        LowerPermissions.AddPermissionSet('BOM Rtg NoGrant ori');
         Response := Lib.SetRoutingStatus(RoutingNo, '', 'Certified', true);
         LowerPermissions.SetOutsideO365Scope();
         Lib.AssertRefusal(Response, 'PermissionDenied', Lib.ExpectedText('permission', 'heimild'));
@@ -106,14 +106,14 @@ codeunit 97664 "BOM Routing Perm Tests ori"
         LowerPermissions.SetOutsideO365Scope();
         LowerPermissions.SetExactPermissionSet('D365 BUS PREMIUM');
         LowerPermissions.AddPermissionSet('BIFROST Full ori');
-        LowerPermissions.AddPermissionSet('Mfg NoGrant Tst ori');
+        LowerPermissions.AddPermissionSet('BOM Rtg NoGrant ori');
         Response := Lib.SetBomStatus(BomNo, '', 'Certified', false);
         LowerPermissions.SetOutsideO365Scope();
         Lib.AssertSuccess(Response);
 
         LowerPermissions.SetExactPermissionSet('D365 BUS PREMIUM');
         LowerPermissions.AddPermissionSet('BIFROST Full ori');
-        LowerPermissions.AddPermissionSet('Mfg NoGrant Tst ori');
+        LowerPermissions.AddPermissionSet('BOM Rtg NoGrant ori');
         Response := Lib.SetRoutingStatus(RoutingNo, '', 'Certified', false);
         LowerPermissions.SetOutsideO365Scope();
         Lib.AssertSuccess(Response);
@@ -123,6 +123,35 @@ codeunit 97664 "BOM Routing Perm Tests ori"
         Assert.AreEqual(Header.Status::Certified, Header.Status, 'BOM');
         Assert.AreEqual(Routing.Status::Certified, Routing.Status, 'routing');
         Lib.Sweep();
+    end;
+
+    [Test]
+    procedure AC16_WriteGate_ReadDeniedFullGranted()
+    var
+        Gate: Record "Mfg Write Gate ori";
+        ReadCanWrite: Boolean;
+        ReadCanRead: Boolean;
+        MfgCanWrite: Boolean;
+        FullCanWrite: Boolean;
+    begin
+        // Native D365 sets grant codeunit Execute broadly, so the gate must hold even with them.
+        LowerPermissions.SetOutsideO365Scope();
+        LowerPermissions.SetExactPermissionSet('BIFROST Read ori');
+        LowerPermissions.AddPermissionSet('D365 BASIC');
+        LowerPermissions.AddPermissionSet('D365PREM MFG, EDIT');
+        ReadCanWrite := Gate.WritePermission();
+        ReadCanRead := Gate.ReadPermission();
+        LowerPermissions.SetOutsideO365Scope();
+        LowerPermissions.SetExactPermissionSet('BIFROST Mfg ori');
+        MfgCanWrite := Gate.WritePermission();
+        LowerPermissions.SetOutsideO365Scope();
+        LowerPermissions.SetExactPermissionSet('BIFROST Full ori');
+        FullCanWrite := Gate.WritePermission();
+        LowerPermissions.SetOutsideO365Scope();
+        Assert.IsFalse(ReadCanWrite, 'The read role must not hold the Manufacturing write gate.');
+        Assert.IsTrue(ReadCanRead, 'The read role keeps read on the write gate.');
+        Assert.IsTrue(MfgCanWrite, 'The Manufacturing role holds the write gate.');
+        Assert.IsTrue(FullCanWrite, 'The full role holds the write gate.');
     end;
 
     local procedure AssertPlatformRefusal(MessageType: Enum "Message Type ori")
@@ -140,7 +169,7 @@ codeunit 97664 "BOM Routing Perm Tests ori"
         // Issue #15 AC02: native Execute grants must not bypass the feature gate.
         LowerPermissions.AddPermissionSet('D365 BASIC');
         LowerPermissions.AddPermissionSet('D365PREM MFG, EDIT');
-        LowerPermissions.AddPermissionSet('Mfg NoGrant Tst ori');
+        LowerPermissions.AddPermissionSet('BOM Rtg NoGrant ori');
         asserterror Response := Lib.Invoke(MessageType, Request, false);
         ErrorText := GetLastErrorText();
         LowerPermissions.SetOutsideO365Scope();

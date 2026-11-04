@@ -43,7 +43,8 @@ Allocated ids (record every new id here):
 | 97665 | codeunit (test) | BOM Rtg OmitCommit Tests ori |
 | 97666 | codeunit (test) | BOM Routing Test Lib ori |
 | 97667 | page (test only) | BOM Routing Fixtures ori |
-| 97668-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
+| 97668 | permissionset (test) | BOM Rtg NoGrant ori |
+| 97669-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
 
 | 97604 | codeunit (test) | Prod Order Create Tests ori |
 | 97605 | codeunit (test) | Prod Order Refresh Tests ori |
