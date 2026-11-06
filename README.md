@@ -76,6 +76,7 @@ Use `describe_message_type` for parameter, response, error and workflow chapters
 | 97647 | codeunit (test library) | Prod Jnl Test Lib ori |
 | 97620 | codeunit (test) | Prod Order Status Tests ori |
 | 97621 | codeunit (test) | Prod Order Finish Tests ori |
+| 97622 | codeunit (test) | Prod Ord Finish Post Tests ori |
 | 97623 | codeunit (test) | Mfg Omit Commit Tests ori |
 | 97624 | codeunit (test) | Mfg Posting Gate Tests ori |
 | 97625 | codeunit (test) | Prod Order Restrict Tests ori |
