@@ -2,6 +2,8 @@ namespace Origo.Bifrost.Manufacturing.Test;
 
 using Microsoft.Inventory.Item;
 using Microsoft.Inventory.Ledger;
+using Microsoft.Inventory.Location;
+using Microsoft.Inventory.Setup;
 using Microsoft.Manufacturing.Document;
 using Microsoft.Purchases.Document;
 using Microsoft.Warehouse.Activity;
@@ -243,6 +245,35 @@ codeunit 97622 "Prod Ord Finish Post Tests ori"
         Response := Lib.ChangeStatus(Order, 'Released', 1, 1033);
         Assert.AreEqual('Success', Data.TextValue(Response, 'status'), 'Fixture release succeeds.');
         Lib.ReadBack(Response, Order);
+        UseOwnedPostingGroup(Order);
+    end;
+
+    /// <summary>Posts the fixture with its own inventory posting group whose setup has every account, including WIP, so the demo company's setup is not changed.</summary>
+    local procedure UseOwnedPostingGroup(Order: Record "Production Order")
+    var
+        PostingGroup: Record "Inventory Posting Group";
+        BlankLocation: Record Location;
+        Item: Record Item;
+        Line: Record "Prod. Order Line";
+        Component: Record "Prod. Order Component";
+    begin
+        Inventory.CreateInventoryPostingGroup(PostingGroup);
+        Inventory.UpdateInventoryPostingSetup(BlankLocation, PostingGroup.Code);
+        Item.Get(Order."Source No.");
+        Item.Validate("Inventory Posting Group", PostingGroup.Code);
+        Item.Modify(true);
+        Line.SetRange(Status, Order.Status);
+        Line.SetRange("Prod. Order No.", Order."No.");
+        Line.ModifyAll("Inventory Posting Group", PostingGroup.Code, false);
+        Component.SetRange(Status, Order.Status);
+        Component.SetRange("Prod. Order No.", Order."No.");
+        if Component.FindSet() then
+            repeat
+                Item.Get(Component."Item No.");
+                Item.Validate("Inventory Posting Group", PostingGroup.Code);
+                Item.Modify(true);
+            until Component.Next() = 0;
+        Commit();
     end;
 
     local procedure FirstLine(Order: Record "Production Order"; var Line: Record "Prod. Order Line")
