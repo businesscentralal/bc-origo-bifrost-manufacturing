@@ -1,6 +1,5 @@
 namespace Origo.Bifrost.Manufacturing;
 
-using Microsoft.Finance.GeneralLedger.Preview;
 using Microsoft.Manufacturing.Journal;
 
 /// <summary>
@@ -13,8 +12,8 @@ codeunit 10077078 "Prod Jnl Events ori"
     SingleInstance = true;
 
     var
-        PreviewHandler: Codeunit "Posting Preview Event Handler";
         Active: Boolean;
+        InBoundaryValue: Boolean;
         HasDate: Boolean;
         DateValue: Date;
         HasBasis: Boolean;
@@ -33,7 +32,6 @@ codeunit 10077078 "Prod Jnl Events ori"
         NothingValue: Boolean;
         TemplateValue: Code[10];
         BatchValue: Code[10];
-        PreviewErrorValue: Text;
         PreviewLinesValue: Integer;
 
     /// <summary>Stores the validated request. Mode: 0 Get, 1 PreviewPost, 2 Post.</summary>
@@ -118,26 +116,42 @@ codeunit 10077078 "Prod Jnl Events ori"
         Basis := UsedBasis;
     end;
 
-    /// <summary>Keeps the captured preview alive after the boundary rolled back.</summary>
-    internal procedure SetPreview(var Handler: Codeunit "Posting Preview Event Handler"; LinesToPost: Integer; ErrorText: Text)
+    /// <summary>Marks that the posting boundary has built the journal lines.</summary>
+    internal procedure SetInBoundary(IsInside: Boolean)
     begin
-        PreviewHandler := Handler;
-        PreviewLinesValue := LinesToPost;
-        PreviewErrorValue := ErrorText;
+        InBoundaryValue := IsInside;
     end;
 
-    /// <summary>Returns the captured preview.</summary>
-    internal procedure GetPreview(var Handler: Codeunit "Posting Preview Event Handler"; var LinesToPost: Integer; var ErrorText: Text)
+    /// <summary>True while the journal lines of the request exist in the current transaction.</summary>
+    internal procedure InBoundary(): Boolean
     begin
-        Handler := PreviewHandler;
-        LinesToPost := PreviewLinesValue;
-        ErrorText := PreviewErrorValue;
+        exit(InBoundaryValue);
+    end;
+
+    /// <summary>Switches the mode of the stored request (3 counts the lines that would post).</summary>
+    internal procedure SetMode(Mode: Integer)
+    begin
+        ModeValue := Mode;
+        CompletedValue := false;
+    end;
+
+    /// <summary>Stores the number of lines that the preview covers.</summary>
+    internal procedure SetPreviewLines(LinesToPost: Integer)
+    begin
+        PreviewLinesValue := LinesToPost;
+    end;
+
+    /// <summary>Returns the number of lines the preview covered.</summary>
+    internal procedure GetPreviewLines(): Integer
+    begin
+        exit(PreviewLinesValue);
     end;
 
     /// <summary>Ends the request.</summary>
     internal procedure EndRequest()
     begin
         Active := false;
+        InBoundaryValue := false;
         HasDate := false;
         HasBasis := false;
         HasLinesValue := false;

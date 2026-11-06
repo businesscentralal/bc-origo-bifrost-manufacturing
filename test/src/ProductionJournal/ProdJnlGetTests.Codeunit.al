@@ -23,6 +23,7 @@ codeunit 97640 "Prod Jnl Get Tests ori"
         Item: Record Item;
         Order: Record "Production Order";
         Extra: JsonObject;
+        Include: JsonArray;
         Response: JsonObject;
         ResponseText: Text;
     begin
@@ -55,7 +56,8 @@ codeunit 97640 "Prod Jnl Get Tests ori"
         Assert.AreEqual(Format(CalcDate('<+1D>', WorkDate()), 0, 9), Data.TextValue(Response, 'postingDate'), 'postingDate honoured.');
 
         Clear(Extra);
-        Extra.Add('include', '["output"]');
+        Include.Add('output');
+        Extra.Add('include', Include);
         Response := Lib.Call("Message Type ori"::"Manufacturing.ProductionJournal.Get", Order, Extra, 1033);
         Assert.AreEqual(0, StatusLib.ArrayValue(Response, 'consumptionLines').Count(), 'include output omits consumption.');
         Lib.Cleanup(Item."No.");

@@ -1,7 +1,5 @@
 namespace Origo.Bifrost.Manufacturing;
 
-using Microsoft.Finance.GeneralLedger.Preview;
-using Microsoft.Foundation.Navigate;
 using Microsoft.Inventory.Journal;
 using Microsoft.Manufacturing.Document;
 using Origo.Bifrost;
@@ -145,34 +143,25 @@ codeunit 10077073 "Prod Jnl Preview Impl ori" implements "Msg Interface ori", "M
         exit(false);
     end;
 
-    /// <summary>Builds the journal and previews its posting; no line, entry or number survives.</summary>
+    /// <summary>Builds the journal, runs the posting and reads the entries, then rolls everything back.</summary>
     procedure ExecuteBifrostTask(var Argument: Record "Message Argument ori")
     var
         ProductionOrder: Record "Production Order";
-        TempDocumentEntry: Record "Document Entry" temporary;
         Request: Codeunit "Prod Jnl Request ori";
         Events: Codeunit "Prod Jnl Events ori";
-        PreviewHelper: Codeunit "Posting Preview Helper ori";
-        PostingPreviewEventHandler: Codeunit "Posting Preview Event Handler";
         Result: JsonObject;
-        TotalsJson: JsonObject;
-        PreviewArray: JsonArray;
-        PreviewFieldNames: List of [Text];
+        Preview: JsonArray;
+        Token: JsonToken;
         NothingToPost: Boolean;
-        Balanced: Boolean;
-        EntryCount: Integer;
-        GLEntryCount: Integer;
         LinesToPost: Integer;
         PostingDate: Date;
         Basis: Integer;
-        PreviewErrorText: Text;
         OmitCommitLbl: Label 'Preview needs its own transaction and cannot run under Omit Commit.', Comment = 'is-IS=Forskoðun þarf eigin færslu og getur ekki keyrt undir Omit Commit.';
         OmitCommitNextLbl: Label 'Run the preview without Omit Commit.', Comment = 'is-IS=Keyrðu forskoðunina án Omit Commit.';
-        PreviewNextLbl: Label 'Correct the item, work center or quantity named in the Business Central text and retry. Nothing was changed.', Comment = 'is-IS=Leiðréttu vöruna, vinnustöðina eða magnið sem Business Central nefnir og reyndu aftur. Engu var breytt.';
-        SummaryLbl: Label 'Posting %1 journal lines of production order %2 would create %3 ledger entries across %4 tables.', Comment = '%1 = line count, %2 = order number, %3 = entry count, %4 = table count, is-IS=Bókun %1 lína í framleiðslubók framleiðslupöntunar %2 myndi stofna %3 færslur í %4 töflum.';
         BcNextLbl: Label 'Inspect the production order, correct the item, work center, quantity or period named in the Business Central error and retry. Nothing was changed.', Comment = 'is-IS=Skoðaðu framleiðslupöntunina, leiðréttu vöruna, vinnustöðina, magnið eða tímabilið sem Business Central nefnir í villunni og reyndu aftur. Engu var breytt.';
         NothingLbl: Label 'Nothing to post: every journal line has quantity 0.', Comment = 'is-IS=Ekkert að bóka: allar línur í framleiðslubók hafa magn 0.';
         NothingNextLbl: Label 'Read the proposal with Manufacturing.ProductionJournal.Get or send lines with a quantity.', Comment = 'is-IS=Lestu tillöguna með Manufacturing.ProductionJournal.Get eða sendu línur með magni.';
+        SummaryLbl: Label 'Posting %1 journal lines of production order %2 would create %3 ledger entries across %4 tables.', Comment = '%1 = line count, %2 = order number, %3 = entry count, %4 = table count, is-IS=Bókun %1 lína í framleiðslubók framleiðslupöntunar %2 myndi stofna %3 færslur í %4 töflum.';
     begin
         Argument.AssertIsLicensed();
         Argument.AssertVersion1();
@@ -189,36 +178,31 @@ codeunit 10077073 "Prod Jnl Preview Impl ori" implements "Msg Interface ori", "M
             Argument.RespondWithError("Bifrost Error Code ori"::BusinessCentralError, GetLastErrorText(), '', '', '', BcNextLbl);
             exit;
         end;
-        Events.GetPreview(PostingPreviewEventHandler, LinesToPost, PreviewErrorText);
+        LinesToPost := Events.GetPreviewLines();
         Events.GetUsedSetup(PostingDate, Basis);
         Events.EndRequest();
         if NothingToPost then begin
             Argument.RespondWithError("Bifrost Error Code ori"::PreconditionFailed, NothingLbl, 'lines', '', '', NothingNextLbl);
             exit;
         end;
-        if PreviewErrorText <> '' then begin
-            PreviewHelper.RespondWithPreviewError(Argument, PreviewErrorText, PreviewNextLbl);
-            exit;
-        end;
-        PreviewHelper.GetPreviewFieldNames(PreviewFieldNames);
-        PostingPreviewEventHandler.FillDocumentEntry(TempDocumentEntry);
-        if TempDocumentEntry.FindSet() then
-            repeat
-                PreviewHelper.AddTableToPreview(PreviewArray, PostingPreviewEventHandler, TempDocumentEntry."Table ID", TempDocumentEntry."Table Name", PreviewFieldNames);
-            until TempDocumentEntry.Next() = 0;
-        if not PreviewHelper.EvaluatePreviewOutcome(Argument, PreviewArray, PostingPreviewEventHandler, PreviewNextLbl, TotalsJson, Balanced, EntryCount, GLEntryCount) then
-            exit;
+        Result.Get('preview', Token);
+        Preview := Token.AsArray();
         Result.Add('status', 'Success');
-        PreviewHelper.AddEntryCounts(Result, EntryCount, GLEntryCount);
         Result.Add('rollback', true);
-        Result.Add('summary', StrSubstNo(SummaryLbl, LinesToPost, ProductionOrder."No.", EntryCount, PreviewArray.Count()));
+        Result.Add('summary', StrSubstNo(SummaryLbl, LinesToPost, ProductionOrder."No.", GetEntryCount(Result), Preview.Count()));
         Result.Add('no', ProductionOrder."No.");
         Result.Add('productionOrderStatus', Format(ProductionOrder.Status, 0, 9));
         Result.Add('postingDate', Format(PostingDate, 0, 9));
         Result.Add('linesToPost', LinesToPost);
-        Result.Add('totals', TotalsJson);
-        Result.Add('preview', PreviewArray);
         Argument.SetResponseJson(Result);
         Argument."Content Type" := Argument.GetContentTypeJson();
+    end;
+
+    local procedure GetEntryCount(Result: JsonObject): Integer
+    var
+        Token: JsonToken;
+    begin
+        if Result.Get('entryCount', Token) then
+            exit(Token.AsValue().AsInteger());
     end;
 }

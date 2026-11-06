@@ -417,18 +417,6 @@
           <note from="Developer" annotates="general" priority="2">is-IS=Keyrðu forskoðunina án Omit Commit.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Preview Impl ori - Method ExecuteBifrostTask - NamedType OmitCommitNextLbl</note>
         </trans-unit>
-        <trans-unit id="Codeunit 4110213185 - Method 3571782927 - NamedType 2749800241" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Correct the item, work center or quantity named in the Business Central text and retry. Nothing was changed.</source>
-          <target>Leiðréttu vöruna, vinnustöðina eða magnið sem Business Central nefnir og reyndu aftur. Engu var breytt.</target>
-          <note from="Developer" annotates="general" priority="2">is-IS=Leiðréttu vöruna, vinnustöðina eða magnið sem Business Central nefnir og reyndu aftur. Engu var breytt.</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Preview Impl ori - Method ExecuteBifrostTask - NamedType PreviewNextLbl</note>
-        </trans-unit>
-        <trans-unit id="Codeunit 4110213185 - Method 3571782927 - NamedType 3337375434" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Posting %1 journal lines of production order %2 would create %3 ledger entries across %4 tables.</source>
-          <target>Bókun %1 lína í framleiðslubók framleiðslupöntunar %2 myndi stofna %3 færslur í %4 töflum.</target>
-          <note from="Developer" annotates="general" priority="2">%1 = line count, %2 = order number, %3 = entry count, %4 = table count, is-IS=Bókun %1 lína í framleiðslubók framleiðslupöntunar %2 myndi stofna %3 færslur í %4 töflum.</note>
-          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Preview Impl ori - Method ExecuteBifrostTask - NamedType SummaryLbl</note>
-        </trans-unit>
         <trans-unit id="Codeunit 4110213185 - Method 3571782927 - NamedType 807145736" size-unit="char" translate="yes" xml:space="preserve">
           <source>Inspect the production order, correct the item, work center, quantity or period named in the Business Central error and retry. Nothing was changed.</source>
           <target>Skoðaðu framleiðslupöntunina, leiðréttu vöruna, vinnustöðina, magnið eða tímabilið sem Business Central nefnir í villunni og reyndu aftur. Engu var breytt.</target>
@@ -446,6 +434,12 @@
           <target>Lestu tillöguna með Manufacturing.ProductionJournal.Get eða sendu línur með magni.</target>
           <note from="Developer" annotates="general" priority="2">is-IS=Lestu tillöguna með Manufacturing.ProductionJournal.Get eða sendu línur með magni.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Preview Impl ori - Method ExecuteBifrostTask - NamedType NothingNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 4110213185 - Method 3571782927 - NamedType 3337375434" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posting %1 journal lines of production order %2 would create %3 ledger entries across %4 tables.</source>
+          <target>Bókun %1 lína í framleiðslubók framleiðslupöntunar %2 myndi stofna %3 færslur í %4 töflum.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = line count, %2 = order number, %3 = entry count, %4 = table count, is-IS=Bókun %1 lína í framleiðslubók framleiðslupöntunar %2 myndi stofna %3 færslur í %4 töflum.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Preview Impl ori - Method ExecuteBifrostTask - NamedType SummaryLbl</note>
         </trans-unit>
         <trans-unit id="Codeunit 4110213185 - Method 4077369804 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
           <source>Shows the entries that posting output and consumption would create. Changes nothing.</source>
