@@ -62,6 +62,7 @@ Use `describe_message_type` for parameter, response, error and workflow chapters
 | 10077063 | codeunit | Mfg Write Context ori |
 | 97620 | codeunit (test) | Prod Order Status Tests ori |
 | 97621 | codeunit (test) | Prod Order Finish Tests ori |
+| 97623 | codeunit (test) | Mfg Omit Commit Tests ori |
 | 97624 | codeunit (test) | Mfg Posting Gate Tests ori |
 | 97625 | codeunit (test) | Prod Order Restrict Tests ori |
 | 97626 | codeunit (test) | Mfg Status Contract Tests ori |
