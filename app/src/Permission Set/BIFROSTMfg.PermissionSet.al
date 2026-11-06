@@ -30,6 +30,18 @@ permissionset 10077036 "BIFROST Mfg ori"
         codeunit "BOM Routing Events ori" = X,
         codeunit "BOM Routing Context ori" = X,
         codeunit "Mfg Write Check ori" = X,
+        codeunit "Mfg Posting Gate ori" = X,
+        codeunit "Mfg Status Contract ori" = X,
+        codeunit "Prod Order Status Impl ori" = X,
+        codeunit "Prod Order Status Proc ori" = X,
+        codeunit "Prod Order Finish Impl ori" = X,
+        codeunit "Prod Order Finish Proc ori" = X,
+        codeunit "Prod Ord Fin Check Impl ori" = X,
+        codeunit "Prod Order Finish Check ori" = X,
+        codeunit "Prod Order Confirm ori" = X,
+        codeunit "Prod Order Restrict ori" = X,
+        codeunit "Mfg Write Context ori" = X,
+        table "Mfg Posting ori" = X,
         table "Mfg Write Gate ori" = X,
         tabledata "Mfg Write Gate ori" = RIMD;
 }
