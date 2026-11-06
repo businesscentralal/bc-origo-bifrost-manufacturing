@@ -3,6 +3,18 @@
   <file datatype="xml" source-language="en-US" target-language="is-IS" original="Bifrost Manufacturing">
     <body>
       <group id="body">
+        <trans-unit id="Table 57753844 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Manufacturing Posting</source>
+          <target>Bókun framleiðslu</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Bókun framleiðslu</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Mfg Posting ori - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 57753844 - Field 1663593181 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Primary Key</source>
+          <target>Aðallykill</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Aðallykill</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Mfg Posting ori - Field Primary Key - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 1074646406 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Manufacturing Write Gate</source>
           <target>Skrifhlið framleiðslu</target>
@@ -183,6 +195,18 @@
           <note from="Developer" annotates="general" priority="2">is-IS=Lestu útgáfurnar með Data.Records.Get.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg BOMRtg Contract ori - NamedType VersionMissingNextStepTxt</note>
         </trans-unit>
+        <trans-unit id="Codeunit 193237593 - NamedType 286034047" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posting denied: missing 'BIFROST MfgPost ori' permission set.</source>
+          <target>Bókun hafnað: vantar heimildasettið 'BIFROST MfgPost ori'.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Bókun hafnað: vantar heimildasettið 'BIFROST MfgPost ori'.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Posting Gate ori - NamedType DeniedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 193237593 - NamedType 2354419638" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Ask an administrator to assign the BIFROST MfgPost ori permission set.</source>
+          <target>Biddu stjórnanda um að úthluta heimildasettinu BIFROST MfgPost ori.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Biddu stjórnanda um að úthluta heimildasettinu BIFROST MfgPost ori.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Posting Gate ori - NamedType DeniedNextLbl</note>
+        </trans-unit>
         <trans-unit id="Codeunit 678932623 - NamedType 644283978" size-unit="char" translate="yes" xml:space="preserve">
           <source>Production order number %1 exists with more than one status.</source>
           <target>Framleiðslupöntunarnúmer %1 er til með fleiri en einni stöðu.</target>
@@ -309,6 +333,36 @@
           <note from="Developer" annotates="general" priority="2">is-IS=Staðfestu framleiðsluefnislista, eða eina útgáfu hans, eða settu hann aftur í þróun svo hægt sé að breyta línum hans. Sendu no og status Certified eða UnderDevelopment. Sendu versionCode aðeins fyrir eina útgáfu. Closed er ekki stutt.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod BOM Status Impl ori - Method GetSelectionDescription - NamedType SelectionLbl</note>
         </trans-unit>
+        <trans-unit id="Codeunit 2206880549 - Method 4077369804 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shows what would block or warn when a released production order is finished. Changes nothing.</source>
+          <target>Sýnir hvað myndi hindra eða vara við þegar útgefinni framleiðslupöntun er lokið. Breytir engu.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sýnir hvað myndi hindra eða vara við þegar útgefinni framleiðslupöntun er lokið. Breytir engu.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Ord Fin Check Impl ori - Method GetDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2206880549 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>production order, manufacturing, finish, check, warnings, blockers</source>
+          <target>framleiðslupöntun, framleiðsla, ljúka, athuga, viðvaranir, hindranir</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=framleiðslupöntun, framleiðsla, ljúka, athuga, viðvaranir, hindranir</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Ord Fin Check Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2206880549 - Method 79446908 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Check a released production order before finishing it. Changes nothing.</source>
+          <target>Athugaðu útgefna framleiðslupöntun áður en henni er lokið. Breytir engu.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Athugaðu útgefna framleiðslupöntun áður en henni er lokið. Breytir engu.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Ord Fin Check Impl ori - Method GetSelectionDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3844907859 - Method 3507224617 - NamedType 2604826774" size-unit="char" translate="yes" xml:space="preserve">
+          <source>production order %1 (%2 to %3)</source>
+          <target>framleiðslupöntun %1 (%2 í %3)</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, %2 = current status, %3 = new status, is-IS=framleiðslupöntun %1 (%2 í %3)</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Confirm ori - Method GetConfirmCount - NamedType StatusSummaryLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3844907859 - Method 3507224617 - NamedType 1345736503" size-unit="char" translate="yes" xml:space="preserve">
+          <source>production order %1 (finish, %2 lines)</source>
+          <target>framleiðslupöntun %1 (lúka, %2 línur)</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, %2 = line count, is-IS=framleiðslupöntun %1 (lúka, %2 línur)</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Confirm ori - Method GetConfirmCount - NamedType FinishSummaryLbl</note>
+        </trans-unit>
         <trans-unit id="Codeunit 521425833 - Method 3571782927 - NamedType 2865466285" size-unit="char" translate="yes" xml:space="preserve">
           <source>Item %1 was not found.</source>
           <target>Vara %1 fannst ekki.</target>
@@ -374,6 +428,150 @@
           <target>Notaðu Manufacturing.ProductionOrder.Refresh til að reikna línur, vinnsluleið og efnisþörf.</target>
           <note from="Developer" annotates="general" priority="2">is-IS=Notaðu Manufacturing.ProductionOrder.Refresh til að reikna línur, vinnsluleið og efnisþörf.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Create Impl ori - Method RunCreate - NamedType NextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2523167250 - NamedType 644283978" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order number %1 exists with more than one status.</source>
+          <target>Framleiðslupöntunarnúmer %1 er til með fleiri en einni stöðu.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, is-IS=Framleiðslupöntunarnúmer %1 er til með fleiri en einni stöðu.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Check ori - NamedType AmbiguousLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2523167250 - NamedType 375601627" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send productionOrderStatus or systemId.</source>
+          <target>Sendu productionOrderStatus eða systemId.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu productionOrderStatus eða systemId.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Check ori - NamedType AmbiguousNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2523167250 - NamedType 650235816" size-unit="char" translate="yes" xml:space="preserve">
+          <source>The identifiers do not identify the same production order.</source>
+          <target>Auðkennin vísa ekki á sömu framleiðslupöntun.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Auðkennin vísa ekki á sömu framleiðslupöntun.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Check ori - NamedType ConflictLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2523167250 - NamedType 3299433917" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send identifiers belonging to the same production order and status.</source>
+          <target>Sendu auðkenni sem tilheyra sömu framleiðslupöntun og stöðu.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu auðkenni sem tilheyra sömu framleiðslupöntun og stöðu.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Check ori - NamedType ConflictNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2523167250 - NamedType 2313980857" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Read production orders with Data.Records.Get and send a valid no or systemId.</source>
+          <target>Lestu framleiðslupantanir með Data.Records.Get og sendu gilt no eða systemId.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lestu framleiðslupantanir með Data.Records.Get og sendu gilt no eða systemId.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Check ori - NamedType LookupNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2523167250 - NamedType 3396368637" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order %1 still has consumption missing. Nothing was changed.</source>
+          <target>Framleiðslupöntun %1 vantar enn notkun. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, is-IS=Framleiðslupöntun %1 vantar enn notkun. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Check ori - NamedType MissingConsumptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2523167250 - NamedType 1492662184" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Post the consumption, or send acceptMissingConsumption = true to finish anyway.</source>
+          <target>Bókaðu notkunina eða sendu acceptMissingConsumption = true til að ljúka samt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Bókaðu notkunina eða sendu acceptMissingConsumption = true til að ljúka samt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Check ori - NamedType MissingConsumptionNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2523167250 - NamedType 4151809195" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order %1 still has output missing. Nothing was changed.</source>
+          <target>Framleiðslupöntun %1 vantar enn afköst. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, is-IS=Framleiðslupöntun %1 vantar enn afköst. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Check ori - NamedType MissingOutputLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2523167250 - NamedType 698765082" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Post the output, or send acceptMissingOutput = true to finish anyway.</source>
+          <target>Bókaðu afköstin eða sendu acceptMissingOutput = true til að ljúka samt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Bókaðu afköstin eða sendu acceptMissingOutput = true til að ljúka samt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Check ori - NamedType MissingOutputNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2523167250 - NamedType 1203618896" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order %1 cannot be finished. It has consumption or capacity posted with no output.</source>
+          <target>Ekki er hægt að ljúka framleiðslupöntun %1. Hún hefur notkun eða afkastagetu bókaða án afkasta.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, is-IS=Ekki er hægt að ljúka framleiðslupöntun %1. Hún hefur notkun eða afkastagetu bókaða án afkasta.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Check ori - NamedType NoOutputLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2523167250 - NamedType 1278081157" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Post the output, or send finishWithoutOutput = true to finish without output.</source>
+          <target>Bókaðu afköstin eða sendu finishWithoutOutput = true til að ljúka án afkasta.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Bókaðu afköstin eða sendu finishWithoutOutput = true til að ljúka án afkasta.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Check ori - NamedType NoOutputNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2523167250 - NamedType 704880291" size-unit="char" translate="yes" xml:space="preserve">
+          <source>The production order was not found.</source>
+          <target>Framleiðslupöntunin fannst ekki.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Framleiðslupöntunin fannst ekki.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Check ori - NamedType NotFoundLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2523167250 - NamedType 3879076534" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order %1 is %2. Only a Released order can be finished.</source>
+          <target>Framleiðslupöntun %1 er %2. Aðeins útgefinni pöntun er hægt að ljúka.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, %2 = status, is-IS=Framleiðslupöntun %1 er %2. Aðeins útgefinni pöntun er hægt að ljúka.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Check ori - NamedType NotReleasedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2523167250 - NamedType 811913157" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order %1 cannot be finished as there is an outstanding warehouse pick for its components.</source>
+          <target>Ekki er hægt að ljúka framleiðslupöntun %1 þar sem útistandandi vöruhúsatínsla er til fyrir íhluti hennar.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, is-IS=Ekki er hægt að ljúka framleiðslupöntun %1 þar sem útistandandi vöruhúsatínsla er til fyrir íhluti hennar.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Check ori - NamedType PickLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2523167250 - NamedType 1182198512" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Register or delete the outstanding pick first.</source>
+          <target>Skráðu eða eyddu útistandandi tínslunni fyrst.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Skráðu eða eyddu útistandandi tínslunni fyrst.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Check ori - NamedType PickNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2523167250 - NamedType 3193096050" size-unit="char" translate="yes" xml:space="preserve">
+          <source>productionOrderStatus must be Simulated, Planned, FirmPlanned, Released or Finished.</source>
+          <target>productionOrderStatus verður að vera Simulated, Planned, FirmPlanned, Released eða Finished.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=productionOrderStatus verður að vera Simulated, Planned, FirmPlanned, Released eða Finished.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Check ori - NamedType StatusLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2523167250 - NamedType 354085475" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send a status name from the contract or omit productionOrderStatus.</source>
+          <target>Sendu stöðuheiti úr samningnum eða slepptu productionOrderStatus.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu stöðuheiti úr samningnum eða slepptu productionOrderStatus.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Check ori - NamedType StatusNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2523167250 - NamedType 3195863512" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order %1 cannot be finished as there is an outstanding purchase order for it.</source>
+          <target>Ekki er hægt að ljúka framleiðslupöntun %1 þar sem útistandandi innkaupapöntun er til fyrir hana.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, is-IS=Ekki er hægt að ljúka framleiðslupöntun %1 þar sem útistandandi innkaupapöntun er til fyrir hana.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Check ori - NamedType SubcontractLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2523167250 - NamedType 2755369773" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Receive or delete the subcontract purchase order first.</source>
+          <target>Móttaktu eða eyddu verktakainnkaupapöntuninni fyrst.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Móttaktu eða eyddu verktakainnkaupapöntuninni fyrst.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Check ori - NamedType SubcontractNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 653198340 - Method 4077369804 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Finishes a released production order: posts backward-flushed consumption, adjusts work in process and moves the order to Finished. Commits and cannot be undone.</source>
+          <target>Lýkur útgefinni framleiðslupöntun: bókar afturvirka notkun, jafnar vinnu í vinnslu og færir pöntunina í stöðuna lokið. Framkvæmir Commit og ekki er hægt að afturkalla.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lýkur útgefinni framleiðslupöntun: bókar afturvirka notkun, jafnar vinnu í vinnslu og færir pöntunina í stöðuna lokið. Framkvæmir Commit og ekki er hægt að afturkalla.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Impl ori - Method GetDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 653198340 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>production order, manufacturing, finish, close, backward flushing, work in process</source>
+          <target>framleiðslupöntun, framleiðsla, ljúka, loka, afturvirk notkun, vinna í vinnslu</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=framleiðslupöntun, framleiðsla, ljúka, loka, afturvirk notkun, vinna í vinnslu</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 653198340 - Method 79446908 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Finish a released production order. Commits and cannot be undone.</source>
+          <target>Ljúktu útgefinni framleiðslupöntun. Framkvæmir Commit og ekki er hægt að afturkalla.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Ljúktu útgefinni framleiðslupöntun. Framkvæmir Commit og ekki er hægt að afturkalla.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Impl ori - Method GetSelectionDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 653198340 - Method 4162315295 - NamedType 1000175713" size-unit="char" translate="yes" xml:space="preserve">
+          <source>The production order cannot be finished. Nothing was changed.</source>
+          <target>Ekki er hægt að ljúka framleiðslupöntuninni. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Ekki er hægt að ljúka framleiðslupöntuninni. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Impl ori - Method RespondWithFindings - NamedType NothingLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1929529746 - Method 1665861916 - NamedType 1068406684" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order %1 changed while it was being finished. Nothing was changed.</source>
+          <target>Framleiðslupöntun %1 breyttist á meðan henni var lokið. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, is-IS=Framleiðslupöntun %1 breyttist á meðan henni var lokið. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Proc ori - Method OnRun - NamedType ChangedLbl</note>
         </trans-unit>
         <trans-unit id="Codeunit 2804456418 - Method 3571782927 - NamedType 4059303513" size-unit="char" translate="yes" xml:space="preserve">
           <source>direction must be Forward or Backward.</source>
@@ -459,6 +657,60 @@
           <note from="Developer" annotates="general" priority="2">is-IS=Framleiðslupöntunin er ekki lengur í áætlunarstöðu. Engu var breytt.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Refresh Proc ori - Method OnRun - NamedType ChangedLbl</note>
         </trans-unit>
+        <trans-unit id="Codeunit 2736619585 - NamedType 232473427" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Use Manufacturing.ProductionOrder.ChangeStatus / Manufacturing.ProductionOrder.Finish</source>
+          <target>Notaðu Manufacturing.ProductionOrder.ChangeStatus / Manufacturing.ProductionOrder.Finish</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Notaðu Manufacturing.ProductionOrder.ChangeStatus / Manufacturing.ProductionOrder.Finish</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Restrict ori - NamedType HintLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3864620673 - Method 3571782927 - NamedType 2032949676" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Use Manufacturing.ProductionOrder.Finish to finish an order.</source>
+          <target>Notaðu Manufacturing.ProductionOrder.Finish til að ljúka pöntun.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Notaðu Manufacturing.ProductionOrder.Finish til að ljúka pöntun.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Status Impl ori - Method ExecuteBifrostTask - NamedType FinishedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3864620673 - Method 3571782927 - NamedType 3289019961" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send the order to Manufacturing.ProductionOrder.Finish.</source>
+          <target>Sendu pöntunina í Manufacturing.ProductionOrder.Finish.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu pöntunina í Manufacturing.ProductionOrder.Finish.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Status Impl ori - Method ExecuteBifrostTask - NamedType FinishedNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3864620673 - Method 3571782927 - NamedType 1632097566" size-unit="char" translate="yes" xml:space="preserve">
+          <source>A production order cannot move from %1 to %2.</source>
+          <target>Ekki er hægt að færa framleiðslupöntun úr %1 í %2.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = current status, %2 = requested status, is-IS=Ekki er hægt að færa framleiðslupöntun úr %1 í %2.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Status Impl ori - Method ExecuteBifrostTask - NamedType InvalidMoveLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3864620673 - Method 3571782927 - NamedType 237654951" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send FirmPlanned or Released as newStatus.</source>
+          <target>Sendu FirmPlanned eða Released sem newStatus.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu FirmPlanned eða Released sem newStatus.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Status Impl ori - Method ExecuteBifrostTask - NamedType InvalidMoveNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3864620673 - Method 3571782927 - NamedType 1399583189" size-unit="char" translate="yes" xml:space="preserve">
+          <source>newStatus must be FirmPlanned or Released.</source>
+          <target>newStatus verður að vera FirmPlanned eða Released.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=newStatus verður að vera FirmPlanned eða Released.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Status Impl ori - Method ExecuteBifrostTask - NamedType NotStatusLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3864620673 - Method 4077369804 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Changes the status of a production order to Firm Planned or Released with the standard Business Central status change. Commits.</source>
+          <target>Breytir stöðu framleiðslupöntunar í fastákveðna eða útgefna með venjulegri stöðubreytingu Business Central. Framkvæmir Commit.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Breytir stöðu framleiðslupöntunar í fastákveðna eða útgefna með venjulegri stöðubreytingu Business Central. Framkvæmir Commit.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Status Impl ori - Method GetDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3864620673 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>production order, manufacturing, status, firm planned, release, flushing</source>
+          <target>framleiðslupöntun, framleiðsla, staða, fastákveðin, útgefa, afturvirk og framvirk notkun</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=framleiðslupöntun, framleiðsla, staða, fastákveðin, útgefa, afturvirk og framvirk notkun</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Status Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3864620673 - Method 79446908 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Move a production order to Firm Planned or Released. Commits.</source>
+          <target>Færðu framleiðslupöntun í fastákveðna eða útgefna. Framkvæmir Commit.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Færðu framleiðslupöntun í fastákveðna eða útgefna. Framkvæmir Commit.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Status Impl ori - Method GetSelectionDescription - NamedType ValueLbl</note>
+        </trans-unit>
         <trans-unit id="Codeunit 2693990352 - NamedType 3569966352" maxwidth="250" size-unit="char" translate="yes" xml:space="preserve">
           <source>Certifies a routing or one of its versions, or sets it back to Under Development, with the standard Business Central checks.</source>
           <target>Staðfestir vinnsluleið eða útgáfu hennar, eða setur hana aftur í þróun, með venjulegum athugunum Business Central.</target>
@@ -482,6 +734,12 @@
           <target>Bifröst - framleiðsla</target>
           <note from="Developer" annotates="general" priority="2">is-IS=Bifröst - framleiðsla</note>
           <note from="Xliff Generator" annotates="general" priority="3">PermissionSet BIFROST Mfg ori - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="PermissionSet 1700508905 - Property 2879900210" maxwidth="30" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Bifrost Manufacturing Posting</source>
+          <target>Bifröst - framleiðslubókun</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Bifröst - framleiðslubókun</note>
+          <note from="Xliff Generator" annotates="general" priority="3">PermissionSet BIFROST MfgPost ori - Property Caption</note>
         </trans-unit>
       </group>
     </body>

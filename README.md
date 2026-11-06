@@ -46,6 +46,27 @@ Use `describe_message_type` for parameter, response, error and workflow chapters
 | 10077045 | codeunit | Mfg Prod Order Request ori |
 | 10077046 | table | Mfg Write Gate ori |
 | 10077047 | codeunit | Mfg Write Check ori |
+| 10077050 | table | Mfg Posting ori |
+| 10077051 | permissionset | BIFROST MfgPost ori |
+| 10077052 | enumextension | Mfg Status MsgType ori |
+| 10077053 | codeunit | Mfg Posting Gate ori |
+| 10077054 | codeunit | Mfg Status Contract ori |
+| 10077055 | codeunit | Prod Order Status Impl ori |
+| 10077056 | codeunit | Prod Order Status Proc ori |
+| 10077057 | codeunit | Prod Order Finish Impl ori |
+| 10077058 | codeunit | Prod Order Finish Proc ori |
+| 10077059 | codeunit | Prod Ord Fin Check Impl ori |
+| 10077060 | codeunit | Prod Order Finish Check ori |
+| 10077061 | codeunit | Prod Order Confirm ori |
+| 10077062 | codeunit | Prod Order Restrict ori |
+| 10077063 | codeunit | Mfg Write Context ori |
+| 97620 | codeunit (test) | Prod Order Status Tests ori |
+| 97621 | codeunit (test) | Prod Order Finish Tests ori |
+| 97624 | codeunit (test) | Mfg Posting Gate Tests ori |
+| 97625 | codeunit (test) | Prod Order Restrict Tests ori |
+| 97626 | codeunit (test) | Mfg Status Contract Tests ori |
+| 97627 | permissionset (test, no token) | Mfg NoPost Tst ori |
+| 97629 | codeunit (test library) | Mfg Status Test Lib ori |
 | 10077085 | enumextension | Mfg BOMRtg MsgType ori |
 | 10077086 | codeunit | Mfg BOMRtg Contract ori |
 | 10077087 | codeunit | Prod BOM Status Impl ori |
@@ -104,7 +125,7 @@ site repository and is published at <https://docs.bifrost.origo.is>.
 
 | App | ID | Publisher | Version |
 | --- | --- | --- | --- |
-| Bifrost Foundation | `7505e808-6e52-4b96-a328-82573391297a` | Origo | 28.0.5.590 |
+| Bifrost Foundation | `7505e808-6e52-4b96-a328-82573391297a` | Origo | 28.0.11.669 |
 | Base Application | | Microsoft | 28.5.0.0 (application floor) |
 
 ---
