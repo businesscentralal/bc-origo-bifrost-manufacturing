@@ -66,6 +66,7 @@ codeunit 10077075 "Prod Jnl Post Proc ori"
     local procedure GetProposal(ProductionOrder: Record "Production Order")
     var
         Builder: Codeunit "Prod Jnl Builder ori";
+        Lookup: Codeunit "Mfg Prod Order Lookup ori";
         Events: Codeunit "Prod Jnl Events ori";
         Result: JsonObject;
         PostingDate: Date;
@@ -73,7 +74,7 @@ codeunit 10077075 "Prod Jnl Post Proc ori"
     begin
         Events.GetUsedSetup(PostingDate, Basis);
         Result.Add('no', ProductionOrder."No.");
-        Result.Add('productionOrderStatus', Format(ProductionOrder.Status, 0, 9));
+        Result.Add('productionOrderStatus', Lookup.StatusName(ProductionOrder.Status));
         Result.Add('postingDate', Format(PostingDate, 0, 9));
         Result.Add('consumptionBasis', BasisName(Basis));
         Builder.Describe(ProductionOrder, Result);
@@ -258,6 +259,7 @@ codeunit 10077075 "Prod Jnl Post Proc ori"
         Builder: Codeunit "Prod Jnl Builder ori";
         Events: Codeunit "Prod Jnl Events ori";
         ConfirmGate: Codeunit "Confirm Gate ori";
+        Lookup: Codeunit "Mfg Prod Order Lookup ori";
         Result: JsonObject;
         Lines: JsonArray;
         OrderLine: JsonObject;
@@ -298,7 +300,7 @@ codeunit 10077075 "Prod Jnl Post Proc ori"
         Codeunit.Run(Codeunit::"Item Jnl.-Post Batch", ItemJnlLine);
         Events.GetUsedSetup(PostingDate, Basis);
         Result.Add('no', ProductionOrder."No.");
-        Result.Add('productionOrderStatus', Format(ProductionOrder.Status, 0, 9));
+        Result.Add('productionOrderStatus', Lookup.StatusName(ProductionOrder.Status));
         Result.Add('postingDate', Format(PostingDate, 0, 9));
         Result.Add('postedLines', PostedLines);
         AddCounts(Result, ProductionOrder."No.", RegisterBefore, LedgerBefore, CapacityBefore, ScrapPosted);

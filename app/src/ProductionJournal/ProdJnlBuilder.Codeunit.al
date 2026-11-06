@@ -4,6 +4,7 @@ using Microsoft.Inventory.Journal;
 using Microsoft.Inventory.Ledger;
 using Microsoft.Manufacturing.Document;
 using Microsoft.Manufacturing.Journal;
+using Microsoft.Manufacturing.Setup;
 
 /// <summary>
 /// Builds the production journal of one order with Business Central's own Production Journal Mgt,
@@ -211,7 +212,7 @@ codeunit 10077076 "Prod Jnl Builder ori"
         RoutingLine.SetRange("Routing Reference No.", ItemJnlLine."Order Line No.");
         RoutingLine.SetRange("Operation No.", ItemJnlLine."Operation No.");
         if RoutingLine.FindFirst() then
-            Output.Add('flushingMethod', Format(RoutingLine."Flushing Method", 0, 9))
+            Output.Add('flushingMethod', FlushingName(RoutingLine."Flushing Method"))
         else
             Output.Add('flushingMethod', '');
         Output.Add('expectedQuantity', ProdOrderLine.Quantity);
@@ -247,7 +248,7 @@ codeunit 10077076 "Prod Jnl Builder ori"
         Consumption.Add('expectedQuantity', Component."Expected Quantity");
         Consumption.Add('remainingQuantity', Component."Remaining Quantity");
         Consumption.Add('quantity', ItemJnlLine.Quantity);
-        Consumption.Add('flushingMethod', Format(Component."Flushing Method", 0, 9));
+        Consumption.Add('flushingMethod', FlushingName(Component."Flushing Method"));
         Consumption.Add('locationCode', ItemJnlLine."Location Code");
         Consumption.Add('binCode', ItemJnlLine."Bin Code");
         Consumption.Add('quantityPicked', Component."Qty. Picked");
@@ -257,6 +258,25 @@ codeunit 10077076 "Prod Jnl Builder ori"
         Proposed.Add('componentLineNo', ItemJnlLine."Prod. Order Comp. Line No.");
         Proposed.Add('quantity', ItemJnlLine.Quantity);
         ProposedLines.Add(Proposed);
+    end;
+
+    local procedure FlushingName(Method: Enum "Flushing Method"): Text
+    begin
+        if Method.AsInteger() = 0 then
+            exit('Manual');
+        case Method of
+            Method::Forward:
+                exit('Forward');
+            Method::Backward:
+                exit('Backward');
+            Method::"Pick + Forward":
+                exit('PickForward');
+            Method::"Pick + Backward":
+                exit('PickBackward');
+            Method::"Pick + Manual":
+                exit('PickManual');
+        end;
+        exit(Format(Method, 0, 9));
     end;
 
     local procedure TextOf(Line: JsonObject; KeyName: Text): Text

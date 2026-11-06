@@ -148,6 +148,7 @@ codeunit 10077073 "Prod Jnl Preview Impl ori" implements "Msg Interface ori", "M
     var
         ProductionOrder: Record "Production Order";
         Request: Codeunit "Prod Jnl Request ori";
+        Lookup: Codeunit "Mfg Prod Order Lookup ori";
         Events: Codeunit "Prod Jnl Events ori";
         Result: JsonObject;
         Preview: JsonArray;
@@ -191,7 +192,7 @@ codeunit 10077073 "Prod Jnl Preview Impl ori" implements "Msg Interface ori", "M
         Result.Add('rollback', true);
         Result.Add('summary', StrSubstNo(SummaryLbl, LinesToPost, ProductionOrder."No.", GetEntryCount(Result), Preview.Count()));
         Result.Add('no', ProductionOrder."No.");
-        Result.Add('productionOrderStatus', Format(ProductionOrder.Status, 0, 9));
+        Result.Add('productionOrderStatus', Lookup.StatusName(ProductionOrder.Status));
         Result.Add('postingDate', Format(PostingDate, 0, 9));
         Result.Add('linesToPost', LinesToPost);
         Argument.SetResponseJson(Result);
