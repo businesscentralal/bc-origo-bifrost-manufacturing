@@ -48,7 +48,10 @@ codeunit 10077058 "Prod Order Finish Proc ori"
             Acknowledged.Add('missingConsumption');
         EntriesBefore := StatusProc.CountItemEntries(ProductionOrder."No.");
         StatusMgt.SetFinishOrderWithoutOutput(FinishWithoutOutput);
+        // The Impl refused every unacknowledged warning, so BC's own question is already answered.
+        WriteContext.SetFinishAcknowledged(true);
         StatusMgt.ChangeProdOrderStatus(ProductionOrder, NewProductionOrder, NewStatus::Finished, PostingDate, UpdateUnitCost);
+        WriteContext.SetFinishAcknowledged(false);
         NewProductionOrder.Get(NewProductionOrder.Status, NewProductionOrder."No.");
         Response.Add('status', 'Success');
         Response.Add('no', NewProductionOrder."No.");

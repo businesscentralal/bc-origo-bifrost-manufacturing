@@ -543,6 +543,12 @@
           <note from="Developer" annotates="general" priority="2">is-IS=Móttaktu eða eyddu verktakainnkaupapöntuninni fyrst.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Check ori - NamedType SubcontractNextLbl</note>
         </trans-unit>
+        <trans-unit id="Codeunit 653198340 - Method 3571782927 - NamedType 807145736" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Inspect the production order, correct the item, setup or entry named in the Business Central error and retry. Nothing was changed.</source>
+          <target>Skoðaðu framleiðslupöntunina, leiðréttu vöruna, uppsetninguna eða færsluna sem Business Central nefnir í villunni og reyndu aftur. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Skoðaðu framleiðslupöntunina, leiðréttu vöruna, uppsetninguna eða færsluna sem Business Central nefnir í villunni og reyndu aftur. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Finish Impl ori - Method ExecuteBifrostTask - NamedType BcNextLbl</note>
+        </trans-unit>
         <trans-unit id="Codeunit 653198340 - Method 4077369804 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
           <source>Finishes a released production order: posts backward-flushed consumption, adjusts work in process and moves the order to Finished. Commits and cannot be undone.</source>
           <target>Lýkur útgefinni framleiðslupöntun: bókar afturvirka notkun, jafnar vinnu í vinnslu og færir pöntunina í stöðuna lokið. Framkvæmir Commit og ekki er hægt að afturkalla.</target>
@@ -692,6 +698,12 @@
           <target>newStatus verður að vera FirmPlanned eða Released.</target>
           <note from="Developer" annotates="general" priority="2">is-IS=newStatus verður að vera FirmPlanned eða Released.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Status Impl ori - Method ExecuteBifrostTask - NamedType NotStatusLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3864620673 - Method 3571782927 - NamedType 807145736" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Inspect the production order, correct the item, setup or entry named in the Business Central error and retry. Nothing was changed.</source>
+          <target>Skoðaðu framleiðslupöntunina, leiðréttu vöruna, uppsetninguna eða færsluna sem Business Central nefnir í villunni og reyndu aftur. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Skoðaðu framleiðslupöntunina, leiðréttu vöruna, uppsetninguna eða færsluna sem Business Central nefnir í villunni og reyndu aftur. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Status Impl ori - Method ExecuteBifrostTask - NamedType BcNextLbl</note>
         </trans-unit>
         <trans-unit id="Codeunit 3864620673 - Method 4077369804 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
           <source>Changes the status of a production order to Firm Planned or Released with the standard Business Central status change. Commits.</source>

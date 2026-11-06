@@ -25,6 +25,7 @@ codeunit 97621 "Prod Order Finish Tests ori"
         Check: JsonObject;
         Response: JsonObject;
         Request: JsonObject;
+        ResponseText: Text;
     begin
         PrepareReleased(Item, Order);
 
@@ -47,7 +48,8 @@ codeunit 97621 "Prod Order Finish Tests ori"
         Request.Add('acceptMissingConsumption', true);
         Request.Add('postingDate', Format(WorkDate(), 0, 9));
         Response := Lib.Finish(Request, 1033);
-        Assert.AreEqual('Success', Data.TextValue(Response, 'status'), 'Acknowledged Finish succeeds.');
+        Response.WriteTo(ResponseText);
+        Assert.AreEqual('Success', Data.TextValue(Response, 'status'), 'Acknowledged Finish succeeds: ' + ResponseText);
         Lib.ReadBack(Response, Finished);
         Assert.AreEqual(Finished.Status::Finished, Finished.Status, 'The order is Finished.');
         Assert.AreEqual(Format(WorkDate(), 0, 9), Data.TextValue(Response, 'finishedDate'), 'Finished Date = posting date.');

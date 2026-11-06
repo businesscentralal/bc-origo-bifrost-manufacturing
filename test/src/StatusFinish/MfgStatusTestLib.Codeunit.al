@@ -13,12 +13,19 @@ codeunit 97629 "Mfg Status Test Lib ori"
         Data: Codeunit "Mfg Test Data ori";
         Assert: Codeunit "Library Assert";
 
-    /// <summary>Creates an owned manufactured item and a refreshed order in the given status.</summary>
+    /// <summary>Creates an owned manufactured item and an order in the given status, refreshed with lines, routing and components.</summary>
     procedure PrepareOrder(var Item: Record Item; var Order: Record "Production Order"; Status: Enum "Production Order Status")
+    var
+        Response: JsonObject;
     begin
         Data.SetupNumbering(false);
         Data.CreateManufacturedItem(Item);
         Data.CreateOrder(Order, Item, Status);
+        Commit();
+        // Refresh through the committing #5 type, as an agent would before a status change.
+        Response := Data.Invoke("Message Type ori"::"Manufacturing.ProductionOrder.Refresh", IdRequest(Order), 1033, false);
+        Assert.AreEqual('Success', Data.TextValue(Response, 'status'), 'Fixture refresh succeeds.');
+        Order.Get(Order.Status, Order."No.");
     end;
 
     /// <summary>Sets the company's Require Irreversible Confirm setting (Foundation Setup field 36).</summary>

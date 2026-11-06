@@ -28,10 +28,10 @@ codeunit 97625 "Prod Order Restrict Tests ori"
         Lib.PrepareOrder(Item, Order, Order.Status::Planned);
         Commit();
         Names.Add('Status');
-        Names.Add('Finished Date');
+        Names.Add('FinishedDate');
         Names.Add('Reopened');
         foreach FieldName in Names do begin
-            Response := Lib.SetOrderField(Order.SystemId, FieldName, 'x');
+            Response := Lib.SetOrderField(Order.SystemId, FieldName, FieldValue(FieldName));
             Assert.AreEqual('Error', Data.TextValue(Response, 'status'), 'Generic write of ' + FieldName + ' is refused.');
             Assert.IsTrue(Lib.ResponseContains(Response, 'Manufacturing.ProductionOrder.ChangeStatus'), 'The hint names ChangeStatus for ' + FieldName);
             Assert.IsTrue(Lib.ResponseContains(Response, 'Manufacturing.ProductionOrder.Finish'), 'The hint names Finish for ' + FieldName);
@@ -39,9 +39,20 @@ codeunit 97625 "Prod Order Restrict Tests ori"
         Order.Get(Order.Status, Order."No.");
         Assert.AreEqual(Order.Status::Planned, Order.Status, 'Status unchanged.');
         NewDueDate := CalcDate('<+7D>', Order."Due Date");
-        Response := Lib.SetOrderField(Order.SystemId, 'Due Date', Format(NewDueDate, 0, 9));
+        Response := Lib.SetOrderField(Order.SystemId, 'DueDate', Format(NewDueDate, 0, 9));
         Assert.AreEqual('Success', Data.TextValue(Response, 'status'), 'Due Date stays writable.');
         Assert.AreEqual('Success', Data.TextValue(Lib.GetOrders(), 'status'), 'Reads stay allowed.');
         Lib.Cleanup(Item."No.");
+    end;
+
+    local procedure FieldValue(FieldName: Text): Text
+    begin
+        case FieldName of
+            'Status':
+                exit('Released');
+            'FinishedDate':
+                exit(Format(WorkDate(), 0, 9));
+        end;
+        exit('true');
     end;
 }

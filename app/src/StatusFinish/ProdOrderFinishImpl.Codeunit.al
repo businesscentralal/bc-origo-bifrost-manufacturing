@@ -158,6 +158,7 @@ codeunit 10077057 "Prod Order Finish Impl ori" implements "Msg Interface ori", "
         FinishWithoutOutput: Boolean;
         AcceptMissingOutput: Boolean;
         AcceptMissingConsumption: Boolean;
+        BcNextLbl: Label 'Inspect the production order, correct the item, setup or entry named in the Business Central error and retry. Nothing was changed.', Comment = 'is-IS=Skoðaðu framleiðslupöntunina, leiðréttu vöruna, uppsetninguna eða færsluna sem Business Central nefnir í villunni og reyndu aftur. Engu var breytt.';
     begin
         Argument.AssertIsLicensed();
         Argument.AssertVersion1();
@@ -193,7 +194,7 @@ codeunit 10077057 "Prod Order Finish Impl ori" implements "Msg Interface ori", "
             Codeunit.Run(Codeunit::"Prod Order Finish Proc ori", Argument)
         else
             if not Codeunit.Run(Codeunit::"Prod Order Finish Proc ori", Argument) then
-                Argument.RespondWithLastError();
+                Argument.RespondWithError("Bifrost Error Code ori"::BusinessCentralError, GetLastErrorText(), '', '', '', BcNextLbl);
         WriteContext.ClearRequest();
     end;
 
