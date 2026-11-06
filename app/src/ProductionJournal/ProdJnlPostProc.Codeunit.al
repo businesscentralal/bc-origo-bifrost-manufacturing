@@ -30,7 +30,6 @@ codeunit 10077075 "Prod Jnl Post Proc ori"
         IncludeOutput: Boolean;
         IncludeConsumption: Boolean;
         HasLines: Boolean;
-        RollbackErr: Label 'Rolled back.', Locked = true;
     begin
         Events.GetRequest(Mode, OrderNo, LineNo, IncludeOutput, IncludeConsumption, HasLines, Lines);
         ProductionOrder.Get(ProductionOrder.Status::Released, OrderNo);
@@ -42,13 +41,13 @@ codeunit 10077075 "Prod Jnl Post Proc ori"
             0:
                 begin
                     GetProposal(ProductionOrder);
-                    Error(RollbackErr);
+                    Error('');
                 end;
             1:
                 begin
                     Builder.DeleteEmptyLines(OrderNo);
                     PreviewLines(OrderNo);
-                    Error(RollbackErr);
+                    Error('');
                 end;
             2:
                 PostLines(Rec, ProductionOrder);

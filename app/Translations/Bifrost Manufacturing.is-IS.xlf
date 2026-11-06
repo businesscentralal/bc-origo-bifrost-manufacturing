@@ -333,6 +333,270 @@
           <note from="Developer" annotates="general" priority="2">is-IS=Staðfestu framleiðsluefnislista, eða eina útgáfu hans, eða settu hann aftur í þróun svo hægt sé að breyta línum hans. Sendu no og status Certified eða UnderDevelopment. Sendu versionCode aðeins fyrir eina útgáfu. Closed er ekki stutt.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod BOM Status Impl ori - Method GetSelectionDescription - NamedType SelectionLbl</note>
         </trans-unit>
+        <trans-unit id="Codeunit 4057685144 - NamedType 3816182577" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Line %1 is not in the production journal proposal of order %2. Only lines that Manufacturing.ProductionJournal.Get proposes can be posted.</source>
+          <target>Línan %1 er ekki í tillögu framleiðslubókar pöntunar %2. Aðeins línur sem Manufacturing.ProductionJournal.Get leggur til er hægt að bóka.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = line description, %2 = order number, is-IS=Línan %1 er ekki í tillögu framleiðslubókar pöntunar %2. Aðeins línur sem Manufacturing.ProductionJournal.Get leggur til er hægt að bóka.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Builder ori - NamedType NotProposedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2206538985 - Method 3507224617 - NamedType 3337375434" size-unit="char" translate="yes" xml:space="preserve">
+          <source>%1 journal lines for production order %2</source>
+          <target>%1 línur í framleiðslubók fyrir framleiðslupöntun %2</target>
+          <note from="Developer" annotates="general" priority="2">%1 = line count, %2 = order number, is-IS=%1 línur í framleiðslubók fyrir framleiðslupöntun %2</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Confirm ori - Method GetConfirmCount - NamedType SummaryLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1933967693 - Method 3571782927 - NamedType 807145736" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Inspect the production order, correct the item, work center, quantity or period named in the Business Central error and retry. Nothing was changed.</source>
+          <target>Skoðaðu framleiðslupöntunina, leiðréttu vöruna, vinnustöðina, magnið eða tímabilið sem Business Central nefnir í villunni og reyndu aftur. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Skoðaðu framleiðslupöntunina, leiðréttu vöruna, vinnustöðina, magnið eða tímabilið sem Business Central nefnir í villunni og reyndu aftur. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Get Impl ori - Method ExecuteBifrostTask - NamedType BcNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1933967693 - Method 4077369804 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shows what the production journal of a released production order proposes: output per operation and consumption per component.</source>
+          <target>Sýnir hvað framleiðslubók útgefinnar framleiðslupöntunar leggur til: afköst á hverja aðgerð og notkun á hvern íhlut.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sýnir hvað framleiðslubók útgefinnar framleiðslupöntunar leggur til: afköst á hverja aðgerð og notkun á hvern íhlut.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Get Impl ori - Method GetDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1933967693 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>production journal, output, consumption, proposal, released production order, manufacturing, scrap, run time</source>
+          <target>framleiðslubók, afköst, notkun, tillaga, útgefin framleiðslupöntun, framleiðsla, rýrnun, keyrslutími</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=framleiðslubók, afköst, notkun, tillaga, útgefin framleiðslupöntun, framleiðsla, rýrnun, keyrslutími</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Get Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1933967693 - Method 79446908 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Read what the production journal of a released order proposes. Changes nothing.</source>
+          <target>Lestu hvað framleiðslubók útgefinnar pöntunar leggur til. Breytir engu.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lestu hvað framleiðslubók útgefinnar pöntunar leggur til. Breytir engu.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Get Impl ori - Method GetSelectionDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1219283663 - Method 3571782927 - NamedType 807145736" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Inspect the production order, correct the item, work center, quantity or period named in the Business Central error and retry. Nothing was changed.</source>
+          <target>Skoðaðu framleiðslupöntunina, leiðréttu vöruna, vinnustöðina, magnið eða tímabilið sem Business Central nefnir í villunni og reyndu aftur. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Skoðaðu framleiðslupöntunina, leiðréttu vöruna, vinnustöðina, magnið eða tímabilið sem Business Central nefnir í villunni og reyndu aftur. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Post Impl ori - Method ExecuteBifrostTask - NamedType BcNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1219283663 - Method 3571782927 - NamedType 1000175713" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Nothing to post: every journal line has quantity 0.</source>
+          <target>Ekkert að bóka: allar línur í framleiðslubók hafa magn 0.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Ekkert að bóka: allar línur í framleiðslubók hafa magn 0.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Post Impl ori - Method ExecuteBifrostTask - NamedType NothingLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1219283663 - Method 3571782927 - NamedType 635097044" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Read the proposal with Manufacturing.ProductionJournal.Get or send lines with a quantity.</source>
+          <target>Lestu tillöguna með Manufacturing.ProductionJournal.Get eða sendu línur með magni.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lestu tillöguna með Manufacturing.ProductionJournal.Get eða sendu línur með magni.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Post Impl ori - Method ExecuteBifrostTask - NamedType NothingNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1219283663 - Method 4077369804 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posts output and consumption of a released production order with the standard Business Central production journal. Commits and cannot be undone.</source>
+          <target>Bókar afköst og notkun útgefinnar framleiðslupöntunar með venjulegri framleiðslubók Business Central. Framkvæmir Commit og ekki er hægt að afturkalla.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Bókar afköst og notkun útgefinnar framleiðslupöntunar með venjulegri framleiðslubók Business Central. Framkvæmir Commit og ekki er hægt að afturkalla.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Post Impl ori - Method GetDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1219283663 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>post production journal, post output, post consumption, scrap, run time, setup time, released production order, manufacturing</source>
+          <target>bóka framleiðslubók, bóka afköst, bóka notkun, rýrnun, keyrslutími, uppsetningartími, útgefin framleiðslupöntun, framleiðsla</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=bóka framleiðslubók, bóka afköst, bóka notkun, rýrnun, keyrslutími, uppsetningartími, útgefin framleiðslupöntun, framleiðsla</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Post Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1219283663 - Method 79446908 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Post output and consumption of a released order. Commits and cannot be undone.</source>
+          <target>Bókaðu afköst og notkun útgefinnar pöntunar. Framkvæmir Commit og ekki er hægt að afturkalla.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Bókaðu afköst og notkun útgefinnar pöntunar. Framkvæmir Commit og ekki er hægt að afturkalla.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Post Impl ori - Method GetSelectionDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 4110213185 - Method 3571782927 - NamedType 4064548664" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Preview needs its own transaction and cannot run under Omit Commit.</source>
+          <target>Forskoðun þarf eigin færslu og getur ekki keyrt undir Omit Commit.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Forskoðun þarf eigin færslu og getur ekki keyrt undir Omit Commit.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Preview Impl ori - Method ExecuteBifrostTask - NamedType OmitCommitLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 4110213185 - Method 3571782927 - NamedType 563883597" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Run the preview without Omit Commit.</source>
+          <target>Keyrðu forskoðunina án Omit Commit.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Keyrðu forskoðunina án Omit Commit.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Preview Impl ori - Method ExecuteBifrostTask - NamedType OmitCommitNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 4110213185 - Method 3571782927 - NamedType 2749800241" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Correct the item, work center or quantity named in the Business Central text and retry. Nothing was changed.</source>
+          <target>Leiðréttu vöruna, vinnustöðina eða magnið sem Business Central nefnir og reyndu aftur. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Leiðréttu vöruna, vinnustöðina eða magnið sem Business Central nefnir og reyndu aftur. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Preview Impl ori - Method ExecuteBifrostTask - NamedType PreviewNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 4110213185 - Method 3571782927 - NamedType 3337375434" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posting %1 journal lines of production order %2 would create %3 ledger entries across %4 tables.</source>
+          <target>Bókun %1 lína í framleiðslubók framleiðslupöntunar %2 myndi stofna %3 færslur í %4 töflum.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = line count, %2 = order number, %3 = entry count, %4 = table count, is-IS=Bókun %1 lína í framleiðslubók framleiðslupöntunar %2 myndi stofna %3 færslur í %4 töflum.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Preview Impl ori - Method ExecuteBifrostTask - NamedType SummaryLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 4110213185 - Method 3571782927 - NamedType 807145736" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Inspect the production order, correct the item, work center, quantity or period named in the Business Central error and retry. Nothing was changed.</source>
+          <target>Skoðaðu framleiðslupöntunina, leiðréttu vöruna, vinnustöðina, magnið eða tímabilið sem Business Central nefnir í villunni og reyndu aftur. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Skoðaðu framleiðslupöntunina, leiðréttu vöruna, vinnustöðina, magnið eða tímabilið sem Business Central nefnir í villunni og reyndu aftur. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Preview Impl ori - Method ExecuteBifrostTask - NamedType BcNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 4110213185 - Method 3571782927 - NamedType 1000175713" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Nothing to post: every journal line has quantity 0.</source>
+          <target>Ekkert að bóka: allar línur í framleiðslubók hafa magn 0.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Ekkert að bóka: allar línur í framleiðslubók hafa magn 0.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Preview Impl ori - Method ExecuteBifrostTask - NamedType NothingLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 4110213185 - Method 3571782927 - NamedType 635097044" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Read the proposal with Manufacturing.ProductionJournal.Get or send lines with a quantity.</source>
+          <target>Lestu tillöguna með Manufacturing.ProductionJournal.Get eða sendu línur með magni.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lestu tillöguna með Manufacturing.ProductionJournal.Get eða sendu línur með magni.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Preview Impl ori - Method ExecuteBifrostTask - NamedType NothingNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 4110213185 - Method 4077369804 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Shows the entries that posting output and consumption would create. Changes nothing.</source>
+          <target>Sýnir færslurnar sem bókun afkasta og notkunar myndi búa til. Breytir engu.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sýnir færslurnar sem bókun afkasta og notkunar myndi búa til. Breytir engu.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Preview Impl ori - Method GetDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 4110213185 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>preview posting, production journal, output, consumption, simulate, what would post, manufacturing</source>
+          <target>forskoða bókun, framleiðslubók, afköst, notkun, herma, hvað myndi bókast, framleiðsla</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=forskoða bókun, framleiðslubók, afköst, notkun, herma, hvað myndi bókast, framleiðsla</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Preview Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 4110213185 - Method 79446908 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Preview the entries that posting output and consumption would create. Changes nothing.</source>
+          <target>Forskoðaðu færslurnar sem bókun afkasta og notkunar myndi búa til. Breytir engu.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Forskoðaðu færslurnar sem bókun afkasta og notkunar myndi búa til. Breytir engu.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Preview Impl ori - Method GetSelectionDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 73661084" size-unit="char" translate="yes" xml:space="preserve">
+          <source>consumptionBasis must be ActualOutput or ExpectedOutput.</source>
+          <target>consumptionBasis verður að vera ActualOutput eða ExpectedOutput.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=consumptionBasis verður að vera ActualOutput eða ExpectedOutput.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType BasisLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 915247977" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send ActualOutput or ExpectedOutput, or omit consumptionBasis to use Manufacturing Setup.</source>
+          <target>Sendu ActualOutput eða ExpectedOutput, eða slepptu consumptionBasis til að nota Manufacturing Setup.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu ActualOutput eða ExpectedOutput, eða slepptu consumptionBasis til að nota Manufacturing Setup.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType BasisNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 2597499281" size-unit="char" translate="yes" xml:space="preserve">
+          <source>A finished order is closed; its journal cannot be used.</source>
+          <target>Lokin pöntun er lokuð; ekki er hægt að nota framleiðslubók hennar.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lokin pöntun er lokuð; ekki er hægt að nota framleiðslubók hennar.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType ClosedNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 2413899807" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Component line %1 is not on production order %2.</source>
+          <target>Íhlutalína %1 er ekki á framleiðslupöntun %2.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = component line number, %2 = order number, is-IS=Íhlutalína %1 er ekki á framleiðslupöntun %2.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType ComponentLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 1542941690" size-unit="char" translate="yes" xml:space="preserve">
+          <source>postingDate must be a date in the format yyyy-mm-dd.</source>
+          <target>postingDate verður að vera dagsetning á sniðinu yyyy-mm-dd.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=postingDate verður að vera dagsetning á sniðinu yyyy-mm-dd.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType DateLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 1412843979" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send an ISO date or omit postingDate to use the work date.</source>
+          <target>Sendu ISO-dagsetningu eða slepptu postingDate til að nota vinnudagsetningu.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu ISO-dagsetningu eða slepptu postingDate til að nota vinnudagsetningu.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType DateNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 2596287530" size-unit="char" translate="yes" xml:space="preserve">
+          <source>include must be an array containing output and/or consumption.</source>
+          <target>include verður að vera fylki sem inniheldur output og/eða consumption.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=include verður að vera fylki sem inniheldur output og/eða consumption.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType IncludeLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 154784891" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send ["output","consumption"] or a subset.</source>
+          <target>Sendu ["output","consumption"] eða hluta þess.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu ["output","consumption"] eða hluta þess.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType IncludeNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 2567782990" size-unit="char" translate="yes" xml:space="preserve">
+          <source>kind must be output or consumption.</source>
+          <target>kind verður að vera output eða consumption.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=kind verður að vera output eða consumption.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType KindLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 3693546933" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Read the lines with Manufacturing.ProductionJournal.Get.</source>
+          <target>Lestu línurnar með Manufacturing.ProductionJournal.Get.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lestu línurnar með Manufacturing.ProductionJournal.Get.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType LineNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 3616618409" size-unit="char" translate="yes" xml:space="preserve">
+          <source>lines must be an array of objects.</source>
+          <target>lines verður að vera fylki af hlutum.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=lines verður að vera fylki af hlutum.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType LinesLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 86950748" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send lines in the shape that Manufacturing.ProductionJournal.Get returns as proposedLines.</source>
+          <target>Sendu línur á sniðinu sem Manufacturing.ProductionJournal.Get skilar sem proposedLines.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu línur á sniðinu sem Manufacturing.ProductionJournal.Get skilar sem proposedLines.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType LinesNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 1128910002" size-unit="char" translate="yes" xml:space="preserve">
+          <source>%1 is required.</source>
+          <target>%1 er áskilið.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = parameter, is-IS=%1 er áskilið.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType MissingLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 3126481395" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Quantity must be 0 or more.</source>
+          <target>Magn verður að vera 0 eða meira.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Magn verður að vera 0 eða meira.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType NegativeLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 2401642831" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order %1 has no line %2.</source>
+          <target>Framleiðslupöntun %1 hefur ekki línu %2.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, %2 = line number, is-IS=Framleiðslupöntun %1 hefur ekki línu %2.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType NoLineLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 3879076534" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order %1 is %2. The production journal is only available for a Released order.</source>
+          <target>Framleiðslupöntun %1 er %2. Framleiðslubók er aðeins til fyrir útgefna pöntun.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, %2 = status, is-IS=Framleiðslupöntun %1 er %2. Framleiðslubók er aðeins til fyrir útgefna pöntun.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType NotReleasedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 3112345243" size-unit="char" translate="yes" xml:space="preserve">
+          <source>%1 must be a number.</source>
+          <target>%1 verður að vera tala.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = parameter, is-IS=%1 verður að vera tala.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType NumberLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 1935774217" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Operation %1 is not on production order %2.</source>
+          <target>Aðgerð %1 er ekki á framleiðslupöntun %2.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = operation number, %2 = order number, is-IS=Aðgerð %1 er ekki á framleiðslupöntun %2.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType OperationLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 4229438332" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Read the operations with Manufacturing.ProductionJournal.Get.</source>
+          <target>Lestu aðgerðirnar með Manufacturing.ProductionJournal.Get.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lestu aðgerðirnar með Manufacturing.ProductionJournal.Get.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType OperationNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 1540410211" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Change the status to Released with Manufacturing.ProductionOrder.ChangeStatus.</source>
+          <target>Breyttu stöðunni í útgefna með Manufacturing.ProductionOrder.ChangeStatus.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Breyttu stöðunni í útgefna með Manufacturing.ProductionOrder.ChangeStatus.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType PlannedNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 1773691126" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unknown parameter %1.</source>
+          <target>Óþekkt færibreyta %1.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = parameter, is-IS=Óþekkt færibreyta %1.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType UnknownLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 2001379935" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Remove the unknown parameter and use the documented parameters.</source>
+          <target>Fjarlægðu óþekktu færibreytuna og notaðu skjalfestar færibreytur.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Fjarlægðu óþekktu færibreytuna og notaðu skjalfestar færibreytur.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType UnknownNextLbl</note>
+        </trans-unit>
         <trans-unit id="Codeunit 2206880549 - Method 4077369804 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
           <source>Shows what would block or warn when a released production order is finished. Changes nothing.</source>
           <target>Sýnir hvað myndi hindra eða vara við þegar útgefinni framleiðslupöntun er lokið. Breytir engu.</target>
