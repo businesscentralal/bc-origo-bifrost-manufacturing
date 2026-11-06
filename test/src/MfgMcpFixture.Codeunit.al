@@ -14,11 +14,14 @@ codeunit 97614 "Mfg MCP Fixture Tst ori"
         Company: Record Company;
         Result: Record "Mfg Licence Result Tst ori";
         Data: Codeunit "Mfg Test Data ori";
+        JournalLib: Codeunit "Prod Jnl Test Lib ori";
         Payload: JsonObject;
         Value: Text;
         Output: OutStream;
         FixtureId: Guid;
     begin
+        // Posting needs production accounts; fill only empty ones on this owned container so MCP Post can succeed.
+        JournalLib.FillPostingAccounts();
         Evaluate(FixtureId, '4e54efe5-d98c-499f-95bd-5cead5678305');
         if Result.Get(FixtureId) then
             Error('Owned MCP fixture already exists. Inspect its recorded identifiers before recovery.');
