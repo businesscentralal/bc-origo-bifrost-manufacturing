@@ -2,6 +2,7 @@ namespace Origo.Bifrost.Manufacturing.Test;
 
 using Microsoft.Inventory.Item;
 using Microsoft.Inventory.Ledger;
+using Microsoft.Manufacturing.Capacity;
 using Microsoft.Manufacturing.Document;
 using Origo.Bifrost;
 using System.TestLibraries.Utilities;
@@ -92,6 +93,7 @@ codeunit 97642 "Prod Jnl Post Tests ori"
     var
         Item: Record Item;
         Order: Record "Production Order";
+        CapacityEntry: Record "Capacity Ledger Entry";
         Extra: JsonObject;
         Response: JsonObject;
         Lines: JsonArray;
@@ -141,6 +143,45 @@ codeunit 97642 "Prod Jnl Post Tests ori"
         Assert.AreEqual(0, Lib.Entries(Order."No.", "Item Ledger Entry Type"::Consumption), 'The unlisted consumption line did not post.');
         Assert.AreEqual(Format(CalcDate('<+1D>', WorkDate()), 0, 9), Data.TextValue(Response, 'postingDate'), 'The posting date is the requested one.');
         Assert.AreEqual(0, Lib.JournalLines(Order."No."), 'The batch is empty afterwards.');
+
+        // AC07: the capacity ledger entry carries the times and the scrap is on the output.
+        Assert.AreEqual(1, Data.NumberValue(Response, 'capacityEntriesPosted'), 'One capacity entry.');
+        CapacityEntry.SetRange("Order Type", CapacityEntry."Order Type"::Production);
+        CapacityEntry.SetRange("Order No.", Order."No.");
+        CapacityEntry.FindFirst();
+        Assert.AreEqual(30, CapacityEntry."Run Time", 'Run time on the capacity entry.');
+        Assert.AreEqual(1, CapacityEntry."Scrap Quantity", 'Scrap on the capacity entry.');
+    end;
+
+    [Test]
+    procedure Scenario_AC11_BcRefusal_Is_Atomic()
+    var
+        Item: Record Item;
+        Order: Record "Production Order";
+        Component: Record "Prod. Order Component";
+        Extra: JsonObject;
+        Response: JsonObject;
+        Lines: JsonArray;
+        Line: JsonObject;
+    begin
+        Lib.PrepareReleased(Item, Order);
+        StatusLib.SetConfirmRequired(false);
+        Commit();
+        Component.SetRange(Status, Order.Status);
+        Component.SetRange("Prod. Order No.", Order."No.");
+        Component.FindFirst();
+        Line.Add('kind', 'consumption');
+        Line.Add('lineNo', Component."Prod. Order Line No.");
+        Line.Add('componentLineNo', Component."Line No.");
+        Line.Add('quantity', 100000);
+        Lines.Add(Line);
+        Extra.Add('lines', Lines);
+        Response := Lib.Call("Message Type ori"::"Manufacturing.ProductionJournal.Post", Order, Extra, 1033);
+        Data.AssertRefusal(Response, 'BusinessCentralError');
+        Assert.IsTrue(StatusLib.ResponseContains(Response, 'insufficient'), 'BC text is returned.');
+        Assert.AreEqual(0, Lib.Entries(Order."No.", "Item Ledger Entry Type"::Consumption), 'No consumption entry.');
+        Assert.AreEqual(0, Lib.JournalLines(Order."No."), 'No journal line remains.');
+        Lib.Cleanup(Item."No.");
     end;
 
     [Test]
