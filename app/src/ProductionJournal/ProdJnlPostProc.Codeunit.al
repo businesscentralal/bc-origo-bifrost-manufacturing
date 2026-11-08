@@ -1,7 +1,6 @@
 namespace Origo.Bifrost.Manufacturing;
 
-using Microsoft.Finance.GeneralLedger.Ledger;
-using Microsoft.Inventory.Costing;
+using Microsoft.Finance.GeneralLedger.Preview;
 using Microsoft.Inventory.Journal;
 using Microsoft.Inventory.Ledger;
 using Microsoft.Inventory.Posting;
@@ -17,6 +16,7 @@ codeunit 10077075 "Prod Jnl Post Proc ori"
 {
     Access = Internal;
     TableNo = "Message Argument ori";
+    EventSubscriberInstance = Manual;
 
     trigger OnRun()
     var
@@ -81,21 +81,24 @@ codeunit 10077075 "Prod Jnl Post Proc ori"
         Events.SetResult(Result);
     end;
 
+    [EventSubscriber(ObjectType::Codeunit, Codeunit::"Gen. Jnl.-Post Preview", OnRunPreview, '', false, false)]
+    local procedure RunPreview(var Result: Boolean; Subscriber: Variant; RecVar: Variant)
+    var
+        TempArgument: Record "Message Argument ori";
+        Process: Codeunit "Prod Jnl Post Proc ori";
+    begin
+        TempArgument := RecVar;
+        Process := Subscriber;
+        Result := Process.Run(TempArgument);
+    end;
+
     local procedure PreviewLines(OrderNo: Code[20])
     var
         ItemJnlLine: Record "Item Journal Line";
         Builder: Codeunit "Prod Jnl Builder ori";
         Events: Codeunit "Prod Jnl Events ori";
-        ItemJnlPostBatch: Codeunit "Item Jnl.-Post Batch";
-        Result: JsonObject;
-        Preview: JsonArray;
-        LedgerBefore: Integer;
-        ValueBefore: Integer;
-        CapacityBefore: Integer;
-        GLBefore: Integer;
+        ItemJnlPost: Codeunit "Item Jnl.-Post";
         LinesToPost: Integer;
-        EntryCount: Integer;
-        GLEntryCount: Integer;
     begin
         LinesToPost := Builder.CountLines(OrderNo);
         if LinesToPost = 0 then begin
@@ -103,152 +106,12 @@ codeunit 10077075 "Prod Jnl Post Proc ori"
             exit;
         end;
         Events.SetPreviewLines(LinesToPost);
-        LedgerBefore := LastEntry(Database::"Item Ledger Entry");
-        ValueBefore := LastEntry(Database::"Value Entry");
-        CapacityBefore := LastEntry(Database::"Capacity Ledger Entry");
-        GLBefore := LastEntry(Database::"G/L Entry");
         Builder.SetFilters(ItemJnlLine, OrderNo);
         ItemJnlLine.FindFirst();
-        // The posting runs in this boundary without its own commit; the caller ends it with a rollback after the entries are read.
-        ItemJnlPostBatch.SetSuppressCommit(true);
-        ItemJnlPostBatch.Run(ItemJnlLine);
-        AddLedgerEntries(Preview, OrderNo, LedgerBefore, EntryCount);
-        AddValueEntries(Preview, OrderNo, ValueBefore, EntryCount);
-        AddCapacityEntries(Preview, OrderNo, CapacityBefore, EntryCount);
-        AddGLEntries(Preview, OrderNo, GLBefore, GLEntryCount);
-        Result.Add('entryCount', EntryCount);
-        Result.Add('glEntryCount', GLEntryCount);
-        Result.Add('preview', Preview);
-        Events.SetResult(Result);
-    end;
-
-    local procedure LastEntry(TableId: Integer): Integer
-    var
-        Source: RecordRef;
-    begin
-        Source.Open(TableId);
-        if Source.FindLast() then
-            exit(Source.Field(1).Value);
-    end;
-
-    local procedure NewTable(TableId: Integer; Name: Text; var Entries: JsonArray; var Table: JsonObject)
-    begin
-        Clear(Table);
-        Table.Add('tableId', TableId);
-        Table.Add('tableName', Name);
-        Table.Add('tableCaption', Name);
-        Table.Add('entryCount', Entries.Count());
-        Table.Add('entries', Entries);
-    end;
-
-    local procedure Entry(Id: Guid; EntryNo: Integer; Fields: JsonObject): JsonObject
-    var
-        Result: JsonObject;
-        PrimaryKey: JsonObject;
-    begin
-        Result.Add('id', Format(Id, 0, 4));
-        PrimaryKey.Add('EntryNo_', Format(EntryNo));
-        Result.Add('primaryKey', PrimaryKey);
-        Result.Add('fields', Fields);
-        exit(Result);
-    end;
-
-    local procedure AddLedgerEntries(var Preview: JsonArray; OrderNo: Code[20]; Before: Integer; var Total: Integer)
-    var
-        LedgerEntry: Record "Item Ledger Entry";
-        Entries: JsonArray;
-        Table: JsonObject;
-        Fields: JsonObject;
-    begin
-        LedgerEntry.SetFilter("Entry No.", '>%1', Before);
-        LedgerEntry.SetRange("Order No.", OrderNo);
-        if LedgerEntry.FindSet() then
-            repeat
-                Clear(Fields);
-                Fields.Add('ItemNo_', LedgerEntry."Item No.");
-                Fields.Add('EntryType', Format(LedgerEntry."Entry Type", 0, 9));
-                Fields.Add('Quantity', Format(LedgerEntry.Quantity, 0, 9));
-                Fields.Add('PostingDate', Format(LedgerEntry."Posting Date", 0, 9));
-                Entries.Add(Entry(LedgerEntry.SystemId, LedgerEntry."Entry No.", Fields));
-            until LedgerEntry.Next() = 0;
-        if Entries.Count() = 0 then
-            exit;
-        Total += Entries.Count();
-        NewTable(Database::"Item Ledger Entry", 'Item Ledger Entry', Entries, Table);
-        Preview.Add(Table);
-    end;
-
-    local procedure AddValueEntries(var Preview: JsonArray; OrderNo: Code[20]; Before: Integer; var Total: Integer)
-    var
-        ValueEntry: Record "Value Entry";
-        Entries: JsonArray;
-        Table: JsonObject;
-        Fields: JsonObject;
-    begin
-        ValueEntry.SetFilter("Entry No.", '>%1', Before);
-        ValueEntry.SetRange("Order No.", OrderNo);
-        if ValueEntry.FindSet() then
-            repeat
-                Clear(Fields);
-                Fields.Add('ItemNo_', ValueEntry."Item No.");
-                Fields.Add('ValuedQuantity', Format(ValueEntry."Valued Quantity", 0, 9));
-                Fields.Add('PostingDate', Format(ValueEntry."Posting Date", 0, 9));
-                Entries.Add(Entry(ValueEntry.SystemId, ValueEntry."Entry No.", Fields));
-            until ValueEntry.Next() = 0;
-        if Entries.Count() = 0 then
-            exit;
-        Total += Entries.Count();
-        NewTable(Database::"Value Entry", 'Value Entry', Entries, Table);
-        Preview.Add(Table);
-    end;
-
-    local procedure AddCapacityEntries(var Preview: JsonArray; OrderNo: Code[20]; Before: Integer; var Total: Integer)
-    var
-        CapacityEntry: Record "Capacity Ledger Entry";
-        Entries: JsonArray;
-        Table: JsonObject;
-        Fields: JsonObject;
-    begin
-        CapacityEntry.SetFilter("Entry No.", '>%1', Before);
-        CapacityEntry.SetRange("Order No.", OrderNo);
-        if CapacityEntry.FindSet() then
-            repeat
-                Clear(Fields);
-                Fields.Add('OperationNo_', CapacityEntry."Operation No.");
-                Fields.Add('OutputQuantity', Format(CapacityEntry."Output Quantity", 0, 9));
-                Fields.Add('ScrapQuantity', Format(CapacityEntry."Scrap Quantity", 0, 9));
-                Fields.Add('SetupTime', Format(CapacityEntry."Setup Time", 0, 9));
-                Fields.Add('RunTime', Format(CapacityEntry."Run Time", 0, 9));
-                Entries.Add(Entry(CapacityEntry.SystemId, CapacityEntry."Entry No.", Fields));
-            until CapacityEntry.Next() = 0;
-        if Entries.Count() = 0 then
-            exit;
-        Total += Entries.Count();
-        NewTable(Database::"Capacity Ledger Entry", 'Capacity Ledger Entry', Entries, Table);
-        Preview.Add(Table);
-    end;
-
-    local procedure AddGLEntries(var Preview: JsonArray; OrderNo: Code[20]; Before: Integer; var Total: Integer)
-    var
-        GLEntry: Record "G/L Entry";
-        Entries: JsonArray;
-        Table: JsonObject;
-        Fields: JsonObject;
-    begin
-        GLEntry.SetFilter("Entry No.", '>%1', Before);
-        GLEntry.SetRange("Document No.", OrderNo);
-        if GLEntry.FindSet() then
-            repeat
-                Clear(Fields);
-                Fields.Add('G_LAccountNo_', GLEntry."G/L Account No.");
-                Fields.Add('Amount', Format(GLEntry.Amount, 0, 9));
-                Entries.Add(Entry(GLEntry.SystemId, GLEntry."Entry No.", Fields));
-            until GLEntry.Next() = 0;
-        if Entries.Count() = 0 then
-            exit;
-        Total += Entries.Count();
-        NewTable(Database::"G/L Entry", 'G/L Entry', Entries, Table);
-        Preview.Add(Table);
+        // The standard preview engine has already bound its entry handler. Item Jnl.-Post
+        // enables sequence preview mode and raises the standard preview rollback error.
+        ItemJnlPost.SetPreviewMode(true);
+        ItemJnlPost.Run(ItemJnlLine);
     end;
 
     local procedure PostLines(var Argument: Record "Message Argument ori"; ProductionOrder: Record "Production Order")

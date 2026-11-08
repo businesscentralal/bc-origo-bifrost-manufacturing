@@ -1,5 +1,7 @@
 namespace Origo.Bifrost.Manufacturing.Test;
 
+using Microsoft.Finance.GeneralLedger.Ledger;
+using Microsoft.Foundation.NoSeries;
 using Microsoft.Inventory.Item;
 using Microsoft.Inventory.Journal;
 using Microsoft.Inventory.Ledger;
@@ -48,18 +50,28 @@ codeunit 97648 "Prod Jnl Gap Tests ori"
     var
         Item: Record Item;
         Order: Record "Production Order";
+        SequenceNoMgt: Codeunit "Sequence No. Mgt.";
         Extra: JsonObject;
         PreviewResponse: JsonObject;
         PostResponse: JsonObject;
         PreviewCount: Decimal;
         ActualCount: Integer;
+        ItemSequenceBefore: Integer;
+        GLSequenceBefore: Integer;
     begin
         Lib.PrepareReleased(Item, Order);
         StatusLib.SetConfirmRequired(false);
         Commit();
+        SequenceNoMgt.ValidateSeqNo(Database::"Item Ledger Entry");
+        SequenceNoMgt.ValidateSeqNo(Database::"G/L Entry");
+        ItemSequenceBefore := SequenceNoMgt.GetCurrentSeqNo(Database::"Item Ledger Entry");
+        GLSequenceBefore := SequenceNoMgt.GetCurrentSeqNo(Database::"G/L Entry");
+        Commit();
         Extra.Add('consumptionBasis', 'ExpectedOutput');
         PreviewResponse := Lib.Call("Message Type ori"::"Manufacturing.ProductionJournal.PreviewPost", Order, Extra, 1033);
         Assert.AreEqual('Success', Data.TextValue(PreviewResponse, 'status'), 'Preview succeeds.');
+        Assert.AreEqual(ItemSequenceBefore, SequenceNoMgt.GetCurrentSeqNo(Database::"Item Ledger Entry"), 'Preview must not consume the next Item Ledger entry number.');
+        Assert.AreEqual(GLSequenceBefore, SequenceNoMgt.GetCurrentSeqNo(Database::"G/L Entry"), 'Preview must not consume the next G/L entry number.');
         PreviewCount := Data.NumberValue(PreviewResponse, 'entryCount');
         Assert.IsTrue(PreviewCount > 0, 'Preview reports entries.');
         Assert.AreEqual(0, Lib.JournalLines(Order."No."), 'Preview leaves no journal line.');

@@ -1,5 +1,7 @@
 namespace Origo.Bifrost.Manufacturing;
 
+using Microsoft.Finance.GeneralLedger.Preview;
+using Microsoft.Foundation.Navigate;
 using Microsoft.Inventory.Journal;
 using Microsoft.Manufacturing.Document;
 using Origo.Bifrost;
@@ -147,12 +149,21 @@ codeunit 10077073 "Prod Jnl Preview Impl ori" implements "Msg Interface ori", "M
     procedure ExecuteBifrostTask(var Argument: Record "Message Argument ori")
     var
         ProductionOrder: Record "Production Order";
+        TempDocumentEntry: Record "Document Entry" temporary;
         Request: Codeunit "Prod Jnl Request ori";
         Lookup: Codeunit "Mfg Prod Order Lookup ori";
         Events: Codeunit "Prod Jnl Events ori";
+        Process: Codeunit "Prod Jnl Post Proc ori";
+        GenJnlPostPreview: Codeunit "Gen. Jnl.-Post Preview";
+        PostingPreviewEventHandler: Codeunit "Posting Preview Event Handler";
+        PreviewHelper: Codeunit "Posting Preview Helper ori";
         Result: JsonObject;
         Preview: JsonArray;
-        Token: JsonToken;
+        PreviewFieldNames: List of [Text];
+        Totals: JsonObject;
+        Balanced: Boolean;
+        EntryCount: Integer;
+        GLEntryCount: Integer;
         NothingToPost: Boolean;
         LinesToPost: Integer;
         PostingDate: Date;
@@ -173,12 +184,18 @@ codeunit 10077073 "Prod Jnl Preview Impl ori" implements "Msg Interface ori", "M
             Argument.RespondWithError("Bifrost Error Code ori"::PreconditionFailed, OmitCommitLbl, '', '', '', OmitCommitNextLbl);
             exit;
         end;
-        if Codeunit.Run(Codeunit::"Prod Jnl Post Proc ori", Argument) then; // always ends in a rollback error
-        if not Events.GetOutcome(Result, NothingToPost) then begin
-            Events.EndRequest();
-            Argument.RespondWithError("Bifrost Error Code ori"::BusinessCentralError, GetLastErrorText(), '', '', '', BcNextLbl);
-            exit;
-        end;
+        BindSubscription(Process);
+        GenJnlPostPreview.SetContext(Process, Argument);
+        ClearLastError();
+        if GenJnlPostPreview.Run() then; // the standard preview always ends in a rollback error
+        UnbindSubscription(Process);
+        Events.GetOutcome(Result, NothingToPost);
+        if not NothingToPost then
+            if not GenJnlPostPreview.IsSuccess() then begin
+                Events.EndRequest();
+                Argument.RespondWithError("Bifrost Error Code ori"::BusinessCentralError, GetLastErrorText(), '', '', '', BcNextLbl);
+                exit;
+            end;
         LinesToPost := Events.GetPreviewLines();
         Events.GetUsedSetup(PostingDate, Basis);
         Events.EndRequest();
@@ -186,11 +203,21 @@ codeunit 10077073 "Prod Jnl Preview Impl ori" implements "Msg Interface ori", "M
             Argument.RespondWithError("Bifrost Error Code ori"::PreconditionFailed, NothingLbl, 'lines', '', '', NothingNextLbl);
             exit;
         end;
-        Result.Get('preview', Token);
-        Preview := Token.AsArray();
+        GenJnlPostPreview.GetPreviewHandler(PostingPreviewEventHandler);
+        PreviewHelper.GetPreviewFieldNames(PreviewFieldNames);
+        PostingPreviewEventHandler.FillDocumentEntry(TempDocumentEntry);
+        if TempDocumentEntry.FindSet() then
+            repeat
+                PreviewHelper.AddTableToPreview(Preview, PostingPreviewEventHandler, TempDocumentEntry."Table ID", TempDocumentEntry."Table Name", PreviewFieldNames);
+            until TempDocumentEntry.Next() = 0;
+        if not PreviewHelper.EvaluatePreviewOutcome(Argument, Preview, PostingPreviewEventHandler, NothingNextLbl, Totals, Balanced, EntryCount, GLEntryCount) then
+            exit;
+        Result.Add('entryCount', EntryCount);
+        Result.Add('glEntryCount', GLEntryCount);
+        Result.Add('preview', Preview);
         Result.Add('status', 'Success');
         Result.Add('rollback', true);
-        Result.Add('summary', StrSubstNo(SummaryLbl, LinesToPost, ProductionOrder."No.", GetEntryCount(Result), Preview.Count()));
+        Result.Add('summary', StrSubstNo(SummaryLbl, LinesToPost, ProductionOrder."No.", EntryCount, Preview.Count()));
         Result.Add('no', ProductionOrder."No.");
         Result.Add('productionOrderStatus', Lookup.StatusName(ProductionOrder.Status));
         Result.Add('postingDate', Format(PostingDate, 0, 9));
@@ -199,11 +226,4 @@ codeunit 10077073 "Prod Jnl Preview Impl ori" implements "Msg Interface ori", "M
         Argument."Content Type" := Argument.GetContentTypeJson();
     end;
 
-    local procedure GetEntryCount(Result: JsonObject): Integer
-    var
-        Token: JsonToken;
-    begin
-        if Result.Get('entryCount', Token) then
-            exit(Token.AsValue().AsInteger());
-    end;
 }
