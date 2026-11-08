@@ -74,6 +74,7 @@ codeunit 97648 "Prod Jnl Gap Tests ori"
         Assert.AreEqual(GLSequenceBefore, SequenceNoMgt.GetCurrentSeqNo(Database::"G/L Entry"), 'Preview must not consume the next G/L entry number.');
         PreviewCount := Data.NumberValue(PreviewResponse, 'entryCount');
         Assert.IsTrue(PreviewCount > 0, 'Preview reports entries.');
+        Assert.IsTrue(Data.NumberValue(PreviewResponse, 'glEntryCount') > 0, 'The fixture must exercise G/L posting and sequence protection.');
         Assert.AreEqual(0, Lib.JournalLines(Order."No."), 'Preview leaves no journal line.');
         PostResponse := Lib.Call("Message Type ori"::"Manufacturing.ProductionJournal.Post", Order, Extra, 1033);
         Assert.AreEqual('Success', Data.TextValue(PostResponse, 'status'), 'Post succeeds.');
@@ -228,6 +229,7 @@ codeunit 97648 "Prod Jnl Gap Tests ori"
         ItemEntry: Record "Item Ledger Entry";
         ValueEntry: Record "Value Entry";
         CapacityEntry: Record "Capacity Ledger Entry";
+        GLEntry: Record "G/L Entry";
     begin
         ItemEntry.SetRange("Order Type", ItemEntry."Order Type"::Production);
         ItemEntry.SetRange("Order No.", OrderNo);
@@ -235,7 +237,8 @@ codeunit 97648 "Prod Jnl Gap Tests ori"
         ValueEntry.SetRange("Order No.", OrderNo);
         CapacityEntry.SetRange("Order Type", CapacityEntry."Order Type"::Production);
         CapacityEntry.SetRange("Order No.", OrderNo);
-        exit(ItemEntry.Count() + ValueEntry.Count() + CapacityEntry.Count());
+        GLEntry.SetRange("Document No.", OrderNo);
+        exit(ItemEntry.Count() + ValueEntry.Count() + CapacityEntry.Count() + GLEntry.Count());
     end;
 
     local procedure AddNativePermissions()
