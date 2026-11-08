@@ -30,6 +30,91 @@ codeunit 97648 "Prod Jnl Gap Tests ori"
         LowerPermissions: Codeunit "Library - Lower Permissions";
 
     [Test]
+    procedure Scenario_AC18_FinishedBooleans_AreAcceptedInBothLanguages()
+    var
+        Item: Record Item;
+        Order: Record "Production Order";
+        Extra: JsonObject;
+        Response: JsonObject;
+        FinishedToken: JsonToken;
+        LanguageId: Integer;
+        LanguageIndex: Integer;
+        ValueIndex: Integer;
+    begin
+        Lib.PrepareReleased(Item, Order);
+        StatusLib.SetConfirmRequired(true);
+        Commit();
+        for LanguageIndex := 1 to 2 do begin
+            LanguageId := 1033;
+            if LanguageIndex = 2 then
+                LanguageId := 1039;
+            for ValueIndex := 0 to 1 do begin
+                if ValueIndex = 0 then
+                    FinishedToken.ReadFrom('false')
+                else
+                    FinishedToken.ReadFrom('true');
+                Extra := OutputWithFinished(FinishedToken);
+                Response := Lib.Call("Message Type ori"::"Manufacturing.ProductionJournal.PreviewPost", Order, Extra, LanguageId);
+                Assert.AreEqual('Success', Data.TextValue(Response, 'status'), 'JSON true and false preview in both languages.');
+                Response := Lib.Call("Message Type ori"::"Manufacturing.ProductionJournal.Post", Order, Extra, LanguageId);
+                Data.AssertRefusal(Response, 'ConfirmationRequired');
+                Assert.AreEqual(0, Lib.JournalLines(Order."No."), 'Preview and confirmation refusal leave no journal lines.');
+                Assert.AreEqual(0, Lib.Entries(Order."No.", "Item Ledger Entry Type"::Output), 'Confirmation refusal posts no output.');
+            end;
+        end;
+        Lib.Cleanup(Item."No.");
+    end;
+
+    [Test]
+    procedure Scenario_AC10_AC18_FinishedRejectsNonBooleanJsonWithoutPosting()
+    var
+        Item: Record Item;
+        Order: Record "Production Order";
+        Extra: JsonObject;
+        Response: JsonObject;
+        FinishedToken: JsonToken;
+        RawValues: List of [Text];
+        Raw: Text;
+    begin
+        Lib.PrepareReleased(Item, Order);
+        RawValues.Add('0');
+        RawValues.Add('1');
+        RawValues.Add('"true"');
+        RawValues.Add('null');
+        RawValues.Add('{}');
+        RawValues.Add('[]');
+        foreach Raw in RawValues do begin
+            FinishedToken.ReadFrom(Raw);
+            Extra := OutputWithFinished(FinishedToken);
+            Response := Lib.Call("Message Type ori"::"Manufacturing.ProductionJournal.PreviewPost", Order, Extra, 1039);
+            Data.AssertRefusal(Response, 'InvalidParameterFormat');
+            Assert.AreEqual('lines[0].finished', Data.TextValue(Response, 'parameter'), 'The boolean refusal names the line field.');
+            Assert.IsTrue(StatusLib.ResponseContains(Response, 'rökgildi'), 'The refusal is translated and names a boolean.');
+            Response := Lib.Call("Message Type ori"::"Manufacturing.ProductionJournal.Post", Order, Extra, 1039);
+            Data.AssertRefusal(Response, 'InvalidParameterFormat');
+            Assert.AreEqual(0, Lib.JournalLines(Order."No."), 'Invalid values leave no journal lines.');
+            Assert.AreEqual(0, Lib.Entries(Order."No.", "Item Ledger Entry Type"::Output), 'Invalid values post no output.');
+        end;
+        Lib.Cleanup(Item."No.");
+    end;
+
+    local procedure OutputWithFinished(FinishedToken: JsonToken): JsonObject
+    var
+        Extra: JsonObject;
+        Line: JsonObject;
+        Lines: JsonArray;
+    begin
+        Line.Add('kind', 'output');
+        Line.Add('lineNo', 10000);
+        Line.Add('operationNo', '10');
+        Line.Add('outputQuantity', 5);
+        Line.Add('finished', FinishedToken);
+        Lines.Add(Line);
+        Extra.Add('lines', Lines);
+        exit(Extra);
+    end;
+
+    [Test]
     procedure Scenario_AC03_Parity_Manual_Backward_PickManual_RoutingLink()
     var
         Item: Record Item;

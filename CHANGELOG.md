@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Validate production-journal `finished` as a JSON boolean independently of the session language (#7, PR #18; 10077080). Add bilingual true/false preview and confirmation checks plus structured rejection of non-boolean values without posting (97648).
+
 - Invoke the owned production-order fixture codeunit explicitly from the source-table-free test fixture page (97667), so authenticated UI verification creates its own data rather than relying on a RunObject action with no current record.
 
 - Preserve ledger sequence numbers in production-journal PreviewPost (#7, PR #18): build and post inside the standard Business Central preview boundary, enable Item Jnl.-Post preview mode, and serialize captured entries through Foundation’s public preview helper (10077073/10077075). Extend native AC13 parity coverage with unchanged Item Ledger and G/L sequence assertions (97648).

@@ -28,6 +28,7 @@ codeunit 10077080 "Prod Jnl Request ori"
         KindLbl: Label 'kind must be output or consumption.', Comment = 'is-IS=kind verður að vera output eða consumption.';
         NegativeLbl: Label 'Quantity must be 0 or more.', Comment = 'is-IS=Magn verður að vera 0 eða meira.';
         NumberLbl: Label '%1 must be a number.', Comment = '%1 = parameter, is-IS=%1 verður að vera tala.';
+        BooleanLbl: Label '%1 must be a boolean.', Comment = '%1 = parameter, is-IS=%1 verður að vera rökgildi.';
         OperationLbl: Label 'Operation %1 is not on production order %2.', Comment = '%1 = operation number, %2 = order number, is-IS=Aðgerð %1 er ekki á framleiðslupöntun %2.';
         OperationNextLbl: Label 'Read the operations with Manufacturing.ProductionJournal.Get.', Comment = 'is-IS=Lestu aðgerðirnar með Manufacturing.ProductionJournal.Get.';
         ComponentLbl: Label 'Component line %1 is not on production order %2.', Comment = '%1 = component line number, %2 = order number, is-IS=Íhlutalína %1 er ekki á framleiðslupöntun %2.';
@@ -175,6 +176,7 @@ codeunit 10077080 "Prod Jnl Request ori"
         LineNo: Integer;
         Number: Integer;
         Operation: Text;
+        Raw: Text;
     begin
         Prefix := StrSubstNo(LinePrefixLbl, Index);
         if Line.Get('kind', Token) and Token.IsValue() then
@@ -213,9 +215,11 @@ codeunit 10077080 "Prod Jnl Request ori"
             CheckNumber(Line, 'scrapQuantity', Prefix, Argument);
             CheckNumber(Line, 'setupTime', Prefix, Argument);
             CheckNumber(Line, 'runTime', Prefix, Argument);
-            if Line.Get('finished', Token) then
-                if not Token.IsValue() or not (Format(Token.AsValue().AsBoolean()) in ['Yes', 'No']) then
-                    Argument.AddError("Bifrost Error Code ori"::InvalidParameterFormat, StrSubstNo(NumberLbl, Prefix + 'finished'), Prefix + 'finished', '', '', LinesNextLbl);
+            if Line.Get('finished', Token) then begin
+                Token.WriteTo(Raw);
+                if not Token.IsValue() or not (Raw in ['true', 'false']) then
+                    Argument.AddError("Bifrost Error Code ori"::InvalidParameterFormat, StrSubstNo(BooleanLbl, Prefix + 'finished'), Prefix + 'finished', '', '', LinesNextLbl);
+            end;
         end else begin
             if not ReadInteger(Line, 'componentLineNo', Number) then
                 Argument.AddError("Bifrost Error Code ori"::InvalidLine, StrSubstNo(MissingLbl, Prefix + 'componentLineNo'), Prefix + 'componentLineNo', '', '', LinesNextLbl)

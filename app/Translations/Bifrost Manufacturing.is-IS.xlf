@@ -471,6 +471,12 @@
           <note from="Developer" annotates="general" priority="2">is-IS=Sendu ActualOutput eða ExpectedOutput, eða slepptu consumptionBasis til að nota Manufacturing Setup.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType BasisNextLbl</note>
         </trans-unit>
+        <trans-unit id="Codeunit 2844917344 - NamedType 1564739506" size-unit="char" translate="yes" xml:space="preserve">
+          <source>%1 must be a boolean.</source>
+          <target>%1 verður að vera rökgildi.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = parameter, is-IS=%1 verður að vera rökgildi.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Jnl Request ori - NamedType BooleanLbl</note>
+        </trans-unit>
         <trans-unit id="Codeunit 2844917344 - NamedType 2597499281" size-unit="char" translate="yes" xml:space="preserve">
           <source>A finished order is closed; its journal cannot be used.</source>
           <target>Lokin pöntun er lokuð; ekki er hægt að nota framleiðslubók hennar.</target>
