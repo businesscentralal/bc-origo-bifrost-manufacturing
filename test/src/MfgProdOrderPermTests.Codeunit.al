@@ -117,8 +117,13 @@ codeunit 97608 "Mfg ProdOrder Perm Tests ori"
 
     local procedure AddNativePermissions()
     begin
+        // Microsoft roles supply native data rights. On BC 29, inserting a production order reads
+        // Stockkeeping Unit, which D365PREM MFG, EDIT does not include and D365 ITEM, EDIT does.
+        // Refresh reads Warehouse Request, which that manufacturing role also omits and D365 WHSE, VIEW includes.
         LowerPermissions.AddPermissionSet('D365 BASIC');
         LowerPermissions.AddPermissionSet('D365PREM MFG, EDIT');
+        LowerPermissions.AddPermissionSet('D365 ITEM, EDIT');
+        LowerPermissions.AddPermissionSet('D365 WHSE, VIEW');
         LowerPermissions.AddPermissionSet('Mfg NoGrant Tst ori');
     end;
 }

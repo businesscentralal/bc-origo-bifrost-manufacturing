@@ -5,6 +5,7 @@ using Microsoft.Foundation.NoSeries;
 using Microsoft.Inventory.Item;
 using Microsoft.Inventory.Journal;
 using Microsoft.Inventory.Ledger;
+using Microsoft.Inventory.Setup;
 using Microsoft.Manufacturing.Capacity;
 using Microsoft.Manufacturing.Document;
 using Microsoft.Manufacturing.Routing;
@@ -28,6 +29,9 @@ codeunit 97648 "Prod Jnl Gap Tests ori"
         StatusLib: Codeunit "Mfg Status Test Lib ori";
         Assert: Codeunit "Library Assert";
         LowerPermissions: Codeunit "Library - Lower Permissions";
+        SavedAutomaticCostPosting: Boolean;
+        SavedExpectedCostPosting: Boolean;
+        InventoryCostPostingSaved: Boolean;
 
     [Test]
     procedure Scenario_AC18_FinishedBooleans_AreAcceptedInBothLanguages()
@@ -146,6 +150,9 @@ codeunit 97648 "Prod Jnl Gap Tests ori"
     begin
         Lib.PrepareReleased(Item, Order);
         StatusLib.SetConfirmRequired(false);
+        // This CRONUS company leaves both cost-to-G/L flags off, so a successful preview has item entries and zero G/L.
+        // The fixture turns them on for this call only and restores the company values before the assertions.
+        SetInventoryCostPosting(true);
         Commit();
         SequenceNoMgt.ValidateSeqNo(Database::"Item Ledger Entry");
         SequenceNoMgt.ValidateSeqNo(Database::"G/L Entry");
@@ -154,6 +161,8 @@ codeunit 97648 "Prod Jnl Gap Tests ori"
         Commit();
         Extra.Add('consumptionBasis', 'ExpectedOutput');
         PreviewResponse := Lib.Call("Message Type ori"::"Manufacturing.ProductionJournal.PreviewPost", Order, Extra, 1033);
+        PostResponse := Lib.Call("Message Type ori"::"Manufacturing.ProductionJournal.Post", Order, Extra, 1033);
+        SetInventoryCostPosting(false);
         Assert.AreEqual('Success', Data.TextValue(PreviewResponse, 'status'), 'Preview succeeds.');
         Assert.AreEqual(ItemSequenceBefore, SequenceNoMgt.GetCurrentSeqNo(Database::"Item Ledger Entry"), 'Preview must not consume the next Item Ledger entry number.');
         Assert.AreEqual(GLSequenceBefore, SequenceNoMgt.GetCurrentSeqNo(Database::"G/L Entry"), 'Preview must not consume the next G/L entry number.');
@@ -161,7 +170,6 @@ codeunit 97648 "Prod Jnl Gap Tests ori"
         Assert.IsTrue(PreviewCount > 0, 'Preview reports entries.');
         Assert.IsTrue(Data.NumberValue(PreviewResponse, 'glEntryCount') > 0, 'The fixture must exercise G/L posting and sequence protection.');
         Assert.AreEqual(0, Lib.JournalLines(Order."No."), 'Preview leaves no journal line.');
-        PostResponse := Lib.Call("Message Type ori"::"Manufacturing.ProductionJournal.Post", Order, Extra, 1033);
         Assert.AreEqual('Success', Data.TextValue(PostResponse, 'status'), 'Post succeeds.');
         ActualCount := PostedEntryCount(Order."No.");
         Assert.AreEqual(ActualCount, PreviewCount, 'Preview entryCount equals the entries Post created.');
@@ -333,5 +341,28 @@ codeunit 97648 "Prod Jnl Gap Tests ori"
         LowerPermissions.AddPermissionSet('D365 JOURNALS, EDIT');
         LowerPermissions.AddPermissionSet('D365 BUS FULL ACCESS');
         LowerPermissions.AddPermissionSet('Mfg NoPost Tst ori');
+    end;
+
+    local procedure SetInventoryCostPosting(Enable: Boolean)
+    var
+        InventorySetup: Record "Inventory Setup";
+    begin
+        // Assign and Modify(false). Validating "Expected Cost Posting to G/L" starts the historical
+        // expected-cost conversion when item ledger entries exist. This fixture must not run that conversion.
+        InventorySetup.Get();
+        if Enable then begin
+            SavedAutomaticCostPosting := InventorySetup."Automatic Cost Posting";
+            SavedExpectedCostPosting := InventorySetup."Expected Cost Posting to G/L";
+            InventoryCostPostingSaved := true;
+            InventorySetup."Automatic Cost Posting" := true;
+            InventorySetup."Expected Cost Posting to G/L" := true;
+        end else begin
+            if not InventoryCostPostingSaved then
+                Error('Inventory cost posting was not captured before restore.');
+            InventorySetup."Automatic Cost Posting" := SavedAutomaticCostPosting;
+            InventorySetup."Expected Cost Posting to G/L" := SavedExpectedCostPosting;
+            InventoryCostPostingSaved := false;
+        end;
+        InventorySetup.Modify(false);
     end;
 }

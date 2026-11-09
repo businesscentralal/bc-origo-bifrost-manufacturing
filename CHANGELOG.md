@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- On BC 29, grant the native `D365 ITEM, EDIT` and `D365 WHSE, VIEW` roles in the production-order permission baseline so Create can read Stockkeeping Unit and Refresh can read Warehouse Request, and make the journal preview fixture post to G/L on a company whose automatic and expected cost-posting flags are off, restoring those flags afterwards (#6; 97608, 97648). Assertions are unchanged.
+
 - Match the production-order status/finish catalogue test to the session language, retaining exact English and Icelandic description assertions in LCIDs 1033 and 1039 (#6; 97626).
 
 - Validate production-journal `finished` as a JSON boolean independently of the session language (#7, PR #18; 10077080). Add bilingual true/false preview and confirmation checks plus structured rejection of non-boolean values without posting (97648).
