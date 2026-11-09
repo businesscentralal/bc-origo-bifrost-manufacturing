@@ -20,6 +20,13 @@ permissionsetextension 10077038 "BIFROST MfgRead ori" extends "BIFROST Read ori"
         codeunit "Mfg Prod Order Lookup ori" = X,
         codeunit "Mfg Prod Order Request ori" = X,
         codeunit "Prod Order Restrict ori" = X,
+        codeunit "Mfg ProdJnl Contract ori" = X,
+        codeunit "Prod Jnl Get Impl ori" = X,
+        codeunit "Prod Jnl Preview Impl ori" = X,
+        codeunit "Prod Jnl Post Proc ori" = X,
+        codeunit "Prod Jnl Builder ori" = X,
+        codeunit "Prod Jnl Events ori" = X,
+        codeunit "Prod Jnl Request ori" = X,
         table "Mfg Write Gate ori" = X,
         tabledata "Mfg Write Gate ori" = R;
 }
