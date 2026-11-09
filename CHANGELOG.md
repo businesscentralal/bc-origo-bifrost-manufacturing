@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Match the production-order status/finish catalogue test to the session language, retaining exact English and Icelandic description assertions in LCIDs 1033 and 1039 (#6; 97626).
+
 - Validate production-journal `finished` as a JSON boolean independently of the session language (#7, PR #18; 10077080). Add bilingual true/false preview and confirmation checks plus structured rejection of non-boolean values without posting (97648).
 
 - Invoke the owned production-order fixture codeunit explicitly from the source-table-free test fixture page (97667), so authenticated UI verification creates its own data rather than relying on a RunObject action with no current record.

@@ -21,16 +21,27 @@ codeunit 97626 "Mfg Status Contract Tests ori"
     end;
 
     [Test]
-    procedure Scenario_AC15_CatalogueTexts_English()
+    procedure Scenario_AC15_CatalogueTexts_MatchSessionLanguage()
     var
         Discovery: Interface "Msg Interface ori";
+        ChangeStatusDescription: Text;
+        FinishDescription: Text;
+        CheckFinishDescription: Text;
     begin
+        ChangeStatusDescription := 'Changes the status of a production order to Firm Planned or Released with the standard Business Central status change. Commits.';
+        FinishDescription := 'Finishes a released production order: posts backward-flushed consumption, adjusts work in process and moves the order to Finished. Commits and cannot be undone.';
+        CheckFinishDescription := 'Shows what would block or warn when a released production order is finished. Changes nothing.';
+        if GlobalLanguage() = 1039 then begin
+            ChangeStatusDescription := 'Breytir stöðu framleiðslupöntunar í fastákveðna eða útgefna með venjulegri stöðubreytingu Business Central. Framkvæmir Commit.';
+            FinishDescription := 'Lýkur útgefinni framleiðslupöntun: bókar afturvirka notkun, jafnar vinnu í vinnslu og færir pöntunina í stöðuna lokið. Framkvæmir Commit og ekki er hægt að afturkalla.';
+            CheckFinishDescription := 'Sýnir hvað myndi hindra eða vara við þegar útgefinni framleiðslupöntun er lokið. Breytir engu.';
+        end;
         Discovery := "Message Type ori"::"Manufacturing.ProductionOrder.ChangeStatus";
-        Assert.AreEqual('Changes the status of a production order to Firm Planned or Released with the standard Business Central status change. Commits.', Discovery.GetDescription(), 'ChangeStatus catalogue text.');
+        Assert.AreEqual(ChangeStatusDescription, Discovery.GetDescription(), 'ChangeStatus catalogue text.');
         Discovery := "Message Type ori"::"Manufacturing.ProductionOrder.Finish";
-        Assert.AreEqual('Finishes a released production order: posts backward-flushed consumption, adjusts work in process and moves the order to Finished. Commits and cannot be undone.', Discovery.GetDescription(), 'Finish catalogue text.');
+        Assert.AreEqual(FinishDescription, Discovery.GetDescription(), 'Finish catalogue text.');
         Discovery := "Message Type ori"::"Manufacturing.ProductionOrder.CheckFinish";
-        Assert.AreEqual('Shows what would block or warn when a released production order is finished. Changes nothing.', Discovery.GetDescription(), 'CheckFinish catalogue text.');
+        Assert.AreEqual(CheckFinishDescription, Discovery.GetDescription(), 'CheckFinish catalogue text.');
     end;
 
     local procedure AssertContract(MessageType: Enum "Message Type ori"; ExpectedEffect: Text; Writing: Boolean)
