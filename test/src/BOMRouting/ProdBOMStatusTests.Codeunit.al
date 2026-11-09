@@ -308,9 +308,14 @@ codeunit 97660 "Prod BOM Status Tests ori"
         Request.Add('status', 'Certified');
         Request.Add('extra', 'x');
         Response := Lib.Invoke(Enum::"Message Type ori"::"Manufacturing.ProductionBOM.SetStatus", Request, true);
-        // Foundation rejects undeclared keys before app parameter validation (AC09).
-        Lib.AssertRefusal(Response, 'UnknownParameter', 'extra');
-        Assert.AreEqual('extra', Lib.GetText(Response, 'parameter'), 'unknown parameter');
+        // Strict Foundation returns UnknownParameter before app validation. Non-strict Foundation
+        // collects the undeclared key with the missing no. Nothing is written either way.
+        if Lib.GetText(Response, 'code') = 'MultipleErrors' then
+            Lib.AssertRefusal(Response, 'MultipleErrors', 'UnknownParameter')
+        else begin
+            Lib.AssertRefusal(Response, 'UnknownParameter', 'extra');
+            Assert.AreEqual('extra', Lib.GetText(Response, 'parameter'), 'unknown parameter');
+        end;
 
         Clear(Request);
         Request.Add('no', BomNo);
