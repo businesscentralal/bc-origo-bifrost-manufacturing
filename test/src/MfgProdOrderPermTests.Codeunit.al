@@ -117,7 +117,9 @@ codeunit 97608 "Mfg ProdOrder Perm Tests ori"
 
     local procedure AddNativePermissions()
     begin
+        // BC 29 refresh reads warehouse and inventory tables that the manufacturing edit set does not include.
         LowerPermissions.AddPermissionSet('D365 BASIC');
+        LowerPermissions.AddPermissionSet('D365 BUS PREMIUM');
         LowerPermissions.AddPermissionSet('D365PREM MFG, EDIT');
         LowerPermissions.AddPermissionSet('Mfg NoGrant Tst ori');
     end;

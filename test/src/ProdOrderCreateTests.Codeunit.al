@@ -110,11 +110,30 @@ codeunit 97604 "Prod Order Create Tests ori"
     var
         Request: JsonObject;
         Response: JsonObject;
+        Errors: JsonToken;
+        Entry: JsonToken;
+        CodeToken: JsonToken;
+        ParameterToken: JsonToken;
+        SawUnknown: Boolean;
     begin
-        // Foundation rejects unknown write parameters before the implementation executes.
+        // Strict Foundation refuses the unknown key before this app runs. Non-strict Foundation
+        // warns and lets Create collect that key with the missing required fields. Either way nothing is written.
         Request.Add('surprise', true);
         Response := Data.Invoke("Message Type ori"::"Manufacturing.ProductionOrder.Create", Request, 1033, false);
-        Data.AssertRefusal(Response, 'UnknownParameter');
+        if Data.TextValue(Response, 'code') = 'UnknownParameter' then begin
+            Data.AssertRefusal(Response, 'UnknownParameter');
+            exit;
+        end;
+        Data.AssertRefusal(Response, 'MultipleErrors');
+        Assert.IsTrue(Response.Get('errors', Errors), 'Collected refusals must list every request problem.');
+        foreach Entry in Errors.AsArray() do begin
+            Assert.IsTrue(Entry.AsObject().Get('code', CodeToken), 'Each collected error has a code.');
+            if CodeToken.AsValue().AsText() <> 'UnknownParameter' then
+                continue;
+            Assert.IsTrue(Entry.AsObject().Get('parameter', ParameterToken), 'UnknownParameter names the key.');
+            SawUnknown := ParameterToken.AsValue().AsText() = 'surprise';
+        end;
+        Assert.IsTrue(SawUnknown, 'The undeclared surprise key must be refused. Response: ' + Data.TextValue(Response, 'error'));
     end;
 
     [Test]

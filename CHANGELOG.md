@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Let the full-role Create and Refresh test run under D365 BUS PREMIUM on BC 29, including Stockkeeping Unit and Warehouse Request reads (97608/97609). Accept either a strict Foundation `UnknownParameter` refusal or a collected `MultipleErrors` refusal that still names the undeclared key (97604, 97660). No record is written in either case.
+
 - Give every test number series its own unique range and delete the production orders each committing test created (97604, 97605, 97607, 97608, 97610, 97615), so Create/Refresh tests pass on repeated runs in the same database instead of colliding on a fixed `X000001`; the Create caller-rollback test uses a unique manual number. Assertions unchanged.
 
 - Verify the Manufacturing write gate against Foundation main without accepting message-envelope or test-helper permission errors (#15). Restricted-role tests grant the BOM/routing helpers and assertion library explicitly (97609/97664), supply the Foundation API transport role only for read-role dispatch, and check the same denial in both languages (97608). A separate role test confirms read cannot write the empty gate while Manufacturing and full roles can.
@@ -29,7 +31,7 @@
 
 - Source Guards runs `tools/Test-MessageTypeNames.ps1` (self-test, then the app check) in a new `MessageTypeNames` job, the same as Foundation's, so every shipped message type name keeps exactly three parts (#12, AC20).
 
-- Test-only fixture page 97667 exposes explicit setup/cleanup through the Web Client. Test library 97666 provides fresh XMFG8MCP fixtures for owned Web Client/MCP verification and verifies cleanup, including item units, planning assignments and owned change-log entries. AC09 tests (97660) follow Foundation strict validation: an unknown key is refused before app validation; multiple invalid declared parameters are collected separately.
+- Test-only fixture page 97667 exposes explicit setup/cleanup through the Web Client. Test library 97666 provides fresh XMFG8MCP fixtures for owned Web Client/MCP verification and verifies cleanup, including item units, planning assignments and owned change-log entries. AC09 tests (97660) refuse an undeclared key whether Foundation returns `UnknownParameter` or collected `MultipleErrors`, and they collect multiple invalid declared parameters separately.
 
 - Correct status validation to run outside write-prohibited try functions (10077088/10077090). Scoped manual event subscriptions (10077092/10077093) suppress version commits only for the current call and release on error. Native tests use actual base permission sets, explicit language, and isolated change-log coverage.
 
