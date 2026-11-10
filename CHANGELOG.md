@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Recognize BC 29's "You must specify No." certification error so a blank production BOM component keeps the session-language explanation, including Icelandic MCP calls (#6; 10077086). Cover both languages, unchanged status and cleared certification context in native tests (97660).
+
 - Explain known production BOM and routing certification failures in the session language in front of the platform error (10077086). The Microsoft sentence is kept. Icelandic callers still see hringvísun, ekki til lengur, stöðvunarferla, ræsiferla, raðaðar and Nr. when the platform text stays English (97660, 97661, 97665).
 
 - Measure production-journal preview sequence numbers before Post in the G/L cost-posting fixture, so the Item Ledger and G/L sequence assertions still prove PreviewPost consumed nothing (#6; 97648). Post still runs with the same flags, and the entryCount and glEntryCount assertions stay.
