@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Explain known production BOM and routing certification failures in the session language in front of the platform error (10077086). The Microsoft sentence is kept. Icelandic callers still see hringvísun, ekki til lengur, stöðvunarferla, ræsiferla, raðaðar and Nr. when the platform text stays English (97660, 97661, 97665).
+
 - Measure production-journal preview sequence numbers before Post in the G/L cost-posting fixture, so the Item Ledger and G/L sequence assertions still prove PreviewPost consumed nothing (#6; 97648). Post still runs with the same flags, and the entryCount and glEntryCount assertions stay.
 
 - On BC 29, grant the native `D365 ITEM, EDIT` and `D365 WHSE, VIEW` roles in the production-order permission baseline so Create can read Stockkeeping Unit and Refresh can read Warehouse Request, and make the journal preview fixture post to G/L on a company whose automatic and expected cost-posting flags are off, restoring those flags afterwards (#6; 97608, 97648). Assertions are unchanged.
