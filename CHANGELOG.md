@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Explain known production BOM and routing certification failures in the session language in front of the platform error (10077086). The Microsoft sentence is kept. Icelandic callers still see hringvísun, ekki til lengur, stöðvunarferla, ræsiferla, raðaðar and Nr. when the platform text stays English (97660, 97661, 97665).
+
 - Let the full-role Create and Refresh test run under D365 BUS PREMIUM on BC 29, including Stockkeeping Unit and Warehouse Request reads (97608/97609). Accept either a strict Foundation `UnknownParameter` refusal or a collected `MultipleErrors` refusal that still names the undeclared key (97604, 97660). No record is written in either case.
 
 - Give every test number series its own unique range and delete the production orders each committing test created (97604, 97605, 97607, 97608, 97610, 97615), so Create/Refresh tests pass on repeated runs in the same database instead of colliding on a fixed `X000001`; the Create caller-rollback test uses a unique manual number. Assertions unchanged.

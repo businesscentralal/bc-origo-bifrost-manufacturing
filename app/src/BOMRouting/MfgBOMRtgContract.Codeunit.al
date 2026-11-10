@@ -27,6 +27,12 @@ codeunit 10077086 "Mfg BOMRtg Contract ori"
         VersionMissingErr: Label 'Version %1 of %2 %3 was not found.', Comment = '%1 = version code, %2 = production BOM or routing, %3 = number, is-IS=Útgáfa %1 af %2 %3 fannst ekki.';
         VersionMissingNextStepTxt: Label 'Read the versions with Data.Records.Get.', Comment = 'is-IS=Lestu útgáfurnar með Data.Records.Get.';
         CheckFailedNextStepTxt: Label 'Correct the lines with Data.Records.Set and send the same request again.', Comment = 'is-IS=Lagfærðu línurnar með Data.Records.Set og sendu sömu beiðni aftur.';
+        CircularRefExplainTxt: Label 'The production BOM has a circular reference.', Comment = 'is-IS=Framleiðsluefnislistinn hefur hringvísun.';
+        MissingCenterExplainTxt: Label 'The operation uses a work center or machine center that no longer exists.', Comment = 'is-IS=Aðgerðin notar vinnustöð eða vélamiðstöð sem er ekki til lengur.';
+        TerminationExplainTxt: Label 'The number of termination processes must be 1.', Comment = 'is-IS=Fjöldi stöðvunarferla verður að vera 1.';
+        StartProcessExplainTxt: Label 'The number of start processes must be 1.', Comment = 'is-IS=Fjöldi ræsiferla verður að vera 1.';
+        SequencedExplainTxt: Label 'Not all routing lines are sequenced.', Comment = 'is-IS=Ekki eru allar línur vinnsluleiðarinnar raðaðar.';
+        BlankComponentNoExplainTxt: Label 'No. must have a value on the production BOM line.', Comment = 'is-IS=Nr. verður að hafa gildi á línu framleiðsluefnislistans.';
         UnchangedMsg: Label '%1 %2 already has status %3. Nothing was changed.', Comment = '%1 = production BOM or routing, %2 = number, %3 = status, is-IS=%1 %2 er þegar með stöðuna %3. Engu var breytt.';
         MissingParameterErr: Label 'Parameter %1 is required.', Comment = '%1 = parameter name, is-IS=Færibreyta %1 er nauðsynleg.';
         MissingNextStepTxt: Label 'Send no and status. status is Certified or UnderDevelopment.', Comment = 'is-IS=Sendu no og status. status er Certified eða UnderDevelopment.';
@@ -88,23 +94,65 @@ codeunit 10077086 "Mfg BOMRtg Contract ori"
         Argument.RespondWithCollectedErrors("Bifrost Error Code ori"::MultipleErrors, SeveralProblemsErr);
     end;
 
-    /// <summary>Preserves Foundation's platform error classification and adds the corrective next step.</summary>
+    /// <summary>
+    /// Preserves Foundation's platform error classification and adds the corrective next step.
+    /// Known certification failures also get a session-language sentence in front of the platform text.
+    /// The platform sentence stays, because a local tenant can leave Microsoft manufacturing errors in English.
+    /// </summary>
     /// <param name="Argument">The message argument immediately after a failed Codeunit.Run.</param>
     internal procedure RespondWithPlatformError(var Argument: Record "Message Argument ori")
     var
         ResponseJson: JsonObject;
         CodeToken: JsonToken;
+        ErrorToken: JsonToken;
+        PlatformError: Text;
+        Explanation: Text;
     begin
         Argument.RespondWithLastError();
         ResponseJson := Argument.GetResponseJson();
-        if ResponseJson.Get('code', CodeToken) then
-            if CodeToken.AsValue().AsText() = 'BusinessCentralError' then begin
-                if ResponseJson.Contains('nextStep') then
-                    ResponseJson.Replace('nextStep', CheckFailedNextStepTxt)
-                else
-                    ResponseJson.Add('nextStep', CheckFailedNextStepTxt);
-                Argument.SetResponseJson(ResponseJson);
-            end;
+        if not ResponseJson.Get('code', CodeToken) then
+            exit;
+        if CodeToken.AsValue().AsText() <> 'BusinessCentralError' then
+            exit;
+
+        if ResponseJson.Contains('nextStep') then
+            ResponseJson.Replace('nextStep', CheckFailedNextStepTxt)
+        else
+            ResponseJson.Add('nextStep', CheckFailedNextStepTxt);
+
+        if ResponseJson.Get('error', ErrorToken) then begin
+            PlatformError := ErrorToken.AsValue().AsText();
+            Explanation := PlatformCheckExplanation(PlatformError);
+            if (Explanation <> '') and (not PlatformError.Contains(Explanation)) then
+                ResponseJson.Replace('error', Explanation + ' ' + PlatformError);
+        end;
+        Argument.SetResponseJson(ResponseJson);
+    end;
+
+    /// <summary>
+    /// Returns the session-language sentence for a known production BOM or routing certification failure.
+    /// </summary>
+    /// <param name="PlatformError">The unmodified platform error text.</param>
+    /// <returns>The explanation, or empty when the failure is not one of the known checks.</returns>
+    local procedure PlatformCheckExplanation(PlatformError: Text): Text
+    begin
+        if PlatformError.Contains('circular reference') or PlatformError.Contains('hringvísun') then
+            exit(CircularRefExplainTxt);
+        if PlatformError.Contains('no longer exists') or PlatformError.Contains('ekki til lengur') then
+            exit(MissingCenterExplainTxt);
+        if PlatformError.Contains('termination process') or PlatformError.Contains('stöðvunarferla') then
+            exit(TerminationExplainTxt);
+        if PlatformError.Contains('start process') or PlatformError.Contains('ræsiferla') then
+            exit(StartProcessExplainTxt);
+        if PlatformError.Contains('sequenced') or PlatformError.Contains('raðað') then
+            exit(SequencedExplainTxt);
+        // FieldError("No.") stays "No." inside the Icelandic sentence "Tilgreina verður No.".
+        if PlatformError.Contains('No. must have a value') or
+           PlatformError.Contains('Tilgreina verður No.') or
+           PlatformError.Contains('Nr. verður að hafa gildi')
+        then
+            exit(BlankComponentNoExplainTxt);
+        exit('');
     end;
 
     /// <summary>Refuses the call when the caller cannot read and write the record.</summary>
