@@ -147,6 +147,8 @@ codeunit 97648 "Prod Jnl Gap Tests ori"
         ActualCount: Integer;
         ItemSequenceBefore: Integer;
         GLSequenceBefore: Integer;
+        ItemSequenceAfterPreview: Integer;
+        GLSequenceAfterPreview: Integer;
     begin
         Lib.PrepareReleased(Item, Order);
         StatusLib.SetConfirmRequired(false);
@@ -161,11 +163,15 @@ codeunit 97648 "Prod Jnl Gap Tests ori"
         Commit();
         Extra.Add('consumptionBasis', 'ExpectedOutput');
         PreviewResponse := Lib.Call("Message Type ori"::"Manufacturing.ProductionJournal.PreviewPost", Order, Extra, 1033);
+        // Read the sequences before Post. Post must consume item-ledger numbers; Preview must not.
+        // The comparison values are captured here so restoring the company flags cannot hide a preview gap.
+        ItemSequenceAfterPreview := SequenceNoMgt.GetCurrentSeqNo(Database::"Item Ledger Entry");
+        GLSequenceAfterPreview := SequenceNoMgt.GetCurrentSeqNo(Database::"G/L Entry");
         PostResponse := Lib.Call("Message Type ori"::"Manufacturing.ProductionJournal.Post", Order, Extra, 1033);
         SetInventoryCostPosting(false);
         Assert.AreEqual('Success', Data.TextValue(PreviewResponse, 'status'), 'Preview succeeds.');
-        Assert.AreEqual(ItemSequenceBefore, SequenceNoMgt.GetCurrentSeqNo(Database::"Item Ledger Entry"), 'Preview must not consume the next Item Ledger entry number.');
-        Assert.AreEqual(GLSequenceBefore, SequenceNoMgt.GetCurrentSeqNo(Database::"G/L Entry"), 'Preview must not consume the next G/L entry number.');
+        Assert.AreEqual(ItemSequenceBefore, ItemSequenceAfterPreview, 'Preview must not consume the next Item Ledger entry number.');
+        Assert.AreEqual(GLSequenceBefore, GLSequenceAfterPreview, 'Preview must not consume the next G/L entry number.');
         PreviewCount := Data.NumberValue(PreviewResponse, 'entryCount');
         Assert.IsTrue(PreviewCount > 0, 'Preview reports entries.');
         Assert.IsTrue(Data.NumberValue(PreviewResponse, 'glEntryCount') > 0, 'The fixture must exercise G/L posting and sequence protection.');
