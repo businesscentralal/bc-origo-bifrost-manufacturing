@@ -370,6 +370,7 @@ codeunit 97660 "Prod BOM Status Tests ori"
         Lib.Sweep();
     end;
 
+    /// <summary>Verifies localized explanations and rollback for a missing BOM component number.</summary>
     [Test]
     procedure AC15_BlankComponentNumber_UsesSessionLanguage()
     var
