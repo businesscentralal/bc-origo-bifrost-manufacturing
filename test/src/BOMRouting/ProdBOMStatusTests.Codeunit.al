@@ -385,15 +385,18 @@ codeunit 97660 "Prod BOM Status Tests ori"
         LanguageIds.Add(1033);
         LanguageIds.Add(1039);
         foreach LanguageId in LanguageIds do begin
+            // [GIVEN] An owned BOM with a blank component number that standard certification refuses.
             Lib.Sweep();
             BomNo := Lib.NewNo();
             Lib.CreateBomHeader(BomNo, Enum::"BOM Status"::New, true);
             Lib.CreateBomLine(BomNo, '', 10000, Enum::"Production BOM Line Type"::Item, '');
 
+            // [WHEN] Certification runs in each supported session language.
             GlobalLanguage(LanguageId);
             Response := Lib.SetBomStatus(BomNo, '', 'Certified', false);
             GlobalLanguage(OriginalLanguageId);
 
+            // [THEN] The explanation is localized while the platform error, status and context remain safe.
             Lib.AssertRefusal(Response, 'BusinessCentralError', 'No.');
             if LanguageId = 1039 then
                 ExpectedExplanation := 'Nr. verður að hafa gildi á línu framleiðsluefnislistans.'
