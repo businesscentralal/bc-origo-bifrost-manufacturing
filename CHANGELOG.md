@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add the end-to-end certification loop (#8 AC13): a Planned order whose BOM and routing are Under Development is refused by Refresh, both SetStatus types certify them, and Refresh then succeeds, in 1033 and 1039, plus a routing-only edge case (97680).
+
 - Explain known production BOM and routing certification failures in the session language in front of the platform error (10077086). The Microsoft sentence is kept. Icelandic callers still see hringvísun, ekki til lengur, stöðvunarferla, ræsiferla, raðaðar and Nr. when the platform text stays English (97660, 97661, 97665).
 
 - Let the full-role Create and Refresh test run under D365 BUS PREMIUM on BC 29, including Stockkeeping Unit and Warehouse Request reads (97608/97609). Accept either a strict Foundation `UnknownParameter` refusal or a collected `MultipleErrors` refusal that still names the undeclared key (97604, 97660). No record is written in either case.
