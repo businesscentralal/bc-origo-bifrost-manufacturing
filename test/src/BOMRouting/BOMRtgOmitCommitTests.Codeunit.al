@@ -71,7 +71,7 @@ codeunit 97665 "BOM Rtg OmitCommit Tests ori"
 
         // [WHEN] Certification fails, and a later page-style validate then commits
         Response := Lib.SetRoutingStatus(RoutingNo, 'V1', 'Certified', false);
-        Lib.AssertRefusal(Response, 'BusinessCentralError', 'no longer exists');
+        Lib.AssertRefusal(Response, 'BusinessCentralError', Lib.ExpectedText('no longer exists', 'ekki til lengur'));
         Assert.IsFalse(Context.IsActive(), 'flag clear after the error');
         Version.Get(RoutingNo, 'V1');
         Assert.AreEqual(Version.Status::"Under Development", Version.Status, 'status unchanged by the failed call');
