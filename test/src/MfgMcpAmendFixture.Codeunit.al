@@ -9,7 +9,7 @@ using Microsoft.Manufacturing.Setup;
 using Microsoft.Manufacturing.WorkCenter;
 using System.TestLibraries.Utilities;
 
-/// <summary>Owned MCP fixtures for the Finish/Post amendment paths: an item without routing and an item whose component has an unmatched routing link. Seeded and removed through native BC validation, without touching consent or write guards.</summary>
+/// <summary>Owned MCP fixtures for the Finish/Post amendment paths: an item without routing and an item whose routing operation and backward component share a routing link (matched shape; the unmatched case is made on the released order in the Web Client). Seeded and removed through native BC validation, without touching consent or write guards.</summary>
 codeunit 97618 "Mfg MCP Amend Fixture Tst ori"
 {
     var

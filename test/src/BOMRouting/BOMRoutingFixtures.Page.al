@@ -57,7 +57,7 @@ page 97667 "BOM Routing Fixtures ori"
             action(SeedAmend)
             {
                 Caption = 'Seed Finish and Post amendment fixtures', Comment = 'is-IS=Búa til prófunargögn fyrir lokun og bókun';
-                ToolTip = 'Creates an owned item without routing and an owned item whose component has an unmatched routing link. Existing fixture keys are refused.', Comment = 'is-IS=Býr til eigin vöru án leiðar og eigin vöru þar sem hráefni hefur tengikóða sem passar ekki við leiðina. Fyrirliggjandi prófunarlyklar eru ekki leyfðir.';
+                ToolTip = 'Creates an owned item without routing and an owned item whose routing operation and backward component share a routing link (matched shape; the unmatched case is made afterwards on the released order). Existing fixture keys are refused.', Comment = 'is-IS=Býr til eigin vöru án leiðar og eigin vöru þar sem aðgerð í leið og hráefni deila tengikóða (samsvarandi form; ósamsvörun er útbúin síðar á útgefinni pöntun). Fyrirliggjandi prófunarlyklar eru ekki leyfðir.';
                 Image = New;
                 trigger OnAction()
                 var
