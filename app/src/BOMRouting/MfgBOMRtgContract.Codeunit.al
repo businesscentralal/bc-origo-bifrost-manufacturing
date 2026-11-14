@@ -148,6 +148,7 @@ codeunit 10077086 "Mfg BOMRtg Contract ori"
             exit(SequencedExplainTxt);
         // FieldError("No.") stays "No." inside the Icelandic sentence "Tilgreina verður No.".
         if PlatformError.Contains('No. must have a value') or
+           PlatformError.Contains('You must specify No. in Production BOM Line') or
            PlatformError.Contains('Tilgreina verður No.') or
            PlatformError.Contains('Nr. verður að hafa gildi')
         then

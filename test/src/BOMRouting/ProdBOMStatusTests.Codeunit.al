@@ -370,6 +370,47 @@ codeunit 97660 "Prod BOM Status Tests ori"
         Lib.Sweep();
     end;
 
+    /// <summary>Verifies localized explanations and rollback for a missing BOM component number.</summary>
+    [Test]
+    procedure AC15_BlankComponentNumber_UsesSessionLanguage()
+    var
+        Header: Record "Production BOM Header";
+        Response: JsonObject;
+        LanguageIds: List of [Integer];
+        BomNo: Code[20];
+        OriginalLanguageId: Integer;
+        LanguageId: Integer;
+        ExpectedExplanation: Text;
+    begin
+        OriginalLanguageId := GlobalLanguage();
+        LanguageIds.Add(1033);
+        LanguageIds.Add(1039);
+        foreach LanguageId in LanguageIds do begin
+            // [GIVEN] An owned BOM with a blank component number that standard certification refuses.
+            Lib.Sweep();
+            BomNo := Lib.NewNo();
+            Lib.CreateBomHeader(BomNo, Enum::"BOM Status"::New, true);
+            Lib.CreateBomLine(BomNo, '', 10000, Enum::"Production BOM Line Type"::Item, '');
+
+            // [WHEN] Certification runs in each supported session language.
+            GlobalLanguage(LanguageId);
+            Response := Lib.SetBomStatus(BomNo, '', 'Certified', false);
+            GlobalLanguage(OriginalLanguageId);
+
+            // [THEN] The explanation is localized while the platform error, status and context remain safe.
+            Lib.AssertRefusal(Response, 'BusinessCentralError', 'No.');
+            if LanguageId = 1039 then
+                ExpectedExplanation := 'Nr. verður að hafa gildi á línu framleiðsluefnislistans.'
+            else
+                ExpectedExplanation := 'No. must have a value on the production BOM line.';
+            Assert.IsTrue(Lib.GetText(Response, 'error').StartsWith(ExpectedExplanation), 'The session-language explanation precedes the platform error.');
+            Header.Get(BomNo);
+            Assert.AreEqual(Header.Status::New, Header.Status, 'A failed certification must leave the status unchanged.');
+            Assert.IsFalse(Context.IsActive(), 'The certification context must be clear after a refusal.');
+            Lib.Sweep();
+        end;
+    end;
+
     local procedure ResponseTextContains(ResponseJson: JsonObject; Fragment: Text): Boolean
     var
         ResponseText: Text;
