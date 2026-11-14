@@ -201,12 +201,14 @@ codeunit 10077080 "Prod Jnl Request ori"
         if Kind = 'output' then begin
             if Line.Get('operationNo', Token) and Token.IsValue() then
                 Operation := Token.AsValue().AsText();
-            if Operation = '' then
-                Argument.AddError("Bifrost Error Code ori"::InvalidLine, StrSubstNo(MissingLbl, Prefix + 'operationNo'), Prefix + 'operationNo', '', '', LinesNextLbl)
-            else begin
-                RoutingLine.SetRange(Status, ProductionOrder.Status);
-                RoutingLine.SetRange("Prod. Order No.", ProductionOrder."No.");
-                RoutingLine.SetRange("Routing Reference No.", LineNo);
+            RoutingLine.SetRange(Status, ProductionOrder.Status);
+            RoutingLine.SetRange("Prod. Order No.", ProductionOrder."No.");
+            RoutingLine.SetRange("Routing Reference No.", LineNo);
+            if Operation = '' then begin
+                // An order line without routing has an output line with a blank operation number.
+                if not RoutingLine.IsEmpty() then
+                    Argument.AddError("Bifrost Error Code ori"::InvalidLine, StrSubstNo(MissingLbl, Prefix + 'operationNo'), Prefix + 'operationNo', '', '', LinesNextLbl);
+            end else begin
                 RoutingLine.SetRange("Operation No.", Operation);
                 if RoutingLine.IsEmpty() then
                     Argument.AddError("Bifrost Error Code ori"::InvalidLine, StrSubstNo(OperationLbl, Operation, ProductionOrder."No."), Prefix + 'operationNo', Operation, '', OperationNextLbl);

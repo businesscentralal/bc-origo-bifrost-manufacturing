@@ -238,14 +238,40 @@ codeunit 10077060 "Prod Order Finish Check ori"
     var
         Component: Record "Prod. Order Component";
     begin
-        Component.SetLoadFields(Status, "Prod. Order No.", "Prod. Order Line No.", "Remaining Quantity", "Flushing Method");
+        Component.SetLoadFields(Status, "Prod. Order No.", "Prod. Order Line No.", "Remaining Quantity", "Flushing Method", "Routing Link Code");
         Component.SetRange(Status, ProdOrderLine.Status);
         Component.SetRange("Prod. Order No.", ProdOrderLine."Prod. Order No.");
         Component.SetRange("Prod. Order Line No.", ProdOrderLine."Line No.");
         Component.SetFilter("Remaining Quantity", '<>0');
-        // Backward-flushed components are consumed when the order is finished.
-        Component.SetFilter("Flushing Method", '<>%1&<>%2', Component."Flushing Method"::Backward, Component."Flushing Method"::"Pick + Backward");
-        exit(not Component.IsEmpty());
+        if Component.FindSet() then
+            repeat
+                if not IsFlushedAtFinish(ProdOrderLine, Component) then
+                    exit(true);
+            until Component.Next() = 0;
+        exit(false);
+    end;
+
+    /// <summary>
+    /// Backward-flushed components are consumed when the order is finished. As in Business Central, a component with a
+    /// routing link code is only flushed backward when its linked routing operation also flushes backward.
+    /// </summary>
+    local procedure IsFlushedAtFinish(ProdOrderLine: Record "Prod. Order Line"; Component: Record "Prod. Order Component"): Boolean
+    var
+        RoutingLine: Record "Prod. Order Routing Line";
+    begin
+        if not (Component."Flushing Method" in [Component."Flushing Method"::Backward, Component."Flushing Method"::"Pick + Backward"]) then
+            exit(false);
+        if Component."Routing Link Code" = '' then
+            exit(true);
+        RoutingLine.SetLoadFields(Status, "Prod. Order No.", "Routing Reference No.", "Routing No.", "Routing Link Code", "Flushing Method");
+        RoutingLine.SetRange(Status, ProdOrderLine.Status);
+        RoutingLine.SetRange("Prod. Order No.", ProdOrderLine."Prod. Order No.");
+        RoutingLine.SetRange("Routing Reference No.", ProdOrderLine."Routing Reference No.");
+        RoutingLine.SetRange("Routing No.", ProdOrderLine."Routing No.");
+        RoutingLine.SetRange("Routing Link Code", Component."Routing Link Code");
+        if not RoutingLine.FindFirst() then
+            exit(true);
+        exit(RoutingLine."Flushing Method" = RoutingLine."Flushing Method"::Backward);
     end;
 
     local procedure HasOutstandingSubcontract(ProductionOrder: Record "Production Order"): Boolean
