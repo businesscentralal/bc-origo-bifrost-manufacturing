@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add the end-to-end certification loop (#8 AC13): a Planned order whose BOM and routing are Under Development is refused by Refresh, both SetStatus types certify them, and Refresh then succeeds, in 1033 and 1039, plus a routing-only edge case (97680).
 - Recognize BC 29's "You must specify No." certification error so a blank production BOM component keeps the session-language explanation, including Icelandic MCP calls (#6; 10077086). Cover both languages, unchanged status and cleared certification context in native tests (97660).
 
 - Explain known production BOM and routing certification failures in the session language in front of the platform error (10077086). The Microsoft sentence is kept. Icelandic callers still see hringvísun, ekki til lengur, stöðvunarferla, ræsiferla, raðaðar and Nr. when the platform text stays English (97660, 97661, 97665).
