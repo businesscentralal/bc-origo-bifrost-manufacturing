@@ -54,6 +54,32 @@ page 97667 "BOM Routing Fixtures ori"
                     Fixture.Run();
                 end;
             }
+            action(SeedAmend)
+            {
+                Caption = 'Seed Finish and Post amendment fixtures', Comment = 'is-IS=Búa til prófunargögn fyrir lokun og bókun';
+                ToolTip = 'Creates an owned item without routing and an owned item whose component has an unmatched routing link. Existing fixture keys are refused.', Comment = 'is-IS=Býr til eigin vöru án leiðar og eigin vöru þar sem hráefni hefur tengikóða sem passar ekki við leiðina. Fyrirliggjandi prófunarlyklar eru ekki leyfðir.';
+                Image = New;
+                trigger OnAction()
+                var
+                    AmendFixture: Codeunit "Mfg MCP Amend Fixture Tst ori";
+                begin
+                    AmendFixture.Seed();
+                    ResultText := AmendSeededMsg;
+                end;
+            }
+            action(CleanupAmend)
+            {
+                Caption = 'Clean Finish and Post amendment fixtures', Comment = 'is-IS=Hreinsa prófunargögn fyrir lokun og bókun';
+                ToolTip = 'Removes only the owned amendment fixture items with their orders, BOMs, routings and routing link, and asserts that none remain.', Comment = 'is-IS=Fjarlægir aðeins eigin vörur með pöntunum, uppskriftum, leiðum og tengikóða og staðfestir að ekkert sé eftir.';
+                Image = Delete;
+                trigger OnAction()
+                var
+                    AmendFixture: Codeunit "Mfg MCP Amend Fixture Tst ori";
+                begin
+                    AmendFixture.Cleanup();
+                    ResultText := AmendCleanedMsg;
+                end;
+            }
             action(Cleanup)
             {
                 Caption = 'Clean and verify', Comment = 'is-IS=Hreinsa og staðfesta';
@@ -73,5 +99,7 @@ page 97667 "BOM Routing Fixtures ori"
         FixtureLibrary: Codeunit "BOM Routing Test Lib ori";
         ResultText: Text;
         SeededMsg: Label 'Fresh XMFG8MCP fixtures created. No existing keys were overwritten.', Comment = 'is-IS=Ný XMFG8MCP prófunargögn voru búin til. Engir fyrirliggjandi lyklar voru yfirskrifaðir.';
+        AmendSeededMsg: Label 'Amendment fixtures X-M6-MCP-NR and X-M6-MCP-LK created.', Comment = 'is-IS=Prófunargögn X-M6-MCP-NR og X-M6-MCP-LK voru búin til.';
+        AmendCleanedMsg: Label 'Amendment fixtures removed and verified.', Comment = 'is-IS=Prófunargögn fjarlægð og staðfest.';
         CleanedMsg: Label 'Cleanup verified: zero owned records remain in all twelve fixture tables.', Comment = 'is-IS=Hreinsun staðfest: engar eigin færslur eru eftir í prófunartöflunum tólf.';
 }
