@@ -60,6 +60,7 @@ Allocated ids (record every new id here):
 | 97615 | codeunit (test) | Mfg Native Refresh Tst ori |
 | 97616 | codeunit (test cleanup) | Mfg MCP Cleanup Tst ori |
 | 97617 | codeunit (test) | Mfg MCP Cleanup Tests ori |
+| 97680 | codeunit (test) | Prod Order Certify Loop ori |
 | 10077039 | enumextension | Mfg ProdOrder MsgType ori |
 | 10077040 | codeunit | Mfg ProdOrder Contract ori |
 | 10077041 | codeunit | Prod Order Create Impl ori |
