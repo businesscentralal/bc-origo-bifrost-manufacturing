@@ -253,7 +253,8 @@ codeunit 10077060 "Prod Order Finish Check ori"
 
     /// <summary>
     /// Backward-flushed components are consumed when the order is finished. As in Business Central, a component with a
-    /// routing link code is only flushed backward when its linked routing operation also flushes backward.
+    /// routing link code is only flushed backward when its linked routing operation exists and also flushes backward
+    /// (BC RtngWillFlushComp returns false when no operation matches the link).
     /// </summary>
     local procedure IsFlushedAtFinish(ProdOrderLine: Record "Prod. Order Line"; Component: Record "Prod. Order Component"): Boolean
     var
@@ -270,7 +271,7 @@ codeunit 10077060 "Prod Order Finish Check ori"
         RoutingLine.SetRange("Routing No.", ProdOrderLine."Routing No.");
         RoutingLine.SetRange("Routing Link Code", Component."Routing Link Code");
         if not RoutingLine.FindFirst() then
-            exit(true);
+            exit(false);
         exit(RoutingLine."Flushing Method" = RoutingLine."Flushing Method"::Backward);
     end;
 

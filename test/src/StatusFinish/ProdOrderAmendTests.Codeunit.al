@@ -65,7 +65,7 @@ codeunit 97669 "Prod Order Amend Tests ori"
     end;
 
     [Test]
-    procedure Scenario_Story7_GetProposal_WithoutRouting_RoundTripsThroughPreviewAndPost()
+    procedure Scenario_Story7_GetProposal_WithoutRouting_RoundTripsThroughPreview()
     var
         Item: Record Item;
         Order: Record "Production Order";
@@ -107,6 +107,50 @@ codeunit 97669 "Prod Order Amend Tests ori"
         Response.WriteTo(ResponseText);
         Assert.AreEqual('Success', Data.TextValue(Response, 'status'), 'A partial output proposal is accepted: ' + ResponseText);
         Lib.Cleanup(Item."No.");
+    end;
+
+    [Test]
+    procedure Scenario_AC08_AC12_BackwardComponentWithUnmatchedRoutingLink_IsMissingConsumption()
+    var
+        Item: Record Item;
+        Order: Record "Production Order";
+        Check: JsonObject;
+        Request: JsonObject;
+        Response: JsonObject;
+    begin
+        Lib.PrepareReleased(Item, Order);
+        LinkComponentWithoutOperation(Order);
+
+        Check := StatusLib.CheckFinish(Order, 1033);
+        Assert.AreEqual('Success', Data.TextValue(Check, 'status'), 'CheckFinish runs.');
+        Assert.IsTrue(StatusLib.ResponseContains(Check, '"kind":"missingConsumption"'), 'A backward component whose routing link matches no operation is not flushed by Finish and is reported.');
+
+        Request := StatusLib.IdRequest(Order);
+        Request.Add('expectedCount', 1);
+        Request.Add('acceptMissingOutput', true);
+        Response := StatusLib.Finish(Request, 1033);
+        Assert.AreEqual('Error', Data.TextValue(Response, 'status'), 'Finish without acceptMissingConsumption is refused.');
+        Assert.IsTrue(StatusLib.ResponseContains(Response, 'PreconditionFailed'), 'PreconditionFailed');
+        Assert.IsTrue(StatusLib.ResponseContains(Response, 'missingConsumption'), 'The refusal lists missingConsumption.');
+        Lib.Cleanup(Item."No.");
+    end;
+
+    local procedure LinkComponentWithoutOperation(Order: Record "Production Order")
+    var
+        Component: Record "Prod. Order Component";
+        RoutingLink: Record "Routing Link";
+    begin
+        if not RoutingLink.Get('MFG6NM') then begin
+            RoutingLink.Code := 'MFG6NM';
+            RoutingLink.Insert();
+        end;
+        Component.SetRange(Status, Order.Status);
+        Component.SetRange("Prod. Order No.", Order."No.");
+        Component.FindFirst();
+        Component."Routing Link Code" := RoutingLink.Code;
+        Component."Flushing Method" := Component."Flushing Method"::Backward;
+        Component.Modify(false);
+        Commit();
     end;
 
     local procedure SetOutput(Proposed: JsonArray; Quantity: Decimal): JsonArray
