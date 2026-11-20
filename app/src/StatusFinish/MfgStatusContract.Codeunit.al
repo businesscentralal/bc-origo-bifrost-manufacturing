@@ -233,13 +233,15 @@ codeunit 10077054 "Mfg Status Contract ori"
     internal procedure GetRelated(Kind: Integer; var Related: JsonArray)
     var
         Contract: Codeunit "Msg Contract Mgt ori";
+        MessageType: Enum "Message Type ori";
     begin
         if Kind = 3 then begin
             Related.Add(Contract.RelatedEntry('Manufacturing.ProductionJournal.Get', 'Read the Released order journal proposal.'));
             Related.Add(Contract.RelatedEntry('Manufacturing.ProductionJournal.Post', 'Post missing output and consumption.'));
             Related.Add(Contract.RelatedEntry('Manufacturing.ProductionOrder.CheckFinish', 'Check before finishing again.'));
             Related.Add(Contract.RelatedEntry('Manufacturing.ProductionOrder.Finish', 'Finish the reopened order again.'));
-            Related.Add(Contract.RelatedEntry('Subcontracting.WIPLedger.Reopen', 'Reopen subcontracting WIP separately when applicable; this operation only reopens the production order.'));
+            if MessageType.Names().Contains('Subcontracting.WIPLedger.Reopen') then
+                Related.Add(Contract.RelatedEntry('Subcontracting.WIPLedger.Reopen', 'Reopen subcontracting WIP separately when applicable; this operation only reopens the production order.'));
             Related.Add(Contract.RelatedEntry('Data.Records.Get', 'Read production order records.'));
             exit;
         end;
@@ -335,7 +337,8 @@ codeunit 10077054 "Mfg Status Contract ori"
                 'The number is preserved, but the Released header gets a new SystemId; always use the returned systemId. ' +
                 'All lines must have posted output. Already reopened orders and value entries before the Earliest Allowed Valuation Date are refused without changes. ' +
                 'An order can only be reopened once; finish it again after posting missing output or consumption. ' +
-                'The response status is the standard Success envelope; productionOrderStatus is Released. No subcontracting WIP entry is reopened.';
+                'The response status is the standard Success envelope; productionOrderStatus is Released. ' +
+                'Related operation Subcontracting.WIPLedger.Reopen reopens subcontracting WIP separately when that app is installed; this operation does not reopen WIP entries.';
             exit;
         end;
         if Kind = 2 then begin
