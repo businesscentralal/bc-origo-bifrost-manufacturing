@@ -44,7 +44,7 @@ Allocated ids (record every new id here):
 | 97666 | codeunit (test) | BOM Routing Test Lib ori |
 | 97667 | page (test only) | BOM Routing Fixtures ori |
 | 97668 | permissionset (test) | BOM Rtg NoGrant ori |
-| 97669-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
+| 97670-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
 
 | 97604 | codeunit (test) | Prod Order Create Tests ori |
 | 97605 | codeunit (test) | Prod Order Refresh Tests ori |
@@ -107,6 +107,22 @@ Allocated ids (record every new id here):
 | 97626 | codeunit (test) | Mfg Status Contract Tests ori |
 | 97627 | permissionset (test, no token) | Mfg NoPost Tst ori |
 | 97629 | codeunit (test library) | Mfg Status Test Lib ori |
+
+
+| 10077048 | codeunit | Mfg Component Get Impl ori |
+| 10077049 | codeunit | Mfg Statistics Get Impl ori |
+| 10077064 | enumextension | Mfg Order Read MsgType ori |
+| 10077065 | codeunit | Mfg Order Read Request ori |
+| 10077066 | codeunit | Mfg Order Read Calc ori |
+| 10077067 | codeunit | Mfg Order Read Contract ori |
+| 97628 | codeunit (test) | Mfg Order Read Tests ori |
+| 97630 | codeunit (test fixture) | Mfg Read Fixture ori |
+| 97631 | codeunit (test) | Mfg Read Permissions ori |
+| 97632 | permissionset (test) | Mfg Read NoGrant ori |
+| 97618 | codeunit (test fixture) | Mfg MCP Amend Fixture Tst ori |
+| 97619 | codeunit (test) | Mfg MCP Amend Fix Tests ori |
+| 97648 | codeunit (test) | Prod Jnl Gap Tests ori |
+| 97669 | codeunit (test) | Prod Order Amend Tests ori |
 
 ## Microsoft source
 Business Central manufacturing (production orders, production BOMs, routings, work and machine centers, output and consumption) lives in the **Base Application**; BC 28 has no separate Microsoft manufacturing app to depend on. Source: https://github.com/microsoft/BCApps/tree/main/src/Layers/W1/BaseApp/Manufacturing

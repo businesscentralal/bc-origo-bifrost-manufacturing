@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- Issue #26: add `Manufacturing.ComponentAvailability.Get` and
+  `Manufacturing.ProductionOrderStatistics.Get` with reservation-aware shortage
+  quantities, native LCY costing, strict identity/status validation, the Manufacturing
+  read-role boundary and English help with Icelandic discovery/refusals.
+  Added app codeunits 10077048–10077049 and 10077065–10077067, enum extension
+  10077064; test codeunits 97628, 97630–97631 and test permission set 97632.
+  Correct the object ledger entries for existing tests 97618, 97619, 97648 and 97669.
+
 - Add the end-to-end certification loop (#8 AC13): a Planned order whose BOM and routing are Under Development is refused by Refresh, both SetStatus types certify them, and Refresh then succeeds, in 1033 and 1039, plus a routing-only edge case (97680).
 - Recognize BC 29's "You must specify No." certification error so a blank production BOM component keeps the session-language explanation, including Icelandic MCP calls (#6; 10077086). Cover both languages, unchanged status and cleared certification context in native tests (97660).
 

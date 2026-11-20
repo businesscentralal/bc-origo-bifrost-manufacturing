@@ -121,9 +121,25 @@ Use `describe_message_type` for parameter, response, error and workflow chapters
 | 97666 | codeunit (test) | BOM Routing Test Lib ori |
 | 97667 | page (test only) | BOM Routing Fixtures ori |
 | 97668 | permissionset (test) | BOM Rtg NoGrant ori |
-| 97669-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
+| 97670-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
 
 The version commit suppression uses a locally bound manual subscriber. Its lifetime is the status call, including exception unwinding; the single-instance context reports that binding without retaining a Boolean after an error.
+
+
+| 10077048 | codeunit | Mfg Component Get Impl ori |
+| 10077049 | codeunit | Mfg Statistics Get Impl ori |
+| 10077064 | enumextension | Mfg Order Read MsgType ori |
+| 10077065 | codeunit | Mfg Order Read Request ori |
+| 10077066 | codeunit | Mfg Order Read Calc ori |
+| 10077067 | codeunit | Mfg Order Read Contract ori |
+| 97628 | codeunit (test) | Mfg Order Read Tests ori |
+| 97630 | codeunit (test fixture) | Mfg Read Fixture ori |
+| 97631 | codeunit (test) | Mfg Read Permissions ori |
+| 97632 | permissionset (test) | Mfg Read NoGrant ori |
+| 97618 | codeunit (test fixture) | Mfg MCP Amend Fixture Tst ori |
+| 97619 | codeunit (test) | Mfg MCP Amend Fix Tests ori |
+| 97648 | codeunit (test) | Prod Jnl Gap Tests ori |
+| 97669 | codeunit (test) | Prod Order Amend Tests ori |
 
 ## Documentation
 
