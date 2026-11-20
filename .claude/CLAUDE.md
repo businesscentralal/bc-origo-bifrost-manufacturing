@@ -30,7 +30,12 @@ Allocated ids (record every new id here):
 | 10077091 | codeunit | BOM Routing Restrict ori |
 | 10077092 | codeunit | BOM Routing Events ori |
 | 10077093 | codeunit | BOM Routing Context ori |
-| 10077094-10077104 | reserved | unused; do not reuse without recording the object |
+| 10077094 | codeunit | Prod BOM Copy Impl ori |
+| 10077095 | codeunit | Prod BOM Copy Proc ori |
+| 10077096 | codeunit | Routing Copy Impl ori |
+| 10077097 | codeunit | Routing Copy Proc ori |
+| 10077098 | codeunit | Mfg Copy Contract ori |
+| 10077099-10077104 | reserved | unused; do not reuse without recording the object |
 | 97600 | codeunit (test) | Mfg Test Install ori |
 | 97601 | codeunit (test) | Mfg Test Upgrade ori |
 | 97602 | codeunit (test) | Mfg Registration Tst ori |
@@ -44,7 +49,13 @@ Allocated ids (record every new id here):
 | 97666 | codeunit (test) | BOM Routing Test Lib ori |
 | 97667 | page (test only) | BOM Routing Fixtures ori |
 | 97668 | permissionset (test) | BOM Rtg NoGrant ori |
-| 97669-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
+| 97628 | codeunit (test) | Prod BOM Copy Tests ori |
+| 97630 | codeunit (test) | Routing Copy Tests ori |
+| 97618 | codeunit (test fixture) | Mfg MCP Amend Fixture Tst ori |
+| 97619 | codeunit (test) | Mfg MCP Amend Fix Tests ori |
+| 97648 | codeunit (test) | Prod Jnl Gap Tests ori |
+| 97669 | codeunit (test) | Prod Order Amend Tests ori |
+| 97670-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
 
 | 97604 | codeunit (test) | Prod Order Create Tests ori |
 | 97605 | codeunit (test) | Prod Order Refresh Tests ori |
@@ -153,6 +164,8 @@ Key rules always in effect:
 - `Format(guid, 0, 4)` for GUIDs, `Format(value, 0, 9)` / `Evaluate(var, text, 9)` for culture-invariant serialization
 - Never use `Format()` / `Evaluate()` on enum values - use `.Names()`, `.Ordinals()`, `.AsInteger()`, `.FromInteger()`
 - Implementation = code + tests + documentation (the contract chapters of `Msg Contract ori`)
+
+`Manufacturing.ProductionBOM.CopyVersion` and `Manufacturing.Routing.CopyVersion` (10077094–10077098) copy onto a new empty version of the same header. Business Central's copy deletes the target lines first, so an existing `targetVersionCode` is `PreconditionFailed` and the call never reaches that delete. On this BC 29 base application, `Production BOM-Copy` has no cross-BOM unit-of-measure difference check; a unit-of-measure failure it still raises is returned as `PreconditionFailed`.
 
 ## Development Environment
 - COSMO Alpaca containers are defined in `app/.vscode/launch.json` (git-ignored, the authority for instance ids).

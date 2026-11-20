@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Copy a production BOM or a routing into a new Under Development version on the same record through `Manufacturing.ProductionBOM.CopyVersion` and `Manufacturing.Routing.CopyVersion` (#28). The call creates an empty version first and then copies, and it refuses a target that already exists so no existing line is removed. Send no or systemId, startingDate, and optionally sourceVersionCode, targetVersionCode and description. A blank target takes the next code from Version Nos. The answer returns versionCode, recordStatus UnderDevelopment, startingDate, lineCount and, for a routing, the tool, personnel, quality-measure and comment counts, then names the matching SetStatus call. App objects 10077094–10077098 (enum values on 10077085); test objects 97628 and 97630.
+
 - Add the end-to-end certification loop (#8 AC13): a Planned order whose BOM and routing are Under Development is refused by Refresh, both SetStatus types certify them, and Refresh then succeeds, in 1033 and 1039, plus a routing-only edge case (97680).
 - Recognize BC 29's "You must specify No." certification error so a blank production BOM component keeps the session-language explanation, including Icelandic MCP calls (#6; 10077086). Cover both languages, unchanged status and cleared certification context in native tests (97660).
 

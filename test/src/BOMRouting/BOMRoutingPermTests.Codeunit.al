@@ -126,6 +126,48 @@ codeunit 97664 "BOM Routing Perm Tests ori"
     end;
 
     [Test]
+    procedure AC04_ReadSet_CannotCopyEitherType()
+    begin
+        AssertCopyRefusal(Enum::"Message Type ori"::"Manufacturing.ProductionBOM.CopyVersion");
+        AssertCopyRefusal(Enum::"Message Type ori"::"Manufacturing.Routing.CopyVersion");
+    end;
+
+    [Test]
+    procedure AC04_FullSetWithoutTablePermission_CopyIsPermissionDenied()
+    var
+        BomNo: Code[20];
+        RoutingNo: Code[20];
+        Response: JsonObject;
+        Request: JsonObject;
+    begin
+        Lib.Sweep();
+        BomNo := Lib.NewNo();
+        RoutingNo := Lib.NewNo();
+        Lib.CreateBomHeader(BomNo, Enum::"BOM Status"::New, true);
+        Lib.CreateRoutingHeader(RoutingNo, Enum::"Routing Status"::New, false);
+        Commit();
+
+        LowerPermissions.SetOutsideO365Scope();
+        LowerPermissions.SetExactPermissionSet('BIFROST Full ori');
+        LowerPermissions.AddPermissionSet('BOM Rtg NoGrant ori');
+        Request.Add('no', BomNo);
+        Request.Add('startingDate', '2020-01-01');
+        Response := Lib.Invoke(Enum::"Message Type ori"::"Manufacturing.ProductionBOM.CopyVersion", Request, true);
+        LowerPermissions.SetOutsideO365Scope();
+        Lib.AssertRefusal(Response, 'PermissionDenied', Lib.ExpectedText('permission', 'heimild'));
+
+        LowerPermissions.SetExactPermissionSet('BIFROST Full ori');
+        LowerPermissions.AddPermissionSet('BOM Rtg NoGrant ori');
+        Clear(Request);
+        Request.Add('no', RoutingNo);
+        Request.Add('startingDate', '2020-01-01');
+        Response := Lib.Invoke(Enum::"Message Type ori"::"Manufacturing.Routing.CopyVersion", Request, true);
+        LowerPermissions.SetOutsideO365Scope();
+        Lib.AssertRefusal(Response, 'PermissionDenied', Lib.ExpectedText('permission', 'heimild'));
+        Lib.Sweep();
+    end;
+
+    [Test]
     procedure AC16_WriteGate_ReadDeniedFullGranted()
     var
         Gate: Record "Mfg Write Gate ori";
@@ -152,6 +194,27 @@ codeunit 97664 "BOM Routing Perm Tests ori"
         Assert.IsTrue(ReadCanRead, 'The read role keeps read on the write gate.');
         Assert.IsTrue(MfgCanWrite, 'The Manufacturing role holds the write gate.');
         Assert.IsTrue(FullCanWrite, 'The full role holds the write gate.');
+    end;
+
+    local procedure AssertCopyRefusal(MessageType: Enum "Message Type ori")
+    var
+        Request: JsonObject;
+        Response: JsonObject;
+        ErrorText: Text;
+    begin
+        Request.Add('no', 'XMFG8');
+        Request.Add('startingDate', '2020-01-01');
+        LowerPermissions.SetOutsideO365Scope();
+        LowerPermissions.SetExactPermissionSet('BIFROST Read ori');
+        LowerPermissions.AddPermissionSet('BIFROST API ori');
+        LowerPermissions.AddPermissionSet('D365 BASIC');
+        LowerPermissions.AddPermissionSet('D365PREM MFG, EDIT');
+        LowerPermissions.AddPermissionSet('BOM Rtg NoGrant ori');
+        asserterror Response := Lib.Invoke(MessageType, Request, false);
+        ErrorText := GetLastErrorText();
+        LowerPermissions.SetOutsideO365Scope();
+        Assert.IsTrue(ErrorText.Contains('BIFROST Mfg ori'), 'The Manufacturing write gate must refuse. Actual: ' + ErrorText);
+        Assert.IsTrue(LowerCase(ErrorText).Contains('permission') or LowerCase(ErrorText).Contains('heimild'), ErrorText);
     end;
 
     local procedure AssertPlatformRefusal(MessageType: Enum "Message Type ori")
