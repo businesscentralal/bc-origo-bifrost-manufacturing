@@ -134,6 +134,13 @@ Allocated ids (record every new id here):
 | 97619 | codeunit (test) | Mfg MCP Amend Fix Tests ori |
 | 97648 | codeunit (test) | Prod Jnl Gap Tests ori |
 | 97669 | codeunit (test) | Prod Order Amend Tests ori |
+| 10077068 | codeunit | Prod Order Reopen Impl ori (enum value 10077068) |
+| 10077069 | codeunit | Prod Order Reopen Proc ori |
+| 97635 | codeunit (test) | Prod Order Reopen Tests ori |
+| 97636 | codeunit (test) | Mfg Reopen Perm Tests ori |
+| 97637 | codeunit (test fixture) | Mfg Reopen Fixture ori |
+| 97638 | table (test MCP fixture) | Mfg Reopen MCP Fixture ori |
+| 97639 | codeunit (test) | Mfg Reopen Fixture Tests ori |
 
 ## Microsoft source
 Business Central manufacturing (production orders, production BOMs, routings, work and machine centers, output and consumption) lives in the **Base Application**; BC 28 has no separate Microsoft manufacturing app to depend on. Source: https://github.com/microsoft/BCApps/tree/main/src/Layers/W1/BaseApp/Manufacturing

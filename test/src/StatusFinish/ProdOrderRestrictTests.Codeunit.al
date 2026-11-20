@@ -34,6 +34,7 @@ codeunit 97625 "Prod Order Restrict Tests ori"
             Response := Lib.SetOrderField(Order.SystemId, FieldName, FieldValue(FieldName));
             Assert.AreEqual('Error', Data.TextValue(Response, 'status'), 'Generic write of ' + FieldName + ' is refused.');
             Assert.IsTrue(Lib.ResponseContains(Response, 'Manufacturing.ProductionOrder.ChangeStatus'), 'The hint names ChangeStatus for ' + FieldName);
+            Assert.IsTrue(Lib.ResponseContains(Response, 'Manufacturing.ProductionOrder.Reopen'), 'The hint names Reopen for ' + FieldName);
             Assert.IsTrue(Lib.ResponseContains(Response, 'Manufacturing.ProductionOrder.Finish'), 'The hint names Finish for ' + FieldName);
         end;
         Order.Get(Order.Status, Order."No.");

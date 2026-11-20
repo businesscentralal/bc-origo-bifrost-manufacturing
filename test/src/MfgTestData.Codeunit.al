@@ -113,6 +113,14 @@ codeunit 97607 "Mfg Test Data ori"
     /// <summary>Dispatches through Foundation with explicit language and transaction mode.</summary>
     procedure Invoke(MessageType: Enum "Message Type ori"; Request: JsonObject; LanguageId: Integer; OmitCommit: Boolean): JsonObject
     var
+        MessageId: Guid;
+    begin
+        exit(Invoke(MessageType, Request, LanguageId, OmitCommit, MessageId));
+    end;
+
+    /// <summary>Invokes the public dispatcher and returns the persisted message identity for log assertions.</summary>
+    procedure Invoke(MessageType: Enum "Message Type ori"; Request: JsonObject; LanguageId: Integer; OmitCommit: Boolean; var MessageId: Guid): JsonObject
+    var
         Dispatcher: Codeunit "Dispatcher ori";
         ResponseBlob: Codeunit "Temp Blob";
         Input: BigText;
@@ -122,7 +130,6 @@ codeunit 97607 "Mfg Test Data ori"
         ContentType: Text[100];
         PreviousLanguage: Integer;
         TaskId: Guid;
-        MessageId: Guid;
         ResponseTime: Duration;
         Response: JsonObject;
     begin

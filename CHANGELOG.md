@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- #22: `Manufacturing.ProductionOrder.Reopen` reopens a finished production order once through the standard Business Central status move, with posting permission, `expectedCount` confirmation, output and valuation-date checks. New app codeunits 10077068–10077069; test objects 97635–97639. Generic status-field write hints name Reopen.
+
 - Copy a production BOM or a routing into a new Under Development version on the same record through `Manufacturing.ProductionBOM.CopyVersion` and `Manufacturing.Routing.CopyVersion` (#28). The call creates an empty version first and then copies, and it refuses a target that already exists so no existing line is removed. Send no or systemId, startingDate, and optionally sourceVersionCode, targetVersionCode and description. A blank target takes the next code from Version Nos. The answer returns versionCode, recordStatus UnderDevelopment, startingDate, lineCount and, for a routing, the tool, personnel, quality-measure and comment counts, then names the matching SetStatus call. App objects 10077094–10077098 (enum values on 10077085); test objects 97671 and 97672.
 - Issue #26: add `Manufacturing.ComponentAvailability.Get` and
   `Manufacturing.ProductionOrderStatistics.Get` with reservation-aware shortage
