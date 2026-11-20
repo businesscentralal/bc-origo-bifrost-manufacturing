@@ -1,5 +1,6 @@
 namespace Origo.Bifrost.Manufacturing.Test;
 
+using Microsoft.Inventory.Costing;
 using Microsoft.Inventory.Item;
 using Microsoft.Inventory.Ledger;
 using Microsoft.Manufacturing.Document;
@@ -21,6 +22,7 @@ codeunit 97634 "Mfg Read Fixture Tests ori"
         Item: Record Item;
         Entry: Record "Item Ledger Entry";
         ValueEntry: Record "Value Entry";
+        PostingQueue: Record "Post Value Entry to G/L";
         Assert: Codeunit "Library Assert";
         Original: Code[10];
     begin
@@ -49,7 +51,14 @@ codeunit 97634 "Mfg Read Fixture Tests ori"
         Assert.RecordIsEmpty(Entry);
         ValueEntry.SetFilter("Item No.", 'X26MCPT-C|X26MCPT-P');
         Assert.RecordIsEmpty(ValueEntry);
+        PostingQueue.SetFilter("Item No.", 'X26MCPT-C|X26MCPT-P');
+        Assert.RecordIsEmpty(PostingQueue);
+        Clear(Fixture);
+        Fixture.Code := 'X26MCPT';
+        Fixture.Insert(true);
+        Fixture.Delete(true);
+        Assert.RecordIsEmpty(PostingQueue);
         Setup.Get();
-        Assert.AreEqual(Original, Setup."Show Capacity In", 'Company setup restored.');
+        Assert.AreEqual(Original, Setup."Show Capacity In", 'Company setup restored after cleanup and repeat seed.');
     end;
 }

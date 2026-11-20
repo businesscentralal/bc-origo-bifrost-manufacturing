@@ -227,6 +227,7 @@ codeunit 97630 "Mfg Read Fixture ori"
         Item: Record Item;
         AdjustmentOrder: Record "Inventory Adjmt. Entry (Order)";
         AvgCost: Record "Avg. Cost Adjmt. Entry Point";
+        PostingQueue: Record "Post Value Entry to G/L";
         Journal: Record "Item Journal Line";
         Batch: Record "Item Journal Batch";
         JournalTemplate: Record "Item Journal Template";
@@ -266,6 +267,8 @@ codeunit 97630 "Mfg Read Fixture ori"
                 Relation.SetRange("Value Entry No.", ValueEntry."Entry No.");
                 Relation.DeleteAll();
             until ValueEntry.Next() = 0;
+        PostingQueue.SetFilter("Item No.", OwnedItems);
+        PostingQueue.DeleteAll();
         ValueEntry.DeleteAll();
         ItemEntry.DeleteAll();
         GL.SetRange("Document No.", Prefix);
