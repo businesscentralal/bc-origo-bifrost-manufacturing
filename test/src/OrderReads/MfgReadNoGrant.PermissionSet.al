@@ -9,7 +9,9 @@ permissionset 97632 "Mfg Read NoGrant ori"
     Assignable = true;
     Caption = 'Mfg read permission test', Locked = true;
     IncludedPermissionSets = "Mfg Platform Tst ori";
-    Permissions = codeunit "Mfg Read Permissions ori" = X,
+    Permissions = table "Mfg Read MCP Fixture ori" = X,
+                  tabledata "Mfg Read MCP Fixture ori" = RIMD,
+                  codeunit "Mfg Read Permissions ori" = X,
                   codeunit "Mfg Test Data ori" = X,
                   codeunit "Library Assert" = X,
                   codeunit "Mfg Component Get Impl ori" = X,

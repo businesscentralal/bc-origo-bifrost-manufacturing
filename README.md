@@ -126,6 +126,8 @@ Use `describe_message_type` for parameter, response, error and workflow chapters
 The version commit suppression uses a locally bound manual subscriber. Its lifetime is the status call, including exception unwinding; the single-instance context reports that binding without retaining a Boolean after an error.
 
 
+| Id | Object | Name |
+| --- | --- | --- |
 | 10077048 | codeunit | Mfg Component Get Impl ori |
 | 10077049 | codeunit | Mfg Statistics Get Impl ori |
 | 10077064 | enumextension | Mfg Order Read MsgType ori |
@@ -136,6 +138,8 @@ The version commit suppression uses a locally bound manual subscriber. Its lifet
 | 97630 | codeunit (test fixture) | Mfg Read Fixture ori |
 | 97631 | codeunit (test) | Mfg Read Permissions ori |
 | 97632 | permissionset (test) | Mfg Read NoGrant ori |
+| 97633 | table (test fixture) | Mfg Read MCP Fixture ori |
+| 97634 | codeunit (test) | Mfg Read Fixture Tests ori |
 | 97618 | codeunit (test fixture) | Mfg MCP Amend Fixture Tst ori |
 | 97619 | codeunit (test) | Mfg MCP Amend Fix Tests ori |
 | 97648 | codeunit (test) | Prod Jnl Gap Tests ori |

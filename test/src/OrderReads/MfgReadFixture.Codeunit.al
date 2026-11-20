@@ -5,9 +5,11 @@ using Microsoft.Finance.GeneralLedger.Setup;
 using Microsoft.Foundation.UOM;
 using Microsoft.Inventory.Costing;
 using Microsoft.Inventory.Item;
+using Microsoft.Finance.GeneralLedger.Ledger;
+using Microsoft.Inventory.Ledger;
+using Microsoft.Inventory.Tracking;
 using Microsoft.Inventory.Journal;
 using Microsoft.Inventory.Location;
-using Microsoft.Inventory.Ledger;
 using Microsoft.Inventory.Posting;
 using Microsoft.Inventory.Setup;
 using Microsoft.Manufacturing.Capacity;
@@ -207,5 +209,144 @@ codeunit 97630 "Mfg Read Fixture ori"
         Adjustment.SetFilterItem(Item);
         Adjustment.SetProperties(false, false);
         Adjustment.MakeMultiLevelAdjmt();
+    end;
+
+    /// <summary>Removes only the fixed-prefix MCP fixture and the entries posted for its two new items.</summary>
+    procedure Cleanup(Prefix: Code[10])
+    var
+        ItemEntry: Record "Item Ledger Entry";
+        ValueEntry: Record "Value Entry";
+        Application: Record "Item Application Entry";
+        Relation: Record "G/L - Item Ledger Relation";
+        EntryRelation: Record "Item Entry Relation";
+        GL: Record "G/L Entry";
+        Order: Record "Production Order";
+        Line: Record "Prod. Order Line";
+        Component: Record "Prod. Order Component";
+        ItemUom: Record "Item Unit of Measure";
+        Item: Record Item;
+        AdjustmentOrder: Record "Inventory Adjmt. Entry (Order)";
+        AvgCost: Record "Avg. Cost Adjmt. Entry Point";
+        Journal: Record "Item Journal Line";
+        Batch: Record "Item Journal Batch";
+        JournalTemplate: Record "Item Journal Template";
+        GenPosting: Record "General Posting Setup";
+        InvPosting: Record "Inventory Posting Setup";
+        GenProd: Record "Gen. Product Posting Group";
+        GenBus: Record "Gen. Business Posting Group";
+        InvGroup: Record "Inventory Posting Group";
+        Location: Record Location;
+        Uom: Record "Unit of Measure";
+        CapUom: Record "Capacity Unit of Measure";
+        Account: Record "G/L Account";
+        OwnedItems: Text;
+    begin
+        if not (Prefix in ['X26MCPW', 'X26MCPI', 'X26MCPT']) then
+            Error('Only issue 26 MCP fixture prefixes can be cleaned.');
+        OwnedItems := Prefix + '-C|' + Prefix + '-P';
+        CleanupRegisters(Prefix, OwnedItems);
+        ItemEntry.SetFilter("Item No.", OwnedItems);
+        if ItemEntry.FindSet() then
+            repeat
+                Application.SetRange("Item Ledger Entry No.", ItemEntry."Entry No.");
+                Application.DeleteAll();
+                Application.SetRange("Item Ledger Entry No.");
+                Application.SetRange("Inbound Item Entry No.", ItemEntry."Entry No.");
+                Application.DeleteAll();
+                Application.SetRange("Inbound Item Entry No.");
+                Application.SetRange("Outbound Item Entry No.", ItemEntry."Entry No.");
+                Application.DeleteAll();
+                Application.SetRange("Outbound Item Entry No.");
+                EntryRelation.SetRange("Item Entry No.", ItemEntry."Entry No.");
+                EntryRelation.DeleteAll();
+            until ItemEntry.Next() = 0;
+        ValueEntry.SetFilter("Item No.", OwnedItems);
+        if ValueEntry.FindSet() then
+            repeat
+                Relation.SetRange("Value Entry No.", ValueEntry."Entry No.");
+                Relation.DeleteAll();
+            until ValueEntry.Next() = 0;
+        ValueEntry.DeleteAll();
+        ItemEntry.DeleteAll();
+        GL.SetRange("Document No.", Prefix);
+        GL.SetRange("G/L Account No.", Prefix);
+        GL.DeleteAll();
+        AdjustmentOrder.SetRange("Order Type", AdjustmentOrder."Order Type"::Production);
+        AdjustmentOrder.SetRange("Order No.", Prefix);
+        AdjustmentOrder.DeleteAll();
+        AvgCost.SetFilter("Item No.", OwnedItems);
+        AvgCost.DeleteAll();
+        Component.SetRange("Prod. Order No.", Prefix);
+        Component.DeleteAll();
+        Line.SetRange("Prod. Order No.", Prefix);
+        Line.DeleteAll();
+        Order.SetRange("No.", Prefix);
+        Order.DeleteAll();
+        ItemUom.SetFilter("Item No.", OwnedItems);
+        ItemUom.DeleteAll();
+        Item.SetFilter("No.", OwnedItems);
+        Item.DeleteAll();
+        Journal.SetRange("Journal Template Name", Prefix);
+        Journal.DeleteAll();
+        Batch.SetRange("Journal Template Name", Prefix);
+        Batch.DeleteAll();
+        if JournalTemplate.Get(Prefix) then
+            JournalTemplate.Delete();
+        GenPosting.SetRange("Gen. Prod. Posting Group", Prefix);
+        GenPosting.DeleteAll();
+        InvPosting.SetRange("Invt. Posting Group Code", Prefix);
+        InvPosting.DeleteAll();
+        if GenProd.Get(Prefix) then
+            GenProd.Delete();
+        if GenBus.Get(Prefix) then
+            GenBus.Delete();
+        if InvGroup.Get(Prefix) then
+            InvGroup.Delete();
+        if Location.Get(Prefix) then
+            Location.Delete();
+        if Uom.Get(Prefix) then
+            Uom.Delete();
+        if CapUom.Get(Prefix) then
+            CapUom.Delete();
+        if Account.Get(Prefix) then
+            Account.Delete();
+    end;
+
+    local procedure CleanupRegisters(Prefix: Code[10]; OwnedItems: Text)
+    var
+        ItemEntry: Record "Item Ledger Entry";
+        OtherItemEntry: Record "Item Ledger Entry";
+        ItemRegister: Record "Item Register";
+        GL: Record "G/L Entry";
+        OtherGL: Record "G/L Entry";
+        GLRegister: Record "G/L Register";
+    begin
+        ItemEntry.SetFilter("Item No.", OwnedItems);
+        if ItemEntry.FindFirst() then begin
+            ItemRegister.SetFilter("From Entry No.", '>=%1', ItemEntry."Entry No.");
+            ItemEntry.FindLast();
+            ItemRegister.SetFilter("To Entry No.", '<=%1', ItemEntry."Entry No.");
+            if ItemRegister.FindSet() then
+                repeat
+                    OtherItemEntry.SetRange("Entry No.", ItemRegister."From Entry No.", ItemRegister."To Entry No.");
+                    OtherItemEntry.SetFilter("Item No.", '<>%1&<>%2', Prefix + '-C', Prefix + '-P');
+                    if OtherItemEntry.IsEmpty() then
+                        ItemRegister.Delete();
+                until ItemRegister.Next() = 0;
+        end;
+        GL.SetRange("Document No.", Prefix);
+        GL.SetRange("G/L Account No.", Prefix);
+        if GL.FindFirst() then begin
+            GLRegister.SetFilter("From Entry No.", '>=%1', GL."Entry No.");
+            GL.FindLast();
+            GLRegister.SetFilter("To Entry No.", '<=%1', GL."Entry No.");
+            if GLRegister.FindSet() then
+                repeat
+                    OtherGL.SetRange("Entry No.", GLRegister."From Entry No.", GLRegister."To Entry No.");
+                    OtherGL.SetFilter("Document No.", '<>%1', Prefix);
+                    if OtherGL.IsEmpty() then
+                        GLRegister.Delete();
+                until GLRegister.Next() = 0;
+        end;
     end;
 }

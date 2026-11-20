@@ -121,6 +121,12 @@ codeunit 97628 "Mfg Order Read Tests ori"
             Request.Replace('lineNo', 20000);
             Refusal(Kind, Request, 'RecordNotFound');
             Request := RequestFor(Order);
+            Request.Replace('no', 'X123456789012345678901');
+            Refusal(Kind, Request, 'InvalidParameterFormat');
+            Request := RequestFor(Order);
+            Request.Replace('status', false);
+            Refusal(Kind, Request, 'InvalidParameterFormat');
+            Request := RequestFor(Order);
             Request.Add('systemId', 'not-a-guid');
             Refusal(Kind, Request, 'InvalidParameterFormat');
         end;
@@ -158,6 +164,77 @@ codeunit 97628 "Mfg Order Read Tests ori"
         AssertSuccess(Response);
         Response.SelectToken('variance.percent.total', Token);
         Assert.AreEqual(0, Token.AsValue().AsDecimal(), 'Zero baseline gives zero percentage, never division by zero.');
+    end;
+
+    [Test]
+    procedure Edge_SelectedLineAndTopLevelCostTotals()
+    var
+        Order: Record "Production Order";
+        Line: Record "Prod. Order Line";
+        Request: JsonObject;
+        Response: JsonObject;
+        Token: JsonToken;
+    begin
+        Fixture.Seed(NewPrefix(), Order);
+        Line.Get(Order.Status, Order."No.", 10000);
+        Line."Line No." := 20000;
+        Line.Quantity := 2;
+        Line."Quantity (Base)" := 2;
+        Line.Insert();
+        Line."Line No." := 30000;
+        Line.Quantity := 4;
+        Line."Quantity (Base)" := 4;
+        Line."Planning Level Code" := 1;
+        Line.Insert();
+        Request := RequestFor(Order);
+        Response := Data.Invoke("Message Type ori"::"Manufacturing.ProductionOrderStatistics.Get", Request, 1033, false);
+        AssertSuccess(Response);
+        Response.SelectToken('standard.total', Token);
+        Assert.AreEqual(30, Token.AsValue().AsDecimal(), 'Only the two top-level lines contribute.');
+        Request.Add('lineNo', 10000);
+        Request.Remove('no');
+        Request.Add('systemId', Format(Order.SystemId, 0, 4));
+        Response := Data.Invoke("Message Type ori"::"Manufacturing.ProductionOrderStatistics.Get", Request, 1039, false);
+        AssertSuccess(Response);
+        Response.SelectToken('standard.total', Token);
+        Assert.AreEqual(10, Token.AsValue().AsDecimal(), 'SystemId lookup and selected line return only that cost.');
+    end;
+
+    [Test]
+    procedure C2_EnglishChaptersAndTranslatedDiscovery()
+    var
+        Kind: Enum "Message Type ori";
+        Contract: Interface "Msg Contract ori";
+        Discovery: Interface "Msg Interface ori";
+        Parameters: JsonArray;
+        Related: JsonArray;
+        Response: JsonObject;
+        OverviewEnglish: Text;
+        OverviewIcelandic: Text;
+        EnglishDescription: Text;
+        PreviousLanguage: Integer;
+    begin
+        PreviousLanguage := GlobalLanguage();
+        foreach Kind in Kinds() do begin
+            Contract := Kind;
+            Discovery := Kind;
+            GlobalLanguage(1033);
+            Clear(Parameters);
+            Clear(Related);
+            Clear(Response);
+            Assert.IsTrue(Contract.GetParameters(Parameters), 'Parameters available.');
+            Assert.IsTrue(Parameters.Count() >= 4, 'Identity, status and line filter are documented.');
+            Assert.IsTrue(Contract.GetResponse(Response), 'Response available.');
+            Assert.IsTrue(Contract.GetRelated(Related), 'Related available without requiring the Inventory app.');
+            Assert.IsTrue(Contract.GetOverview(OverviewEnglish), 'Overview available.');
+            EnglishDescription := Discovery.GetDescription();
+            GlobalLanguage(1039);
+            Assert.IsTrue(Contract.GetOverview(OverviewIcelandic), 'Overview available in Icelandic session.');
+            Assert.AreEqual(OverviewEnglish, OverviewIcelandic, 'Gunnar: chapter text stays English.');
+            Assert.AreNotEqual(EnglishDescription, Discovery.GetDescription(), 'Discovery is translated.');
+            Assert.IsFalse(LowerCase(OverviewEnglish).Contains('message type'), 'Public help avoids internal wording.');
+        end;
+        GlobalLanguage(PreviousLanguage);
     end;
 
     local procedure Refusal(Kind: Enum "Message Type ori"; Request: JsonObject; ExpectedCode: Text)

@@ -158,6 +158,7 @@ codeunit 10077066 "Mfg Order Read Calc ori"
     internal procedure Statistics(Order: Record "Production Order"; LineNo: Integer; var Result: JsonObject)
     var
         Line: Record "Prod. Order Line";
+        ShareLine: Record "Prod. Order Line";
         GLSetup: Record "General Ledger Setup";
         MfgSetup: Record "Manufacturing Setup";
         Cost: Codeunit "Mfg. Cost Calculation Mgt.";
@@ -188,7 +189,9 @@ codeunit 10077066 "Mfg Order Read Calc ori"
         // Native routines read the complete line; preserve all fields for their subscribers.
         if Line.FindSet() then
             repeat
-                Cost.CalcShareOfTotalCapCost(Line, Share);
+                ShareLine.Copy(Line);
+                ShareLine.SetRange("Line No.");
+                Cost.CalcShareOfTotalCapCost(ShareLine, Share);
                 Cost.CalcProdOrderLineStdCost(Line, 1, GLSetup."Amount Rounding Precision", Standard[1], Standard[2], Standard[3], Standard[4], Standard[5]);
                 Cost.CalcProdOrderLineExpCost(Line, Share, Expected[1], Expected[2], Expected[3], Expected[4], Expected[5]);
                 Cost.CalcProdOrderLineActCost(Line, Actual[1], Actual[2], Actual[3], Actual[4], Actual[5], Dummy[1], Dummy[2], Dummy[3], Dummy[4], Dummy[5]);
@@ -235,12 +238,21 @@ codeunit 10077066 "Mfg Order Read Calc ori"
         Routing: Record "Prod. Order Routing Line";
         Entry: Record "Capacity Ledger Entry";
         Center: Record "Work Center";
-        Machine: Record "Machine Center";
+        Line: Record "Prod. Order Line";
         Calendar: Codeunit "Shop Calendar Management";
         Cost: Codeunit "Mfg. Cost Calculation Mgt.";
         UnitCode: Code[10];
         QtyPerUnit: Decimal;
+        Share: Decimal;
+        RoutingReferenceNo: Integer;
     begin
+        if LineNo <> 0 then begin
+            Line.Get(Order.Status, Order."No.", LineNo);
+            RoutingReferenceNo := Line."Routing Reference No.";
+            Line.SetRange("Planning Level Code", 0);
+            Line.SetFilter("Item No.", '<>%1', '');
+            Cost.CalcShareOfTotalCapCost(Line, Share);
+        end;
         if LineNo = 0 then begin
             Needed := Cost.CalcProdOrderExpCapNeed(Order, false);
             Used := Cost.CalcProdOrderActTimeUsed(Order, false);
@@ -248,7 +260,7 @@ codeunit 10077066 "Mfg Order Read Calc ori"
             if Order.Status = Order.Status::Finished then begin
                 Routing.SetRange(Status, Order.Status);
                 Routing.SetRange("Prod. Order No.", Order."No.");
-                Routing.SetRange("Routing Reference No.", LineNo);
+                Routing.SetRange("Routing Reference No.", RoutingReferenceNo);
                 Routing.SetLoadFields(Type, "No.", "Expected Capacity Need");
                 if Routing.FindSet() then
                     repeat
@@ -261,7 +273,7 @@ codeunit 10077066 "Mfg Order Read Calc ori"
             end else begin
                 Need.SetRange(Status, Order.Status);
                 Need.SetRange("Prod. Order No.", Order."No.");
-                Need.SetRange("Routing Reference No.", LineNo);
+                Need.SetRange("Routing Reference No.", RoutingReferenceNo);
                 Need.SetRange("Requested Only", false);
                 Need.SetLoadFields(Type, "No.", "Needed Time (ms)");
                 if Need.FindSet() then
@@ -273,13 +285,15 @@ codeunit 10077066 "Mfg Order Read Calc ori"
                             Needed += Need."Needed Time (ms)";
                     until Need.Next() = 0;
             end;
+        if LineNo <> 0 then
+            Needed *= Share;
         if Order.IsStatusLessThanReleased() then
             exit;
         Entry.SetRange("Order Type", Entry."Order Type"::Production);
         Entry.SetRange("Order No.", Order."No.");
         if LineNo <> 0 then
             Entry.SetRange("Order Line No.", LineNo);
-        Entry.SetLoadFields(Type, "No.", Quantity, "Scrap Quantity", "Cap. Unit of Measure Code", "Qty. per Cap. Unit of Measure");
+        Entry.SetLoadFields(Type, "No.", "Work Center No.", Quantity, "Scrap Quantity", "Cap. Unit of Measure Code", "Qty. per Cap. Unit of Measure");
         if Entry.FindSet() then
             repeat
                 Scrap += Entry."Scrap Quantity";
@@ -291,12 +305,8 @@ codeunit 10077066 "Mfg Order Read Calc ori"
                         UnitCode := Entry."Cap. Unit of Measure Code";
                         QtyPerUnit := Entry."Qty. per Cap. Unit of Measure";
                         if QtyPerUnit = 0 then begin
-                            if Entry.Type = Entry.Type::"Machine Center" then begin
-                                Machine.Get(Entry."No.");
-                                Center.Get(Machine."Work Center No.");
-                            end else
-                                Center.Get(Entry."No.");
-                            UnitCode := Center."Unit of Measure Code";
+                            if Center.Get(Entry."Work Center No.") then
+                                UnitCode := Center."Unit of Measure Code";
                             QtyPerUnit := 1;
                         end;
                         Used += Entry.Quantity / QtyPerUnit * Calendar.TimeFactor(UnitCode);

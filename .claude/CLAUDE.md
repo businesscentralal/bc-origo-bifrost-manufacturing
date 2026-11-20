@@ -109,6 +109,8 @@ Allocated ids (record every new id here):
 | 97629 | codeunit (test library) | Mfg Status Test Lib ori |
 
 
+| Id | Object | Name |
+| --- | --- | --- |
 | 10077048 | codeunit | Mfg Component Get Impl ori |
 | 10077049 | codeunit | Mfg Statistics Get Impl ori |
 | 10077064 | enumextension | Mfg Order Read MsgType ori |
@@ -119,6 +121,8 @@ Allocated ids (record every new id here):
 | 97630 | codeunit (test fixture) | Mfg Read Fixture ori |
 | 97631 | codeunit (test) | Mfg Read Permissions ori |
 | 97632 | permissionset (test) | Mfg Read NoGrant ori |
+| 97633 | table (test fixture) | Mfg Read MCP Fixture ori |
+| 97634 | codeunit (test) | Mfg Read Fixture Tests ori |
 | 97618 | codeunit (test fixture) | Mfg MCP Amend Fixture Tst ori |
 | 97619 | codeunit (test) | Mfg MCP Amend Fix Tests ori |
 | 97648 | codeunit (test) | Prod Jnl Gap Tests ori |

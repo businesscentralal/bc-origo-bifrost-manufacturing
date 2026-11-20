@@ -61,10 +61,14 @@ codeunit 10077065 "Mfg Order Read Request ori"
         if StatusText = '' then
             exit(Refuse(Argument, "Bifrost Error Code ori"::MissingParameter, StrSubstNo(MissingLbl, 'status'), 'status', FormatNextLbl));
         case StatusText of
-            'Planned': OrderStatus := OrderStatus::Planned;
-            'FirmPlanned': OrderStatus := OrderStatus::"Firm Planned";
-            'Released': OrderStatus := OrderStatus::Released;
-            'Finished': OrderStatus := OrderStatus::Finished;
+            'Planned':
+                OrderStatus := OrderStatus::Planned;
+            'FirmPlanned':
+                OrderStatus := OrderStatus::"Firm Planned";
+            'Released':
+                OrderStatus := OrderStatus::Released;
+            'Finished':
+                OrderStatus := OrderStatus::Finished;
             else
                 exit(Refuse(Argument, "Bifrost Error Code ori"::InvalidParameterFormat, StrSubstNo(InvalidLbl, 'status'), 'status', FormatNextLbl));
         end;

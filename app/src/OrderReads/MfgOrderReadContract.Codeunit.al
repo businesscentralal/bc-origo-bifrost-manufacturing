@@ -54,7 +54,7 @@ codeunit 10077067 "Mfg Order Read Contract ori"
         Fields.Add(Contract.ResponseField('no', 'string', 'Production order number.'));
         Fields.Add(Contract.ResponseField('systemId', 'string', 'Production order SystemId.'));
         if Availability then
-            Fields.Add(Contract.ResponseField('components', 'array', 'Inventory components with lineNo, componentLineNo, itemNo, variantCode, locationCode, expectedQuantity, remainingQuantity, inventory, scheduledReceipts, grossRequirement, projectedAvailable, shortage, dueDate and flushingMethod. All quantities use the item base unit. Inventory and demand are net of reservations; receipts include purchases. Same-day production uses Shortage List priority. Repeated items on the same order line share the same shortage, so do not sum those shortages.'))
+            Fields.Add(Contract.ResponseField('components', 'array', 'Inventory components with lineNo, componentLineNo, itemNo, variantCode, locationCode, expectedQuantity, remainingQuantity, inventory, scheduledReceipts, grossRequirement, projectedAvailable, shortage, dueDate and flushingMethod. All quantities use the item base unit. Inventory and demand are net of reservations; receipts include purchases. Same-day production uses Shortage List priority. Repeated items with the same due date on the same order line share the same shortage, so do not sum those shortages.'))
         else begin
             Fields.Add(Contract.ResponseField('standard', 'object', 'LCY material, capacity, subcontracted, capacityOverhead, manufacturingOverhead and total. Material includes non-inventory material when enabled.'));
             Fields.Add(Contract.ResponseField('expected', 'object', 'The same LCY cost breakdown for expected production.'));
@@ -100,10 +100,14 @@ codeunit 10077067 "Mfg Order Read Contract ori"
     var
         Contract: Codeunit "Msg Contract Mgt ori";
     begin
-        Related.Add(Contract.RelatedEntry('Inventory.AvailabilityByEvent.Get', 'Inspect the events behind an item shortage.'));
-        Related.Add(Contract.RelatedEntry('Inventory.AvailabilityByPeriod.Get', 'Inspect item supply and demand by period.'));
-        Related.Add(Contract.RelatedEntry('Inventory.AvailableToPromise.Get', 'Check an item promise date.'));
-        Related.Add(Contract.RelatedEntry('Inventory.AdjustCost.Run', 'Finalize posted costs before reading final actual cost.'));
+        if Enum::"Message Type ori".Names().Contains('Inventory.AvailabilityByEvent.Get') then
+            Related.Add(Contract.RelatedEntry('Inventory.AvailabilityByEvent.Get', 'Inspect the events behind an item shortage.'));
+        if Enum::"Message Type ori".Names().Contains('Inventory.AvailabilityByPeriod.Get') then
+            Related.Add(Contract.RelatedEntry('Inventory.AvailabilityByPeriod.Get', 'Inspect item supply and demand by period.'));
+        if Enum::"Message Type ori".Names().Contains('Inventory.AvailableToPromise.Get') then
+            Related.Add(Contract.RelatedEntry('Inventory.AvailableToPromise.Get', 'Check an item promise date.'));
+        if Enum::"Message Type ori".Names().Contains('Inventory.AdjustCost.Run') then
+            Related.Add(Contract.RelatedEntry('Inventory.AdjustCost.Run', 'Finalize posted costs before reading final actual cost.'));
         Related.Add(Contract.RelatedEntry('Manufacturing.ProductionOrder.CheckFinish', 'Inspect readiness to finish.'));
         Related.Add(Contract.RelatedEntry('Data.Records.Get', 'Find production orders and their identifiers.'));
     end;
@@ -146,7 +150,7 @@ codeunit 10077067 "Mfg Order Read Contract ori"
     internal procedure GetNotes(Availability: Boolean; var Notes: Text)
     begin
         if Availability then
-            Notes := 'Non-inventory components are excluded as in the Shortage List. Figures are base quantities and include reservation and same-day order priority. Use the related Inventory reads for item detail. This is a snapshot, not an allocation or reservation.'
+            Notes := 'Non-inventory components are excluded as in the Shortage List. Figures are base quantities and include reservation and same-day order priority. Use Inventory.AvailabilityByEvent.Get, Inventory.AvailabilityByPeriod.Get or Inventory.AvailableToPromise.Get for item detail when Bifrost Inventory is installed. This is a snapshot, not an allocation or reservation.'
         else
             Notes := 'Amounts are LCY. Cost and output totals include top-level lines as in Statistics. Capacity and operation scrap cover the selected order or line. Actual cost is final only after Inventory.AdjustCost.Run. A zero standard cost gives a zero variance percentage. Planned orders have no actual usage.';
     end;
