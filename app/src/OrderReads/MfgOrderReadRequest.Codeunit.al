@@ -82,6 +82,8 @@ codeunit 10077065 "Mfg Order Read Request ori"
         if not ReadText(Request, 'locationCode', 10, Argument, LocationText) then
             exit(false);
         LocationCode := CopyStr(LocationText, 1, MaxStrLen(LocationCode));
+        Order.ReadIsolation := IsolationLevel::ReadCommitted;
+        Line.ReadIsolation := IsolationLevel::ReadCommitted;
         Order.SetLoadFields(Status, "No.");
         if IdText <> '' then begin
             if not Evaluate(Id, IdText) or IsNullGuid(Id) then

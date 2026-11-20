@@ -53,6 +53,7 @@ codeunit 10077066 "Mfg Order Read Calc ori"
         Components: JsonArray;
         Row: JsonObject;
     begin
+        Component.ReadIsolation := IsolationLevel::ReadCommitted;
         Component.SetRange(Status, Order.Status);
         Component.SetRange("Prod. Order No.", Order."No.");
         if LineNo <> 0 then
@@ -92,6 +93,9 @@ codeunit 10077066 "Mfg Order Read Calc ori"
         ShortageQty: Decimal;
     begin
         // Mirrors report 99000788: dates before the component date, then same-day priority.
+        Item.ReadIsolation := IsolationLevel::ReadCommitted;
+        Supply.ReadIsolation := IsolationLevel::ReadCommitted;
+        Demand.ReadIsolation := IsolationLevel::ReadCommitted;
         Item.SetRange("Variant Filter", Component."Variant Code");
         Item.SetRange("Location Filter", Component."Location Code");
         Item.SetRange("Date Filter", 0D, Component."Due Date" - 1);
@@ -136,6 +140,7 @@ codeunit 10077066 "Mfg Order Read Calc ori"
 
     local procedure NetSupply(var Line: Record "Prod. Order Line") Total: Decimal
     begin
+        Line.ReadIsolation := IsolationLevel::ReadCommitted;
         Line.SetLoadFields("Remaining Qty. (Base)");
         if Line.FindSet() then
             repeat
@@ -146,6 +151,7 @@ codeunit 10077066 "Mfg Order Read Calc ori"
 
     local procedure NetDemand(var Component: Record "Prod. Order Component") Total: Decimal
     begin
+        Component.ReadIsolation := IsolationLevel::ReadCommitted;
         Component.SetLoadFields("Remaining Qty. (Base)");
         if Component.FindSet() then
             repeat
@@ -177,6 +183,9 @@ codeunit 10077066 "Mfg Order Read Calc ori"
         Index: Integer;
         VarianceJson: JsonObject;
     begin
+        Line.ReadIsolation := IsolationLevel::ReadCommitted;
+        GLSetup.ReadIsolation := IsolationLevel::ReadCommitted;
+        MfgSetup.ReadIsolation := IsolationLevel::ReadCommitted;
         GLSetup.Get();
         MfgSetup.Get();
         MfgSetup.TestField("Show Capacity In");
@@ -246,6 +255,11 @@ codeunit 10077066 "Mfg Order Read Calc ori"
         Share: Decimal;
         RoutingReferenceNo: Integer;
     begin
+        Need.ReadIsolation := IsolationLevel::ReadCommitted;
+        Routing.ReadIsolation := IsolationLevel::ReadCommitted;
+        Entry.ReadIsolation := IsolationLevel::ReadCommitted;
+        Center.ReadIsolation := IsolationLevel::ReadCommitted;
+        Line.ReadIsolation := IsolationLevel::ReadCommitted;
         if LineNo <> 0 then begin
             Line.Get(Order.Status, Order."No.", LineNo);
             RoutingReferenceNo := Line."Routing Reference No.";
