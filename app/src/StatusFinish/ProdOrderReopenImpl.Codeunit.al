@@ -230,6 +230,9 @@ codeunit 10077068 "Prod Order Reopen Impl ori" implements "Msg Interface ori", "
             Argument.RespondWithError("Bifrost Error Code ori"::PreconditionFailed, StrSubstNo(NotFinishedLbl, ProductionOrder."No."), '', '', '', FinishNextLbl);
             exit(false);
         end;
+        // Default inherits the caller's LockTable on the execution path; preview stays read-only.
+        Line.ReadIsolation := IsolationLevel::Default;
+        ValueEntry.ReadIsolation := IsolationLevel::Default;
         Line.SetRange(Status, ProductionOrder.Status);
         Line.SetRange("Prod. Order No.", ProductionOrder."No.");
         Line.SetFilter("Finished Quantity", '<=%1', 0);
