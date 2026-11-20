@@ -1,5 +1,6 @@
 namespace Origo.Bifrost.Manufacturing.Test;
 
+using Microsoft.Foundation.NoSeries;
 using Microsoft.Foundation.UOM;
 using Microsoft.Inventory.Item;
 using Microsoft.Inventory.Planning;
@@ -40,23 +41,48 @@ codeunit 97666 "BOM Routing Test Lib ori"
         ProdBomHeader: Record "Production BOM Header";
         ProdBomVersion: Record "Production BOM Version";
         ProdBomLine: Record "Production BOM Line";
+        ProdBomComment: Record "Production BOM Comment Line";
         RoutingHeader: Record "Routing Header";
         RoutingVersion: Record "Routing Version";
         RoutingLine: Record "Routing Line";
+        RoutingTool: Record "Routing Tool";
+        RoutingPersonnel: Record "Routing Personnel";
+        RoutingMeasure: Record "Routing Quality Measure";
+        RoutingComment: Record "Routing Comment Line";
+        QualityMeasure: Record "Quality Measure";
+        NoSeries: Record "No. Series";
+        NoSeriesLine: Record "No. Series Line";
         WorkCenter: Record "Work Center";
     begin
+        ClearOwnedVersionNos();
+        ProdBomComment.SetFilter("Production BOM No.", PrefixTok);
+        ProdBomComment.DeleteAll(false);
         ProdBomLine.SetFilter("Production BOM No.", PrefixTok);
         ProdBomLine.DeleteAll(false);
         ProdBomVersion.SetFilter("Production BOM No.", PrefixTok);
         ProdBomVersion.DeleteAll(false);
         ProdBomHeader.SetFilter("No.", PrefixTok);
         ProdBomHeader.DeleteAll(false);
+        RoutingTool.SetFilter("Routing No.", PrefixTok);
+        RoutingTool.DeleteAll(false);
+        RoutingPersonnel.SetFilter("Routing No.", PrefixTok);
+        RoutingPersonnel.DeleteAll(false);
+        RoutingMeasure.SetFilter("Routing No.", PrefixTok);
+        RoutingMeasure.DeleteAll(false);
+        RoutingComment.SetFilter("Routing No.", PrefixTok);
+        RoutingComment.DeleteAll(false);
         RoutingLine.SetFilter("Routing No.", PrefixTok);
         RoutingLine.DeleteAll(false);
         RoutingVersion.SetFilter("Routing No.", PrefixTok);
         RoutingVersion.DeleteAll(false);
         RoutingHeader.SetFilter("No.", PrefixTok);
         RoutingHeader.DeleteAll(false);
+        QualityMeasure.SetFilter(Code, PrefixTok);
+        QualityMeasure.DeleteAll(false);
+        NoSeriesLine.SetFilter("Series Code", PrefixTok);
+        NoSeriesLine.DeleteAll(false);
+        NoSeries.SetFilter(Code, PrefixTok);
+        NoSeries.DeleteAll(false);
         PlanningAssignment.SetFilter("Item No.", PrefixTok);
         PlanningAssignment.DeleteAll(false);
         ChangeLogEntry.SetFilter("Primary Key Field 1 Value", PrefixTok);
@@ -100,9 +126,17 @@ codeunit 97666 "BOM Routing Test Lib ori"
         Bom: Record "Production BOM Header";
         BomVersion: Record "Production BOM Version";
         BomLine: Record "Production BOM Line";
+        BomComment: Record "Production BOM Comment Line";
         Routing: Record "Routing Header";
         RoutingVersion: Record "Routing Version";
         RoutingLine: Record "Routing Line";
+        RoutingTool: Record "Routing Tool";
+        RoutingPersonnel: Record "Routing Personnel";
+        RoutingMeasure: Record "Routing Quality Measure";
+        RoutingComment: Record "Routing Comment Line";
+        QualityMeasure: Record "Quality Measure";
+        NoSeries: Record "No. Series";
+        NoSeriesLine: Record "No. Series Line";
         WorkCenter: Record "Work Center";
         UnitOfMeasure: Record "Unit of Measure";
     begin
@@ -114,12 +148,55 @@ codeunit 97666 "BOM Routing Test Lib ori"
         Bom.SetFilter("No.", PrefixTok);
         BomVersion.SetFilter("Production BOM No.", PrefixTok);
         BomLine.SetFilter("Production BOM No.", PrefixTok);
+        BomComment.SetFilter("Production BOM No.", PrefixTok);
         Routing.SetFilter("No.", PrefixTok);
         RoutingVersion.SetFilter("Routing No.", PrefixTok);
         RoutingLine.SetFilter("Routing No.", PrefixTok);
+        RoutingTool.SetFilter("Routing No.", PrefixTok);
+        RoutingPersonnel.SetFilter("Routing No.", PrefixTok);
+        RoutingMeasure.SetFilter("Routing No.", PrefixTok);
+        RoutingComment.SetFilter("Routing No.", PrefixTok);
+        QualityMeasure.SetFilter(Code, PrefixTok);
+        NoSeries.SetFilter(Code, PrefixTok);
+        NoSeriesLine.SetFilter("Series Code", PrefixTok);
         WorkCenter.SetFilter("No.", PrefixTok);
         UnitOfMeasure.SetRange(Code, UomCodeTok);
-        Assert.AreEqual(0, Item.Count() + ItemUnitOfMeasure.Count() + PlanningAssignment.Count() + ChangeLogEntry.Count() + Bom.Count() + BomVersion.Count() + BomLine.Count() + Routing.Count() + RoutingVersion.Count() + RoutingLine.Count() + WorkCenter.Count() + UnitOfMeasure.Count(), 'No owned fixture records may remain.');
+        Assert.AreEqual(0, Item.Count() + ItemUnitOfMeasure.Count() + PlanningAssignment.Count() + ChangeLogEntry.Count() + Bom.Count() + BomVersion.Count() + BomLine.Count() + BomComment.Count() + Routing.Count() + RoutingVersion.Count() + RoutingLine.Count() + RoutingTool.Count() + RoutingPersonnel.Count() + RoutingMeasure.Count() + RoutingComment.Count() + QualityMeasure.Count() + NoSeries.Count() + NoSeriesLine.Count() + WorkCenter.Count() + UnitOfMeasure.Count(), 'No owned fixture records may remain.');
+    end;
+
+    /// <summary>A number series whose code starts with XMFG8, so the sweep can delete it.</summary>
+    /// <returns>The series code.</returns>
+    procedure CreateVersionSeries(): Code[20]
+    var
+        Series: Record "No. Series";
+        SeriesLine: Record "No. Series Line";
+        Utility: Codeunit "Library - Utility";
+        SeriesCode: Code[20];
+    begin
+        Utility.CreateNoSeries(Series, true, false, false);
+        SeriesCode := CopyStr(UomCodeTok + DelChr(Format(CreateGuid(), 0, 4), '=', '{}-'), 1, MaxStrLen(SeriesCode));
+        Series.Rename(SeriesCode);
+        Utility.CreateNoSeriesLine(SeriesLine, Series.Code, 'CV00001', 'CV99999');
+        exit(Series.Code);
+    end;
+
+    local procedure ClearOwnedVersionNos()
+    var
+        ProdBomHeader: Record "Production BOM Header";
+        RoutingHeader: Record "Routing Header";
+    begin
+        ProdBomHeader.SetFilter("Version Nos.", PrefixTok);
+        if ProdBomHeader.FindSet(true) then
+            repeat
+                ProdBomHeader."Version Nos." := '';
+                ProdBomHeader.Modify(false);
+            until ProdBomHeader.Next() = 0;
+        RoutingHeader.SetFilter("Version Nos.", PrefixTok);
+        if RoutingHeader.FindSet(true) then
+            repeat
+                RoutingHeader."Version Nos." := '';
+                RoutingHeader.Modify(false);
+            until RoutingHeader.Next() = 0;
     end;
 
     /// <summary>A new XMFG8 number, twenty characters at most.</summary>
