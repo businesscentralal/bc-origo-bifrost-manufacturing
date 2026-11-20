@@ -10,7 +10,7 @@ using System.TestLibraries.Utilities;
 /// Manufacturing.Routing.CopyVersion. Issue #28.
 /// The routing and its tools, personnel, quality measures and comments are built in the test and removed by the sweep.
 /// </summary>
-codeunit 97630 "Routing Copy Tests ori"
+codeunit 97672 "Routing Copy Tests ori"
 {
     Subtype = Test;
     TestPermissions = Disabled;

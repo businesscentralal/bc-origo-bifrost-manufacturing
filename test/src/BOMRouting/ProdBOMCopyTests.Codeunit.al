@@ -13,7 +13,7 @@ using System.TestLibraries.Utilities;
 /// The refresh check runs in 1033 because version selection does not depend on language.
 /// The 1039 test checks the Icelandic answer.
 /// </summary>
-codeunit 97628 "Prod BOM Copy Tests ori"
+codeunit 97671 "Prod BOM Copy Tests ori"
 {
     Subtype = Test;
     TestPermissions = Disabled;

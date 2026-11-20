@@ -477,6 +477,90 @@
           <note from="Developer" annotates="general" priority="2">is-IS=Sendu targetVersionCode, eða settu Version Nos. á hausinn með Data.Records.Set og sendu beiðnina aftur.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Copy Contract ori - NamedType VersionNosNextStepTxt</note>
         </trans-unit>
+        <trans-unit id="Codeunit 1019135171 - Method 4077369804 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Read production order component availability and shortages.</source>
+          <target>Lestu framboð íhluta og skort fyrir framleiðslupöntun.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lestu framboð íhluta og skort fyrir framleiðslupöntun.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Component Get Impl ori - Method GetDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1019135171 - Method 1027590672 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Read production order component availability and shortages.</source>
+          <target>Lestu framboð íhluta og skort fyrir framleiðslupöntun.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lestu framboð íhluta og skort fyrir framleiðslupöntun.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Component Get Impl ori - Method GetKeywords - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1019135171 - Method 79446908 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Read production order component availability and shortages.</source>
+          <target>Lestu framboð íhluta og skort fyrir framleiðslupöntun.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lestu framboð íhluta og skort fyrir framleiðslupöntun.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Component Get Impl ori - Method GetSelectionDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 119456959 - NamedType 650235816" size-unit="char" translate="yes" xml:space="preserve">
+          <source>The identifiers refer to different production orders or statuses.</source>
+          <target>Auðkennin vísa á mismunandi framleiðslupantanir eða stöður.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Auðkennin vísa á mismunandi framleiðslupantanir eða stöður.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Order Read Request ori - NamedType ConflictLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 119456959 - NamedType 2032949676" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Component availability is not available for a finished production order.</source>
+          <target>Framboð íhluta er ekki tiltækt fyrir lokið framleiðslupöntun.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Framboð íhluta er ekki tiltækt fyrir lokið framleiðslupöntun.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Order Read Request ori - NamedType FinishedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 119456959 - NamedType 3289019961" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Use a Planned, FirmPlanned or Released order for component availability.</source>
+          <target>Notaðu pöntun í stöðunni Planned, FirmPlanned eða Released fyrir framboð íhluta.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Notaðu pöntun í stöðunni Planned, FirmPlanned eða Released fyrir framboð íhluta.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Order Read Request ori - NamedType FinishedNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 119456959 - NamedType 4063910082" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Use the parameters and formats documented by describe_message_type.</source>
+          <target>Notaðu færibreytur og snið sem describe_message_type lýsir.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Notaðu færibreytur og snið sem describe_message_type lýsir.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Order Read Request ori - NamedType FormatNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 119456959 - NamedType 1066607173" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Invalid value for %1.</source>
+          <target>Ógilt gildi fyrir %1.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = parameter, is-IS=Ógilt gildi fyrir %1.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Order Read Request ori - NamedType InvalidLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 119456959 - NamedType 2313980857" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Read production orders with Data.Records.Get and send matching identifiers and status.</source>
+          <target>Lestu framleiðslupantanir með Data.Records.Get og sendu samsvarandi auðkenni og stöðu.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lestu framleiðslupantanir með Data.Records.Get og sendu samsvarandi auðkenni og stöðu.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Order Read Request ori - NamedType LookupNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 119456959 - NamedType 1128910002" size-unit="char" translate="yes" xml:space="preserve">
+          <source>%1 is required.</source>
+          <target>%1 er áskilið.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = parameter, is-IS=%1 er áskilið.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Order Read Request ori - NamedType MissingLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 119456959 - NamedType 704880291" size-unit="char" translate="yes" xml:space="preserve">
+          <source>The production order or selected line was not found.</source>
+          <target>Framleiðslupöntunin eða valin lína fannst ekki.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Framleiðslupöntunin eða valin lína fannst ekki.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Order Read Request ori - NamedType NotFoundLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 119456959 - NamedType 2009142491" size-unit="char" translate="yes" xml:space="preserve">
+          <source>The Manufacturing read role is required.</source>
+          <target>Leshlutverk framleiðslu er áskilið.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Leshlutverk framleiðslu er áskilið.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Order Read Request ori - NamedType PermissionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 119456959 - NamedType 3932376842" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Ask an administrator to assign the Bifrost Read or Full role with Manufacturing access.</source>
+          <target>Biddu stjórnanda um að úthluta Bifrost Read eða Full hlutverki með aðgangi að framleiðslu.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Biddu stjórnanda um að úthluta Bifrost Read eða Full hlutverki með aðgangi að framleiðslu.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Order Read Request ori - NamedType PermissionNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 119456959 - NamedType 1773691126" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unknown parameter %1.</source>
+          <target>Óþekkt færibreyta %1.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = parameter, is-IS=Óþekkt færibreyta %1.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Order Read Request ori - NamedType UnknownLbl</note>
+        </trans-unit>
         <trans-unit id="Codeunit 193237593 - NamedType 286034047" size-unit="char" translate="yes" xml:space="preserve">
           <source>Posting denied: missing 'BIFROST MfgPost ori' permission set.</source>
           <target>Bókun hafnað: vantar heimildasettið 'BIFROST MfgPost ori'.</target>
@@ -590,6 +674,24 @@
           <target>Sendu jákvætt magn í grunneiningu vörunnar.</target>
           <note from="Developer" annotates="general" priority="2">is-IS=Sendu jákvætt magn í grunneiningu vörunnar.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Prod Order Request ori - Method ReadQuantity - NamedType PositiveNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3475379789 - Method 4077369804 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Read standard, expected and actual production order costs.</source>
+          <target>Lestu staðlaðan, áætlaðan og raunverulegan kostnað framleiðslupöntunar.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lestu staðlaðan, áætlaðan og raunverulegan kostnað framleiðslupöntunar.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Statistics Get Impl ori - Method GetDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3475379789 - Method 1027590672 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Read standard, expected and actual production order costs.</source>
+          <target>Lestu staðlaðan, áætlaðan og raunverulegan kostnað framleiðslupöntunar.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lestu staðlaðan, áætlaðan og raunverulegan kostnað framleiðslupöntunar.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Statistics Get Impl ori - Method GetKeywords - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3475379789 - Method 79446908 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Read standard, expected and actual production order costs.</source>
+          <target>Lestu staðlaðan, áætlaðan og raunverulegan kostnað framleiðslupöntunar.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lestu staðlaðan, áætlaðan og raunverulegan kostnað framleiðslupöntunar.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Statistics Get Impl ori - Method GetSelectionDescription - NamedType ValueLbl</note>
         </trans-unit>
         <trans-unit id="Codeunit 283880413 - Method 1223142373 - NamedType 1624787246" size-unit="char" translate="yes" xml:space="preserve">
           <source>You do not have permission to run the Manufacturing message type %1. Ask your administrator for the BIFROST Mfg ori or BIFROST Full ori permission set.</source>

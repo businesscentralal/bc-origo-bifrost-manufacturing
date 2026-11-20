@@ -14,6 +14,11 @@ permissionset 10077036 "BIFROST Mfg ori"
     Access = Public;
 
     Permissions =
+        codeunit "Mfg Component Get Impl ori" = X,
+        codeunit "Mfg Statistics Get Impl ori" = X,
+        codeunit "Mfg Order Read Request ori" = X,
+        codeunit "Mfg Order Read Calc ori" = X,
+        codeunit "Mfg Order Read Contract ori" = X,
         codeunit "Mfg Registration ori" = X,
         codeunit "Mfg ProdOrder Contract ori" = X,
         codeunit "Prod Order Create Impl ori" = X,
