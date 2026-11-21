@@ -8,7 +8,7 @@ codeunit 10077077 "Prod Order Reopen Scope ori"
     Access = Internal;
     SingleInstance = true;
 
-    /// <summary>Runs the native reopen wrapper after the posting and expectedCount gates.</summary>
+    /// <summary>Runs the native reopen wrapper after the permission and native precondition checks.</summary>
     /// <param name="ProductionOrder">The finished order already checked by the caller.</param>
     procedure Reopen(var ProductionOrder: Record "Production Order")
     var
@@ -20,7 +20,7 @@ codeunit 10077077 "Prod Order Reopen Scope ori"
         Events.SetOrder(ProductionOrder);
         BindSubscription(Events);
         // Confirm Management returns the default Yes in API sessions. GUI callers still confirm;
-        // Foundation's expectedCount gate has already run before entering this adapter.
+        // This non-posting write needs no irreversible confirmation; native preconditions were checked.
         StatusMgt.ReopenFinishedProdOrder(ProductionOrder);
         UnbindSubscription(Events);
     end;

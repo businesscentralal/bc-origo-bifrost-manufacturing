@@ -18,6 +18,7 @@ codeunit 97626 "Mfg Status Contract Tests ori"
         AssertContract("Message Type ori"::"Manufacturing.ProductionOrder.ChangeStatus", 'irreversible', true);
         AssertContract("Message Type ori"::"Manufacturing.ProductionOrder.Finish", 'irreversible', true);
         AssertContract("Message Type ori"::"Manufacturing.ProductionOrder.CheckFinish", 'read', false);
+        AssertContract("Message Type ori"::"Manufacturing.ProductionOrder.Reopen", 'write', false);
     end;
 
     [Test]
@@ -42,6 +43,58 @@ codeunit 97626 "Mfg Status Contract Tests ori"
         Assert.AreEqual(FinishDescription, Discovery.GetDescription(), 'Finish catalogue text.');
         Discovery := "Message Type ori"::"Manufacturing.ProductionOrder.CheckFinish";
         Assert.AreEqual(CheckFinishDescription, Discovery.GetDescription(), 'CheckFinish catalogue text.');
+    end;
+
+    [Test]
+    procedure Issue37_AC01_OnlyPostingTypesAreIrreversible()
+    var
+        MessageType: Enum "Message Type ori";
+        Contract: Interface "Msg Contract ori";
+        Effect: JsonObject;
+        EffectToken: JsonToken;
+        Ordinal: Integer;
+        PostingCount: Integer;
+        TypeCount: Integer;
+        Posting: Boolean;
+    begin
+        // Story #37 + #6: enumerate every type registered in this app's ID range.
+        foreach Ordinal in MessageType.Ordinals() do
+            if (Ordinal >= 10077035) and (Ordinal <= 10077134) then begin
+                MessageType := Enum::"Message Type ori".FromInteger(Ordinal);
+                Contract := MessageType;
+                Clear(Effect);
+                Assert.IsTrue(Contract.GetEffect(Effect), 'Every manufacturing type declares its effect.');
+                Assert.IsTrue(Effect.Get('effect', EffectToken), 'Effect classification is required.');
+                Posting := MessageType in [MessageType::"Manufacturing.ProductionJournal.Post",
+                    MessageType::"Manufacturing.ProductionOrder.Finish", MessageType::"Manufacturing.ProductionOrder.ChangeStatus"];
+                Assert.AreEqual(Posting, EffectToken.AsValue().AsText() = 'irreversible',
+                    MessageType.Names().Get(MessageType.Ordinals().IndexOf(Ordinal)));
+                if Posting then
+                    PostingCount += 1;
+                TypeCount += 1;
+            end;
+        Assert.AreEqual(3, PostingCount, 'All three posting types were checked.');
+        Assert.IsTrue(TypeCount > PostingCount, 'Non-posting types were also checked.');
+    end;
+
+    [Test]
+    procedure Issue37_AC03_ReopenSelectionIsBilingualWrite()
+    var
+        Discovery: Interface "Msg Discovery ori";
+        PreviousLanguage: Integer;
+        English: Text;
+        Icelandic: Text;
+    begin
+        // Story #37 + #22: localized catalogue help must describe a write.
+        Discovery := "Message Type ori"::"Manufacturing.ProductionOrder.Reopen";
+        PreviousLanguage := GlobalLanguage();
+        GlobalLanguage(1033);
+        English := Discovery.GetSelectionDescription();
+        GlobalLanguage(1039);
+        Icelandic := Discovery.GetSelectionDescription();
+        GlobalLanguage(PreviousLanguage);
+        Assert.AreEqual('Reopen a finished production order once. Writes.', English, 'English write help.');
+        Assert.AreEqual('Opnaðu lokna framleiðslupöntun aftur einu sinni. Skrifar.', Icelandic, 'Icelandic write help.');
     end;
 
     local procedure AssertContract(MessageType: Enum "Message Type ori"; ExpectedEffect: Text; Writing: Boolean)

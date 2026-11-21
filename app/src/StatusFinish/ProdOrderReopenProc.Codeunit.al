@@ -17,7 +17,6 @@ codeunit 10077069 "Prod Order Reopen Proc ori"
         WriteContext: Codeunit "Mfg Write Context ori";
         ReopenImpl: Codeunit "Prod Order Reopen Impl ori";
         ReopenScope: Codeunit "Prod Order Reopen Scope ori";
-        ConfirmGate: Codeunit "Confirm Gate ori";
         NewStatus: Enum "Production Order Status";
         PostingDate: Date;
         UpdateUnitCost: Boolean;
@@ -30,8 +29,6 @@ codeunit 10077069 "Prod Order Reopen Proc ori"
         ProductionOrder.Get(ProductionOrder.Status, ProductionOrder."No.");
         Line.LockTable();
         if not ReopenImpl.CheckPreconditions(Rec, ProductionOrder) then
-            exit;
-        if not ConfirmGate.Check(Rec, Rec.Type) then
             exit;
         ReopenScope.Reopen(ProductionOrder);
         ReleasedOrder.Get(ReleasedOrder.Status::Released, ProductionOrder."No.");

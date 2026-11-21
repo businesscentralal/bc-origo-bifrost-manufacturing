@@ -6,7 +6,7 @@ using Microsoft.Manufacturing.Document;
 using Origo.Bifrost;
 
 /// <summary>Reopens a finished production order once through the standard no-UI status move.</summary>
-codeunit 10077068 "Prod Order Reopen Impl ori" implements "Msg Interface ori", "Msg Discovery ori", "Msg Contract ori", "Msg Confirm ori"
+codeunit 10077068 "Prod Order Reopen Impl ori" implements "Msg Interface ori", "Msg Discovery ori", "Msg Contract ori"
 {
     Access = Internal;
 
@@ -53,7 +53,7 @@ codeunit 10077068 "Prod Order Reopen Impl ori" implements "Msg Interface ori", "
     /// <summary>Returns localized selection text.</summary>
     procedure GetSelectionDescription(): Text
     var
-        ValueLbl: Label 'Reopen a finished production order once. Commits; requires expectedCount 1.', Comment = 'is-IS=Opnaðu lokna framleiðslupöntun aftur einu sinni. Vistar breytingar; krefst expectedCount 1.';
+        ValueLbl: Label 'Reopen a finished production order once. Writes.', Comment = 'is-IS=Opnaðu lokna framleiðslupöntun aftur einu sinni. Skrifar.';
     begin
         exit(ValueLbl);
     end;
@@ -139,23 +139,6 @@ codeunit 10077068 "Prod Order Reopen Impl ori" implements "Msg Interface ori", "
     procedure GetMetering(var Metering: JsonObject): Boolean
     begin
         exit(false);
-    end;
-
-    /// <summary>Counts a validated finished order for the shared irreversible confirmation gate.</summary>
-    procedure GetConfirmCount(var Argument: Record "Message Argument ori"; var Count: Integer; var Summary: Text): Boolean
-    var
-        ProductionOrder: Record "Production Order";
-        SummaryLbl: Label 'production order %1 (reopen once from Finished to Released)', Comment = '%1 = order number, is-IS=framleiðslupöntun %1 (opna aftur einu sinni úr lokið í útgefið)';
-    begin
-        if not CanReopen(Argument) then
-            exit(false);
-        if not ReadRequest(Argument, ProductionOrder) then
-            exit(false);
-        if not CheckPreconditions(Argument, ProductionOrder) then
-            exit(false);
-        Count := 1;
-        Summary := StrSubstNo(SummaryLbl, ProductionOrder."No.");
-        exit(true);
     end;
 
     /// <summary>Validates the request before crossing the transaction boundary.</summary>
