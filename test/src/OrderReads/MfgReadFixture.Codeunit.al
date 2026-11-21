@@ -119,7 +119,7 @@ codeunit 97630 "Mfg Read Fixture ori"
         Component."Qty. per Unit of Measure" := 1;
         Component."Unit of Measure Code" := Prefix;
         Component."Due Date" := Order."Due Date";
-        Component."Flushing Method" := Component."Flushing Method"::Manual;
+        Component."Flushing Method" := Component."Flushing Method"::"Pick + Manual";
         Component."Unit Cost" := 2;
         Component."Cost Amount" := 10;
         Component.Insert();
@@ -139,7 +139,7 @@ codeunit 97630 "Mfg Read Fixture ori"
         Item."Unit Cost" := Cost;
         Item."Standard Cost" := Cost;
         Item."Single-Level Material Cost" := Cost;
-        Item."Flushing Method" := Item."Flushing Method"::Manual;
+        Item."Flushing Method" := Item."Flushing Method"::"Pick + Manual";
         if Manufactured then
             Item."Replenishment System" := Item."Replenishment System"::"Prod. Order";
         Item.Insert();

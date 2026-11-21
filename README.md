@@ -155,6 +155,8 @@ The version commit suppression uses a locally bound manual subscriber. Its lifet
 | 97669 | codeunit (test) | Prod Order Amend Tests ori |
 | 10077068 | codeunit | Prod Order Reopen Impl ori (enum value 10077068) |
 | 10077069 | codeunit | Prod Order Reopen Proc ori |
+| 10077077 | codeunit (single-instance adapter scope) | Prod Order Reopen Scope ori |
+| 10077081 | codeunit (local manual subscriber) | Prod Order Reopen Events ori |
 | 97635 | codeunit (test) | Prod Order Reopen Tests ori |
 | 97636 | codeunit (test) | Mfg Reopen Perm Tests ori |
 | 97637 | codeunit (test fixture) | Mfg Reopen Fixture ori |

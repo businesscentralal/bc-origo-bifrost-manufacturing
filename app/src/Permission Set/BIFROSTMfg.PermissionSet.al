@@ -46,6 +46,8 @@ permissionset 10077036 "BIFROST Mfg ori"
         codeunit "Prod Order Status Proc ori" = X,
         codeunit "Prod Order Reopen Impl ori" = X,
         codeunit "Prod Order Reopen Proc ori" = X,
+        codeunit "Prod Order Reopen Scope ori" = X,
+        codeunit "Prod Order Reopen Events ori" = X,
         codeunit "Prod Order Finish Impl ori" = X,
         codeunit "Prod Order Finish Proc ori" = X,
         codeunit "Prod Ord Fin Check Impl ori" = X,

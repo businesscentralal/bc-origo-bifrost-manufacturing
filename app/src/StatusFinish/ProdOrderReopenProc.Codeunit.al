@@ -3,7 +3,7 @@ namespace Origo.Bifrost.Manufacturing;
 using Microsoft.Manufacturing.Document;
 using Origo.Bifrost;
 
-/// <summary>Moves a finished order through the standard no-UI routine inside a rollback boundary.</summary>
+/// <summary>Moves a finished order through the standard UI-suppressed routine inside a rollback boundary.</summary>
 codeunit 10077069 "Prod Order Reopen Proc ori"
 {
     Access = Internal;
@@ -16,7 +16,7 @@ codeunit 10077069 "Prod Order Reopen Proc ori"
         Line: Record "Prod. Order Line";
         WriteContext: Codeunit "Mfg Write Context ori";
         ReopenImpl: Codeunit "Prod Order Reopen Impl ori";
-        StatusMgt: Codeunit "Prod. Order Status Management";
+        ReopenScope: Codeunit "Prod Order Reopen Scope ori";
         ConfirmGate: Codeunit "Confirm Gate ori";
         NewStatus: Enum "Production Order Status";
         PostingDate: Date;
@@ -33,7 +33,7 @@ codeunit 10077069 "Prod Order Reopen Proc ori"
             exit;
         if not ConfirmGate.Check(Rec, Rec.Type) then
             exit;
-        StatusMgt.ProcessProdOrderForReopen(ProductionOrder);
+        ReopenScope.Reopen(ProductionOrder);
         ReleasedOrder.Get(ReleasedOrder.Status::Released, ProductionOrder."No.");
         Line.SetRange(Status, ReleasedOrder.Status);
         Line.SetRange("Prod. Order No.", ReleasedOrder."No.");
@@ -50,7 +50,7 @@ codeunit 10077069 "Prod Order Reopen Proc ori"
         Response.Add('nextSteps', NextSteps);
         Rec.SetResponseJson(Response);
         Rec."Content Type" := Rec.GetContentTypeJson();
-        // The no-UI reopen routine has no COMMIT of its own. Match the lifecycle commit contract explicitly.
+        // The native reopen routine has no COMMIT of its own. Match the lifecycle commit contract explicitly.
         Commit();
     end;
 }
