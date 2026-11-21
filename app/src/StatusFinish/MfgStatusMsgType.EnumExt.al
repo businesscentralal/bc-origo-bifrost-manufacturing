@@ -23,4 +23,10 @@ enumextension 10077052 "Mfg Status MsgType ori" extends "Message Type ori"
         Caption = 'Manufacturing.ProductionOrder.CheckFinish', Locked = true;
         Implementation = "Msg Interface ori" = "Prod Ord Fin Check Impl ori", "Msg Discovery ori" = "Prod Ord Fin Check Impl ori", "Msg Contract ori" = "Prod Ord Fin Check Impl ori";
     }
+    /// <summary>Reopen a finished production order once.</summary>
+    value(10077068; "Manufacturing.ProductionOrder.Reopen")
+    {
+        Caption = 'Manufacturing.ProductionOrder.Reopen', Locked = true;
+        Implementation = "Msg Interface ori" = "Prod Order Reopen Impl ori", "Msg Discovery ori" = "Prod Order Reopen Impl ori", "Msg Contract ori" = "Prod Order Reopen Impl ori", "Msg Confirm ori" = "Prod Order Reopen Impl ori";
+    }
 }

@@ -16,6 +16,8 @@ consumption, so an agent can operate it end to end. It is built on the same basi
 
 `Manufacturing.ProductionOrder.Create` creates a Planned or FirmPlanned item order using the configured number series. Call `Manufacturing.ProductionOrder.Refresh` to calculate lines, routing and components. Refresh refuses Released and Finished orders; it never posts. Create preserves the caller transaction under Omit Commit. Refresh always commits because the native BC report commits internally; it refuses Omit Commit with `PreconditionFailed` before any write. Run Refresh as a separate committing operation.
 
+`Manufacturing.ProductionOrder.Reopen` moves a Finished order back to Released once, using the standard BC routine. The caller needs Manufacturing write access and `BIFROST MfgPost ori`. Preview without `expectedCount`, then send `expectedCount: 1` when confirmation is enabled. Every line needs posted output, and no order value entry may predate the Earliest Allowed Valuation Date. The call commits, including under Omit Commit, and posts no ledger entries. Use the returned Released order `systemId` (the move assigns a new one) for journal posting, CheckFinish and Finish. Subcontracting WIP is reopened separately through `Subcontracting.WIPLedger.Reopen`.
+
 Use `describe_message_type` for parameter, response, error and workflow chapters. Ordinary field reads and edits remain with `Data.Records.Get` and `Data.Records.Set`.
 
 ---
@@ -151,6 +153,15 @@ The version commit suppression uses a locally bound manual subscriber. Its lifet
 | 97619 | codeunit (test) | Mfg MCP Amend Fix Tests ori |
 | 97648 | codeunit (test) | Prod Jnl Gap Tests ori |
 | 97669 | codeunit (test) | Prod Order Amend Tests ori |
+| 10077068 | codeunit | Prod Order Reopen Impl ori (enum value 10077068) |
+| 10077069 | codeunit | Prod Order Reopen Proc ori |
+| 10077077 | codeunit (single-instance adapter scope) | Prod Order Reopen Scope ori |
+| 10077081 | codeunit (local manual subscriber) | Prod Order Reopen Events ori |
+| 97635 | codeunit (test) | Prod Order Reopen Tests ori |
+| 97636 | codeunit (test) | Mfg Reopen Perm Tests ori |
+| 97637 | codeunit (test fixture) | Mfg Reopen Fixture ori |
+| 97638 | table (test MCP fixture) | Mfg Reopen MCP Fixture ori |
+| 97639 | codeunit (test) | Mfg Reopen Fixture Tests ori |
 
 ## Documentation
 

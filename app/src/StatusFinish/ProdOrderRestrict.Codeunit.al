@@ -15,7 +15,7 @@ codeunit 10077062 "Prod Order Restrict ori"
     InherentEntitlements = X;
 
     var
-        HintLbl: Label 'Use Manufacturing.ProductionOrder.ChangeStatus / Manufacturing.ProductionOrder.Finish', Comment = 'is-IS=Notaðu Manufacturing.ProductionOrder.ChangeStatus / Manufacturing.ProductionOrder.Finish';
+        HintLbl: Label 'Use Manufacturing.ProductionOrder.ChangeStatus / Manufacturing.ProductionOrder.Finish / Manufacturing.ProductionOrder.Reopen', Comment = 'is-IS=Notaðu Manufacturing.ProductionOrder.ChangeStatus / Manufacturing.ProductionOrder.Finish / Manufacturing.ProductionOrder.Reopen';
 
     [EventSubscriber(ObjectType::Table, Database::"Message Argument ori", OnAfterIsFieldWriteRestrictedForDataRecords, '', false, false)]
     local procedure RestrictStatusFields(TableNo: Integer; FieldNo: Integer; Force: Boolean; var IsRestricted: Boolean)

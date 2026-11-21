@@ -1330,9 +1330,9 @@
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Refresh Proc ori - Method OnRun - NamedType ChangedLbl</note>
         </trans-unit>
         <trans-unit id="Codeunit 2736619585 - NamedType 232473427" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Use Manufacturing.ProductionOrder.ChangeStatus / Manufacturing.ProductionOrder.Finish</source>
-          <target>Notaðu Manufacturing.ProductionOrder.ChangeStatus / Manufacturing.ProductionOrder.Finish</target>
-          <note from="Developer" annotates="general" priority="2">is-IS=Notaðu Manufacturing.ProductionOrder.ChangeStatus / Manufacturing.ProductionOrder.Finish</note>
+          <source>Use Manufacturing.ProductionOrder.ChangeStatus / Manufacturing.ProductionOrder.Finish / Manufacturing.ProductionOrder.Reopen</source>
+          <target>Notaðu Manufacturing.ProductionOrder.ChangeStatus / Manufacturing.ProductionOrder.Finish / Manufacturing.ProductionOrder.Reopen</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Notaðu Manufacturing.ProductionOrder.ChangeStatus / Manufacturing.ProductionOrder.Finish / Manufacturing.ProductionOrder.Reopen</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Restrict ori - NamedType HintLbl</note>
         </trans-unit>
         <trans-unit id="Codeunit 3864620673 - Method 3571782927 - NamedType 2032949676" size-unit="char" translate="yes" xml:space="preserve">
@@ -1436,6 +1436,96 @@
           <target>Bifröst - framleiðslubókun</target>
           <note from="Developer" annotates="general" priority="2">is-IS=Bifröst - framleiðslubókun</note>
           <note from="Xliff Generator" annotates="general" priority="3">PermissionSet BIFROST MfgPost ori - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2612609244 - Method 856371883 - NamedType 1423078871" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order %1 is not Finished. Nothing was changed.</source>
+          <target>Framleiðslupöntun %1 er ekki lokið. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, is-IS=Framleiðslupöntun %1 er ekki lokið. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reopen Impl ori - Method CheckPreconditions - NamedType NotFinishedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2612609244 - Method 856371883 - NamedType 118019346" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Use Manufacturing.ProductionOrder.CheckFinish and Manufacturing.ProductionOrder.Finish before reopening.</source>
+          <target>Notaðu Manufacturing.ProductionOrder.CheckFinish og Manufacturing.ProductionOrder.Finish áður en pöntunin er opnuð aftur.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Notaðu Manufacturing.ProductionOrder.CheckFinish og Manufacturing.ProductionOrder.Finish áður en pöntunin er opnuð aftur.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reopen Impl ori - Method CheckPreconditions - NamedType FinishNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2612609244 - Method 856371883 - NamedType 4036368952" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order %1 has already been reopened before. Nothing was changed.</source>
+          <target>Framleiðslupöntun %1 hefur þegar verið opnuð aftur. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, is-IS=Framleiðslupöntun %1 hefur þegar verið opnuð aftur. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reopen Impl ori - Method CheckPreconditions - NamedType AlreadyLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2612609244 - Method 856371883 - NamedType 2200035902" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Continue on the Released order with Manufacturing.ProductionJournal.Get/Post, then CheckFinish and Finish; an order can only be reopened once.</source>
+          <target>Haltu áfram á útgefinni pöntun með Manufacturing.ProductionJournal.Get/Post, síðan CheckFinish og Finish; aðeins má opna pöntun aftur einu sinni.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Haltu áfram á útgefinni pöntun með Manufacturing.ProductionJournal.Get/Post, síðan CheckFinish og Finish; aðeins má opna pöntun aftur einu sinni.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reopen Impl ori - Method CheckPreconditions - NamedType OnceNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2612609244 - Method 856371883 - NamedType 1203618896" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order %1 cannot be reopened because a line has no posted output. Nothing was changed.</source>
+          <target>Ekki er hægt að opna framleiðslupöntun %1 aftur þar sem línu vantar bókuð afköst. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, is-IS=Ekki er hægt að opna framleiðslupöntun %1 aftur þar sem línu vantar bókuð afköst. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reopen Impl ori - Method CheckPreconditions - NamedType NoOutputLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2612609244 - Method 856371883 - NamedType 2766409334" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Inspect the finished order lines with Data.Records.Get. Reopen requires posted output on every line; no override is available.</source>
+          <target>Skoðaðu línur loknu pöntunarinnar með Data.Records.Get. Bókuð afköst verða að vera á hverri línu; ekki er hægt að hunsa skilyrðið.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Skoðaðu línur loknu pöntunarinnar með Data.Records.Get. Bókuð afköst verða að vera á hverri línu; ekki er hægt að hunsa skilyrðið.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reopen Impl ori - Method CheckPreconditions - NamedType OutputNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2612609244 - Method 856371883 - NamedType 1455786475" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order %1 cannot be reopened because it has value entries with a Valuation Date before the Earliest Allowed Valuation Date %2 in Inventory Setup.</source>
+          <target>Ekki er hægt að opna framleiðslupöntun %1 aftur þar sem hún hefur virðisfærslur með virðisdagsetningu fyrir fyrstu leyfðu virðisdagsetningu %2 í birgðagrunni.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, %2 = setup date, is-IS=Ekki er hægt að opna framleiðslupöntun %1 aftur þar sem hún hefur virðisfærslur með virðisdagsetningu fyrir fyrstu leyfðu virðisdagsetningu %2 í birgðagrunni.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reopen Impl ori - Method CheckPreconditions - NamedType ValuationLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2612609244 - Method 856371883 - NamedType 2122550618" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Ask the inventory administrator to review the Earliest Allowed Valuation Date and the order value entries before retrying.</source>
+          <target>Biddu birgðastjóra að yfirfara fyrstu leyfðu virðisdagsetningu og virðisfærslur pöntunarinnar áður en reynt er aftur.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Biddu birgðastjóra að yfirfara fyrstu leyfðu virðisdagsetningu og virðisfærslur pöntunarinnar áður en reynt er aftur.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reopen Impl ori - Method CheckPreconditions - NamedType ValuationNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2612609244 - Method 3571782927 - NamedType 807145736" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Correct the order or setup named in the Business Central error, then retry Manufacturing.ProductionOrder.Reopen. Nothing was changed.</source>
+          <target>Leiðréttu pöntunina eða uppsetninguna sem Business Central nefnir í villunni og reyndu Manufacturing.ProductionOrder.Reopen aftur. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Leiðréttu pöntunina eða uppsetninguna sem Business Central nefnir í villunni og reyndu Manufacturing.ProductionOrder.Reopen aftur. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reopen Impl ori - Method ExecuteBifrostTask - NamedType BcNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2612609244 - Method 3507224617 - NamedType 3337375434" size-unit="char" translate="yes" xml:space="preserve">
+          <source>production order %1 (reopen once from Finished to Released)</source>
+          <target>framleiðslupöntun %1 (opna aftur einu sinni úr lokið í útgefið)</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, is-IS=framleiðslupöntun %1 (opna aftur einu sinni úr lokið í útgefið)</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reopen Impl ori - Method GetConfirmCount - NamedType SummaryLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2612609244 - Method 4077369804 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reopens a finished production order once, moving it to Released so missing output or consumption can be posted. Commits; no ledger entries are posted.</source>
+          <target>Opnar lokna framleiðslupöntun aftur einu sinni og færir hana í útgefna stöðu svo hægt sé að bóka afköst eða notkun sem vantar. Vistar breytingar; engar fjárhagsfærslur eru bókaðar.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Opnar lokna framleiðslupöntun aftur einu sinni og færir hana í útgefna stöðu svo hægt sé að bóka afköst eða notkun sem vantar. Vistar breytingar; engar fjárhagsfærslur eru bókaðar.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reopen Impl ori - Method GetDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2612609244 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>production order, manufacturing, reopen, finished, released, missing output</source>
+          <target>framleiðslupöntun, framleiðsla, opna aftur, lokið, útgefin, afköst vantar</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=framleiðslupöntun, framleiðsla, opna aftur, lokið, útgefin, afköst vantar</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reopen Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2612609244 - Method 79446908 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reopen a finished production order once. Commits; requires expectedCount 1.</source>
+          <target>Opnaðu lokna framleiðslupöntun aftur einu sinni. Vistar breytingar; krefst expectedCount 1.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Opnaðu lokna framleiðslupöntun aftur einu sinni. Vistar breytingar; krefst expectedCount 1.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reopen Impl ori - Method GetSelectionDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2612609244 - Method 53381489 - NamedType 286034047" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Manufacturing write permission is required to reopen a production order.</source>
+          <target>Skrifheimild framleiðslu er áskilin til að opna framleiðslupöntun aftur.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Skrifheimild framleiðslu er áskilin til að opna framleiðslupöntun aftur.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reopen Impl ori - Method CanReopen - NamedType DeniedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 2612609244 - Method 53381489 - NamedType 2029447175" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Ask an administrator to assign BIFROST Mfg ori or BIFROST Full ori together with BIFROST MfgPost ori.</source>
+          <target>Biddu stjórnanda um að úthluta BIFROST Mfg ori eða BIFROST Full ori ásamt BIFROST MfgPost ori.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Biddu stjórnanda um að úthluta BIFROST Mfg ori eða BIFROST Full ori ásamt BIFROST MfgPost ori.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reopen Impl ori - Method CanReopen - NamedType NextLbl</note>
         </trans-unit>
       </group>
     </body>
