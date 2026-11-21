@@ -77,13 +77,14 @@ codeunit 10077054 "Mfg Status Contract ori"
         Target.Add(Contract.TargetEntry('data.systemId', 'guid', 'Finished order SystemId. Supplied identifiers must agree.'));
     end;
 
-    /// <summary>Lists the Reopen identity keys; Foundation adds expectedCount.</summary>
+    /// <summary>Lists the Reopen identity keys and the ignored legacy confirmation parameter.</summary>
     internal procedure GetReopenParameters(var Parameters: JsonArray)
     var
         Contract: Codeunit "Msg Contract Mgt ori";
     begin
         Parameters.Add(Contract.Parameter('no', 'string', false, 'Finished order number; required unless systemId is supplied.'));
         Parameters.Add(Contract.Parameter('systemId', 'string', false, 'Finished order SystemId GUID; required unless no is supplied. Every supplied identifier must agree.'));
+        Parameters.Add(Contract.Parameter('expectedCount', 'integer', false, 'Optional legacy parameter; accepted and ignored.'));
     end;
 
     /// <summary>Explains the reopen, post and finish lifecycle.</summary>
@@ -92,11 +93,11 @@ codeunit 10077054 "Mfg Status Contract ori"
         Contract: Codeunit "Msg Contract Mgt ori";
         Steps: JsonArray;
     begin
-        Steps.Add(Contract.WorkflowStep('Manufacturing.ProductionOrder.Reopen', 'Preview without expectedCount, then reopen with expectedCount 1.'));
+        Steps.Add(Contract.WorkflowStep('Manufacturing.ProductionOrder.Reopen', 'Reopen the finished order once. No confirmation preview is required.'));
         Steps.Add(Contract.WorkflowStep('Manufacturing.ProductionJournal.Get', 'Inspect output and consumption using the returned Released order systemId.'));
         Steps.Add(Contract.WorkflowStep('Manufacturing.ProductionJournal.Post', 'Post the missing output or consumption.'));
         Steps.Add(Contract.WorkflowStep('Manufacturing.ProductionOrder.CheckFinish', 'Check the order before finishing again.'));
-        Steps.Add(Contract.WorkflowStep('Manufacturing.ProductionOrder.Finish', 'Finish again with expectedCount 1.'));
+        Steps.Add(Contract.WorkflowStep('Manufacturing.ProductionOrder.Finish', 'Finish again; when confirmation is required, preview and send expectedCount 1.'));
         Workflow.Add('steps', Steps);
         Workflow.Add('text', 'An order can be reopened only once. Always use the no and systemId returned by the last status move.');
     end;
@@ -182,8 +183,10 @@ codeunit 10077054 "Mfg Status Contract ori"
         Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::MultipleErrors, 'Several request problems were collected; nothing was changed.', 'Correct every error entry before retrying.'));
         if Kind = 2 then
             exit;
-        Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::ConfirmationRequired, 'The call cannot be undone and expectedCount was not sent; nothing was changed.', 'Send the same request again with expectedCount from the refusal.'));
-        Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::ConfirmationMismatch, 'expectedCount differs from the current count; nothing was changed.', 'Check the preview and send the current count.'));
+        if Kind <> 3 then begin
+            Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::ConfirmationRequired, 'The call cannot be undone and expectedCount was not sent; nothing was changed.', 'Send the same request again with expectedCount from the refusal.'));
+            Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::ConfirmationMismatch, 'expectedCount differs from the current count; nothing was changed.', 'Check the preview and send the current count.'));
+        end;
         Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::PermissionDenied, 'The caller does not hold the BIFROST MfgPost ori permission set.', 'Ask an administrator to assign BIFROST MfgPost ori.'));
         if Kind = 3 then
             Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::PreconditionFailed, 'The order is not Finished, was already reopened, has a line without output, or has value entries before the Earliest Allowed Valuation Date.', 'Use CheckFinish and Finish for an unfinished order; inspect the returned reason. Reopen cannot override output, once-only or valuation rules.'));
@@ -192,7 +195,7 @@ codeunit 10077054 "Mfg Status Contract ori"
         Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::BusinessCentralError, 'Business Central rejected the status change, for example an item blocked for production output; the transaction was rolled back.', 'Correct the field or setup named in the returned BC text.'));
     end;
 
-    /// <summary>Declares irreversible committing effects for the writing types and read for CheckFinish.</summary>
+    /// <summary>Declares posting effects for ChangeStatus and Finish, write for Reopen, and read for CheckFinish.</summary>
     internal procedure GetEffect(Kind: Integer; var Effect: JsonObject)
     var
         Preconditions: JsonArray;
@@ -205,10 +208,14 @@ codeunit 10077054 "Mfg Status Contract ori"
             Effect.Add('preconditions', Preconditions);
             exit;
         end;
-        Effect.Add('effect', 'irreversible');
+        if Kind = 3 then
+            Effect.Add('effect', 'write')
+        else
+            Effect.Add('effect', 'irreversible');
         Effect.Add('idempotent', false);
         Effect.Add('permissionSet', 'BIFROST Mfg ori + BIFROST MfgPost ori');
-        Effect.Add('count', 'one production order');
+        if Kind <> 3 then
+            Effect.Add('count', 'one production order');
         case Kind of
             3:
                 begin
@@ -222,10 +229,14 @@ codeunit 10077054 "Mfg Status Contract ori"
                 Effect.Add('changes', 'This call commits and cannot be undone. Posts backward-flushed consumption and output, adjusts work in process and moves the order to Finished.');
         end;
         Preconditions.Add('The caller holds BIFROST MfgPost ori.');
-        Preconditions.Add('expectedCount 1 from the ConfirmationRequired preview when the company requires confirmation.');
+        if Kind <> 3 then
+            Preconditions.Add('expectedCount 1 from the ConfirmationRequired preview when the company requires confirmation.');
         if Kind = 1 then
             Preconditions.Add('The order is Released, without outstanding subcontract purchase orders or picks.');
-        Preconditions.Add('The caller has native permissions on the entries the status change posts.');
+        if Kind = 3 then
+            Preconditions.Add('The caller has native permissions on the production records the status change moves.')
+        else
+            Preconditions.Add('The caller has native permissions on the entries the status change posts.');
         Effect.Add('preconditions', Preconditions);
     end;
 
@@ -299,7 +310,6 @@ codeunit 10077054 "Mfg Status Contract ori"
                     Example.Add('title', 'Reopen a finished order once');
                     Request.Add('type', 'Manufacturing.ProductionOrder.Reopen');
                     Data.Add('no', 'XPROD001');
-                    Data.Add('expectedCount', 1);
                 end;
             2:
                 begin
@@ -323,7 +333,7 @@ codeunit 10077054 "Mfg Status Contract ori"
             1:
                 Overview := 'Finishes a released production order with the standard Business Central status change. This call commits and cannot be undone.';
             3:
-                Overview := 'Reopens a finished production order once and moves its records to Released. Posts no ledger entries. This write commits and requires expectedCount 1 when confirmation is enabled.';
+                Overview := 'Reopens a finished production order once and moves its records to Released. Posts no ledger entries. This write commits. No confirmation is required; expectedCount is accepted and ignored.';
             2:
                 Overview := 'Shows what would block or warn when a released production order is finished. Changes nothing.';
         end;
