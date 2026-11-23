@@ -409,8 +409,8 @@ codeunit 97637 "Mfg Reopen Fixture ori"
         Absence: Record "Calendar Absence Entry";
         OwnedItems: Text;
     begin
-        if not (Prefix in ['X22REOPEN', 'X22MCPEN', 'X22MCPIS']) then
-            Error('Only issue 22 fixture prefixes can be cleaned.');
+        if not (Prefix in ['X22REOPEN', 'X22MCPEN', 'X22MCPIS', 'X25REV', 'X25OTHER', 'X25MCPEN', 'X25MCPIS']) then
+            Error('Only owned lifecycle fixture prefixes can be cleaned.');
         OwnedItems := Prefix + '-C|' + Prefix + '-P';
         CleanupRegisters(Prefix, OwnedItems);
         ItemEntry.SetFilter("Item No.", OwnedItems);

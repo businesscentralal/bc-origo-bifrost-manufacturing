@@ -12,11 +12,13 @@ consumption, so an agent can operate it end to end. It is built on the same basi
 
 **Microsoft source:** <https://github.com/microsoft/BCApps/tree/main/src/Layers/W1/BaseApp/Manufacturing> (manufacturing is part of the Base Application)
 
-**Status:** production order Create/Refresh and production BOM/routing SetStatus are implemented.
+**Status:** production order creation, status changes, journal posting, reversals and BOM/routing operations are implemented.
 
 `Manufacturing.ProductionOrder.Create` creates a Planned or FirmPlanned item order using the configured number series. Call `Manufacturing.ProductionOrder.Refresh` to calculate lines, routing and components. Refresh refuses Released and Finished orders; it never posts. Create preserves the caller transaction under Omit Commit. Refresh always commits because the native BC report commits internally; it refuses Omit Commit with `PreconditionFailed` before any write. Run Refresh as a separate committing operation.
 
 `Manufacturing.ProductionOrder.Reopen` moves a Finished order back to Released once, using the standard BC routine. The caller needs Manufacturing write access and `BIFROST MfgPost ori`. The effect is `write`: no confirmation preview is required, and legacy `expectedCount` is accepted and ignored. Every line needs posted output, and no order value entry may predate the Earliest Allowed Valuation Date. The call commits, including under Omit Commit, and posts no ledger entries. Use the returned Released order `systemId` (the move assigns a new one) for journal posting, CheckFinish and Finish. Subcontracting WIP is reopened separately through `Subcontracting.WIPLedger.Reopen`.
+
+`Manufacturing.Output.Reverse` and `Manufacturing.Consumption.Reverse` correct whole posted entries of a Released production order. Send the order number and selected entry numbers, preview without `expectedCount`, then confirm the exact selected count. Correcting entries retain the original date, dimensions and tracking; originals remain. Output also handles intermediate capacity, while the last operation is corrected through its output item entry. Both operations need Manufacturing write access and `BIFROST MfgPost ori`; a refusal rolls back the complete selection. Partial quantities and Omit Commit are refused.
 
 `Manufacturing.WhereUsed.Get` finds the owning assemblies that use an item or production BOM, with date-effective versions, native traversal levels and multiplied quantities. Send `type` (`item` or `productionBOM`), `no`, and optionally `calculationDate` and `multiLevel` (defaults to true). A read role is sufficient. Native levels include both item and BOM nodes; a BOM with no owning item has no assembly result. `Manufacturing.ProductionBOM.ExchangeItem` previews the number of new versions, then replaces the component in new versions only after `expectedCount` confirms that count. It requires Manufacturing write access. The native processing-only report is configured through XML using source variable names; its certification commits are suppressed until the batch succeeds. Existing headers, versions and lines stay unchanged. Exchange refuses Omit Commit before writing, so it runs as a separate committing operation.
 
@@ -37,6 +39,17 @@ Use `describe_message_type` for parameter, response, error and workflow chapters
 
 | Id | Object | Name |
 | --- | --- | --- |
+| 10077107 | enumextension | Mfg Reverse MsgType ori |
+| 10077108 | codeunit | Mfg Output Reverse ori |
+| 10077109 | codeunit | Mfg Consumption Reverse ori |
+| 10077110 | codeunit | Mfg Reverse Plan ori |
+| 10077111 | codeunit | Mfg Reverse Proc ori |
+| 10077112 | codeunit | Mfg Reverse Contract ori |
+| 97653 | codeunit (test) | Mfg Reverse Tests ori |
+| 97654 | codeunit (test) | Mfg Reverse Perm Tests ori |
+| 97655 | table (test fixture) | Mfg Reverse MCP Fixture ori |
+| 97656 | codeunit (test fixture) | Mfg Reverse Test Lib ori |
+| 97657 | codeunit (test fault) | Mfg Reverse Fault ori |
 | 10077105 | codeunit | Mfg Exchange Impl ori (enum value 10077105, confirmation) |
 | 10077106 | codeunit | Mfg Exchange Contract ori |
 | 10077101 | codeunit | Mfg Exchange Proc ori |

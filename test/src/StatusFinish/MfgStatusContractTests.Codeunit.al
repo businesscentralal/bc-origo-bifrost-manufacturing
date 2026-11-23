@@ -67,6 +67,7 @@ codeunit 97626 "Mfg Status Contract Tests ori"
                 Assert.IsTrue(Contract.GetEffect(Effect), 'Every manufacturing type declares its effect.');
                 Assert.IsTrue(Effect.Get('effect', EffectToken), 'Effect classification is required.');
                 Posting := MessageType in [MessageType::"Manufacturing.ProductionJournal.Post",
+                    MessageType::"Manufacturing.Output.Reverse", MessageType::"Manufacturing.Consumption.Reverse",
                     MessageType::"Manufacturing.ProductionOrder.Finish", MessageType::"Manufacturing.ProductionOrder.ChangeStatus",
                     MessageType::"Manufacturing.ProductionOrder.CreateFromDemand"];
                 Assert.AreEqual(Posting, EffectToken.AsValue().AsText() = 'irreversible',
@@ -75,7 +76,7 @@ codeunit 97626 "Mfg Status Contract Tests ori"
                     PostingCount += 1;
                 TypeCount += 1;
             end;
-        Assert.AreEqual(4, PostingCount, 'All three posting types and CreateFromDemand were checked.');
+        Assert.AreEqual(6, PostingCount, 'All five posting types and CreateFromDemand were checked.');
         Assert.IsTrue(TypeCount > PostingCount, 'Non-posting types were also checked.');
     end;
 

@@ -15,6 +15,8 @@ codeunit 10077063 "Mfg Write Context ori"
         TargetUpdateUnitCost: Boolean;
         TargetFinishWithoutOutput: Boolean;
         FinishAcknowledged: Boolean;
+        ReverseItems: List of [Integer];
+        ReverseCapacity: List of [Integer];
 
     /// <summary>Stores the validated request.</summary>
     internal procedure SetRequest(ProductionOrder: Record "Production Order"; NewStatus: Enum "Production Order Status"; PostingDate: Date; UpdateUnitCost: Boolean; FinishWithoutOutput: Boolean)
@@ -36,10 +38,28 @@ codeunit 10077063 "Mfg Write Context ori"
         FinishWithoutOutput := TargetFinishWithoutOutput;
     end;
 
+    /// <summary>Carries the validated whole-entry reversal selection into the posting boundary.</summary>
+    internal procedure SetReverseRequest(Order: Record "Production Order"; Items: List of [Integer]; Capacity: List of [Integer])
+    begin
+        TargetOrder := Order;
+        ReverseItems := Items;
+        ReverseCapacity := Capacity;
+    end;
+
+    /// <summary>Reads the reversal selection before locking and validating it again.</summary>
+    internal procedure GetReverseRequest(var Order: Record "Production Order"; var Items: List of [Integer]; var Capacity: List of [Integer])
+    begin
+        Order := TargetOrder;
+        Items := ReverseItems;
+        Capacity := ReverseCapacity;
+    end;
+
     /// <summary>Clears the carried request after the call.</summary>
     internal procedure ClearRequest()
     begin
         Clear(TargetOrder);
+        Clear(ReverseItems);
+        Clear(ReverseCapacity);
         Clear(TargetStatus);
         TargetPostingDate := 0D;
         TargetUpdateUnitCost := false;
