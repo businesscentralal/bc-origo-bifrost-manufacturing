@@ -17,6 +17,16 @@ Allocated ids (record every new id here):
 
 | Id | Object | Name |
 | --- | --- | --- |
+| 10077107 | enumextension | Mfg Reverse MsgType ori |
+| 10077108 | codeunit | Mfg Output Reverse ori |
+| 10077109 | codeunit | Mfg Consumption Reverse ori |
+| 10077110 | codeunit | Mfg Reverse Plan ori |
+| 10077111 | codeunit | Mfg Reverse Proc ori |
+| 10077112 | codeunit | Mfg Reverse Contract ori |
+| 97653 | codeunit (test) | Mfg Reverse Tests ori |
+| 97654 | codeunit (test) | Mfg Reverse Perm Tests ori |
+| 97655 | table (test fixture) | Mfg Reverse MCP Fixture ori |
+| 97656 | codeunit (test fixture) | Mfg Reverse Test Lib ori |
 | 10077105 | codeunit | Mfg Exchange Impl ori (enum value 10077105, confirmation) |
 | 10077106 | codeunit | Mfg Exchange Contract ori |
 | 10077101 | codeunit | Mfg Exchange Proc ori |
