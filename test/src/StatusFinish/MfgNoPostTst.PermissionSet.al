@@ -11,6 +11,8 @@ permissionset 97627 "Mfg NoPost Tst ori"
     Permissions = table "Mfg Reopen MCP Fixture ori" = X,
                   tabledata "Mfg Reopen MCP Fixture ori" = RIMD,
                   codeunit "Mfg Reopen Perm Tests ori" = X,
+                  codeunit "Mfg Demand Perm Tests ori" = X,
+                  codeunit "Mfg Demand Test Lib ori" = X,
                   codeunit "Mfg Status Test Lib ori" = X,
                   codeunit "Mfg Posting Gate Tests ori" = X,
                   codeunit "Prod Jnl Test Lib ori" = X,

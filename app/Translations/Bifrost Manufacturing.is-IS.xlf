@@ -1095,6 +1095,252 @@
           <note from="Developer" annotates="general" priority="2">is-IS=Notaðu Manufacturing.ProductionOrder.Refresh til að reikna línur, vinnsluleið og efnisþörf.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Create Impl ori - Method RunCreate - NamedType NextLbl</note>
         </trans-unit>
+        <trans-unit id="Codeunit 3980200800 - Method 3571782927 - NamedType 807145736" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Correct the item, setup or sales line named in the Business Central error and retry. Nothing was changed.</source>
+          <target>Leiðréttu vöruna, uppsetninguna eða sölulínuna sem Business Central nefnir í villunni og reyndu aftur. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Leiðréttu vöruna, uppsetninguna eða sölulínuna sem Business Central nefnir í villunni og reyndu aftur. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Impl ori - Method ExecuteBifrostTask - NamedType BcNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3980200800 - Method 4077369804 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Creates production orders for the lines of a released sales order, one per line or one for the whole order, reserved against the sales lines. Commits and cannot be undone.</source>
+          <target>Stofnar framleiðslupantanir fyrir línur útgefinnar sölupöntunar, eina á línu eða eina fyrir alla pöntunina, fráteknar á sölulínurnar. Vistar og ekki er hægt að afturkalla.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Stofnar framleiðslupantanir fyrir línur útgefinnar sölupöntunar, eina á línu eða eina fyrir alla pöntunina, fráteknar á sölulínurnar. Vistar og ekki er hægt að afturkalla.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Impl ori - Method GetDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3980200800 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>production order, manufacturing, sales order, make to order, demand, sales order planning</source>
+          <target>framleiðslupöntun, framleiðsla, sölupöntun, framleiðsla eftir pöntun, þörf, sölupöntunaráætlun</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=framleiðslupöntun, framleiðsla, sölupöntun, framleiðsla eftir pöntun, þörf, sölupöntunaráætlun</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3980200800 - Method 79446908 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Create production orders from a released sales order. Writes; confirm with expectedCount.</source>
+          <target>Stofnaðu framleiðslupantanir úr útgefinni sölupöntun. Skrifar; staðfestu með expectedCount.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Stofnaðu framleiðslupantanir úr útgefinni sölupöntun. Skrifar; staðfestu með expectedCount.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Impl ori - Method GetSelectionDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 36341020 - NamedType 3874606732" size-unit="char" translate="yes" xml:space="preserve">
+          <source>alreadySupplied: the outstanding quantity is already reserved</source>
+          <target>alreadySupplied: útistandandi magn er þegar frátekið</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=alreadySupplied: útistandandi magn er þegar frátekið</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method CheckLine - NamedType SuppliedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 36341020 - NamedType 3151167321" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Nothing to do; read the reservations with the inventory reservation operations if needed.</source>
+          <target>Ekkert þarf að gera; lestu fráteknar færslur með birgðafrátektaraðgerðum ef þarf.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Ekkert þarf að gera; lestu fráteknar færslur með birgðafrátektaraðgerðum ef þarf.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method CheckLine - NamedType SuppliedNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 36341020 - NamedType 2644192917" size-unit="char" translate="yes" xml:space="preserve">
+          <source>notManufactured: the item is not replenished by production order</source>
+          <target>notManufactured: varan er ekki endurnýjuð með framleiðslupöntun</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=notManufactured: varan er ekki endurnýjuð með framleiðslupöntun</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method CheckLine - NamedType NotMfgLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 36341020 - NamedType 3389321088" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Supply the line by purchase or transfer, or set the item replenishment system to production order.</source>
+          <target>Útvegaðu línuna með innkaupum eða millifærslu, eða stilltu endurnýjunarkerfi vörunnar á framleiðslupöntun.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Útvegaðu línuna með innkaupum eða millifærslu, eða stilltu endurnýjunarkerfi vörunnar á framleiðslupöntun.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method CheckLine - NamedType NotMfgNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 36341020 - NamedType 4221581950" size-unit="char" translate="yes" xml:space="preserve">
+          <source>itemBlocked: the item is blocked or blocked for production output</source>
+          <target>itemBlocked: varan er lokuð eða lokuð fyrir framleiðsluafköst</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=itemBlocked: varan er lokuð eða lokuð fyrir framleiðsluafköst</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method CheckLine - NamedType BlockedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 36341020 - NamedType 3928552519" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Unblock the item, then send the request again.</source>
+          <target>Opnaðu fyrir vöruna og sendu síðan beiðnina aftur.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Opnaðu fyrir vöruna og sendu síðan beiðnina aftur.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method CheckLine - NamedType BlockedNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 36341020 - NamedType 796285598" size-unit="char" translate="yes" xml:space="preserve">
+          <source>bomNotCertified: production BOM %1 is not certified</source>
+          <target>bomNotCertified: uppskrift %1 er ekki vottuð</target>
+          <note from="Developer" annotates="general" priority="2">%1 = BOM number, is-IS=bomNotCertified: uppskrift %1 er ekki vottuð</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method CheckLine - NamedType BomLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 36341020 - NamedType 4214491431" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Certify the production BOM with Manufacturing.ProductionBOM.SetStatus, then send the request again.</source>
+          <target>Vottaðu uppskriftina með Manufacturing.ProductionBOM.SetStatus og sendu síðan beiðnina aftur.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Vottaðu uppskriftina með Manufacturing.ProductionBOM.SetStatus og sendu síðan beiðnina aftur.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method CheckLine - NamedType BomNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 36341020 - NamedType 2547030786" size-unit="char" translate="yes" xml:space="preserve">
+          <source>routingNotCertified: routing %1 is not certified</source>
+          <target>routingNotCertified: leið %1 er ekki vottuð</target>
+          <note from="Developer" annotates="general" priority="2">%1 = routing number, is-IS=routingNotCertified: leið %1 er ekki vottuð</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method CheckLine - NamedType RoutingLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 36341020 - NamedType 42510707" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Certify the routing with Manufacturing.Routing.SetStatus, then send the request again.</source>
+          <target>Vottaðu leiðina með Manufacturing.Routing.SetStatus og sendu síðan beiðnina aftur.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Vottaðu leiðina með Manufacturing.Routing.SetStatus og sendu síðan beiðnina aftur.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method CheckLine - NamedType RoutingNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 36341020 - NamedType 1542941690" size-unit="char" translate="yes" xml:space="preserve">
+          <source>missingShipmentDate: the line has no shipment date</source>
+          <target>missingShipmentDate: línan hefur enga afhendingardagsetningu</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=missingShipmentDate: línan hefur enga afhendingardagsetningu</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method CheckLine - NamedType DateLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 36341020 - NamedType 1412843979" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Set a shipment date on the sales line, then send the request again.</source>
+          <target>Settu afhendingardagsetningu á sölulínuna og sendu síðan beiðnina aftur.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Settu afhendingardagsetningu á sölulínuna og sendu síðan beiðnina aftur.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method CheckLine - NamedType DateNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 2297292549 - NamedType 3879076534" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sales order %1 is not released. Nothing was changed.</source>
+          <target>Sölupöntun %1 er ekki útgefin. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = sales order number, is-IS=Sölupöntun %1 er ekki útgefin. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method CheckReleased - NamedType NotReleasedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 2297292549 - NamedType 958330143" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Release the sales order first, then send the same request again.</source>
+          <target>Gefðu sölupöntunina út fyrst og sendu síðan sömu beiðni aftur.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Gefðu sölupöntunina út fyrst og sendu síðan sömu beiðni aftur.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method CheckReleased - NamedType NotReleasedNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 1485775229 - NamedType 2647022316" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sales order %1 has no line %2.</source>
+          <target>Sölupöntun %1 hefur enga línu %2.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = sales order number, %2 = line number, is-IS=Sölupöntun %1 hefur enga línu %2.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method CollectLines - NamedType LineMissingLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 1485775229 - NamedType 577017977" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Read the sales lines with Data.Records.Get and send existing line numbers.</source>
+          <target>Lestu sölulínurnar með Data.Records.Get og sendu línunúmer sem eru til.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lestu sölulínurnar með Data.Records.Get og sendu línunúmer sem eru til.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method CollectLines - NamedType LineMissingNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 1485775229 - NamedType 1739452631" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sales order %1 line %2 cannot be part of one order for the whole sales order: %3. Nothing was changed.</source>
+          <target>Lína %2 í sölupöntun %1 getur ekki verið hluti af einni pöntun fyrir alla sölupöntunina: %3. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = sales order number, %2 = line number, %3 = reason, is-IS=Lína %2 í sölupöntun %1 getur ekki verið hluti af einni pöntun fyrir alla sölupöntunina: %3. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method CollectLines - NamedType WholeOrderLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 1485775229 - NamedType 1000175713" size-unit="char" translate="yes" xml:space="preserve">
+          <source>No line of sales order %1 needs a production order. Nothing was changed.</source>
+          <target>Engin lína í sölupöntun %1 þarfnast framleiðslupöntunar. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = sales order number, is-IS=Engin lína í sölupöntun %1 þarfnast framleiðslupöntunar. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method CollectLines - NamedType NothingLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 1485775229 - NamedType 635097044" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Lines need an item replenished by production order, a certified production BOM and routing, a shipment date and an unreserved outstanding quantity.</source>
+          <target>Línur þurfa vöru sem er endurnýjuð með framleiðslupöntun, vottaða uppskrift og leið, afhendingardagsetningu og óframtekið útistandandi magn.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Línur þurfa vöru sem er endurnýjuð með framleiðslupöntun, vottaða uppskrift og leið, afhendingardagsetningu og óframtekið útistandandi magn.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method CollectLines - NamedType NothingNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 3873177477 - NamedType 704880291" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Sales order %1 was not found.</source>
+          <target>Sölupöntun %1 fannst ekki.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = sales order number or SystemId, is-IS=Sölupöntun %1 fannst ekki.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method FindSalesOrder - NamedType NotFoundLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 3873177477 - NamedType 2824518802" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Read the sales orders with Data.Records.Get and send the number or SystemId of an existing sales order.</source>
+          <target>Lestu sölupantanirnar með Data.Records.Get og sendu númer eða SystemId sölupöntunar sem er til.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lestu sölupantanirnar með Data.Records.Get og sendu númer eða SystemId sölupöntunar sem er til.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method FindSalesOrder - NamedType NotFoundNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 3873177477 - NamedType 650235816" size-unit="char" translate="yes" xml:space="preserve">
+          <source>sourceNo %1 and sourceSystemId %2 name different sales orders.</source>
+          <target>sourceNo %1 og sourceSystemId %2 vísa á mismunandi sölupantanir.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = sales order number, %2 = SystemId, is-IS=sourceNo %1 og sourceSystemId %2 vísa á mismunandi sölupantanir.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method FindSalesOrder - NamedType ConflictLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 3873177477 - NamedType 3299433917" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send identifiers of the same sales order, or only one of them.</source>
+          <target>Sendu auðkenni sömu sölupöntunar, eða aðeins annað þeirra.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu auðkenni sömu sölupöntunar, eða aðeins annað þeirra.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method FindSalesOrder - NamedType ConflictNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 3507224617 - NamedType 3337375434" size-unit="char" translate="yes" xml:space="preserve">
+          <source>%1 production order(s) for sales order %2</source>
+          <target>%1 framleiðslupöntun/-pantanir fyrir sölupöntun %2</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order count, %2 = sales order number, is-IS=%1 framleiðslupöntun/-pantanir fyrir sölupöntun %2</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method GetConfirmCount - NamedType SummaryLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 2101008567 - NamedType 2437723975" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Leave the line out of lineNos.</source>
+          <target>Slepptu línunni úr lineNos.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Slepptu línunni úr lineNos.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method NotItemNextStep - NamedType NotItemNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 1636095440 - NamedType 2444926334" size-unit="char" translate="yes" xml:space="preserve">
+          <source>notAnItem: only item lines can be supplied by a production order</source>
+          <target>notAnItem: aðeins vörulínur geta fengið framleiðslupöntun</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=notAnItem: aðeins vörulínur geta fengið framleiðslupöntun</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method NotItemReason - NamedType NotItemLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 3898955523 - NamedType 286034047" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Manufacturing write permission is required to create production orders.</source>
+          <target>Skrifheimild framleiðslu er áskilin til að stofna framleiðslupantanir.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Skrifheimild framleiðslu er áskilin til að stofna framleiðslupantanir.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method Prepare - NamedType DeniedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 3898955523 - NamedType 2354419638" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Ask an administrator to assign BIFROST Mfg ori or BIFROST Full ori.</source>
+          <target>Biddu stjórnanda um að úthluta BIFROST Mfg ori eða BIFROST Full ori.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Biddu stjórnanda um að úthluta BIFROST Mfg ori eða BIFROST Full ori.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method Prepare - NamedType DeniedNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 3026627298 - NamedType 341724697" size-unit="char" translate="yes" xml:space="preserve">
+          <source>lineNos cannot be combined with orderType ProjectOrder; one order covers every line Business Central offers.</source>
+          <target>Ekki er hægt að nota lineNos með orderType ProjectOrder; ein pöntun nær yfir allar línur sem Business Central býður.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Ekki er hægt að nota lineNos með orderType ProjectOrder; ein pöntun nær yfir allar línur sem Business Central býður.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method ReadLineNos - NamedType ProjectLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 3026627298 - NamedType 1001542156" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Omit lineNos, or use orderType ItemOrder to choose lines.</source>
+          <target>Slepptu lineNos, eða notaðu orderType ItemOrder til að velja línur.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Slepptu lineNos, eða notaðu orderType ItemOrder til að velja línur.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method ReadLineNos - NamedType ProjectNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 3451161592 - NamedType 3953873704" size-unit="char" translate="yes" xml:space="preserve">
+          <source>orderType must be ItemOrder or ProjectOrder.</source>
+          <target>orderType verður að vera ItemOrder eða ProjectOrder.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=orderType verður að vera ItemOrder eða ProjectOrder.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method ReadOrderType - NamedType OrderTypeLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 3451161592 - NamedType 571461949" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send ItemOrder for one order per sales line or ProjectOrder for one order for the whole sales order.</source>
+          <target>Sendu ItemOrder fyrir eina pöntun á hverja sölulínu eða ProjectOrder fyrir eina pöntun fyrir alla sölupöntunina.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu ItemOrder fyrir eina pöntun á hverja sölulínu eða ProjectOrder fyrir eina pöntun fyrir alla sölupöntunina.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method ReadOrderType - NamedType OrderTypeNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 524064937 - NamedType 20391969" size-unit="char" translate="yes" xml:space="preserve">
+          <source>sourceType must be salesOrder. Production orders for project demand are not created by this operation.</source>
+          <target>sourceType verður að vera salesOrder. Þessi aðgerð stofnar ekki framleiðslupantanir fyrir verkefnaþörf.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=sourceType verður að vera salesOrder. Þessi aðgerð stofnar ekki framleiðslupantanir fyrir verkefnaþörf.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method ReadSourceType - NamedType SourceTypeLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 524064937 - NamedType 4133267860" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send sourceType salesOrder with the number of a released sales order.</source>
+          <target>Sendu sourceType salesOrder með númeri útgefinnar sölupöntunar.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu sourceType salesOrder með númeri útgefinnar sölupöntunar.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method ReadSourceType - NamedType SourceTypeNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 2129692610 - NamedType 3193096050" size-unit="char" translate="yes" xml:space="preserve">
+          <source>status must be Planned, FirmPlanned or Released.</source>
+          <target>status verður að vera Planned, FirmPlanned eða Released.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=status verður að vera Planned, FirmPlanned eða Released.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method ReadStatus - NamedType StatusLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1918624465 - Method 2129692610 - NamedType 354085475" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send status Planned, FirmPlanned or Released, or omit it for FirmPlanned.</source>
+          <target>Sendu status Planned, FirmPlanned eða Released, eða slepptu því fyrir FirmPlanned.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu status Planned, FirmPlanned eða Released, eða slepptu því fyrir FirmPlanned.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Plan ori - Method ReadStatus - NamedType StatusNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 81927926 - Method 1665861916 - NamedType 2029447175" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Read the orders with Data.Records.Get; release planned orders with Manufacturing.ProductionOrder.ChangeStatus.</source>
+          <target>Lestu pantanirnar með Data.Records.Get; gefðu áætlaðar pantanir út með Manufacturing.ProductionOrder.ChangeStatus.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lestu pantanirnar með Data.Records.Get; gefðu áætlaðar pantanir út með Manufacturing.ProductionOrder.ChangeStatus.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Proc ori - Method OnRun - NamedType NextLbl</note>
+        </trans-unit>
         <trans-unit id="Codeunit 2523167250 - NamedType 644283978" size-unit="char" translate="yes" xml:space="preserve">
           <source>Production order number %1 exists with more than one status.</source>
           <target>Framleiðslupöntunarnúmer %1 er til með fleiri en einni stöðu.</target>
