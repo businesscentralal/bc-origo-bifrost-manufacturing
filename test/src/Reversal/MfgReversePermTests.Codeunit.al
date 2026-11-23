@@ -59,10 +59,12 @@ codeunit 97654 "Mfg Reverse Perm Tests ori"
         Enabled: Boolean;
         MessageId: Guid;
         OutputMessageId: Guid;
+        CountsBefore: Text;
         Counts: array[4] of Integer;
     begin
         LibReverse.Seed('X25REV', false, Order);
         LibReverse.PostOrder(Order);
+        CountsBefore := LibReverse.Snapshot();
         Counts[1] := Header.Count();
         Counts[2] := Line.Count();
         Counts[3] := Component.Count();
@@ -87,6 +89,7 @@ codeunit 97654 "Mfg Reverse Perm Tests ori"
             Assert.IsFalse(Enabled, 'reversal hidden without posting token.');
         Data.AssertRefusal(Response, 'PermissionDenied');
         Fixture.AssertLoggedError(MessageId, 'PermissionDenied');
+        Assert.AreEqual(CountsBefore, LibReverse.Snapshot(), 'Posting and production counts unchanged under both denied calls.');
         Assert.AreEqual(Counts[1], Header.Count(), 'Headers unchanged.');
         Assert.AreEqual(Counts[2], Line.Count(), 'Lines unchanged.');
         Assert.AreEqual(Counts[3], Component.Count(), 'Components unchanged.');

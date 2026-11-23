@@ -1,11 +1,13 @@
 namespace Origo.Bifrost.Manufacturing.Test;
 
+using Microsoft.Finance.GeneralLedger.Ledger;
 using Microsoft.Inventory.Item;
 using Microsoft.Inventory.Journal;
 using Microsoft.Inventory.Ledger;
 using Microsoft.Inventory.Posting;
 using Microsoft.Inventory.Setup;
 using Microsoft.Inventory.Tracking;
+using Microsoft.Manufacturing.Capacity;
 using Microsoft.Manufacturing.Document;
 using Microsoft.Manufacturing.Routing;
 using Origo.Bifrost;
@@ -167,6 +169,32 @@ codeunit 97656 "Mfg Reverse Test Lib ori"
         Entry.SetRange("Entry Type", EntryType);
         Entry.FindFirst();
         exit(Entry."Entry No.");
+    end;
+
+    /// <summary>Captures counts for every principal posting or production table, excluding Foundation audit logs.</summary>
+    procedure Snapshot(): Text
+    var
+        DataRecord: RecordRef;
+        TableNumbers: List of [Integer];
+        TableNumber: Integer;
+        Result: Text;
+    begin
+        TableNumbers.Add(Database::"Item Ledger Entry");
+        TableNumbers.Add(Database::"Value Entry");
+        TableNumbers.Add(Database::"Capacity Ledger Entry");
+        TableNumbers.Add(Database::"Item Application Entry");
+        TableNumbers.Add(Database::"G/L Entry");
+        TableNumbers.Add(Database::"Item Journal Line");
+        TableNumbers.Add(Database::"Reservation Entry");
+        TableNumbers.Add(Database::"Production Order");
+        TableNumbers.Add(Database::"Prod. Order Line");
+        TableNumbers.Add(Database::"Prod. Order Component");
+        foreach TableNumber in TableNumbers do begin
+            DataRecord.Open(TableNumber);
+            Result += Format(TableNumber, 0, 9) + ':' + Format(DataRecord.Count(), 0, 9) + '|';
+            DataRecord.Close();
+        end;
+        exit(Result);
     end;
 
     /// <summary>Restores the session date after a raw fixture used a later open inventory period.</summary>

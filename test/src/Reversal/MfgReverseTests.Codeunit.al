@@ -216,6 +216,8 @@ codeunit 97653 "Mfg Reverse Tests ori"
         Commit();
         Request := Lib.Request(Order, Number);
         Refusal("Message Type ori"::"Manufacturing.Output.Reverse", Request, 'PreconditionFailed', 1039);
+        Request := Lib.Request(Order, Lib.Original(Order, "Item Ledger Entry Type"::Consumption));
+        Refusal("Message Type ori"::"Manufacturing.Consumption.Reverse", Request, 'PreconditionFailed', 1033);
         Lib.Cleanup('X25REV');
         Commit();
     end;
@@ -342,7 +344,9 @@ codeunit 97653 "Mfg Reverse Tests ori"
         MessageId: Guid;
         ItemCount: Integer;
         CapacityCount: Integer;
+        CountsBefore: Text;
     begin
+        CountsBefore := Lib.Snapshot();
         ItemCount := Entry.Count();
         CapacityCount := Capacity.Count();
         Commit();
@@ -351,6 +355,7 @@ codeunit 97653 "Mfg Reverse Tests ori"
         Fixture.AssertLoggedError(MessageId, Code);
         Assert.AreEqual(ItemCount, Entry.Count(), 'Refusal creates no item entry.');
         Assert.AreEqual(CapacityCount, Capacity.Count(), 'Refusal creates no capacity entry.');
+        Assert.AreEqual(CountsBefore, Lib.Snapshot(), 'All ten posting and production table counts are unchanged.');
         exit(Response);
     end;
 
