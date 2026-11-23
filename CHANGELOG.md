@@ -3,7 +3,7 @@
 
 ## Unreleased
 
-- Issue #25: `Manufacturing.Output.Reverse` and `Manufacturing.Consumption.Reverse` post whole-entry corrections with mandatory exact-count confirmation, posting permission, atomic rollback, original tracking and bilingual refusal guidance. App objects 10077107–10077112; test objects 97653–97656.
+- Issue #25: `Manufacturing.Output.Reverse` and `Manufacturing.Consumption.Reverse` post whole-entry corrections with mandatory exact-count confirmation, posting permission, atomic rollback, original tracking and bilingual refusal guidance. App objects 10077107–10077112; test objects 97653–97657.
 
 
 - #23: `Manufacturing.ProductionOrder.CreateFromDemand` creates production orders for the lines of a released sales order with Business Central's standard create-from-sales routine (no dialog): `ItemOrder` makes one order per sales line, `ProjectOrder` one order for the whole sales order (source type Sales Header); every new order line is reserved or tracked against its sales line. Status Planned, FirmPlanned (default) or Released (Released also needs `BIFROST MfgPost ori`). Irreversible: confirmed by `expectedCount` (number of orders). Lines that are not production-replenished items, already reserved, blocked, without a shipment date, or with an uncertified BOM or routing come back in `skipped[]` with a reason and `nextStep`. Sales demand only; project demand is not part of this type. App codeunits 10077082-10077084, 10077099-10077100 (enum value 10077082); test codeunits 97641, 97643, 97644, 97652 and own-tenant MCP fixture table 97646 (insert seeds an owned released sales order, delete removes it and everything the call created). The #37 effect test now lists CreateFromDemand as the one non-posting irreversible type.

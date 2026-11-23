@@ -136,8 +136,11 @@ codeunit 10077110 "Mfg Reverse Plan ori"
         CapacityEntry: Record "Capacity Ledger Entry";
         Application: Record "Item Application Entry";
         ReverseEntry: Record "Item Ledger Entry";
+        OrderLine: Record "Prod. Order Line";
+        Routing: Record "Prod. Order Routing Line";
         Number: Integer;
         IsOutput: Boolean;
+        LastOperationLbl: Label 'Reverse the last operation through its output item ledger entry.', Comment = 'is-IS=Bakfærðu síðustu aðgerð í gegnum afkastafærslu vörunnar.';
         ReversedLbl: Label 'The entry is already corrected or is itself a correcting entry.', Comment = 'is-IS=Færslan hefur þegar verið leiðrétt eða er sjálf mótfærsla.';
     begin
         IsOutput := Argument.Type = "Message Type ori"::"Manufacturing.Output.Reverse";
@@ -171,6 +174,18 @@ codeunit 10077110 "Mfg Reverse Plan ori"
                 exit(Fail(Argument, "Bifrost Error Code ori"::InvalidParameterFormat, InvalidLbl, 'capacityLedgerEntryNos', ReadLbl));
             if CapacityEntry.Reversed then
                 exit(Fail(Argument, "Bifrost Error Code ori"::PreconditionFailed, ReversedLbl, 'capacityLedgerEntryNos', ReadLbl));
+            if OrderLine.Get(Order.Status, Order."No.", CapacityEntry."Order Line No.") then begin
+                Routing.Reset();
+                Routing.SetRange(Status, Order.Status);
+                Routing.SetRange("Prod. Order No.", Order."No.");
+                Routing.SetRange("Routing Reference No.", OrderLine."Routing Reference No.");
+                Routing.SetRange("Routing No.", OrderLine."Routing No.");
+                Routing.SetRange(Type, CapacityEntry.Type);
+                Routing.SetRange("Operation No.", CapacityEntry."Operation No.");
+                Routing.SetRange("Next Operation No.", '');
+                if not Routing.IsEmpty() then
+                    exit(Fail(Argument, "Bifrost Error Code ori"::PreconditionFailed, LastOperationLbl, 'capacityLedgerEntryNos', NativeNextLbl));
+            end;
         end;
         exit(true);
     end;

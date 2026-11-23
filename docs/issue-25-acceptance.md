@@ -16,6 +16,6 @@ Gunnar approved two separate whole-entry operations on 23 November 2026. No part
 
 The native reversal APIs are present in the BC 28.5 symbols. The application and Foundation floors remain unchanged. BC 28.5 has no `SetHideDialog` procedure; API sessions take the native non-GUI confirmation path. GUI AL tests answer the native confirmation and success message with handlers. The native API posts the original dates, dimensions, item tracking and applications. The originals' posted quantities remain unchanged; normal posting updates application and reversal state.
 
-The complete selection is checked again under locks. A commit-error scope protects native correction posting inside the `Codeunit.Run` transaction. A later failure rolls back earlier corrections. No product operation deletes ledger entries. Test-only fixture cleanup removes only owned prefixes.
+The complete selection is checked again under locks. A commit-error scope protects native correction posting inside the `Codeunit.Run` transaction. A test-only, manually bound native-event fault proves that a failure after actual correction posting rolls back the item and capacity corrections. No product operation deletes ledger entries. Test-only fixture cleanup removes only owned prefixes.
 
 The full suite is the paired CI run at the PR head. Licence-path checks are NOT_RUN per the release policy. Current counts, full SHA, run URL, environment restoration and review status belong in the PR's single Current state comment.

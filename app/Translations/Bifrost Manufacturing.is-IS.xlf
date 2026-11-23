@@ -891,6 +891,12 @@
           <note from="Developer" annotates="general" priority="2">is-IS=Biddu stjórnanda um BIFROST Mfg ori og BIFROST MfgPost ori.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Reverse Plan ori - Method Prepare - NamedType DeniedNextLbl</note>
         </trans-unit>
+        <trans-unit id="Codeunit 3426494485 - Method 166003168 - NamedType 621379751" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reverse the last operation through its output item ledger entry.</source>
+          <target>Bakfærðu síðustu aðgerð í gegnum afkastafærslu vörunnar.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Bakfærðu síðustu aðgerð í gegnum afkastafærslu vörunnar.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Reverse Plan ori - Method ValidateEntries - NamedType LastOperationLbl</note>
+        </trans-unit>
         <trans-unit id="Codeunit 3426494485 - Method 166003168 - NamedType 3996729906" size-unit="char" translate="yes" xml:space="preserve">
           <source>The entry is already corrected or is itself a correcting entry.</source>
           <target>Færslan hefur þegar verið leiðrétt eða er sjálf mótfærsla.</target>

@@ -221,28 +221,30 @@ codeunit 97653 "Mfg Reverse Tests ori"
     end;
 
     [Test]
-    [HandlerFunctions('ConfirmNative,MessageNative')]
-    procedure C1_BatchRollsBackEarlierOutputWhenCapacityFails()
+    [HandlerFunctions('ConfirmNative')]
+    procedure C1_BatchRollsBackAfterNativePostedEntry()
     var
         Order: Record "Production Order";
         Capacity: Record "Capacity Ledger Entry";
         Entry: Record "Item Ledger Entry";
-        Entries: JsonArray;
+        Fault: Codeunit "Mfg Reverse Fault ori";
+        StatusLib: Codeunit "Mfg Status Test Lib ori";
         Request: JsonObject;
+        Response: JsonObject;
     begin
         Lib.Seed('X25REV', false, Order);
         Lib.PostOrder(Order);
         Capacity.SetRange("Order No.", Order."No.");
         Capacity.FindFirst();
         Request := Lib.Request(Order, Lib.Original(Order, Entry."Entry Type"::Output));
-        Entries.Add(Capacity."Entry No.");
-        Request.Add('capacityLedgerEntryNos', Entries);
-        Request.Replace('expectedCount', 2);
-        Refusal("Message Type ori"::"Manufacturing.Output.Reverse", Request, 'PreconditionFailed', 1033);
+        BindSubscription(Fault);
+        Response := Refusal("Message Type ori"::"Manufacturing.Output.Reverse", Request, 'PreconditionFailed', 1033);
+        UnbindSubscription(Fault);
+        Assert.IsTrue(StatusLib.ResponseContains(Response, 'Injected reversal rollback probe'), 'Failure occurred after native correction posting.');
         Entry.Get(Lib.Original(Order, Entry."Entry Type"::Output));
-        Assert.AreEqual(10, Entry."Remaining Quantity", 'Earlier correcting output rolled back.');
+        Assert.AreEqual(10, Entry."Remaining Quantity", 'Native correcting output rolled back.');
         Capacity.Get(Capacity."Entry No.");
-        Assert.IsFalse(Capacity.Reversed, 'Earlier capacity reversal rolled back.');
+        Assert.IsFalse(Capacity.Reversed, 'Native capacity reversal rolled back.');
         Lib.Cleanup('X25REV');
         Commit();
     end;
@@ -332,7 +334,7 @@ codeunit 97653 "Mfg Reverse Tests ori"
         Commit();
     end;
 
-    local procedure Refusal(Type: Enum "Message Type ori"; Request: JsonObject; Code: Text; LanguageId: Integer)
+    local procedure Refusal(Type: Enum "Message Type ori"; Request: JsonObject; Code: Text; LanguageId: Integer): JsonObject
     var
         Entry: Record "Item Ledger Entry";
         Capacity: Record "Capacity Ledger Entry";
@@ -349,6 +351,7 @@ codeunit 97653 "Mfg Reverse Tests ori"
         Fixture.AssertLoggedError(MessageId, Code);
         Assert.AreEqual(ItemCount, Entry.Count(), 'Refusal creates no item entry.');
         Assert.AreEqual(CapacityCount, Capacity.Count(), 'Refusal creates no capacity entry.');
+        exit(Response);
     end;
 
     /// <summary>Allows the native GUI-only confirmation during AL client tests; API calls never show it.</summary>

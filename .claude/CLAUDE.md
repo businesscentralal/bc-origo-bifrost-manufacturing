@@ -27,6 +27,7 @@ Allocated ids (record every new id here):
 | 97654 | codeunit (test) | Mfg Reverse Perm Tests ori |
 | 97655 | table (test fixture) | Mfg Reverse MCP Fixture ori |
 | 97656 | codeunit (test fixture) | Mfg Reverse Test Lib ori |
+| 97657 | codeunit (test fault) | Mfg Reverse Fault ori |
 | 10077105 | codeunit | Mfg Exchange Impl ori (enum value 10077105, confirmation) |
 | 10077106 | codeunit | Mfg Exchange Contract ori |
 | 10077101 | codeunit | Mfg Exchange Proc ori |
