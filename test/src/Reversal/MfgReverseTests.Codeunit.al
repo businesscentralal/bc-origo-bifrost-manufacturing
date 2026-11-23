@@ -336,6 +336,34 @@ codeunit 97653 "Mfg Reverse Tests ori"
         Commit();
     end;
 
+    [Test]
+    procedure C2_PublicContractsValidateInBothLanguages()
+    var
+        Contracts: Codeunit "Msg Contract Mgt ori";
+        Types: List of [Enum "Message Type ori"];
+        Type: Enum "Message Type ori";
+        ContractJson: JsonObject;
+        English: Text;
+        Icelandic: Text;
+        SavedLanguage: Integer;
+    begin
+        SavedLanguage := GlobalLanguage();
+        Types.Add("Message Type ori"::"Manufacturing.Output.Reverse");
+        Types.Add("Message Type ori"::"Manufacturing.Consumption.Reverse");
+        foreach Type in Types do begin
+            GlobalLanguage(1033);
+            Clear(ContractJson);
+            Assert.IsTrue(Contracts.GetContract(Type, ContractJson), 'Public contract exists and its referenced operations are registered.');
+            ContractJson.WriteTo(English);
+            GlobalLanguage(1039);
+            Clear(ContractJson);
+            Assert.IsTrue(Contracts.GetContract(Type, ContractJson), 'Public Icelandic-session contract validates.');
+            ContractJson.WriteTo(Icelandic);
+            Assert.AreEqual(English, Icelandic, 'All chapter text stays English.');
+        end;
+        GlobalLanguage(SavedLanguage);
+    end;
+
     local procedure Refusal(Type: Enum "Message Type ori"; Request: JsonObject; Code: Text; LanguageId: Integer): JsonObject
     var
         Entry: Record "Item Ledger Entry";

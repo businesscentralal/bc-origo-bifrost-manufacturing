@@ -111,14 +111,14 @@ codeunit 10077109 "Mfg Consumption Reverse ori" implements "Msg Interface ori", 
     /// <summary>Returns the workflow chapter.</summary>
     procedure GetWorkflow(var Workflow: JsonObject): Boolean
     begin
-        Contract.GetWorkflow(Workflow);
+        Contract.GetWorkflow(false, Workflow);
         exit(true);
     end;
 
     /// <summary>Returns the examples chapter.</summary>
     procedure GetExamples(var Examples: JsonArray): Boolean
     begin
-        Contract.GetExamples(Examples);
+        Contract.GetExamples(false, Examples);
         exit(true);
     end;
 

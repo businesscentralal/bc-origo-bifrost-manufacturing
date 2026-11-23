@@ -98,28 +98,34 @@ codeunit 10077112 "Mfg Reverse Contract ori"
         Related.Add(Contract.RelatedEntry('Data.Records.Get', 'Read production orders and their ledger entries.'));
         Related.Add(Contract.RelatedEntry('Manufacturing.ProductionJournal.Post', 'Post corrected output or consumption after reversing.'));
         Related.Add(Contract.RelatedEntry('Manufacturing.ProductionOrder.Reopen', 'Reopen a Finished order before correction, subject to its own rules.'));
-        Related.Add(Contract.RelatedEntry('Inventory.AdjustCost.Run', 'Settle item costs after the corrections.'));
+        if Enum::"Message Type ori".Names().Contains('Inventory.AdjustCost.Run') then
+            Related.Add(Contract.RelatedEntry('Inventory.AdjustCost.Run', 'Settle item costs after the corrections.'));
     end;
 
     /// <summary>Explains selection, confirmation and correction.</summary>
-    internal procedure GetWorkflow(var Workflow: JsonObject)
+    internal procedure GetWorkflow(WithCapacity: Boolean; var Workflow: JsonObject)
     var
         Contract: Codeunit "Msg Contract Mgt ori";
         Steps: JsonArray;
     begin
         Steps.Add(Contract.WorkflowStep('Data.Records.Get', 'Read the Released order and select its original output or consumption entries.'));
-        Steps.Add(Contract.WorkflowStep('Manufacturing.Output.Reverse / Manufacturing.Consumption.Reverse', 'Call the matching operation without expectedCount to read the selected entry count.'));
-        Steps.Add(Contract.WorkflowStep('Manufacturing.ProductionJournal.Post', 'After reversal with the exact count, post corrected quantities and use Inventory.AdjustCost.Run.'));
+        if WithCapacity then
+            Steps.Add(Contract.WorkflowStep('Manufacturing.Output.Reverse', 'Call without expectedCount to read the selected entry count, then confirm that exact count.'))
+        else
+            Steps.Add(Contract.WorkflowStep('Manufacturing.Consumption.Reverse', 'Call without expectedCount to read the selected entry count, then confirm that exact count.'));
+        Steps.Add(Contract.WorkflowStep('Manufacturing.ProductionJournal.Post', 'After reversal, post corrected quantities and settle cost with the installed Inventory app or standard cost adjustment.'));
         Workflow.Add('steps', Steps);
     end;
 
     /// <summary>Shows whole-entry requests for both operations.</summary>
-    internal procedure GetExamples(var Examples: JsonArray)
+    internal procedure GetExamples(WithCapacity: Boolean; var Examples: JsonArray)
     var
         Contract: Codeunit "Msg Contract Mgt ori";
     begin
-        Examples.Add(Contract.Example('Reverse one output entry', '{"prodOrderNo":"P100","itemLedgerEntryNos":[123],"expectedCount":1}', '{"status":"Success","prodOrderNo":"P100","reversed":[{"originalEntryNo":123,"newEntryNo":124,"quantity":-10,"itemNo":"P","lotNo":"","serialNo":""}]}'));
-        Examples.Add(Contract.Example('Reverse one consumption entry', '{"prodOrderNo":"P100","itemLedgerEntryNos":[122],"expectedCount":1}', '{"status":"Success","prodOrderNo":"P100","reversed":[{"originalEntryNo":122,"newEntryNo":125,"quantity":20,"itemNo":"C","lotNo":"LOT1","serialNo":""}]}'));
+        if WithCapacity then
+            Examples.Add(Contract.Example('Reverse one output entry', '{"prodOrderNo":"P100","itemLedgerEntryNos":[123],"expectedCount":1}', '{"status":"Success","prodOrderNo":"P100","reversed":[{"originalEntryNo":123,"newEntryNo":124,"quantity":-10,"itemNo":"P","lotNo":"","serialNo":""}]}'))
+        else
+            Examples.Add(Contract.Example('Reverse one consumption entry', '{"prodOrderNo":"P100","itemLedgerEntryNos":[122],"expectedCount":1}', '{"status":"Success","prodOrderNo":"P100","reversed":[{"originalEntryNo":122,"newEntryNo":125,"quantity":20,"itemNo":"C","lotNo":"LOT1","serialNo":""}]}'));
     end;
 
     /// <summary>Explains the correction scope.</summary>
@@ -131,6 +137,6 @@ codeunit 10077112 "Mfg Reverse Contract ori"
     /// <summary>Explains native restrictions and API dialog behavior.</summary>
     internal procedure GetNotes(var Notes: Text)
     begin
-        Notes := 'Business Central validates posting dates, applications, reservations, item tracking and subcontracting. Reverse last-operation capacity through the associated output item entry. Calls use the standard non-interactive API path. The entire selection rolls back on any refusal; no journal lines are left behind.';
+        Notes := 'Business Central validates posting dates, applications, reservations, item tracking and subcontracting. Reverse last-operation capacity through the associated output item entry. Calls use the standard non-interactive API path. The entire selection rolls back on any refusal; no journal lines are left behind. If the installed Inventory app provides Inventory.AdjustCost.Run, use it to settle cost afterwards; otherwise run standard Business Central cost adjustment.';
     end;
 }

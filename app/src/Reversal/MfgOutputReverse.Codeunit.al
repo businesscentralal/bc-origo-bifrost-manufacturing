@@ -111,14 +111,14 @@ codeunit 10077108 "Mfg Output Reverse ori" implements "Msg Interface ori", "Msg 
     /// <summary>Returns the workflow chapter.</summary>
     procedure GetWorkflow(var Workflow: JsonObject): Boolean
     begin
-        Contract.GetWorkflow(Workflow);
+        Contract.GetWorkflow(true, Workflow);
         exit(true);
     end;
 
     /// <summary>Returns the examples chapter.</summary>
     procedure GetExamples(var Examples: JsonArray): Boolean
     begin
-        Contract.GetExamples(Examples);
+        Contract.GetExamples(true, Examples);
         exit(true);
     end;
 
