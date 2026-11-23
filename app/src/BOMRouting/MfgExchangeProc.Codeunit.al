@@ -96,6 +96,9 @@ codeunit 10077101 "Mfg Exchange Proc ori"
         TempSelected.Reset();
         TempSelected.DeleteAll();
         Clear(Skipped);
+        Header.ReadIsolation := IsolationLevel::Default;
+        Version.ReadIsolation := IsolationLevel::Default;
+        Line.ReadIsolation := IsolationLevel::Default;
         Header.SetLoadFields("No.", Status);
         Version.SetLoadFields(Status);
         Line.SetLoadFields("Production BOM No.", "Version Code", "Line No.");
@@ -135,6 +138,7 @@ codeunit 10077101 "Mfg Exchange Proc ori"
     var
         Version: Record "Production BOM Version";
     begin
+        Version.ReadIsolation := IsolationLevel::Default;
         Version.SetLoadFields(SystemId);
         if TempSelected.FindSet() then
             repeat
@@ -153,6 +157,7 @@ codeunit 10077101 "Mfg Exchange Proc ori"
         StartingDate: Date;
     begin
         Evaluate(StartingDate, Contract.TextValue(Request, 'startingDate'), 9);
+        Line.ReadIsolation := IsolationLevel::Default;
         Line.SetRange(Type, Contract.LineType(Request, 'fromType'));
         Line.SetRange("No.", Contract.TextValue(Request, 'fromNo'));
         if TempSelected.FindSet() then
@@ -217,6 +222,8 @@ codeunit 10077101 "Mfg Exchange Proc ori"
         EntryJson: JsonObject;
         Response: JsonObject;
     begin
+        Version.ReadIsolation := IsolationLevel::Default;
+        Line.ReadIsolation := IsolationLevel::Default;
         Version.SetLoadFields(SystemId, "Version Code", Status, "Starting Date");
         Line.SetLoadFields("Line No.", "Quantity per");
         if TempSelected.FindSet() then

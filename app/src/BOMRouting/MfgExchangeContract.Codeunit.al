@@ -190,15 +190,8 @@ codeunit 10077100 "Mfg Exchange Contract ori"
     internal procedure FailNative(var Argument: Record "Message Argument ori")
     var
         Reason: Text;
-        ResponseJson: JsonObject;
-        CodeToken: JsonToken;
     begin
         Reason := GetLastErrorText();
-        Argument.RespondWithLastError();
-        ResponseJson := Argument.GetResponseJson();
-        if ResponseJson.Get('code', CodeToken) then
-            if CodeToken.AsValue().AsText() = 'Retryable' then
-                exit;
         Argument.AddError("Bifrost Error Code ori"::PreconditionFailed, StrSubstNo(NativeLbl, Reason), 'toNo', '', ExpectedLbl, NextLbl);
         Argument.RespondWithCollectedErrors("Bifrost Error Code ori"::PreconditionFailed, StrSubstNo(NativeLbl, Reason));
     end;
@@ -261,7 +254,6 @@ codeunit 10077100 "Mfg Exchange Contract ori"
         Chapter.Add(ContractMgt.ErrorEntry("Bifrost Error Code ori"::ConflictingIdentifiers, 'The source and replacement are identical.', 'Send a different replacement.'));
         Chapter.Add(ContractMgt.ErrorEntry("Bifrost Error Code ori"::PermissionDenied, 'The caller lacks Manufacturing write access or native table permissions.', 'Ask for BIFROST Full ori with Manufacturing write access.'));
         Chapter.Add(ContractMgt.ErrorEntry("Bifrost Error Code ori"::PreconditionFailed, 'No active BOM uses the component, native validation refuses the exchange, or Omit Commit was requested. No version is kept after failure.', 'Inspect usage with Manufacturing.WhereUsed.Get and correct component units or BOM data.'));
-        Chapter.Add(ContractMgt.ErrorEntry("Bifrost Error Code ori"::Retryable, 'A transient conflict rolled back the exchange.', 'Retry the same confirmed request after a few seconds.'));
         Chapter.Add(ContractMgt.ErrorEntry("Bifrost Error Code ori"::ConfirmationRequired, 'expectedCount is absent; nothing was changed.', 'Inspect expected and send that number of new versions as expectedCount.'));
         Chapter.Add(ContractMgt.ErrorEntry("Bifrost Error Code ori"::ConfirmationMismatch, 'expectedCount differs from the new-version count; nothing was changed.', 'Inspect the current count and confirm it.'));
     end;
