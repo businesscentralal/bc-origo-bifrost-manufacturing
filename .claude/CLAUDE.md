@@ -59,6 +59,8 @@ Allocated ids (record every new id here):
 | 97641 | codeunit (test) | Prod Order Demand Tests ori |
 | 97643 | codeunit (test) | Mfg Demand Perm Tests ori |
 | 97644 | codeunit (test library) | Mfg Demand Test Lib ori |
+| 97646 | table (test MCP fixture) | Mfg Demand MCP Fixture ori |
+| 97649 | codeunit (test) | Mfg Demand Fixture Tests ori |
 | 97670, 97673-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
 
 | 97604 | codeunit (test) | Prod Order Create Tests ori |

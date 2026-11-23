@@ -138,6 +138,8 @@ Use `describe_message_type` for parameter, response, error and workflow chapters
 | 97641 | codeunit (test) | Prod Order Demand Tests ori |
 | 97643 | codeunit (test) | Mfg Demand Perm Tests ori |
 | 97644 | codeunit (test library) | Mfg Demand Test Lib ori |
+| 97646 | table (test MCP fixture) | Mfg Demand MCP Fixture ori |
+| 97649 | codeunit (test) | Mfg Demand Fixture Tests ori |
 | 97670, 97673-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
 
 The version commit suppression uses a locally bound manual subscriber. Its lifetime is the status call, including exception unwinding; the single-instance context reports that binding without retaining a Boolean after an error.
