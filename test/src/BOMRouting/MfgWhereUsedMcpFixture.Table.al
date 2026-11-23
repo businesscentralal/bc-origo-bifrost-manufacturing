@@ -1,7 +1,7 @@
 namespace Origo.Bifrost.Manufacturing.Test;
 
 /// <summary>Self-seeded where-used MCP fixture. Only issue 29 test prefixes are accepted.</summary>
-table 97644 "Mfg WhereUsed MCP Fixture ori"
+table 97651 "Mfg WhereUsed MCP Fixture ori"
 {
     DataClassification = CustomerContent;
     Caption = 'Where-used MCP fixture', Locked = true;

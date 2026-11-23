@@ -7,7 +7,7 @@ using System.TestLibraries.Security.AccessControl;
 using System.TestLibraries.Utilities;
 
 /// <summary>Issue 29 AC01, AC05, C1 and C2: public dispatcher coverage of native where-used calculations.</summary>
-codeunit 97641 "Mfg WhereUsed Tests ori"
+codeunit 97649 "Mfg WhereUsed Tests ori"
 {
     Subtype = Test;
     TestPermissions = Disabled;

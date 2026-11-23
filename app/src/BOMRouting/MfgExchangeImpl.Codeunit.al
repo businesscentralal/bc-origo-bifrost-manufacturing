@@ -4,7 +4,7 @@ using Microsoft.Manufacturing.ProductionBOM;
 using Origo.Bifrost;
 
 /// <summary>Exchanges components into new BOM versions through the native processing-only report.</summary>
-codeunit 10077099 "Mfg Exchange Impl ori" implements "Msg Interface ori", "Msg Discovery ori", "Msg Contract ori", "Msg Confirm ori"
+codeunit 10077105 "Mfg Exchange Impl ori" implements "Msg Interface ori", "Msg Discovery ori", "Msg Contract ori", "Msg Confirm ori"
 {
     Access = Internal;
     TableNo = "Message Argument ori";

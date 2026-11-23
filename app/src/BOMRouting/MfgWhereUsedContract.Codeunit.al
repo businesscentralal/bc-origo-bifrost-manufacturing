@@ -3,7 +3,7 @@ namespace Origo.Bifrost.Manufacturing;
 using Origo.Bifrost;
 
 /// <summary>Request validation and public help for manufacturing where-used queries.</summary>
-codeunit 10077083 "Mfg WhereUsed Contract ori"
+codeunit 10077103 "Mfg WhereUsed Contract ori"
 {
     Access = Internal;
 

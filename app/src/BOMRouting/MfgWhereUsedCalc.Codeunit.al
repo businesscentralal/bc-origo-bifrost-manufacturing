@@ -5,7 +5,7 @@ using Microsoft.Manufacturing.ProductionBOM;
 using Origo.Bifrost;
 
 /// <summary>Validates a where-used request and reads the native temporary calculation.</summary>
-codeunit 10077084 "Mfg WhereUsed Calc ori"
+codeunit 10077104 "Mfg WhereUsed Calc ori"
 {
     Access = Internal;
 

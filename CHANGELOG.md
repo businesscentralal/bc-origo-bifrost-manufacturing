@@ -2,7 +2,7 @@
 
 ## Unreleased
 
-- Issue #29: `Manufacturing.WhereUsed.Get` uses native date-effective, multilevel calculations with owning BOMs, traversal levels and required quantities. Objects 10077082–10077084; tests and owned MCP fixtures 97641, 97643–97644. Also add `Manufacturing.ProductionBOM.ExchangeItem` (10077099–10077101; tests 97646), creating new versions only through the native processing-only report, with confirmed version counts and atomic certification rollback. Existing headers, versions and lines are preserved. English help and Icelandic discovery/refusals are synchronized.
+- Issue #29: `Manufacturing.WhereUsed.Get` uses native date-effective, multilevel calculations with owning BOMs, traversal levels and required quantities. Objects 10077102–10077104; tests and owned MCP fixtures 97649–97651. Also add `Manufacturing.ProductionBOM.ExchangeItem` (10077101, 10077105–10077106; tests 97646), creating new versions only through the native processing-only report, with confirmed version counts and atomic certification rollback. Existing headers, versions and lines are preserved. English help and Icelandic discovery/refusals are synchronized.
 
 - #37: classify `Manufacturing.ProductionOrder.Reopen` as `write`, with no irreversible confirmation preview. Accept and ignore legacy `expectedCount`; retain the once-only, output, valuation and permission checks. ChangeStatus, Finish and ProductionJournal.Post remain irreversible because they can post. Update English/Icelandic selection help and contract chapters. Regression coverage checks every Manufacturing type and reopening with confirmation enabled and missing or mismatched counts. No new object IDs.
 

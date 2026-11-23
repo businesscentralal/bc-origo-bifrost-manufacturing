@@ -9,7 +9,7 @@ using System.Diagnostics;
 using System.TestLibraries.Utilities;
 
 /// <summary>Builds and removes an owned two-level structure from raw records for issue 29.</summary>
-codeunit 97643 "Mfg WhereUsed Fixture ori"
+codeunit 97650 "Mfg WhereUsed Fixture ori"
 {
     Access = Internal;
 

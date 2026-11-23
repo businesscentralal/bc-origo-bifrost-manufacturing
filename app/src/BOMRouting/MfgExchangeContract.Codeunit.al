@@ -5,7 +5,7 @@ using Microsoft.Manufacturing.ProductionBOM;
 using Origo.Bifrost;
 
 /// <summary>Validates exchange requests and describes the version-only operation.</summary>
-codeunit 10077100 "Mfg Exchange Contract ori"
+codeunit 10077106 "Mfg Exchange Contract ori"
 {
     Access = Internal;
 

@@ -4,7 +4,7 @@ using Microsoft.Manufacturing.ProductionBOM;
 using Origo.Bifrost;
 
 /// <summary>Finds item and production BOM usage through native manufacturing calculations.</summary>
-codeunit 10077082 "Mfg WhereUsed Impl ori" implements "Msg Interface ori", "Msg Discovery ori", "Msg Contract ori"
+codeunit 10077102 "Mfg WhereUsed Impl ori" implements "Msg Interface ori", "Msg Discovery ori", "Msg Contract ori"
 {
     Access = Internal;
     TableNo = "Message Argument ori";
