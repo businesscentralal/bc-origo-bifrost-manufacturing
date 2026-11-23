@@ -9,7 +9,7 @@ using Microsoft.Sales.Document;
 using System.TestLibraries.Utilities;
 
 /// <summary>Proves the CreateFromDemand MCP fixture seeds a released sales order and its cleanup removes all owned data.</summary>
-codeunit 97649 "Mfg Demand Fixture Tests ori"
+codeunit 97652 "Mfg Demand Fixture Tests ori"
 {
     Subtype = Test;
     TestPermissions = Disabled;

@@ -37,4 +37,16 @@ enumextension 10077085 "Mfg BOMRtg MsgType ori" extends "Message Type ori"
         Caption = 'Manufacturing.Routing.CopyVersion', Locked = true;
         Implementation = "Msg Interface ori" = "Routing Copy Impl ori", "Msg Discovery ori" = "Routing Copy Impl ori", "Msg Contract ori" = "Routing Copy Impl ori";
     }
+    /// <summary>Finds assemblies using an item or production BOM.</summary>
+    value(10077102; "Manufacturing.WhereUsed.Get")
+    {
+        Caption = 'Manufacturing.WhereUsed.Get', Locked = true;
+        Implementation = "Msg Interface ori" = "Mfg WhereUsed Impl ori", "Msg Discovery ori" = "Mfg WhereUsed Impl ori", "Msg Contract ori" = "Mfg WhereUsed Impl ori";
+    }
+    /// <summary>Exchanges components by creating confirmed new production BOM versions.</summary>
+    value(10077105; "Manufacturing.ProductionBOM.ExchangeItem")
+    {
+        Caption = 'Manufacturing.ProductionBOM.ExchangeItem', Locked = true;
+        Implementation = "Msg Interface ori" = "Mfg Exchange Impl ori", "Msg Discovery ori" = "Mfg Exchange Impl ori", "Msg Contract ori" = "Mfg Exchange Impl ori", "Msg Confirm ori" = "Mfg Exchange Impl ori";
+    }
 }

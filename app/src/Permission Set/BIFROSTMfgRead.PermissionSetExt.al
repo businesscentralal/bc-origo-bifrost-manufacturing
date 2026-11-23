@@ -12,6 +12,9 @@ using Origo.Bifrost;
 permissionsetextension 10077038 "BIFROST MfgRead ori" extends "BIFROST Read ori"
 {
     Permissions =
+        codeunit "Mfg WhereUsed Impl ori" = X,
+        codeunit "Mfg WhereUsed Calc ori" = X,
+        codeunit "Mfg WhereUsed Contract ori" = X,
         codeunit "Mfg Component Get Impl ori" = X,
         codeunit "Mfg Statistics Get Impl ori" = X,
         codeunit "Mfg Order Read Request ori" = X,

@@ -17,6 +17,16 @@ Allocated ids (record every new id here):
 
 | Id | Object | Name |
 | --- | --- | --- |
+| 10077105 | codeunit | Mfg Exchange Impl ori (enum value 10077105, confirmation) |
+| 10077106 | codeunit | Mfg Exchange Contract ori |
+| 10077101 | codeunit | Mfg Exchange Proc ori |
+| 97646 | codeunit (test) | Mfg Exchange Tests ori |
+| 10077102 | codeunit | Mfg WhereUsed Impl ori (enum value 10077102) |
+| 10077103 | codeunit | Mfg WhereUsed Contract ori |
+| 10077104 | codeunit | Mfg WhereUsed Calc ori |
+| 97649 | codeunit (test) | Mfg WhereUsed Tests ori |
+| 97650 | codeunit (test fixture) | Mfg WhereUsed Fixture ori |
+| 97651 | table (test MCP fixture) | Mfg WhereUsed MCP Fixture ori |
 | 10077035 | codeunit | Mfg Registration ori |
 | 10077036 | permissionset | BIFROST Mfg ori |
 | 10077037 | permissionsetextension | BIFROST MfgFull ori |
@@ -40,7 +50,6 @@ Allocated ids (record every new id here):
 | 10077084 | codeunit (plan reader and confirm counter) | Prod Order Demand Plan ori |
 | 10077099 | codeunit | Mfg Demand Contract ori |
 | 10077100 | codeunit (manual subscriber) | Prod Order Demand Events ori |
-| 10077101-10077104 | reserved | unused; do not reuse without recording the object |
 | 97600 | codeunit (test) | Mfg Test Install ori |
 | 97601 | codeunit (test) | Mfg Test Upgrade ori |
 | 97602 | codeunit (test) | Mfg Registration Tst ori |
@@ -60,7 +69,7 @@ Allocated ids (record every new id here):
 | 97643 | codeunit (test) | Mfg Demand Perm Tests ori |
 | 97644 | codeunit (test library) | Mfg Demand Test Lib ori |
 | 97646 | table (test MCP fixture) | Mfg Demand MCP Fixture ori |
-| 97649 | codeunit (test) | Mfg Demand Fixture Tests ori |
+| 97652 | codeunit (test) | Mfg Demand Fixture Tests ori |
 | 97670, 97673-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
 
 | 97604 | codeunit (test) | Prod Order Create Tests ori |
