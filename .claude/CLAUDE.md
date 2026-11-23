@@ -17,6 +17,16 @@ Allocated ids (record every new id here):
 
 | Id | Object | Name |
 | --- | --- | --- |
+| 10077105 | codeunit | Mfg Exchange Impl ori (enum value 10077105, confirmation) |
+| 10077106 | codeunit | Mfg Exchange Contract ori |
+| 10077101 | codeunit | Mfg Exchange Proc ori |
+| 97646 | codeunit (test) | Mfg Exchange Tests ori |
+| 10077102 | codeunit | Mfg WhereUsed Impl ori (enum value 10077102) |
+| 10077103 | codeunit | Mfg WhereUsed Contract ori |
+| 10077104 | codeunit | Mfg WhereUsed Calc ori |
+| 97649 | codeunit (test) | Mfg WhereUsed Tests ori |
+| 97650 | codeunit (test fixture) | Mfg WhereUsed Fixture ori |
+| 97651 | table (test MCP fixture) | Mfg WhereUsed MCP Fixture ori |
 | 10077035 | codeunit | Mfg Registration ori |
 | 10077036 | permissionset | BIFROST Mfg ori |
 | 10077037 | permissionsetextension | BIFROST MfgFull ori |
@@ -35,7 +45,6 @@ Allocated ids (record every new id here):
 | 10077096 | codeunit | Routing Copy Impl ori |
 | 10077097 | codeunit | Routing Copy Proc ori |
 | 10077098 | codeunit | Mfg Copy Contract ori |
-| 10077099-10077104 | reserved | unused; do not reuse without recording the object |
 | 97600 | codeunit (test) | Mfg Test Install ori |
 | 97601 | codeunit (test) | Mfg Test Upgrade ori |
 | 97602 | codeunit (test) | Mfg Registration Tst ori |

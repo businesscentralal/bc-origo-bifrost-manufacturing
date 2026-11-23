@@ -1521,6 +1521,150 @@
           <note from="Developer" annotates="general" priority="2">is-IS=Bifröst - framleiðslubókun</note>
           <note from="Xliff Generator" annotates="general" priority="3">PermissionSet BIFROST MfgPost ori - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Codeunit 3415044500 - NamedType 4120398360" size-unit="char" translate="yes" xml:space="preserve">
+          <source>a declared parameter with a valid value</source>
+          <target>skilgreind færibreyta með gildu gildi</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=skilgreind færibreyta með gildu gildi</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg WhereUsed Contract ori - NamedType ExpectedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3415044500 - NamedType 680257497" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send type item or productionBOM and an existing no. Use a yyyy-mm-dd calculationDate and a boolean multiLevel. Check the component units and BOM structure with Data.Records.Get.</source>
+          <target>Sendu type item eða productionBOM og no sem er til. Notaðu calculationDate á forminu yyyy-mm-dd og multiLevel sem rökgildi. Athugaðu mælieiningar íhluta og gerð efnislista með Data.Records.Get.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu type item eða productionBOM og no sem er til. Notaðu calculationDate á forminu yyyy-mm-dd og multiLevel sem rökgildi. Athugaðu mælieiningar íhluta og gerð efnislista með Data.Records.Get.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg WhereUsed Contract ori - NamedType NextStepLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3415044500 - NamedType 1202302840" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Ask for BIFROST Read ori and permission to read items and production BOMs.</source>
+          <target>Biddu um BIFROST Read ori og heimild til að lesa vörur og framleiðsluefnislista.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Biddu um BIFROST Read ori og heimild til að lesa vörur og framleiðsluefnislista.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg WhereUsed Contract ori - NamedType PermissionNextStepLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3415044500 - NamedType 1805346340" size-unit="char" translate="yes" xml:space="preserve">
+          <source>The where-used request cannot use parameter %1.</source>
+          <target>Beiðnin um notkun getur ekki notað færibreytuna %1.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = parameter name, is-IS=Beiðnin um notkun getur ekki notað færibreytuna %1.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg WhereUsed Contract ori - NamedType RefusalLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3415044500 - NamedType 2270216465" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Remove the undeclared parameter and send the request again.</source>
+          <target>Fjarlægðu óskilgreindu færibreytuna og sendu beiðnina aftur.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Fjarlægðu óskilgreindu færibreytuna og sendu beiðnina aftur.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg WhereUsed Contract ori - NamedType UnknownNextStepLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1842236166 - NamedType 3569966352" maxwidth="250" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Finds the assemblies that use an item or production BOM, with levels and required quantities.</source>
+          <target>Finnur samsetningar sem nota vöru eða framleiðsluefnislista, með þrepum og nauðsynlegu magni.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Finnur samsetningar sem nota vöru eða framleiðsluefnislista, með þrepum og nauðsynlegu magni.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg WhereUsed Impl ori - NamedType DescriptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1842236166 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>where used, component, production bom, assembly, multilevel, quantity, engineering</source>
+          <target>hvar notað, íhlutur, framleiðsluefnislisti, samsetning, mörg þrep, magn, verkfræði</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=hvar notað, íhlutur, framleiðsluefnislisti, samsetning, mörg þrep, magn, verkfræði</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg WhereUsed Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 1842236166 - Method 79446908 - NamedType 895773054" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Finds the assemblies using an item or production BOM on a calculation date. Choose multiLevel for indirect usage. Nothing is changed.</source>
+          <target>Finnur samsetningar sem nota vöru eða framleiðsluefnislista á útreikningsdegi. Veldu multiLevel fyrir óbeina notkun. Engu er breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Finnur samsetningar sem nota vöru eða framleiðsluefnislista á útreikningsdegi. Veldu multiLevel fyrir óbeina notkun. Engu er breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg WhereUsed Impl ori - Method GetSelectionDescription - NamedType SelectionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3415044500 - NamedType 560240436" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Business Central could not calculate usage: %1</source>
+          <target>Business Central gat ekki reiknað notkun: %1</target>
+          <note from="Developer" annotates="general" priority="2">%1 = native validation error, is-IS=Business Central gat ekki reiknað notkun: %1</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg WhereUsed Contract ori - NamedType CalculationFailedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3361726811 - NamedType 4075788198" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Inspect the number of new versions and resend expectedCount with exactly that number.</source>
+          <target>Skoðaðu fjölda nýrra útgáfa og sendu expectedCount aftur með nákvæmlega þeim fjölda.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Skoðaðu fjölda nýrra útgáfa og sendu expectedCount aftur með nákvæmlega þeim fjölda.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Exchange Contract ori - NamedType ConfirmationNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3361726811 - NamedType 4120398360" size-unit="char" translate="yes" xml:space="preserve">
+          <source>a valid documented value</source>
+          <target>gilt skjalfest gildi</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=gilt skjalfest gildi</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Exchange Contract ori - NamedType ExpectedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3361726811 - NamedType 1066607173" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Cannot exchange components: parameter %1 is not valid for this request.</source>
+          <target>Ekki er hægt að skipta um íhluti: færibreytan %1 er ekki gild fyrir þessa beiðni.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = parameter, is-IS=Ekki er hægt að skipta um íhluti: færibreytan %1 er ekki gild fyrir þessa beiðni.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Exchange Contract ori - NamedType InvalidLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3361726811 - NamedType 2119438125" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Business Central refused the exchange: %1</source>
+          <target>Business Central hafnaði íhlutaskiptum: %1</target>
+          <note from="Developer" annotates="general" priority="2">%1 = native validation error, is-IS=Business Central hafnaði íhlutaskiptum: %1</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Exchange Contract ori - NamedType NativeLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3361726811 - NamedType 2029447175" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send existing, different fromType/fromNo and toType/toNo, a yyyy-mm-dd startingDate and the documented JSON formats. Inspect usage with Manufacturing.WhereUsed.Get.</source>
+          <target>Sendu fromType/fromNo og toType/toNo sem eru til og mismunandi, startingDate á forminu yyyy-mm-dd og skjalfest JSON-snið. Skoðaðu notkun með Manufacturing.WhereUsed.Get.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu fromType/fromNo og toType/toNo sem eru til og mismunandi, startingDate á forminu yyyy-mm-dd og skjalfest JSON-snið. Skoðaðu notkun með Manufacturing.WhereUsed.Get.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Exchange Contract ori - NamedType NextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3361726811 - NamedType 3932376842" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Ask for BIFROST Full ori and native Manufacturing write permissions.</source>
+          <target>Biddu um BIFROST Full ori og skrifheimildir í framleiðslu.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Biddu um BIFROST Full ori og skrifheimildir í framleiðslu.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Exchange Contract ori - NamedType PermissionNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3361726811 - NamedType 2001379935" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Remove the undeclared parameter; deletion and in-place exchange are not supported.</source>
+          <target>Fjarlægðu óskilgreindu færibreytuna; eyðing og skipti í eldri útgáfum eru ekki studd.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Fjarlægðu óskilgreindu færibreytuna; eyðing og skipti í eldri útgáfum eru ekki studd.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Exchange Contract ori - NamedType UnknownNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 976918781 - NamedType 3569966352" maxwidth="250" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Replaces a component across active production BOMs by creating new versions; existing versions stay unchanged.</source>
+          <target>Skiptir um íhlut í virkum framleiðsluefnislistum með því að búa til nýjar útgáfur; eldri útgáfur haldast óbreyttar.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Skiptir um íhlut í virkum framleiðsluefnislistum með því að búa til nýjar útgáfur; eldri útgáfur haldast óbreyttar.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Exchange Impl ori - NamedType DescriptionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 976918781 - Method 3507224617 - NamedType 3337375434" size-unit="char" translate="yes" xml:space="preserve">
+          <source>%1 new production BOM versions</source>
+          <target>%1 nýjar útgáfur framleiðsluefnislista</target>
+          <note from="Developer" annotates="general" priority="2">%1 = new version count, is-IS=%1 nýjar útgáfur framleiðsluefnislista</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Exchange Impl ori - Method GetConfirmCount - NamedType SummaryLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 976918781 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>exchange component, replace item, production bom, engineering change, new versions, discontinued item</source>
+          <target>skipta um íhlut, skipta út vöru, framleiðsluefnislisti, verkfræðibreyting, nýjar útgáfur, hætt vara</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=skipta um íhlut, skipta út vöru, framleiðsluefnislisti, verkfræðibreyting, nýjar útgáfur, hætt vara</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Exchange Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 976918781 - Method 79446908 - NamedType 895773054" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Replaces a component in new versions of active production BOMs. Preview without expectedCount, then confirm the number of new versions. Existing headers, versions and lines stay unchanged.</source>
+          <target>Skiptir út íhlut í nýjum útgáfum virkra framleiðsluefnislista. Forskoðaðu án expectedCount og staðfestu síðan fjölda nýrra útgáfa. Eldri hausar, útgáfur og línur haldast óbreytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Skiptir út íhlut í nýjum útgáfum virkra framleiðsluefnislista. Forskoðaðu án expectedCount og staðfestu síðan fjölda nýrra útgáfa. Eldri hausar, útgáfur og línur haldast óbreytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Exchange Impl ori - Method GetSelectionDescription - NamedType SelectionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 577088327 - NamedType 3026428548" size-unit="char" translate="yes" xml:space="preserve">
+          <source>The exchange created an unexpected number of versions. All changes were rolled back.</source>
+          <target>Íhlutaskiptin bjuggu til óvæntan fjölda útgáfa. Öllum breytingum var afturkallað.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Íhlutaskiptin bjuggu til óvæntan fjölda útgáfa. Öllum breytingum var afturkallað.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Exchange Proc ori - NamedType ResultCountLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 577088327 - NamedType 3306272166" size-unit="char" translate="yes" xml:space="preserve">
+          <source>The source version is inactive or the BOM is closed.</source>
+          <target>Upprunaútgáfan er óvirk eða efnislistinn er lokaður.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Upprunaútgáfan er óvirk eða efnislistinn er lokaður.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Exchange Proc ori - NamedType SkippedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3361726811 - NamedType 4064548664" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Component exchange requires its own committing transaction.</source>
+          <target>Íhlutaskipti krefjast eigin færslu sem er staðfest í gagnagrunni.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Íhlutaskipti krefjast eigin færslu sem er staðfest í gagnagrunni.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Exchange Contract ori - NamedType OmitCommitLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3361726811 - NamedType 563883597" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Run the exchange as a separate committing operation without Omit Commit.</source>
+          <target>Keyrðu íhlutaskiptin sem sérstaka aðgerð sem staðfestir færslur án Omit Commit.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Keyrðu íhlutaskiptin sem sérstaka aðgerð sem staðfestir færslur án Omit Commit.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Exchange Contract ori - NamedType OmitCommitNextLbl</note>
+        </trans-unit>
       </group>
     </body>
   </file>
