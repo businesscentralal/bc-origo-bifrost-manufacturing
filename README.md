@@ -111,6 +111,11 @@ Use `describe_message_type` for parameter, response, error and workflow chapters
 | 10077096 | codeunit | Routing Copy Impl ori |
 | 10077097 | codeunit | Routing Copy Proc ori |
 | 10077098 | codeunit | Mfg Copy Contract ori |
+| 10077082 | codeunit | Prod Order Demand Impl ori (enum value 10077082, Manufacturing.ProductionOrder.CreateFromDemand) |
+| 10077083 | codeunit | Prod Order Demand Proc ori |
+| 10077084 | codeunit (plan reader and confirm counter) | Prod Order Demand Plan ori |
+| 10077099 | codeunit | Mfg Demand Contract ori |
+| 10077100 | codeunit (manual subscriber) | Prod Order Demand Events ori |
 | 97600 | codeunit (test) | Mfg Test Install ori |
 | 97601 | codeunit (test) | Mfg Test Upgrade ori |
 | 97602 | codeunit (test) | Mfg Registration Tst ori |
@@ -141,6 +146,11 @@ Use `describe_message_type` for parameter, response, error and workflow chapters
 | 97668 | permissionset (test) | BOM Rtg NoGrant ori |
 | 97671 | codeunit (test) | Prod BOM Copy Tests ori |
 | 97672 | codeunit (test) | Routing Copy Tests ori |
+| 97641 | codeunit (test) | Prod Order Demand Tests ori |
+| 97643 | codeunit (test) | Mfg Demand Perm Tests ori |
+| 97644 | codeunit (test library) | Mfg Demand Test Lib ori |
+| 97646 | table (test MCP fixture) | Mfg Demand MCP Fixture ori |
+| 97652 | codeunit (test) | Mfg Demand Fixture Tests ori |
 | 97670, 97673-97679 | reserved | unused; the story name BOM Routing OmitCommit Tests ori is 32 characters, so 97665 uses the shortened name |
 
 The version commit suppression uses a locally bound manual subscriber. Its lifetime is the status call, including exception unwinding; the single-instance context reports that binding without retaining a Boolean after an error.

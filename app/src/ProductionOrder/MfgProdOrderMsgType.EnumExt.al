@@ -17,4 +17,10 @@ enumextension 10077039 "Mfg ProdOrder MsgType ori" extends "Message Type ori"
         Caption = 'Manufacturing.ProductionOrder.Refresh', Locked = true;
         Implementation = "Msg Interface ori" = "Prod Order Refresh Impl ori", "Msg Discovery ori" = "Prod Order Refresh Impl ori", "Msg Contract ori" = "Prod Order Refresh Impl ori";
     }
+    /// <summary>Create production orders from sales order demand.</summary>
+    value(10077082; "Manufacturing.ProductionOrder.CreateFromDemand")
+    {
+        Caption = 'Manufacturing.ProductionOrder.CreateFromDemand', Locked = true;
+        Implementation = "Msg Interface ori" = "Prod Order Demand Impl ori", "Msg Discovery ori" = "Prod Order Demand Impl ori", "Msg Contract ori" = "Prod Order Demand Impl ori", "Msg Confirm ori" = "Prod Order Demand Plan ori";
+    }
 }

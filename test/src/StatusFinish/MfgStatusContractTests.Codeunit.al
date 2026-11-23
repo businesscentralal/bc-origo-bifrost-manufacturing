@@ -58,6 +58,7 @@ codeunit 97626 "Mfg Status Contract Tests ori"
         Posting: Boolean;
     begin
         // Story #37 + #6: enumerate every type registered in this app's ID range.
+        // Story #23: CreateFromDemand creates orders no operation can remove, so it is irreversible and confirmed by count.
         foreach Ordinal in MessageType.Ordinals() do
             if (Ordinal >= 10077035) and (Ordinal <= 10077134) then begin
                 MessageType := Enum::"Message Type ori".FromInteger(Ordinal);
@@ -66,14 +67,15 @@ codeunit 97626 "Mfg Status Contract Tests ori"
                 Assert.IsTrue(Contract.GetEffect(Effect), 'Every manufacturing type declares its effect.');
                 Assert.IsTrue(Effect.Get('effect', EffectToken), 'Effect classification is required.');
                 Posting := MessageType in [MessageType::"Manufacturing.ProductionJournal.Post",
-                    MessageType::"Manufacturing.ProductionOrder.Finish", MessageType::"Manufacturing.ProductionOrder.ChangeStatus"];
+                    MessageType::"Manufacturing.ProductionOrder.Finish", MessageType::"Manufacturing.ProductionOrder.ChangeStatus",
+                    MessageType::"Manufacturing.ProductionOrder.CreateFromDemand"];
                 Assert.AreEqual(Posting, EffectToken.AsValue().AsText() = 'irreversible',
                     MessageType.Names().Get(MessageType.Ordinals().IndexOf(Ordinal)));
                 if Posting then
                     PostingCount += 1;
                 TypeCount += 1;
             end;
-        Assert.AreEqual(3, PostingCount, 'All three posting types were checked.');
+        Assert.AreEqual(4, PostingCount, 'All three posting types and CreateFromDemand were checked.');
         Assert.IsTrue(TypeCount > PostingCount, 'Non-posting types were also checked.');
     end;
 
