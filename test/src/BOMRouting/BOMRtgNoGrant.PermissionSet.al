@@ -11,7 +11,8 @@ permissionset 97668 "BOM Rtg NoGrant ori"
     Assignable = true;
     Caption = 'BOM Routing permission test', Locked = true;
     IncludedPermissionSets = "Mfg Platform Tst ori";
-    Permissions = codeunit "BOM Routing Test Lib ori" = X,
+    Permissions = codeunit "Mfg Exchange Tests ori" = X, codeunit "Mfg WhereUsed Tests ori" = X,
+                  codeunit "Mfg Test Data ori" = X, codeunit "BOM Routing Test Lib ori" = X,
                   codeunit "BOM Routing Perm Tests ori" = X,
                   codeunit "Library Assert" = X;
 }

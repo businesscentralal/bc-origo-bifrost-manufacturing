@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Issue #29: `Manufacturing.WhereUsed.Get` uses native date-effective, multilevel calculations with owning BOMs, traversal levels and required quantities. Objects 10077082–10077084; tests and owned MCP fixtures 97641, 97643–97644. Also add `Manufacturing.ProductionBOM.ExchangeItem` (10077099–10077101; tests 97646), creating new versions only through the native processing-only report, with confirmed version counts and atomic certification rollback. Existing headers, versions and lines are preserved. English help and Icelandic discovery/refusals are synchronized.
+
 - #37: classify `Manufacturing.ProductionOrder.Reopen` as `write`, with no irreversible confirmation preview. Accept and ignore legacy `expectedCount`; retain the once-only, output, valuation and permission checks. ChangeStatus, Finish and ProductionJournal.Post remain irreversible because they can post. Update English/Icelandic selection help and contract chapters. Regression coverage checks every Manufacturing type and reopening with confirmation enabled and missing or mismatched counts. No new object IDs.
 
 - #22: `Manufacturing.ProductionOrder.Reopen` reopens a finished production order once through the standard Business Central status move, with posting permission, `expectedCount` confirmation, output and valuation-date checks. BC 28.5 uses the native public wrapper with a manually scoped document subscriber; API calls use its default confirmation after the expectedCount gate. New app codeunits 10077068–10077069, 10077077 and 10077081; test objects 97635–97639. Generic status-field write hints name Reopen. The owned Reopen and read fixtures use the supported Pick + Manual flushing option on their locations without pick requirements (97630, 97637).

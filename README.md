@@ -18,6 +18,8 @@ consumption, so an agent can operate it end to end. It is built on the same basi
 
 `Manufacturing.ProductionOrder.Reopen` moves a Finished order back to Released once, using the standard BC routine. The caller needs Manufacturing write access and `BIFROST MfgPost ori`. The effect is `write`: no confirmation preview is required, and legacy `expectedCount` is accepted and ignored. Every line needs posted output, and no order value entry may predate the Earliest Allowed Valuation Date. The call commits, including under Omit Commit, and posts no ledger entries. Use the returned Released order `systemId` (the move assigns a new one) for journal posting, CheckFinish and Finish. Subcontracting WIP is reopened separately through `Subcontracting.WIPLedger.Reopen`.
 
+`Manufacturing.WhereUsed.Get` finds the owning assemblies that use an item or production BOM, with date-effective versions, native traversal levels and multiplied quantities. Send `type` (`item` or `productionBOM`), `no`, and optionally `calculationDate` and `multiLevel` (defaults to true). A read role is sufficient. Native levels include both item and BOM nodes; a BOM with no owning item has no assembly result. `Manufacturing.ProductionBOM.ExchangeItem` previews the number of new versions, then replaces the component in new versions only after `expectedCount` confirms that count. It requires Manufacturing write access. The native processing-only report is configured through XML using source variable names; its certification commits are suppressed until the batch succeeds. Existing headers, versions and lines stay unchanged. Exchange refuses Omit Commit before writing, so it runs as a separate committing operation.
+
 Use `describe_message_type` for parameter, response, error and workflow chapters. Ordinary field reads and edits remain with `Data.Records.Get` and `Data.Records.Set`.
 
 ---
@@ -35,6 +37,16 @@ Use `describe_message_type` for parameter, response, error and workflow chapters
 
 | Id | Object | Name |
 | --- | --- | --- |
+| 10077099 | codeunit | Mfg Exchange Impl ori (enum value 10077099, confirmation) |
+| 10077100 | codeunit | Mfg Exchange Contract ori |
+| 10077101 | codeunit | Mfg Exchange Proc ori |
+| 97646 | codeunit (test) | Mfg Exchange Tests ori |
+| 10077082 | codeunit | Mfg WhereUsed Impl ori (enum value 10077082) |
+| 10077083 | codeunit | Mfg WhereUsed Contract ori |
+| 10077084 | codeunit | Mfg WhereUsed Calc ori |
+| 97641 | codeunit (test) | Mfg WhereUsed Tests ori |
+| 97643 | codeunit (test fixture) | Mfg WhereUsed Fixture ori |
+| 97644 | table (test MCP fixture) | Mfg WhereUsed MCP Fixture ori |
 | 10077035 | codeunit | Mfg Registration ori |
 | 10077036 | permissionset | BIFROST Mfg ori |
 | 10077037 | permissionsetextension | BIFROST MfgFull ori |
@@ -99,7 +111,7 @@ Use `describe_message_type` for parameter, response, error and workflow chapters
 | 10077096 | codeunit | Routing Copy Impl ori |
 | 10077097 | codeunit | Routing Copy Proc ori |
 | 10077098 | codeunit | Mfg Copy Contract ori |
-| 10077099-10077104 | reserved | unused; do not reuse without recording the object |
+| 10077102-10077104 | reserved | unused; do not reuse without recording the object |
 | 97600 | codeunit (test) | Mfg Test Install ori |
 | 97601 | codeunit (test) | Mfg Test Upgrade ori |
 | 97602 | codeunit (test) | Mfg Registration Tst ori |
