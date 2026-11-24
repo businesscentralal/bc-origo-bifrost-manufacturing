@@ -41,6 +41,7 @@ codeunit 10077054 "Mfg Status Contract ori"
         Parameters.Add(Contract.Parameter('productionOrderStatus', 'string', false, 'Optional current status that narrows the lookup: Simulated, Planned, FirmPlanned, Released or Finished.'));
         Parameters.Add(Contract.Parameter('newStatus', 'string', true, 'FirmPlanned or Released. Finished is refused (use Manufacturing.ProductionOrder.Finish); Planned, Simulated, backward moves and the current status are refused.'));
         Parameters.Add(Contract.Parameter('postingDate', 'string', false, 'ISO date yyyy-mm-dd for the entries forward flushing posts on release. Default is the session work date.'));
+        Parameters.Add(Contract.Parameter('expectedCount', 'integer', false, 'Optional legacy parameter; accepted and ignored.'));
     end;
 
     /// <summary>Lists the accepted Finish data keys and their rules.</summary>

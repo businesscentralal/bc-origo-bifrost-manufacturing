@@ -4,7 +4,7 @@ using Origo.Bifrost;
 
 /// <summary>
 /// Contract chapters for Manufacturing.ProductionOrder.CreateFromDemand.
-/// Foundation adds the expectedCount parameter and the confirmation effect to this type.
+/// Declares a legacy expectedCount parameter that is accepted and ignored.
 /// </summary>
 codeunit 10077099 "Mfg Demand Contract ori"
 {
@@ -42,6 +42,7 @@ codeunit 10077099 "Mfg Demand Contract ori"
         Parameters.Add(Contract.Parameter('lineNos', 'array', false, 'Sales line numbers (integers) to supply. Default: every item line that needs a production order. Only with orderType ItemOrder.'));
         Parameters.Add(Contract.Parameter('status', 'string', false, 'Planned, FirmPlanned (default) or Released. Released also needs the posting permission set and posts forward-flushed consumption and output.'));
         Parameters.Add(Contract.Parameter('orderType', 'string', false, 'ItemOrder (default): one production order per sales line. ProjectOrder: one production order for the whole sales order, with one line per sales line. ProjectOrder has nothing to do with projects.'));
+        Parameters.Add(Contract.Parameter('expectedCount', 'integer', false, 'Optional legacy parameter; accepted and ignored.'));
     end;
 
     /// <summary>Describes the success response.</summary>
