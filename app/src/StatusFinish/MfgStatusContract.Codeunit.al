@@ -4,7 +4,7 @@ using Origo.Bifrost;
 
 /// <summary>
 /// Single source for the ChangeStatus (Kind 0), Finish (Kind 1) and CheckFinish (Kind 2) and Reopen (Kind 3) contract chapters.
-/// Foundation adds the expectedCount parameter and the confirmation effect to the irreversible types.
+/// Foundation adds the expectedCount parameter and the confirmation effect to the irreversible Finish type.
 /// </summary>
 codeunit 10077054 "Mfg Status Contract ori"
 {
@@ -183,7 +183,7 @@ codeunit 10077054 "Mfg Status Contract ori"
         Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::MultipleErrors, 'Several request problems were collected; nothing was changed.', 'Correct every error entry before retrying.'));
         if Kind = 2 then
             exit;
-        if Kind <> 3 then begin
+        if Kind = 1 then begin
             Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::ConfirmationRequired, 'The call cannot be undone and expectedCount was not sent; nothing was changed.', 'Send the same request again with expectedCount from the refusal.'));
             Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::ConfirmationMismatch, 'expectedCount differs from the current count; nothing was changed.', 'Check the preview and send the current count.'));
         end;
@@ -208,13 +208,13 @@ codeunit 10077054 "Mfg Status Contract ori"
             Effect.Add('preconditions', Preconditions);
             exit;
         end;
-        if Kind = 3 then
+        if Kind in [0, 3] then
             Effect.Add('effect', 'write')
         else
             Effect.Add('effect', 'irreversible');
         Effect.Add('idempotent', false);
         Effect.Add('permissionSet', 'BIFROST Mfg ori + BIFROST MfgPost ori');
-        if Kind <> 3 then
+        if Kind = 1 then
             Effect.Add('count', 'one production order');
         case Kind of
             3:
@@ -224,12 +224,12 @@ codeunit 10077054 "Mfg Status Contract ori"
                     Preconditions.Add('No order value entry predates the Earliest Allowed Valuation Date.');
                 end;
             0:
-                Effect.Add('changes', 'This call commits. Moves the order, its lines, routing and components to the new status with the standard Business Central status change and posts forward-flushed consumption and output on release.');
+                Effect.Add('changes', 'This write commits. Moves the order, its lines, routing and components to the new status with the standard Business Central status change and posts forward-flushed consumption and output on release.');
             else
                 Effect.Add('changes', 'This call commits and cannot be undone. Posts backward-flushed consumption and output, adjusts work in process and moves the order to Finished.');
         end;
         Preconditions.Add('The caller holds BIFROST MfgPost ori.');
-        if Kind <> 3 then
+        if Kind = 1 then
             Preconditions.Add('expectedCount 1 from the ConfirmationRequired preview when the company requires confirmation.');
         if Kind = 1 then
             Preconditions.Add('The order is Released, without outstanding subcontract purchase orders or picks.');
@@ -273,7 +273,7 @@ codeunit 10077054 "Mfg Status Contract ori"
         Steps: JsonArray;
     begin
         Steps.Add(Contract.WorkflowStep('Manufacturing.ProductionOrder.Refresh', 'Calculate the order before releasing it.'));
-        Steps.Add(Contract.WorkflowStep('Manufacturing.ProductionOrder.ChangeStatus', 'Send without expectedCount to read the preview, then again with expectedCount 1 to move to FirmPlanned or Released.'));
+        Steps.Add(Contract.WorkflowStep('Manufacturing.ProductionOrder.ChangeStatus', 'Move to FirmPlanned or Released. No confirmation preview is required; expectedCount is accepted and ignored.'));
         Steps.Add(Contract.WorkflowStep('Manufacturing.ProductionOrder.CheckFinish', 'After output and consumption are posted, check blockers and warnings.'));
         Steps.Add(Contract.WorkflowStep('Manufacturing.ProductionOrder.Finish', 'Finish with expectedCount 1, acknowledging any warning you accept.'));
         Workflow.Add('steps', Steps);
@@ -295,7 +295,6 @@ codeunit 10077054 "Mfg Status Contract ori"
                     Data.Add('no', '101001');
                     Data.Add('productionOrderStatus', 'FirmPlanned');
                     Data.Add('newStatus', 'Released');
-                    Data.Add('expectedCount', 1);
                 end;
             1:
                 begin

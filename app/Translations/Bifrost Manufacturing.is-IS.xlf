@@ -1396,9 +1396,9 @@
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
         </trans-unit>
         <trans-unit id="Codeunit 3980200800 - Method 79446908 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Create production orders from a released sales order. Writes; confirm with expectedCount.</source>
-          <target>Stofnaðu framleiðslupantanir úr útgefinni sölupöntun. Skrifar; staðfestu með expectedCount.</target>
-          <note from="Developer" annotates="general" priority="2">is-IS=Stofnaðu framleiðslupantanir úr útgefinni sölupöntun. Skrifar; staðfestu með expectedCount.</note>
+          <source>Create production orders from a released sales order. Writes.</source>
+          <target>Stofnaðu framleiðslupantanir úr útgefinni sölupöntun. Skrifar.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Stofnaðu framleiðslupantanir úr útgefinni sölupöntun. Skrifar.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Demand Impl ori - Method GetSelectionDescription - NamedType ValueLbl</note>
         </trans-unit>
         <trans-unit id="Codeunit 1918624465 - Method 36341020 - NamedType 3874606732" size-unit="char" translate="yes" xml:space="preserve">

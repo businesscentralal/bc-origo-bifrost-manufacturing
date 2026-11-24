@@ -15,7 +15,7 @@ codeunit 97626 "Mfg Status Contract Tests ori"
     [Test]
     procedure Scenario_AC16_Effects_AndErrors()
     begin
-        AssertContract("Message Type ori"::"Manufacturing.ProductionOrder.ChangeStatus", 'irreversible', true);
+        AssertContract("Message Type ori"::"Manufacturing.ProductionOrder.ChangeStatus", 'write', false);
         AssertContract("Message Type ori"::"Manufacturing.ProductionOrder.Finish", 'irreversible', true);
         AssertContract("Message Type ori"::"Manufacturing.ProductionOrder.CheckFinish", 'read', false);
         AssertContract("Message Type ori"::"Manufacturing.ProductionOrder.Reopen", 'write', false);
@@ -58,7 +58,7 @@ codeunit 97626 "Mfg Status Contract Tests ori"
         Posting: Boolean;
     begin
         // Story #37 + #6: enumerate every type registered in this app's ID range.
-        // Story #23: CreateFromDemand creates orders no operation can remove, so it is irreversible and confirmed by count.
+        // Gunnar 24.11.2026 (#42): ChangeStatus and CreateFromDemand are writes; only posting types are irreversible.
         foreach Ordinal in MessageType.Ordinals() do
             if (Ordinal >= 10077035) and (Ordinal <= 10077134) then begin
                 MessageType := Enum::"Message Type ori".FromInteger(Ordinal);
@@ -68,15 +68,14 @@ codeunit 97626 "Mfg Status Contract Tests ori"
                 Assert.IsTrue(Effect.Get('effect', EffectToken), 'Effect classification is required.');
                 Posting := MessageType in [MessageType::"Manufacturing.ProductionJournal.Post",
                     MessageType::"Manufacturing.Output.Reverse", MessageType::"Manufacturing.Consumption.Reverse",
-                    MessageType::"Manufacturing.ProductionOrder.Finish", MessageType::"Manufacturing.ProductionOrder.ChangeStatus",
-                    MessageType::"Manufacturing.ProductionOrder.CreateFromDemand"];
+                    MessageType::"Manufacturing.ProductionOrder.Finish"];
                 Assert.AreEqual(Posting, EffectToken.AsValue().AsText() = 'irreversible',
                     MessageType.Names().Get(MessageType.Ordinals().IndexOf(Ordinal)));
                 if Posting then
                     PostingCount += 1;
                 TypeCount += 1;
             end;
-        Assert.AreEqual(6, PostingCount, 'All five posting types and CreateFromDemand were checked.');
+        Assert.AreEqual(4, PostingCount, 'All four posting types were checked.');
         Assert.IsTrue(TypeCount > PostingCount, 'Non-posting types were also checked.');
     end;
 
