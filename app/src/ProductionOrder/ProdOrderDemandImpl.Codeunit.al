@@ -51,7 +51,7 @@ codeunit 10077082 "Prod Order Demand Impl ori" implements "Msg Interface ori", "
     /// <summary>Returns localized selection text.</summary>
     procedure GetSelectionDescription(): Text
     var
-        ValueLbl: Label 'Create production orders from a released sales order. Writes; confirm with expectedCount.', Comment = 'is-IS=Stofnaðu framleiðslupantanir úr útgefinni sölupöntun. Skrifar; staðfestu með expectedCount.';
+        ValueLbl: Label 'Create production orders from a released sales order. Writes.', Comment = 'is-IS=Stofnaðu framleiðslupantanir úr útgefinni sölupöntun. Skrifar.';
     begin
         exit(ValueLbl);
     end;

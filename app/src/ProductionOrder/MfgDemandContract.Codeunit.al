@@ -4,7 +4,7 @@ using Origo.Bifrost;
 
 /// <summary>
 /// Contract chapters for Manufacturing.ProductionOrder.CreateFromDemand.
-/// Foundation adds the expectedCount parameter and the confirmation effect to this irreversible type.
+/// Declares a legacy expectedCount parameter that is accepted and ignored.
 /// </summary>
 codeunit 10077099 "Mfg Demand Contract ori"
 {
@@ -42,6 +42,7 @@ codeunit 10077099 "Mfg Demand Contract ori"
         Parameters.Add(Contract.Parameter('lineNos', 'array', false, 'Sales line numbers (integers) to supply. Default: every item line that needs a production order. Only with orderType ItemOrder.'));
         Parameters.Add(Contract.Parameter('status', 'string', false, 'Planned, FirmPlanned (default) or Released. Released also needs the posting permission set and posts forward-flushed consumption and output.'));
         Parameters.Add(Contract.Parameter('orderType', 'string', false, 'ItemOrder (default): one production order per sales line. ProjectOrder: one production order for the whole sales order, with one line per sales line. ProjectOrder has nothing to do with projects.'));
+        Parameters.Add(Contract.Parameter('expectedCount', 'integer', false, 'Optional legacy parameter; accepted and ignored.'));
     end;
 
     /// <summary>Describes the success response.</summary>
@@ -54,7 +55,7 @@ codeunit 10077099 "Mfg Demand Contract ori"
         Fields.Add(Contract.ResponseField('orderType', 'string', 'ItemOrder or ProjectOrder.'));
         Fields.Add(Contract.ResponseField('sourceType', 'string', 'salesOrder.'));
         Fields.Add(Contract.ResponseField('sourceNo', 'string', 'Sales order number.'));
-        Fields.Add(Contract.ResponseField('ordersCreated', 'integer', 'Number of production orders created; equals expectedCount.'));
+        Fields.Add(Contract.ResponseField('ordersCreated', 'integer', 'Number of production orders created.'));
         Fields.Add(Contract.ResponseField('orders', 'array', 'Each {no, systemId, status, sourceType (Item or SalesHeader), sourceNo, quantity, dueDate, linkedLines (sales line numbers), lineCount, componentCount}.'));
         Fields.Add(Contract.ResponseField('skipped', 'array', 'Each {salesLineNo, itemNo, reasonCode, reason, nextStep}; reasonCode is alreadySupplied, notManufactured, itemBlocked, bomNotCertified, routingNotCertified, missingShipmentDate or notAnItem.'));
         Fields.Add(Contract.ResponseField('nextStep', 'string', 'Localized guidance for the next call.'));
@@ -74,25 +75,22 @@ codeunit 10077099 "Mfg Demand Contract ori"
         Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::MultipleErrors, 'Several request problems were collected; nothing was changed.', 'Correct every error entry before retrying.'));
         Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::RecordNotFound, 'The sales order or a requested sales line does not exist.', 'Read the sales order with Data.Records.Get first.'));
         Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::ConflictingIdentifiers, 'sourceNo and sourceSystemId name different sales orders.', 'Send identifiers of the same sales order.'));
-        Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::ConfirmationRequired, 'The call cannot be undone and expectedCount was not sent; nothing was created.', 'Send the same request again with expectedCount from the refusal.'));
-        Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::ConfirmationMismatch, 'expectedCount differs from the number of production orders that would be created; nothing was created.', 'Send the request without expectedCount to read the current count.'));
         Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::PermissionDenied, 'The caller has no Manufacturing write permission, or status Released was requested without BIFROST MfgPost ori.', 'Ask an administrator to assign BIFROST Mfg ori, and BIFROST MfgPost ori for Released.'));
         Errors.Add(Contract.ErrorEntry("Bifrost Error Code ori"::PreconditionFailed, 'The sales order is not released, no line needs a production order, a line blocks one order for the whole sales order, or Business Central rejected the creation; nothing was created.', 'Act on the returned message and nextStep.'));
     end;
 
-    /// <summary>Declares the irreversible write effect.</summary>
+    /// <summary>Declares the write effect.</summary>
     internal procedure GetEffect(var Effect: JsonObject)
     var
         Preconditions: JsonArray;
     begin
-        Effect.Add('effect', 'irreversible');
+        Effect.Add('effect', 'write');
         Effect.Add('idempotent', false);
         Effect.Add('permissionSet', 'BIFROST Mfg ori (Released: + BIFROST MfgPost ori)');
         Effect.Add('count', 'production orders created: one per eligible sales line for ItemOrder, one per sales order for ProjectOrder');
-        Effect.Add('changes', 'This call commits and cannot be undone: no operation removes production orders. Creates production orders with lines, routing and components, and reserves or tracks them against the sales lines. Status Released also posts forward-flushed consumption and output.');
+        Effect.Add('changes', 'This write commits. Creates production orders with lines, routing and components, and reserves or tracks them against the sales lines. Status Released also posts forward-flushed consumption and output.');
         Preconditions.Add('The sales order is released.');
         Preconditions.Add('Supplied lines are items replenished by production order, not blocked, with certified production BOM and routing, a shipment date and an unreserved outstanding quantity; other lines are listed in skipped.');
-        Preconditions.Add('expectedCount equal to the order count from the ConfirmationRequired preview when the company requires confirmation.');
         Preconditions.Add('The caller has native permissions on sales orders, reservations and production orders.');
         Effect.Add('preconditions', Preconditions);
     end;
@@ -109,14 +107,13 @@ codeunit 10077099 "Mfg Demand Contract ori"
         Related.Add(Contract.RelatedEntry('Data.Records.Get', 'Read sales orders and the created production orders.'));
     end;
 
-    /// <summary>Explains the confirmation workflow.</summary>
+    /// <summary>Explains the workflow.</summary>
     internal procedure GetWorkflow(var Workflow: JsonObject)
     var
         Contract: Codeunit "Msg Contract Mgt ori";
         Steps: JsonArray;
     begin
-        Steps.Add(Contract.WorkflowStep('Manufacturing.ProductionOrder.CreateFromDemand', 'Send without expectedCount to read how many production orders would be created.'));
-        Steps.Add(Contract.WorkflowStep('Manufacturing.ProductionOrder.CreateFromDemand', 'Send again with expectedCount from the refusal to create them.'));
+        Steps.Add(Contract.WorkflowStep('Manufacturing.ProductionOrder.CreateFromDemand', 'Send the request; no confirmation preview is required. expectedCount is accepted and ignored.'));
         Steps.Add(Contract.WorkflowStep('Manufacturing.ProductionOrder.ChangeStatus', 'Release the orders when production starts.'));
         Workflow.Add('steps', Steps);
         Workflow.Add('text', 'Fix the lines listed in skipped (certify BOM or routing, set a shipment date) and send the request again for those lines.');
@@ -135,7 +132,6 @@ codeunit 10077099 "Mfg Demand Contract ori"
         Data.Add('sourceNo', '101005');
         Data.Add('status', 'FirmPlanned');
         Data.Add('orderType', 'ItemOrder');
-        Data.Add('expectedCount', 2);
         Request.Add('data', Data);
         Example.Add('request', Request);
         Examples.Add(Example);

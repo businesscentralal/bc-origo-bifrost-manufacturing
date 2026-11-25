@@ -100,7 +100,7 @@ codeunit 97641 "Prod Order Demand Tests ori"
     end;
 
     [Test]
-    procedure AC03_ConfirmationRequiredAndMismatchCreateNothing()
+    procedure AC03_WriteEffectNeedsNoConfirmation()
     var
         Item: Record Item;
         SalesHeader: Record "Sales Header";
@@ -108,7 +108,7 @@ codeunit 97641 "Prod Order Demand Tests ori"
         Response: JsonObject;
         MessageId: Guid;
     begin
-        // Story #23, AC03 | Time: WorkDate + 1M shipment | Risk: None
+        // Gunnar 24.11.2026 (#42): CreateFromDemand is a write; no expectedCount is required even when confirmation is on.
         Lib.SetupNumbering();
         Lib.CreateManufacturedItem(Item);
         ItemNos.Add(Item."No.");
@@ -116,11 +116,8 @@ codeunit 97641 "Prod Order Demand Tests ori"
         StatusLib.SetConfirmRequired(true);
         Commit();
         Response := Lib.Invoke(Lib.Request(SalesHeader, 'FirmPlanned', 'ItemOrder', -1), 1033, MessageId);
-        Data.AssertRefusal(Response, 'ConfirmationRequired');
-        Assert.AreEqual(0, Lib.CountOrders(SalesHeader, ItemNos), 'Nothing created without expectedCount.');
-        Response := Lib.Invoke(Lib.Request(SalesHeader, 'FirmPlanned', 'ItemOrder', 5), 1039, MessageId);
-        Data.AssertRefusal(Response, 'ConfirmationMismatch');
-        Assert.AreEqual(0, Lib.CountOrders(SalesHeader, ItemNos), 'Nothing created on a wrong count.');
+        Assert.IsTrue(Response.Contains('ordersCreated'), 'Request was accepted.');
+        Assert.AreEqual(1, Lib.CountOrders(SalesHeader, ItemNos), 'One order created without expectedCount.');
         Lib.Cleanup(SalesHeader, ItemNos);
     end;
 

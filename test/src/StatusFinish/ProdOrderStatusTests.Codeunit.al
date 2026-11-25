@@ -108,36 +108,22 @@ codeunit 97620 "Prod Order Status Tests ori"
     end;
 
     [Test]
-    procedure Scenario_AC05_Confirmation_RequiredMismatchAndSettingOff()
+    procedure Scenario_AC05_WriteEffect_NeedsNoConfirmation()
     var
         Item: Record Item;
         Order: Record "Production Order";
         Moved: Record "Production Order";
         Response: JsonObject;
     begin
+        // Gunnar 24.11.2026 (#42): ChangeStatus is a write; confirmation is never required, even with the setting on.
         Lib.PrepareOrder(Item, Order, Order.Status::Planned);
         Lib.SetConfirmRequired(true);
         Commit();
 
         Response := Lib.ChangeStatus(Order, 'FirmPlanned', -1, 1033);
-        Data.AssertRefusal(Response, 'ConfirmationRequired');
-        Assert.IsTrue(Data.TextValue(Response, 'error').Contains(Order."No."), 'The summary names the order.');
-        Assert.IsTrue(Data.TextValue(Response, 'error').Contains('Planned to FirmPlanned'), 'The summary names the move.');
-        Assert.IsTrue(Order.Get(Order.Status, Order."No."), 'Nothing changed after ConfirmationRequired.');
-
-        Response := Lib.ChangeStatus(Order, 'FirmPlanned', 2, 1033);
-        Data.AssertRefusal(Response, 'ConfirmationMismatch');
-        Assert.IsTrue(Order.Get(Order.Status, Order."No."), 'Nothing changed after ConfirmationMismatch.');
-
-        Lib.SetConfirmRequired(false);
-        Commit();
-        Response := Lib.ChangeStatus(Order, 'FirmPlanned', 3, 1033);
-        Data.AssertRefusal(Response, 'ConfirmationMismatch');
-        Response := Lib.ChangeStatus(Order, 'FirmPlanned', -1, 1033);
-        Assert.AreEqual('Success', Data.TextValue(Response, 'status'), 'With the setting off, omission runs the type.');
+        Assert.AreEqual('Success', Data.TextValue(Response, 'status'), 'Omitting expectedCount runs the type.');
         Lib.ReadBack(Response, Moved);
         Assert.AreEqual(Moved.Status::"Firm Planned", Moved.Status, 'The order moved.');
-        Lib.SetConfirmRequired(true);
         Lib.Cleanup(Item."No.");
     end;
 
