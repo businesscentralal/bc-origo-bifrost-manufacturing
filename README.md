@@ -16,6 +16,8 @@ consumption, so an agent can operate it end to end. It is built on the same basi
 
 `Manufacturing.ProductionOrder.Create` creates a Planned or FirmPlanned item order using the configured number series. Call `Manufacturing.ProductionOrder.Refresh` to calculate lines, routing and components. Refresh refuses Released and Finished orders; it never posts. Create preserves the caller transaction under Omit Commit. Refresh always commits because the native BC report commits internally; it refuses Omit Commit with `PreconditionFailed` before any write. Run Refresh as a separate committing operation.
 
+`Manufacturing.ProductionOrder.Replan` recalculates routing, capacity and component dates for one firm planned or released order at no levels. It commits and needs `expectedCount` 1. One level and all levels are refused and no production order is deleted. `Manufacturing.ProductionOrder.Reschedule` moves the due date or the starting date-time of that order, or of one of its lines, then recalculates the same dates. It commits and does not take `expectedCount`. Planned and simulated orders are told to use Refresh. Finished orders, posted output or consumption, and Omit Commit are refused before any change.
+
 `Manufacturing.ProductionOrder.Reopen` moves a Finished order back to Released once, using the standard BC routine. The caller needs Manufacturing write access and `BIFROST MfgPost ori`. The effect is `write`: no confirmation preview is required, and legacy `expectedCount` is accepted and ignored. Every line needs posted output, and no order value entry may predate the Earliest Allowed Valuation Date. The call commits, including under Omit Commit, and posts no ledger entries. Use the returned Released order `systemId` (the move assigns a new one) for journal posting, CheckFinish and Finish. Subcontracting WIP is reopened separately through `Subcontracting.WIPLedger.Reopen`.
 
 `Manufacturing.Output.Reverse` and `Manufacturing.Consumption.Reverse` correct whole posted entries of a Released production order. Send the order number and selected entry numbers, preview without `expectedCount`, then confirm the exact selected count. Correcting entries retain the original date, dimensions and tracking; originals remain. Output also handles intermediate capacity, while the last operation is corrected through its output item entry. Both operations need Manufacturing write access and `BIFROST MfgPost ori`; a refusal rolls back the complete selection. Partial quantities and Omit Commit are refused.
@@ -45,6 +47,10 @@ Use `describe_message_type` for parameter, response, error and workflow chapters
 | 10077110 | codeunit | Mfg Reverse Plan ori |
 | 10077111 | codeunit | Mfg Reverse Proc ori |
 | 10077112 | codeunit | Mfg Reverse Contract ori |
+| 10077113 | codeunit | Prod Order Replan Impl ori (enum value 10077113) |
+| 10077114 | codeunit | Prod Order Replan Proc ori |
+| 10077115 | codeunit | Prod Order Reschedule Impl ori (enum value 10077115) |
+| 10077116 | codeunit | Prod Order Reschedule Proc ori |
 | 97653 | codeunit (test) | Mfg Reverse Tests ori |
 | 97654 | codeunit (test) | Mfg Reverse Perm Tests ori |
 | 97655 | table (test fixture) | Mfg Reverse MCP Fixture ori |
@@ -148,6 +154,9 @@ Use `describe_message_type` for parameter, response, error and workflow chapters
 | 97616 | codeunit (test cleanup) | Mfg MCP Cleanup Tst ori |
 | 97617 | codeunit (test) | Mfg MCP Cleanup Tests ori |
 | 97680 | codeunit (test) | Prod Order Certify Loop ori |
+| 97681 | codeunit (test) | Prod Order Replan Tests ori |
+| 97682 | codeunit (test) | Prod Order Resched Tests ori |
+| 97683 | codeunit (test library) | Mfg Schedule Test Lib ori |
 | 97660 | codeunit (test) | Prod BOM Status Tests ori |
 | 97661 | codeunit (test) | Routing Status Tests ori |
 | 97662 | codeunit (test) | BOM Routing Restrict Tests ori |
