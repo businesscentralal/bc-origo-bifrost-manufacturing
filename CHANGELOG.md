@@ -3,7 +3,7 @@
 
 ## Unreleased
 
-- #44: Requires Business Central 28.0 or later (was 28.5). `application` in `app/app.json` and `test/app.json` set to 28.0.0.0; version unchanged.
+- #44: Requires Business Central 28.2 or later (was 28.5); exception to the 28.0 rule (Gunnar 26.11.2026). `application` in `app/app.json` and `test/app.json` set to 28.2.0.0; version unchanged. The floor is set by `OnBeforeShowReleasedProdOrderDocument` (28.1) and `Inventory Setup."Earliest Allowed Val. Date"` (28.2).
 
 - #42 (first AppSource release prep): classify `Manufacturing.ProductionOrder.ChangeStatus` and `Manufacturing.ProductionOrder.CreateFromDemand` as `write` (no confirmation preview; `expectedCount` accepted and ignored); `Finish` stays irreversible. Raise the Foundation dependency to 28.0.16.1, remove the loose `docs/issue-25/26` acceptance files. No new objects; is-IS selection text updated.
 
