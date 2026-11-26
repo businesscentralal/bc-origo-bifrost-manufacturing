@@ -3,6 +3,8 @@
 
 ## Unreleased
 
+- Issue #24: `Manufacturing.ProductionOrder.Replan` and `Manufacturing.ProductionOrder.Reschedule` schedule one firm planned or released production order. Replan is no-levels only, commits, and requires `expectedCount` 1. Reschedule moves a due date or starting date-time and does not take `expectedCount`. One level, all levels, planned, finished, posted output and Omit Commit are refused without deleting production orders. App codeunits 10077113–10077116 (enum values 10077113 and 10077115); test codeunits 97681–97683.
+
 - #42 (first AppSource release prep): classify `Manufacturing.ProductionOrder.ChangeStatus` and `Manufacturing.ProductionOrder.CreateFromDemand` as `write` (no confirmation preview; `expectedCount` accepted and ignored); `Finish` stays irreversible. Raise the Foundation dependency to 28.0.16.1, remove the loose `docs/issue-25/26` acceptance files. No new objects; is-IS selection text updated.
 
 - Issue #25: `Manufacturing.Output.Reverse` and `Manufacturing.Consumption.Reverse` post whole-entry corrections with mandatory exact-count confirmation, posting permission, atomic rollback, original tracking and bilingual refusal guidance. App objects 10077107–10077112; test objects 97653–97657.

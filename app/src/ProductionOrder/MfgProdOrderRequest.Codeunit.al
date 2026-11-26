@@ -132,4 +132,59 @@ codeunit 10077045 "Mfg Prod Order Request ori"
     begin
         Argument.AddError("Bifrost Error Code ori"::InvalidParameterFormat, StrSubstNo(FormatLbl, KeyName), KeyName, '', '', CorrectLbl);
     end;
+
+    /// <summary>Reads a JSON number as an integer. A quoted string is an invalid format.</summary>
+    internal procedure ReadInteger(Request: JsonObject; KeyName: Text; Required: Boolean; var Argument: Record "Message Argument ori"): Integer
+    var
+        Token: JsonToken;
+        Raw: Text;
+        Result: Integer;
+    begin
+        if not Request.Get(KeyName, Token) then begin
+            if Required then
+                Missing(KeyName, Argument);
+            exit(0);
+        end;
+        Token.WriteTo(Raw);
+        if not Token.IsValue() or (CopyStr(Raw, 1, 1) = '"') or not Evaluate(Result, Raw, 9) then begin
+            BadFormat(KeyName, Argument);
+            exit(0);
+        end;
+        exit(Result);
+    end;
+
+    /// <summary>Reads an optional strict ISO calendar date. A missing key returns 0D and Found stays false.</summary>
+    internal procedure ReadCalendarDate(Request: JsonObject; KeyName: Text; var Argument: Record "Message Argument ori"): Date
+    var
+        Value: Text;
+        Result: Date;
+    begin
+        if not Request.Contains(KeyName) then
+            exit(0D);
+        Value := ReadText(Request, KeyName, true, 10, Argument);
+        if Value = '' then
+            exit(0D);
+        if not Evaluate(Result, Value, 9) or (Result = 0D) or (Format(Result, 0, 9) <> Value) then
+            BadFormat(KeyName, Argument);
+        exit(Result);
+    end;
+
+    /// <summary>Reads a JSON string date-time in XML format. A missing optional key returns 0DT.</summary>
+    internal procedure ReadDateTime(Request: JsonObject; KeyName: Text; Required: Boolean; var Argument: Record "Message Argument ori"): DateTime
+    var
+        Value: Text;
+        Result: DateTime;
+    begin
+        if not Request.Contains(KeyName) then begin
+            if Required then
+                Missing(KeyName, Argument);
+            exit(0DT);
+        end;
+        Value := ReadText(Request, KeyName, true, 40, Argument);
+        if Value = '' then
+            exit(0DT);
+        if not Evaluate(Result, Value, 9) or (Result = 0DT) then
+            BadFormat(KeyName, Argument);
+        exit(Result);
+    end;
 }

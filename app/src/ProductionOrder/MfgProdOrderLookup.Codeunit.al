@@ -80,6 +80,92 @@ codeunit 10077044 "Mfg Prod Order Lookup ori"
         exit(true);
     end;
 
+    /// <summary>Resolves a firm planned or released order by no or systemId and the status parameter.</summary>
+    internal procedure FindSchedulingOrder(var Argument: Record "Message Argument ori"; var ProductionOrder: Record "Production Order"): Boolean
+    var
+        Reader: Codeunit "Mfg Prod Order Request ori";
+        Request: JsonObject;
+        Number: Text;
+        IdText: Text;
+        StatusText: Text;
+        Id: Guid;
+        OrderStatus: Enum "Production Order Status";
+        StatusKnown: Boolean;
+        ScheduleStatusLbl: Label 'status must be Simulated, Planned, FirmPlanned, Released or Finished.', Comment = 'is-IS=status verður að vera Simulated, Planned, FirmPlanned, Released eða Finished.';
+        ScheduleStatusNextLbl: Label 'Send the status of the production order, or omit status and identify it by systemId.', Comment = 'is-IS=Sendu stöðu framleiðslupöntunarinnar, eða slepptu status og auðkenndu hana með systemId.';
+        ScheduleAmbiguousNextLbl: Label 'Send status or systemId.', Comment = 'is-IS=Sendu status eða systemId.';
+    begin
+        Request := Argument.GetRequestJson();
+        Number := Reader.ReadText(Request, 'no', false, 20, Argument);
+        IdText := Reader.ReadText(Request, 'systemId', false, 50, Argument);
+        StatusText := Reader.ReadText(Request, 'status', false, 20, Argument);
+        if (Number = '') and (IdText = '') then
+            Reader.Missing('no/systemId', Argument);
+        if IdText <> '' then
+            if not Evaluate(Id, IdText) or IsNullGuid(Id) then
+                Reader.BadFormat('systemId', Argument);
+        if StatusText <> '' then
+            case LowerCase(StatusText) of
+                'simulated':
+                    begin
+                        OrderStatus := OrderStatus::Simulated;
+                        StatusKnown := true;
+                    end;
+                'planned':
+                    begin
+                        OrderStatus := OrderStatus::Planned;
+                        StatusKnown := true;
+                    end;
+                'firmplanned':
+                    begin
+                        OrderStatus := OrderStatus::"Firm Planned";
+                        StatusKnown := true;
+                    end;
+                'released':
+                    begin
+                        OrderStatus := OrderStatus::Released;
+                        StatusKnown := true;
+                    end;
+                'finished':
+                    begin
+                        OrderStatus := OrderStatus::Finished;
+                        StatusKnown := true;
+                    end;
+                else
+                    if StatusText <> '' then
+                        Argument.AddError("Bifrost Error Code ori"::InvalidParameter, ScheduleStatusLbl, 'status', StatusText, 'Simulated|Planned|FirmPlanned|Released|Finished', ScheduleStatusNextLbl);
+            end;
+        if Reader.RespondIfErrors(Argument) then
+            exit(false);
+        ProductionOrder.SetLoadFields(Status, "No.");
+        if IdText <> '' then begin
+            if not ProductionOrder.GetBySystemId(Id) then begin
+                Argument.RespondWithError("Bifrost Error Code ori"::RecordNotFound, NotFoundLbl, 'systemId', IdText, '', LookupNextLbl);
+                exit(false);
+            end;
+            if ((Number <> '') and (ProductionOrder."No." <> UpperCase(Number))) or
+               (StatusKnown and (ProductionOrder.Status <> OrderStatus))
+            then begin
+                Argument.RespondWithError("Bifrost Error Code ori"::ConflictingIdentifiers, ConflictLbl, 'no/systemId', '', '', ConflictNextLbl);
+                exit(false);
+            end;
+            exit(true);
+        end;
+        ProductionOrder.SetRange("No.", Number);
+        if StatusKnown then
+            ProductionOrder.SetRange(Status, OrderStatus);
+        if ProductionOrder.IsEmpty() then begin
+            Argument.RespondWithError("Bifrost Error Code ori"::RecordNotFound, NotFoundLbl, 'no', Number, '', LookupNextLbl);
+            exit(false);
+        end;
+        if ProductionOrder.Count() > 1 then begin
+            Argument.RespondWithError("Bifrost Error Code ori"::AmbiguousRecord, StrSubstNo(AmbiguousLbl, Number), 'no', Number, '', ScheduleAmbiguousNextLbl);
+            exit(false);
+        end;
+        ProductionOrder.FindFirst();
+        exit(true);
+    end;
+
     /// <summary>Returns invariant external status names; never serializes a localized enum caption.</summary>
     internal procedure StatusName(OrderStatus: Enum "Production Order Status"): Text
     begin
