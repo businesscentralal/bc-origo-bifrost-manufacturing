@@ -3,6 +3,8 @@
 
 ## Unreleased
 
+- #44: Requires Business Central 28.2 or later (was 28.5); exception to the 28.0 rule (Gunnar 26.11.2026). `application` in `app/app.json` and `test/app.json` set to 28.2.0.0; version unchanged. The floor is set by `OnBeforeShowReleasedProdOrderDocument` (28.1) and `Inventory Setup."Earliest Allowed Val. Date"` (28.2).
+
 - Issue #24: `Manufacturing.ProductionOrder.Replan` and `Manufacturing.ProductionOrder.Reschedule` schedule one firm planned or released production order. Replan is no-levels only, commits, and requires `expectedCount` 1. Reschedule moves a due date or starting date-time and does not take `expectedCount`. One level, all levels, planned, finished, posted output and Omit Commit are refused without deleting production orders. App codeunits 10077113–10077116 (enum values 10077113 and 10077115); test codeunits 97681–97683.
 
 - #42 (first AppSource release prep): classify `Manufacturing.ProductionOrder.ChangeStatus` and `Manufacturing.ProductionOrder.CreateFromDemand` as `write` (no confirmation preview; `expectedCount` accepted and ignored); `Finish` stays irreversible. Raise the Foundation dependency to 28.0.16.1, remove the loose `docs/issue-25/26` acceptance files. No new objects; is-IS selection text updated.
