@@ -3,6 +3,8 @@
 
 ## Unreleased
 
+- #44: Requires Business Central 28.0 or later (was 28.5). `application` in `app/app.json` and `test/app.json` set to 28.0.0.0; version unchanged.
+
 - #42 (first AppSource release prep): classify `Manufacturing.ProductionOrder.ChangeStatus` and `Manufacturing.ProductionOrder.CreateFromDemand` as `write` (no confirmation preview; `expectedCount` accepted and ignored); `Finish` stays irreversible. Raise the Foundation dependency to 28.0.16.1, remove the loose `docs/issue-25/26` acceptance files. No new objects; is-IS selection text updated.
 
 - Issue #25: `Manufacturing.Output.Reverse` and `Manufacturing.Consumption.Reverse` post whole-entry corrections with mandatory exact-count confirmation, posting permission, atomic rollback, original tracking and bilingual refusal guidance. App objects 10077107–10077112; test objects 97653–97657.

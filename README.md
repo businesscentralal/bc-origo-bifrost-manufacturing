@@ -1,7 +1,7 @@
 # Bifröst Manufacturing
 
 **App name:** Bifrost Manufacturing
-**Publisher:** Origo — **Version:** 28.0.0.0 — **Target:** Cloud (BC 28.5, runtime 17.0)
+**Publisher:** Origo — **Version:** 28.0.0.0 — **Target:** Cloud (BC 28.0, runtime 17.0)
 **App ID:** `bd08a710-8845-4316-a53b-afd28f21f75a` — **Test app ID:** `564eea9a-e27b-4358-bbae-28d380268382`
 **Object ID range:** 10077035–10077134 (tests 97600–97699) — **Namespace:** `Origo.Bifrost.Manufacturing`
 
@@ -215,7 +215,7 @@ site repository and is published at <https://docs.bifrost.origo.is>.
 | App | ID | Publisher | Version |
 | --- | --- | --- | --- |
 | Bifrost Foundation | `7505e808-6e52-4b96-a328-82573391297a` | Origo | 28.0.11.669 |
-| Base Application | | Microsoft | 28.5.0.0 (application floor) |
+| Base Application | | Microsoft | 28.0.0.0 (application floor) |
 
 ---
 
