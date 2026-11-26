@@ -747,6 +747,24 @@
           <note from="Developer" annotates="general" priority="2">is-IS=Notaðu áætlunarstöðu eða slepptu productionOrderStatus og auðkenndu pöntunina með systemId.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Prod Order Lookup ori - NamedType StatusNextLbl</note>
         </trans-unit>
+        <trans-unit id="Codeunit 678932623 - Method 2657850597 - NamedType 1635909037" size-unit="char" translate="yes" xml:space="preserve">
+          <source>status must be Simulated, Planned, FirmPlanned, Released or Finished.</source>
+          <target>status verður að vera Simulated, Planned, FirmPlanned, Released eða Finished.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=status verður að vera Simulated, Planned, FirmPlanned, Released eða Finished.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Prod Order Lookup ori - Method FindSchedulingOrder - NamedType ScheduleStatusLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 678932623 - Method 2657850597 - NamedType 3467363800" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send the status of the production order, or omit status and identify it by systemId.</source>
+          <target>Sendu stöðu framleiðslupöntunarinnar, eða slepptu status og auðkenndu hana með systemId.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu stöðu framleiðslupöntunarinnar, eða slepptu status og auðkenndu hana með systemId.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Prod Order Lookup ori - Method FindSchedulingOrder - NamedType ScheduleStatusNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 678932623 - Method 2657850597 - NamedType 912415880" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send status or systemId.</source>
+          <target>Sendu status eða systemId.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu status eða systemId.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Mfg Prod Order Lookup ori - Method FindSchedulingOrder - NamedType ScheduleAmbiguousNextLbl</note>
+        </trans-unit>
         <trans-unit id="Codeunit 1152181906 - NamedType 3208438856" size-unit="char" translate="yes" xml:space="preserve">
           <source>Send the parameter in the format documented by describe_message_type.</source>
           <target>Sendu færibreytuna á sniðinu sem describe_message_type lýsir.</target>
@@ -1940,6 +1958,336 @@
           <target>Opnaðu lokna framleiðslupöntun aftur einu sinni. Skrifar.</target>
           <note from="Developer" annotates="general" priority="2">is-IS=Opnaðu lokna framleiðslupöntun aftur einu sinni. Skrifar.</note>
           <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reopen Impl ori - Method GetSelectionDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 3571782927 - NamedType 286034047" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Manufacturing write permission is required to replan a production order.</source>
+          <target>Skrifheimild framleiðslu er áskilin til að endurskipuleggja framleiðslupöntun.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Skrifheimild framleiðslu er áskilin til að endurskipuleggja framleiðslupöntun.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method ExecuteBifrostTask - NamedType DeniedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 3571782927 - NamedType 2354419638" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Ask an administrator to assign BIFROST Mfg ori or BIFROST Full ori.</source>
+          <target>Biddu stjórnanda um að úthluta BIFROST Mfg ori eða BIFROST Full ori.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Biddu stjórnanda um að úthluta BIFROST Mfg ori eða BIFROST Full ori.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method ExecuteBifrostTask - NamedType DeniedNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 3571782927 - NamedType 2125995071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Replan always commits and cannot run with Omit Commit. Nothing was changed.</source>
+          <target>Endurskipulagning vistar alltaf og getur ekki keyrt með Omit Commit. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Endurskipulagning vistar alltaf og getur ekki keyrt með Omit Commit. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method ExecuteBifrostTask - NamedType OmitLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 3571782927 - NamedType 1749238134" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Run the replan as a separate committing operation without Omit Commit.</source>
+          <target>Keyrðu endurskipulagninguna sem aðskilda aðgerð sem vistar, án Omit Commit.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Keyrðu endurskipulagninguna sem aðskilda aðgerð sem vistar, án Omit Commit.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method ExecuteBifrostTask - NamedType OmitNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 3571782927 - NamedType 4059303513" size-unit="char" translate="yes" xml:space="preserve">
+          <source>direction must be forward or backward.</source>
+          <target>direction verður að vera forward eða backward.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=direction verður að vera forward eða backward.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method ExecuteBifrostTask - NamedType DirectionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 3571782927 - NamedType 408539980" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send forward or backward, or omit direction to use backward.</source>
+          <target>Sendu forward eða backward, eða slepptu direction til að nota backward.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu forward eða backward, eða slepptu direction til að nota backward.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method ExecuteBifrostTask - NamedType DirectionNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 3571782927 - NamedType 3076071417" size-unit="char" translate="yes" xml:space="preserve">
+          <source>calcMethod must be noLevels, oneLevel or allLevels.</source>
+          <target>calcMethod verður að vera noLevels, oneLevel eða allLevels.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=calcMethod verður að vera noLevels, oneLevel eða allLevels.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method ExecuteBifrostTask - NamedType CalcLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 3571782927 - NamedType 195353260" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send noLevels or omit calcMethod. oneLevel and allLevels are refused.</source>
+          <target>Sendu noLevels eða slepptu calcMethod. oneLevel og allLevels er hafnað.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu noLevels eða slepptu calcMethod. oneLevel og allLevels er hafnað.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method ExecuteBifrostTask - NamedType CalcNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 3571782927 - NamedType 2468169" size-unit="char" translate="yes" xml:space="preserve">
+          <source>calcMethod %1 is refused. No production order was deleted. Nothing was changed.</source>
+          <target>calcMethod %1 er hafnað. Engri framleiðslupöntun var eytt. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = calcMethod, is-IS=calcMethod %1 er hafnað. Engri framleiðslupöntun var eytt. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method ExecuteBifrostTask - NamedType LevelsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 3571782927 - NamedType 2718331068" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send calcMethod noLevels, or omit it, to recalculate only this production order.</source>
+          <target>Sendu calcMethod noLevels, eða slepptu því, til að endurreikna aðeins þessa framleiðslupöntun.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu calcMethod noLevels, eða slepptu því, til að endurreikna aðeins þessa framleiðslupöntun.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method ExecuteBifrostTask - NamedType LevelsNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 3571782927 - NamedType 311527538" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order %1 is %2 and cannot be replanned. Nothing was changed.</source>
+          <target>Framleiðslupöntun %1 er %2 og ekki er hægt að endurskipuleggja hana. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, %2 = status, is-IS=Framleiðslupöntun %1 er %2 og ekki er hægt að endurskipuleggja hana. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method ExecuteBifrostTask - NamedType PlannedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 3571782927 - NamedType 1540410211" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Refresh the planning order with Manufacturing.ProductionOrder.Refresh before replanning it.</source>
+          <target>Endurnýjaðu áætlaða pöntun með Manufacturing.ProductionOrder.Refresh áður en hún er endurskipulögð.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Endurnýjaðu áætlaða pöntun með Manufacturing.ProductionOrder.Refresh áður en hún er endurskipulögð.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method ExecuteBifrostTask - NamedType PlannedNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 3571782927 - NamedType 2032949676" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order %1 is Finished and cannot be replanned. Nothing was changed.</source>
+          <target>Framleiðslupöntun %1 er lokið og ekki er hægt að endurskipuleggja hana. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, is-IS=Framleiðslupöntun %1 er lokið og ekki er hægt að endurskipuleggja hana. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method ExecuteBifrostTask - NamedType FinishedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 3571782927 - NamedType 3289019961" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Finished orders stay unchanged.</source>
+          <target>Lokið pöntunum er ekki breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lokið pöntunum er ekki breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method ExecuteBifrostTask - NamedType FinishedNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 3571782927 - NamedType 1733831957" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order %1 has posted output or consumption. Nothing was changed.</source>
+          <target>Framleiðslupöntun %1 er með bókaða afurð eða notkun. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, is-IS=Framleiðslupöntun %1 er með bókaða afurð eða notkun. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method ExecuteBifrostTask - NamedType PostedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 3571782927 - NamedType 3696442880" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reverse the posted entries before replanning. This operation does not post.</source>
+          <target>Bakfærðu bókuðu færslurnar áður en endurskipulagt er. Þessi aðgerð bókar ekki.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Bakfærðu bókuðu færslurnar áður en endurskipulagt er. Þessi aðgerð bókar ekki.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method ExecuteBifrostTask - NamedType PostedNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 3571782927 - NamedType 2719809969" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posted output or consumption prevents replanning. Nothing was changed.</source>
+          <target>Bókuð afurð eða notkun kemur í veg fyrir endurskipulagningu. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Bókuð afurð eða notkun kemur í veg fyrir endurskipulagningu. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method ExecuteBifrostTask - NamedType PostedFallbackLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 3571782927 - NamedType 3426574442" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Confirm expectedCount 1 before this production order is replanned. Nothing was changed.</source>
+          <target>Staðfestu expectedCount 1 áður en þessi framleiðslupöntun er endurskipulögð. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Staðfestu expectedCount 1 áður en þessi framleiðslupöntun er endurskipulögð. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method ExecuteBifrostTask - NamedType ConfirmReqLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 3571782927 - NamedType 1631714905" size-unit="char" translate="yes" xml:space="preserve">
+          <source>expectedCount must be 1. Nothing was changed.</source>
+          <target>expectedCount verður að vera 1. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=expectedCount verður að vera 1. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method ExecuteBifrostTask - NamedType ConfirmMisLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 3571782927 - NamedType 2139487833" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send expectedCount 1 to replan this one production order. The call then commits and cannot be undone.</source>
+          <target>Sendu expectedCount 1 til að endurskipuleggja þessa eina framleiðslupöntun. Kallið vistar þá og ekki er hægt að afturkalla það.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu expectedCount 1 til að endurskipuleggja þessa eina framleiðslupöntun. Kallið vistar þá og ekki er hægt að afturkalla það.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method ExecuteBifrostTask - NamedType ConfirmNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 3571782927 - NamedType 807145736" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Correct the calendar, routing, BOM or field named in the Business Central error and retry. Nothing was changed.</source>
+          <target>Leiðréttu dagatalið, vinnsluleiðina, efnislistann eða reitinn sem Business Central nefnir og reyndu aftur. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Leiðréttu dagatalið, vinnsluleiðina, efnislistann eða reitinn sem Business Central nefnir og reyndu aftur. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method ExecuteBifrostTask - NamedType BcNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 4077369804 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Recalculates routing, capacity and component dates for one firm planned or released production order. Refuses one level and all levels. Commits and cannot be undone.</source>
+          <target>Endurreiknar vinnsluleið, afköst og efnisdagsetningar einnar fastákveðinnar eða útgefinar framleiðslupöntunar. Hafnar einu stigi og öllum stigum. Vistar og ekki er hægt að afturkalla.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Endurreiknar vinnsluleið, afköst og efnisdagsetningar einnar fastákveðinnar eða útgefinar framleiðslupöntunar. Hafnar einu stigi og öllum stigum. Vistar og ekki er hægt að afturkalla.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method GetDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>production order, manufacturing, replan, scheduling</source>
+          <target>framleiðslupöntun, framleiðsla, endurskipuleggja, áætlanagerð</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=framleiðslupöntun, framleiðsla, endurskipuleggja, áætlanagerð</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3677759489 - Method 79446908 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Replan one firm planned or released order at no levels. Commits.</source>
+          <target>Endurskipuleggðu eina fastákveðna eða útgefna pöntun án undirstiga. Vistar.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Endurskipuleggðu eina fastákveðna eða útgefna pöntun án undirstiga. Vistar.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Impl ori - Method GetSelectionDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3626663667 - Method 3222207479 - NamedType 1652062984" size-unit="char" translate="yes" xml:space="preserve">
+          <source>The production order could not be locked for replanning. Nothing was changed.</source>
+          <target>Ekki tókst að læsa framleiðslupöntuninni fyrir endurskipulagningu. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Ekki tókst að læsa framleiðslupöntuninni fyrir endurskipulagningu. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Proc ori - Method RunReplan - NamedType NotReadyLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3626663667 - Method 230282541 - NamedType 1652062984" size-unit="char" translate="yes" xml:space="preserve">
+          <source>The production order could not be locked for rescheduling. Nothing was changed.</source>
+          <target>Ekki tókst að læsa framleiðslupöntuninni fyrir endurtímasetningu. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Ekki tókst að læsa framleiðslupöntuninni fyrir endurtímasetningu. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Proc ori - Method RunReschedule - NamedType NotReadyLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3626663667 - Method 230282541 - NamedType 2647022316" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order line %1 was not found. Nothing was changed.</source>
+          <target>Framleiðslupöntunarlínan %1 fannst ekki. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = line number, is-IS=Framleiðslupöntunarlínan %1 fannst ekki. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Proc ori - Method RunReschedule - NamedType LineMissingLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3626663667 - Method 1506114554 - NamedType 3205272376" size-unit="char" translate="yes" xml:space="preserve">
+          <source>The due date is before the work date.</source>
+          <target>Gjalddagi er fyrir vinnudagsetningu.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Gjalddagi er fyrir vinnudagsetningu.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Proc ori - Method WriteResponse - NamedType DueWarnLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3626663667 - Method 1506114554 - NamedType 3058789822" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Capacity could not be scheduled on the work center calendar.</source>
+          <target>Ekki tókst að áætla afköst á dagatali vinnustöðvarinnar.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Ekki tókst að áætla afköst á dagatali vinnustöðvarinnar.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Replan Proc ori - Method WriteResponse - NamedType CapWarnLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 286034047" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Manufacturing write permission is required to reschedule a production order.</source>
+          <target>Skrifheimild framleiðslu er áskilin til að endurtímasetja framleiðslupöntun.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Skrifheimild framleiðslu er áskilin til að endurtímasetja framleiðslupöntun.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType DeniedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 2354419638" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Ask an administrator to assign BIFROST Mfg ori or BIFROST Full ori.</source>
+          <target>Biddu stjórnanda um að úthluta BIFROST Mfg ori eða BIFROST Full ori.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Biddu stjórnanda um að úthluta BIFROST Mfg ori eða BIFROST Full ori.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType DeniedNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 2125995071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reschedule always commits and cannot run with Omit Commit. Nothing was changed.</source>
+          <target>Endurtímasetning vistar alltaf og getur ekki keyrt með Omit Commit. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Endurtímasetning vistar alltaf og getur ekki keyrt með Omit Commit. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType OmitLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 1749238134" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Run the reschedule as a separate committing operation without Omit Commit.</source>
+          <target>Keyrðu endurtímasetninguna sem aðskilda aðgerð sem vistar, án Omit Commit.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Keyrðu endurtímasetninguna sem aðskilda aðgerð sem vistar, án Omit Commit.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType OmitNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 4059303513" size-unit="char" translate="yes" xml:space="preserve">
+          <source>direction must be forward or backward.</source>
+          <target>direction verður að vera forward eða backward.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=direction verður að vera forward eða backward.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType DirectionLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 408539980" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send forward or backward, or omit direction to use backward.</source>
+          <target>Sendu forward eða backward, eða slepptu direction til að nota backward.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu forward eða backward, eða slepptu direction til að nota backward.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType DirectionNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 1864742080" size-unit="char" translate="yes" xml:space="preserve">
+          <source>lineNo must be 0 or a positive line number.</source>
+          <target>lineNo verður að vera 0 eða jákvætt línunúmer.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=lineNo verður að vera 0 eða jákvætt línunúmer.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType LineLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 3693546933" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Omit lineNo to move the whole order, or send the line number from the order.</source>
+          <target>Slepptu lineNo til að færa alla pöntunina, eða sendu línunúmerið af pöntuninni.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Slepptu lineNo til að færa alla pöntunina, eða sendu línunúmerið af pöntuninni.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType LineNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 2647022316" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order line %1 was not found. Nothing was changed.</source>
+          <target>Framleiðslupöntunarlínan %1 fannst ekki. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = line number, is-IS=Framleiðslupöntunarlínan %1 fannst ekki. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType LineMissingLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 577017977" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Read the order lines and send a lineNo that belongs to this order, or omit lineNo.</source>
+          <target>Lestu línur pöntunarinnar og sendu lineNo sem tilheyrir henni, eða slepptu lineNo.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lestu línur pöntunarinnar og sendu lineNo sem tilheyrir henni, eða slepptu lineNo.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType LineMissingNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 1634912600" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Send either dueDate or startingDateTime, not both. Nothing was changed.</source>
+          <target>Sendu annað hvort dueDate eða startingDateTime, ekki bæði. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Sendu annað hvort dueDate eða startingDateTime, ekki bæði. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType BothDatesLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 4067611309" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Use dueDate with backward, or startingDateTime with forward.</source>
+          <target>Notaðu dueDate með backward, eða startingDateTime með forward.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Notaðu dueDate með backward, eða startingDateTime með forward.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType BothDatesNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 2937493687" size-unit="char" translate="yes" xml:space="preserve">
+          <source>This direction does not accept %1. Nothing was changed.</source>
+          <target>Þessi stefna tekur ekki við %1. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = parameter, is-IS=Þessi stefna tekur ekki við %1. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType DateChoiceLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 311527538" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order %1 is %2 and cannot be rescheduled. Nothing was changed.</source>
+          <target>Framleiðslupöntun %1 er %2 og ekki er hægt að endurtímasetja hana. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, %2 = status, is-IS=Framleiðslupöntun %1 er %2 og ekki er hægt að endurtímasetja hana. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType PlannedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 1540410211" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Refresh the planning order with Manufacturing.ProductionOrder.Refresh before changing its dates.</source>
+          <target>Endurnýjaðu áætlaða pöntun með Manufacturing.ProductionOrder.Refresh áður en dagsetningum hennar er breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Endurnýjaðu áætlaða pöntun með Manufacturing.ProductionOrder.Refresh áður en dagsetningum hennar er breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType PlannedNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 2032949676" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order %1 is Finished and cannot be rescheduled. Nothing was changed.</source>
+          <target>Framleiðslupöntun %1 er lokið og ekki er hægt að endurtímasetja hana. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, is-IS=Framleiðslupöntun %1 er lokið og ekki er hægt að endurtímasetja hana. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType FinishedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 3289019961" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Finished orders stay unchanged.</source>
+          <target>Lokið pöntunum er ekki breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Lokið pöntunum er ekki breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType FinishedNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 1733831957" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order %1 has posted output or consumption. Nothing was changed.</source>
+          <target>Framleiðslupöntun %1 er með bókaða afurð eða notkun. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, is-IS=Framleiðslupöntun %1 er með bókaða afurð eða notkun. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType PostedLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 3696442880" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reverse the posted entries before rescheduling. This operation does not post.</source>
+          <target>Bakfærðu bókuðu færslurnar áður en endurtímasett er. Þessi aðgerð bókar ekki.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Bakfærðu bókuðu færslurnar áður en endurtímasett er. Þessi aðgerð bókar ekki.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType PostedNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 2719809969" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Posted output or consumption prevents rescheduling. Nothing was changed.</source>
+          <target>Bókuð afurð eða notkun kemur í veg fyrir endurtímasetningu. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Bókuð afurð eða notkun kemur í veg fyrir endurtímasetningu. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType PostedFallbackLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 3648610213" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Production order %1 has lower planning levels and cannot be rescheduled. Nothing was changed.</source>
+          <target>Framleiðslupöntun %1 er með neðri áætlunarstig og ekki er hægt að endurtímasetja hana. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">%1 = order number, is-IS=Framleiðslupöntun %1 er með neðri áætlunarstig og ekki er hægt að endurtímasetja hana. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType MultiLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 1283253904" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Reschedule is available for a single-level order. Replan at no levels only when that operation allows it.</source>
+          <target>Endurtímasetning er í boði fyrir pöntun á einu stigi. Endurskipuleggðu án undirstiga aðeins þegar sú aðgerð leyfir það.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Endurtímasetning er í boði fyrir pöntun á einu stigi. Endurskipuleggðu án undirstiga aðeins þegar sú aðgerð leyfir það.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType MultiNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 3571782927 - NamedType 807145736" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Correct the calendar, routing, BOM or field named in the Business Central error and retry. Nothing was changed.</source>
+          <target>Leiðréttu dagatalið, vinnsluleiðina, efnislistann eða reitinn sem Business Central nefnir og reyndu aftur. Engu var breytt.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Leiðréttu dagatalið, vinnsluleiðina, efnislistann eða reitinn sem Business Central nefnir og reyndu aftur. Engu var breytt.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method ExecuteBifrostTask - NamedType BcNextLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 4077369804 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Moves the due date or starting date-time of one firm planned or released production order or one of its lines, then recalculates routing, capacity and component dates. Commits.</source>
+          <target>Færir gjalddaga eða upphafsdagsetningu einnar fastákveðinnar eða útgefinar framleiðslupöntunar eða einnar línu og endurreiknar vinnsluleið, afköst og efnisdagsetningar. Vistar.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Færir gjalddaga eða upphafsdagsetningu einnar fastákveðinnar eða útgefinar framleiðslupöntunar eða einnar línu og endurreiknar vinnsluleið, afköst og efnisdagsetningar. Vistar.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method GetDescription - NamedType ValueLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 1027590672 - NamedType 1290244428" size-unit="char" translate="yes" xml:space="preserve">
+          <source>production order, manufacturing, reschedule, dates</source>
+          <target>framleiðslupöntun, framleiðsla, endurtímasetja, dagsetningar</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=framleiðslupöntun, framleiðsla, endurtímasetja, dagsetningar</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method GetKeywords - NamedType KeywordsLbl</note>
+        </trans-unit>
+        <trans-unit id="Codeunit 3151956867 - Method 79446908 - NamedType 2442600875" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Move the dates of one firm planned or released order or line. Commits.</source>
+          <target>Færðu dagsetningar einnar fastákveðinnar eða útgefinar pöntunar eða línu. Vistar.</target>
+          <note from="Developer" annotates="general" priority="2">is-IS=Færðu dagsetningar einnar fastákveðinnar eða útgefinar pöntunar eða línu. Vistar.</note>
+          <note from="Xliff Generator" annotates="general" priority="3">Codeunit Prod Order Reschedule Impl ori - Method GetSelectionDescription - NamedType ValueLbl</note>
         </trans-unit>
         <trans-unit id="Codeunit 2736619585 - NamedType 232473427" size-unit="char" translate="yes" xml:space="preserve">
           <source>Use Manufacturing.ProductionOrder.ChangeStatus / Manufacturing.ProductionOrder.Finish / Manufacturing.ProductionOrder.Reopen</source>

@@ -23,6 +23,10 @@ Allocated ids (record every new id here):
 | 10077110 | codeunit | Mfg Reverse Plan ori |
 | 10077111 | codeunit | Mfg Reverse Proc ori |
 | 10077112 | codeunit | Mfg Reverse Contract ori |
+| 10077113 | codeunit | Prod Order Replan Impl ori (enum value 10077113, Manufacturing.ProductionOrder.Replan) |
+| 10077114 | codeunit | Prod Order Replan Proc ori |
+| 10077115 | codeunit | Prod Order Reschedule Impl ori (enum value 10077115, Manufacturing.ProductionOrder.Reschedule) |
+| 10077116 | codeunit | Prod Order Reschedule Proc ori |
 | 97653 | codeunit (test) | Mfg Reverse Tests ori |
 | 97654 | codeunit (test) | Mfg Reverse Perm Tests ori |
 | 97655 | table (test fixture) | Mfg Reverse MCP Fixture ori |
@@ -98,6 +102,9 @@ Allocated ids (record every new id here):
 | 97616 | codeunit (test cleanup) | Mfg MCP Cleanup Tst ori |
 | 97617 | codeunit (test) | Mfg MCP Cleanup Tests ori |
 | 97680 | codeunit (test) | Prod Order Certify Loop ori |
+| 97681 | codeunit (test) | Prod Order Replan Tests ori |
+| 97682 | codeunit (test) | Prod Order Resched Tests ori |
+| 97683 | codeunit (test library) | Mfg Schedule Test Lib ori |
 | 10077039 | enumextension | Mfg ProdOrder MsgType ori |
 | 10077040 | codeunit | Mfg ProdOrder Contract ori |
 | 10077041 | codeunit | Prod Order Create Impl ori |
